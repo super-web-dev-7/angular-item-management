@@ -1,0 +1,25 @@
+<div class="card social-card share {{_additionalClasses}}" data-social="item">
+  <div class="card-header ">
+    <h5 class="{{_titleClass}} pull-left fs-12">{{_title}}
+      <i class="fa fa-circle text-complete fs-11"></i>
+    </h5>
+    <div class="pull-right small hint-text">
+      {{_comments}}
+      <i class="fa fa-comment-o"></i>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="card-description">
+    <h3>{{_body}}</h3>
+    <ng-template [ngTemplateOutlet]="CustomBody"></ng-template>
+  </div>
+  <div class="card-footer clearfix">
+    <div class="pull-left">via
+      <span class="{{_titleClass}}">{{_source}}</span>
+    </div>
+    <div class="pull-right hint-text">
+      {{_timestamp}}
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
