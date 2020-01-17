@@ -1,9 +1,3 @@
-<pgcardsocial  *ngFor="let project of projects" Type="text" AdditionalClasses="col1" Source="'sdfsdfsdf'" Timestamp="Jul 24"
-Author="'sdfsdfsdf'" Activity="'sdfsdfsdf'" Location="'sdfsdfsdf'">
-<ng-template #AuthorAvatar>
-
-</ng-template>
-<ng-template #CustomBody>
-  <p>{{project.name}}</p>
-</ng-template>
-</pgcardsocial>
+<div class="container-fluid padding-25 sm-padding-10 sm-gutter">
+    <app-project-box  *ngFor="let project of projects" [name]="project.name" [description]="project.description" [id]="project._id"></app-project-box>
+</div>
