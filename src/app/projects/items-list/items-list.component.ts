@@ -16,14 +16,19 @@ export class ItemsListComponent implements OnInit {
   constructor(private itemsService: ItemsService) { }
 
   ngOnInit() {
-    this.itemsService.getItemsByProject(this.projectId).subscribe((items) => {
-      this.items = items;
+    this.itemsService.getItemsByProject(this.projectId).subscribe((items: any) => {
+      this.items = items
     });
     this.defaultColDef = {
       width: 150,
       sortable: true,
       filter: true
     };
+
+    this.itemCulomns.push({
+      headerName: "project Id",
+      field: "projectId"
+    });
   }
 
 }
