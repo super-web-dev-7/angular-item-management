@@ -13,7 +13,7 @@ import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
 
 //Layouts
-import { CondensedComponent, BlankComponent, RootLayout,CorporateLayout,SimplyWhiteLayout,ExecutiveLayout, CasualLayout } from './@pages/layouts';
+import { CorporateLayout } from './@pages/layouts';
 //Layout Service - Required
 import { pagesToggleService } from './@pages/services/toggler.service';
 
@@ -55,11 +55,11 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 //Sample Blank Pages - Optional
 import { BlankCorporateComponent } from './@pages/layouts/blank-corporate/blank-corporate.component';
-import { BlankSimplywhiteComponent } from './@pages/layouts/blank-simplywhite/blank-simplywhite.component';
-import { BlankCasualComponent } from './@pages/layouts/blank-casual/blank-casual.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { pgCardSocial } from './@pages/components/card-social/card-social.component';
+import { BlankComponent } from './@pages/layouts/blank/blank.component';
+import { RootLayout } from './@pages/layouts/root/root.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -77,17 +77,11 @@ export class AppHammerConfig extends HammerGestureConfig  {
 @NgModule({
   declarations: [
     AppComponent,
-    CondensedComponent,
     CorporateLayout,
-    SimplyWhiteLayout,
-    ExecutiveLayout,
-    CasualLayout,
     SidebarComponent, QuickviewComponent, SearchOverlayComponent, HeaderComponent,HorizontalMenuComponent,
     BlankComponent,
     RootLayout,
     BlankCorporateComponent,
-    BlankSimplywhiteComponent,
-    BlankCasualComponent,
     pgCardSocial
   ],
   imports: [

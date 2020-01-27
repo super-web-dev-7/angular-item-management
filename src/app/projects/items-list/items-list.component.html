@@ -1,7 +1,8 @@
 <ag-grid-angular 
-style="width: 100%"
-*ngIf="items && items.length > 0"
+style="width: 100%;"
+*ngIf="items && items.length > 0 && columnLoaded"
 class="ag-theme-material"
+[domLayout]="'autoHeight'"
 [rowData]="items" 
 [columnDefs]="itemCulomns"
 [rowDragManaged]="true"

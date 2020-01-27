@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ItemsService } from './items.service';
+import { FieldService } from '../../fields/field.service';
 
 @Component({
   selector: 'app-items-list',
@@ -11,24 +12,30 @@ export class ItemsListComponent implements OnInit {
   itemFields;
   items;
   defaultColDef;
+  columnLoaded = false;
 
   @Input() projectId;
-  constructor(private itemsService: ItemsService) { }
+  constructor(private itemsService: ItemsService, private fieldService: FieldService) { }
 
   ngOnInit() {
     this.itemsService.getItemsByProject(this.projectId).subscribe((items: any) => {
       this.items = items
     });
+    this.fieldService.getFields().subscribe((fields: any) => {
+      fields.forEach(field => {
+        this.itemCulomns.push({
+          headerName: field.label,
+          field: field.techName
+        });
+      });
+      this.columnLoaded = true;
+    })
+
     this.defaultColDef = {
       width: 150,
       sortable: true,
       filter: true
     };
-
-    this.itemCulomns.push({
-      headerName: "project Id",
-      field: "projectId"
-    });
   }
 
 }

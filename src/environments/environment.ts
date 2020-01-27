@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
- // apiUrl: "http://ec2-18-195-50-150.eu-central-1.compute.amazonaws.com:3000/api"
-   apiUrl: "http://localhost:3000/api"
+   apiUrl: "http://survey-name-server-827494005.eu-central-1.elb.amazonaws.com:3000/api"
+  // apiUrl: "http://localhost:3000/api"
 };

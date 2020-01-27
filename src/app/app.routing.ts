@@ -1,20 +1,18 @@
 import { Routes } from '@angular/router';
 //Layouts
 import { 
-  CondensedComponent,
-  BlankComponent,
   CorporateLayout,
-  SimplyWhiteLayout,
-  ExecutiveLayout,
-  CasualLayout ,
-  BlankCasualComponent,
   BlankCorporateComponent,
-  BlankSimplywhiteComponent
 } from './@pages/layouts';
 import { AuthGuard } from './auth/auth.guard';
 
 
 export const AppRoutes: Routes = [
+  {
+    path: '',
+    redirectTo: "/projects",
+    pathMatch: 'full'
+  },
   {
     path: '',
     component: CorporateLayout,
