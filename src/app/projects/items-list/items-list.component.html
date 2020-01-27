@@ -1,3 +1,7 @@
+<button class="btn btn-brimary" (click)="itemDetails.show()">Open item details example</button>
+<button class="btn btn-brimary" (click)="itemsSelection.show()">Open items selection example</button>
+<app-item-details #itemDetails></app-item-details>
+<app-items-selection #itemsSelection></app-items-selection>
 <ag-grid-angular 
 style="width: 100%;"
 *ngIf="items && items.length > 0 && columnLoaded"

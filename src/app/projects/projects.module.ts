@@ -15,6 +15,8 @@ import { ProjectPageComponent } from './project-page/project-page.component';
 import { pgTabsModule } from '../@pages/components/tabs/tabs.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { ItemsListComponent } from './items-list/items-list.component';
+import { ItemDetailsComponent } from './item-details/item-details.component';
+import { ItemsSelectionComponent } from './items-selection/items-selection.component';
 
 
 @NgModule({
@@ -30,6 +32,6 @@ import { ItemsListComponent } from './items-list/items-list.component';
     AgGridModule.withComponents([])
   ],
   providers:[],
-  declarations: [ProjectsListComponent, ProjectBoxComponent, ProjectPageComponent, ItemsListComponent]
+  declarations: [ProjectsListComponent, ProjectBoxComponent, ProjectPageComponent, ItemsListComponent, ItemDetailsComponent, ItemsSelectionComponent]
 })
 export class ProjectsModule { }
