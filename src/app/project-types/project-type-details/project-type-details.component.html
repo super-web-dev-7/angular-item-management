@@ -1,0 +1,26 @@
+<div class="container-fluid padding-25 sm-padding-10 sm-gutter">
+    <div class="card card-borderless">
+        <pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true">
+            <pg-tab>
+                <ng-template #TabHeading>
+                    Fields
+                </ng-template>
+                <div class="row column-seperation">
+                    <div class="col-lg-6">
+                       <app-fields [projectTypeId]="projectTypeId"></app-fields>
+                    </div>
+                </div>
+            </pg-tab>
+            <pg-tab>
+                <ng-template #TabHeading>
+                    Report Template
+                </ng-template>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                    </div>
+                </div>
+            </pg-tab>
+        </pg-tabset>
+    </div>
+</div>

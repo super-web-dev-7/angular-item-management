@@ -1,0 +1,9 @@
+<div class="field-type-box {{boxClass}}" [ngClass]="{'small': !isLarge,  'large': isLarge}">
+    <i class="feather text-white" [ngClass]="{'icon-type': type === 0, 
+            'icon-hash': type === 1, 
+            'icon-image': type === 2, 
+            'icon-calendar': type === 3, 
+            'icon-cpu': type === 4, 
+            'icon-check-circle': type === 5}"></i>
+    <h5 class="text-white m-t-15" *ngIf="isLarge">{{typeText}}</h5>
+</div>

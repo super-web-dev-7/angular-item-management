@@ -1,0 +1,32 @@
+.field-type-box {
+    background: linear-gradient(-135deg, #1de9b6 0%, #1dc4e9 100%);
+    border-radius: 5px;
+    text-align: center;
+    float: left;
+    &.small {
+      width: 35px;
+      height: 35px;
+      margin-top: 7px;
+      -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+
+      i{
+        font-size: 16px;
+      }
+    }
+    &.large {
+      width: 180px;
+      height: 140px;
+      padding: 30px;
+
+      i{
+        font-size: 32px;
+      }
+
+      transition:all 0.4s;
+      &:hover, &.selected {
+          box-shadow: 0 140px 0 0  rgba(0,0,0,0.10) inset, 0 -140px 0 0  rgba(0,0,0,0.10) inset;
+      }
+    }
+    
+  }

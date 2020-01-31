@@ -15,7 +15,7 @@ export class ProjectTypesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectTypeService.getProjectTypes().subscribe(((result: any) => { this.projectTypes = result.projectTypes }));
+    this.projectTypeService.getProjectTypes().subscribe(((projectTypes: any) => { this.projectTypes = projectTypes; console.log(projectTypes) }));
   }
 
 }
