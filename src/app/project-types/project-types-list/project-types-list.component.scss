@@ -1,0 +1,14 @@
+.project-types-list {
+    .type-box{
+        padding-bottom: 30px;
+        border-bottom: 1px solid #f1f1f1;
+
+      &:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+    }
+    .card-block {
+        padding:0;
+    }
+}

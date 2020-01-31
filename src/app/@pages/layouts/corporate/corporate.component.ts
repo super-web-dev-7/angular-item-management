@@ -10,14 +10,21 @@ import { RootLayout } from '../root/root.component';
 })
 export class CorporateLayout extends RootLayout implements OnInit {
   menuLinks = [
-      {
-        label:"Projects",
-        details:"12 New Updates",
-        routerLink:"/projects",
-        iconType:"pg",
-        iconName:"home",
-        thumbNailClass:"text-white"
-      },
+    {
+      label:"Projects",
+      details:"12 New Updates",
+      routerLink:"/projects",
+      iconType:"pg",
+      iconName:"home",
+      thumbNailClass:"text-white"
+    },
+    {
+      label:"Types",
+      routerLink:"/project-types",
+      iconType:"pg",
+      iconName:"home",
+      thumbNailClass:"text-white"
+    },
   ];
 
   ngOnInit() {
