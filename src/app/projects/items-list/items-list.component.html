@@ -1,15 +1,35 @@
-<button class="btn btn-brimary" (click)="itemDetails.show()">Open item details example</button>
-<button class="btn btn-brimary" (click)="itemsSelection.show()">Open items selection example</button>
+<button class="btn btn-brimary" (click)="itemDetails.show()">
+  Open item details example
+</button>
+
+<button class="btn btn-brimary" (click)="itemsSelection.show()">
+  Open items selection example
+</button>
+
+<button class="btn btn-brimary" (click)="newItem.show()">
+  Add New Item
+</button>
+
 <app-item-details #itemDetails></app-item-details>
 <app-items-selection #itemsSelection></app-items-selection>
-<ag-grid-angular 
-style="width: 100%;"
-*ngIf="items && items.length > 0 && columnLoaded"
-class="ag-theme-material"
-[domLayout]="'autoHeight'"
-[rowData]="items" 
-[columnDefs]="itemCulomns"
-[rowDragManaged]="true"
-[animateRows]="true"
-[defaultColDef]="defaultColDef">
+<app-new-item
+  #newItem
+  [itemColumnType]="itemCulomns"
+  [projectId]="projectId"
+></app-new-item>
+
+<ag-grid-angular
+  #agGrid
+  style="width: 100%;"
+  *ngIf="items && items.length > 0 && columnLoaded"
+  class="ag-theme-material"
+  [domLayout]="'autoHeight'"
+  [rowData]="items"
+  [columnDefs]="itemCulomns"
+  [suppressRowClickSelection]="true"
+  [rowSelection]="rowSelection"
+  [rowDragManaged]="true"
+  [animateRows]="true"
+  [defaultColDef]="defaultColDef"
+>
 </ag-grid-angular>
