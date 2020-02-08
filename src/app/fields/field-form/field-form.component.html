@@ -1,0 +1,28 @@
+<app-modal #fieldFormModal dialogClass="modal-right-full" noGreyBackground="true" containerClick="false">
+    <div class="app-modal-header">
+        <h5 class="modal-title"><app-field-type [type]="field.type"></app-field-type>{{field.label}}</h5>
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="fieldFormModal.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="fieldsForm">
+            <fieldset class="form-group">
+                <app-switch-editor formControlName="isRequired" label="Mandatory" [isChecked]="fieldsForm.get('isRequired')">
+                </app-switch-editor>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Min length</label>
+                <input formControlName="minLength" class="form-control" type="number" [min]="0">
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Max length</label>
+                <input formControlName="maxLength" class="form-control" type="number" [min]="0">
+            </fieldset>
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="fieldFormModal.hide()">Close</button>
+        <button type="button" (click)="updateField()" class="btn btn-primary">Save changes</button>
+    </div>
+</app-modal>

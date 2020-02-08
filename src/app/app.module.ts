@@ -62,7 +62,7 @@ import {AuthInterceptor} from './auth/auth-interceptor';
 import {pgCardSocial} from './@pages/components/card-social/card-social.component';
 import {BlankComponent} from './@pages/layouts/blank/blank.component';
 import {RootLayout} from './@pages/layouts/root/root.component';
-
+import { ModalComponent } from './common/modal/modal.component';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
 };
@@ -85,6 +85,7 @@ export class AppHammerConfig extends HammerGestureConfig {
         RootLayout,
         BlankCorporateComponent,
         pgCardSocial,
+    ModalComponent
     ],
     imports: [
         BrowserModule,

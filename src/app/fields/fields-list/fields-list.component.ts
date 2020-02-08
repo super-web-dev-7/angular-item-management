@@ -28,7 +28,6 @@ export class FieldsListComponent implements OnInit, OnDestroy {
   columnDefs = [];
 
   ngOnInit() {
-    console.log(this.fields);
     this.columnDefs = [
       {
         headerName: "",

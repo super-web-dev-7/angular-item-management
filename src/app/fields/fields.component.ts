@@ -39,9 +39,9 @@ export class FieldsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // openForm() {
-  //   this.fieldForm.open();
-  // }
+   openForm() {
+    // this.fieldForm.open();
+   }
 
   // createField() {
   //   this.createdFielsSubscription = this.addFieldModal.openAndWaitForFinish().subscribe((createdFields: IField[]) => {
@@ -59,8 +59,8 @@ export class FieldsComponent implements OnInit, OnDestroy {
   //   });
   // }
 
-  // onSelectField = (field: IField) => {
-  //   this.selectedField = field;
-  //   this.openForm();
-  // }
+   onSelectField = (field: IField) => {
+     this.selectedField = field;
+     this.openForm();
+   }
 }
