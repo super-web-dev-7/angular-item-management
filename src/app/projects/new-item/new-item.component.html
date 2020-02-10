@@ -20,45 +20,28 @@
         <div class="container-xs-height full-height">
           <div class="row-xs-height">
             <div class="modal-body col-xs-height col-middle text-center">
-              <div class="form-group row">
-                <label for="textfield7" class="col-sm-4 col-form-label"
-                  >Text Field</label
-                >
+              <div
+                class="form-group row"
+                *ngFor="let itemType of fieldType; index as itemId"
+              >
+                <label for="textfield7" class="col-sm-4 col-form-label">{{
+                  fieldName[itemId]
+                }}</label>
                 <div class="col-sm-8">
                   <input
-                    type="text"
+                    [type]="itemType"
                     class="form-control"
-                    id="textfield7"
-                    [(ngModel)]="textFiled7"
-                  />
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="number9" class="col-sm-4 col-form-label"
-                  >Number Field</label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="number9"
-                    [(ngModel)]="numberField9"
+                    [name]="fieldName[itemId]"
+                    (input)="onFieldValue($event)"
                   />
                 </div>
               </div>
               <button
                 type="submit"
                 class="btn btn-primary"
-                (click)="(onAddItem)"
+                (click)="onAddItem()"
               >
                 Add Item
-              </button>
-              <button
-                type="button"
-                class="btn btn-default"
-                (click)="newItemPopup.hide()"
-              >
-                Cancel
               </button>
             </div>
           </div>

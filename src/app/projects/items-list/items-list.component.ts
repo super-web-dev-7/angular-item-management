@@ -14,6 +14,7 @@ export class ItemsListComponent implements OnInit {
   defaultColDef;
   columnLoaded = false;
   fieldName = [];
+  fieldType = [];
   rowSelection = "";
 
   @Input() projectId;
@@ -28,17 +29,27 @@ export class ItemsListComponent implements OnInit {
       .subscribe((items: any) => {
         this.items = items;
       });
+
     this.fieldService.getFields().subscribe((fields: any) => {
       fields.forEach(field => {
         this.itemCulomns.push({
           headerName: field.label,
           field: field.techName,
-          type: field.type,
           editable: true,
           resizable: true
         });
         this.fieldName.push(field.techName);
+        if (field.type == 0) {
+          this.fieldType.push("text");
+        } else if (field.type == 1) {
+          this.fieldType.push("number");
+        } else if (field.type == 2) {
+          this.fieldType.push("file");
+        } else {
+          this.fieldType.push("text");
+        }
       });
+
       this.columnLoaded = true;
       this.itemCulomns[0]["headerCheckboxSelection"] = true;
       this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;

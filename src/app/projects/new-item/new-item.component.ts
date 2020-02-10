@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap";
 import { ItemsService } from "../items-list/items.service";
-import { FieldService } from "../../fields/field.service";
 
 @Component({
   selector: "app-new-item",
@@ -11,19 +10,40 @@ import { FieldService } from "../../fields/field.service";
 export class NewItemComponent implements OnInit {
   @ViewChild("newItemPopup", { static: true }) newItemPopup: ModalDirective;
   @Input() projectId;
-  @Input() itemColumnType;
+  @Input() fieldType;
+  @Input() fieldName;
+  [key: string]: any;
+  data = {};
 
-  textField7: string = "";
-  numberField9: string = "";
-  itemsService = ItemsService;
-
-  constructor() {}
+  constructor(private itemsService: ItemsService) {}
 
   ngOnInit() {}
 
   show() {
+    this.fieldName.forEach(item => {
+      this[item] = "";
+    });
     this.newItemPopup.show();
   }
 
-  onAddItem() {}
+  onFieldValue(event: any) {
+    this[event.target.name] = (<HTMLInputElement>event.target).value;
+  }
+
+  onAddItem() {
+    this.fieldName.forEach(item => {
+      if (this[item]) {
+        this.data[item] = this[item];
+      }
+    });
+    this.data["projectId"] = this.projectId;
+    console.log(this.data);
+    this.itemsService
+      .newItemByProject(this.projectId, this.data)
+      .subscribe(result => {
+        console.log(result);
+        window.location.reload();
+      });
+    this.newItemPopup.hide();
+  }
 }
