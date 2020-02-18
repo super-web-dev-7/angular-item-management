@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { ItemsService } from "./items.service";
 import { FieldService } from "../../fields/field.service";
-import { AgGridCheckboxComponent } from '../ag-grid-checkbox/ag-grid-checkbox.component';
 
 @Component({
   selector: "app-items-list",
