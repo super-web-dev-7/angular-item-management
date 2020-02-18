@@ -41,8 +41,7 @@ export class NewItemComponent implements OnInit {
     this.itemsService
       .newItemByProject(this.projectId, this.data)
       .subscribe(result => {
-        console.log(result);
-        window.location.reload();
+
       });
     this.newItemPopup.hide();
   }
