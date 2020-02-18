@@ -17,4 +17,5 @@ export class ProjectPageComponent implements OnInit {
       this.projectId = params['id'];
     });
   }
+
 }

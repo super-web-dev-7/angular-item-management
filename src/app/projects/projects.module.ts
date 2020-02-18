@@ -19,6 +19,7 @@ import { ItemsListComponent } from "./items-list/items-list.component";
 import { ItemDetailsComponent } from "./item-details/item-details.component";
 import { ItemsSelectionComponent } from "./items-selection/items-selection.component";
 import { NewItemComponent } from "./new-item/new-item.component";
+import { AgGridCheckboxComponent } from './ag-grid-checkbox/ag-grid-checkbox.component';
 
 @NgModule({
   imports: [
@@ -30,9 +31,10 @@ import { NewItemComponent } from "./new-item/new-item.component";
     ModalModule.forRoot(),
     TabsModule.forRoot(),
     pgTabsModule,
-    AgGridModule.withComponents([]),
+    AgGridModule.withComponents([AgGridCheckboxComponent]),
     FormsModule
   ],
+  // entryComponents: [AgGridCheckboxComponent],
   providers: [],
   declarations: [
     ProjectsListComponent,
@@ -41,7 +43,8 @@ import { NewItemComponent } from "./new-item/new-item.component";
     ItemsListComponent,
     ItemDetailsComponent,
     ItemsSelectionComponent,
-    NewItemComponent
+    NewItemComponent,
+    AgGridCheckboxComponent
   ]
 })
 export class ProjectsModule {}

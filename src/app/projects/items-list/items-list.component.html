@@ -12,6 +12,17 @@
 
 <app-item-details #itemDetails></app-item-details>
 <app-items-selection #itemsSelection></app-items-selection>
+
+<!-- Custom pop up -->
+<div *ngIf="selectedRows > 0" class="custom-popup">
+  <label>Number of rows selected</label>{{selectedRows}}
+  <div>
+    <p (click)="action('copy')">Copy</p>
+    <p (click)="action('cut')">Cut</p>
+    <p (click)="action('paste')">Paste</p>
+  </div>
+</div>
+<!-- Custom popup end -->
 <app-new-item
   #newItem
   [fieldType]="fieldType"
@@ -32,5 +43,8 @@
   [rowDragManaged]="true"
   [animateRows]="true"
   [defaultColDef]="defaultColDef"
+  (cellMouseOver)="oncellMouseOver($event)"
+  (rowSelected)="onSelectionChanged($event)"
+  (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>

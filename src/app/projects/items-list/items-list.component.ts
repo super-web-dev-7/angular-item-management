@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { ItemsService } from "./items.service";
 import { FieldService } from "../../fields/field.service";
+import { AgGridCheckboxComponent } from '../ag-grid-checkbox/ag-grid-checkbox.component';
 
 @Component({
   selector: "app-items-list",
@@ -16,12 +17,29 @@ export class ItemsListComponent implements OnInit {
   fieldName = [];
   fieldType = [];
   rowSelection = "";
+  showAllCheckBox = false;
+  selectedRows = 0;
+  gridRows;
+  gridApi;
 
+  
   @Input() projectId;
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService
-  ) {}
+  ) {
+
+  }
+  onGridReady(event){
+    this.gridApi = event.api;
+    this.gridRows = event.api.rowModel.rowsToDisplay;
+    this.gridApi.setSuppressClipboardPaste(false);
+    document.querySelectorAll(".ag-selection-checkbox").forEach((element)=>{
+      // console.log("=>element", element)
+      element.setAttribute("style", "display: none");
+      // this.itemCulomns[0]["checkboxSelection"] = true;
+    })
+  }
 
   ngOnInit() {
     this.itemsService
@@ -29,9 +47,10 @@ export class ItemsListComponent implements OnInit {
       .subscribe((items: any) => {
         this.items = items;
       });
-
+      
     this.fieldService.getFields().subscribe((fields: any) => {
       fields.forEach(field => {
+        
         this.itemCulomns.push({
           headerName: field.label,
           field: field.techName,
@@ -51,8 +70,8 @@ export class ItemsListComponent implements OnInit {
       });
 
       this.columnLoaded = true;
-      this.itemCulomns[0]["headerCheckboxSelection"] = true;
-      this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
+      // this.itemCulomns[0]["headerCheckboxSelection"] = true;
+      // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
       this.itemCulomns[0]["checkboxSelection"] = true;
       this.itemCulomns[0]["rowDrag"] = true;
     });
@@ -61,8 +80,44 @@ export class ItemsListComponent implements OnInit {
       width: 150,
       sortable: true,
       filter: true,
-      resizeable: true
+      resizeable: true,
+      editable: true
     };
     this.rowSelection = "multiple";
+  
+  }
+  onSelectionChanged(event){
+    if(this.gridRows.findIndex(x=> x.selected == true) > -1){
+      this.showAllCheckBox = true;
+      var d = this.gridRows.filter(x=> x.selected == true);
+      this.selectedRows = d ? d.length : 0;
+      document.querySelectorAll(".ag-selection-checkbox").forEach((element)=>{
+        element.setAttribute("style", "display: block");
+      })
+    }else{
+      this.selectedRows = 0;
+      this.showAllCheckBox = false;
+      document.querySelectorAll(".ag-selection-checkbox").forEach((element)=>{
+        element.setAttribute("style", "display: none");
+      })
+    }
+   }
+
+  oncellMouseOver(event){
+    if(!this.showAllCheckBox  && event.event.target.firstElementChild && event.event.target.firstElementChild.className == "ag-cell-wrapper"){
+      document.querySelectorAll(".ag-selection-checkbox").forEach((element)=>{
+        element.setAttribute("style", "display: none");
+      })
+      var data = event.event.target.firstElementChild;
+      data.querySelectorAll(".ag-selection-checkbox").forEach((element)=>{
+        element.setAttribute("style", "display: block");
+      })
+    }
+  }
+  action(event){
+    if(event == "copy"){
+      this.gridApi.copySelectedRowsToClipboard(false);
+      console.log("action", this.gridApi)
+    }
   }
 }
