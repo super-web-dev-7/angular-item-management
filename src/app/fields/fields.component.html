@@ -14,5 +14,6 @@
             </div> -->
         </div>
         <app-fields-list *ngIf="fields" #fieldsList [fields]="fields" [filter]="filterQuery" [onSelectField]="onSelectField"></app-fields-list>
+        <app-field-form #fieldForm [field]="selectedField"></app-field-form>
     </div>
 </div>

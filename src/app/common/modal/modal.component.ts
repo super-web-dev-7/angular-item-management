@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-modal',
@@ -7,6 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ModalComponent implements OnInit {
   @Input() title;
+  @Input() hideHeader = false;
+  @Input() hideFooter = false;
+  @ViewChild("popup", {static: true}) popup;
   
   constructor() { }
 
@@ -14,7 +18,7 @@ export class ModalComponent implements OnInit {
   }
 
   show() {
-
+    this.popup.show();
   }
 
   hide() {

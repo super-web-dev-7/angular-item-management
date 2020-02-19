@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { FieldsListComponent } from './fields-list/fields-list.component';
 import { IField } from '../../models/IField';
 import { ProjectTypeService } from '../project-types/project-type.service';
+import { FieldFormComponent } from './field-form/field-form.component';
 
 @Component({
   selector: 'app-fields',
@@ -15,6 +16,9 @@ export class FieldsComponent implements OnInit, OnDestroy {
 
   @ViewChild("fieldsList", { static: false })
   public fieldsList: FieldsListComponent;
+
+  @ViewChild("fieldForm", {static: true}) 
+  private fieldForm: FieldFormComponent;
 
   public selectedField: IField;
   private createdFielsSubscription;
@@ -40,7 +44,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
   }
 
    openForm() {
-    // this.fieldForm.open();
+     this.fieldForm.open();
    }
 
   // createField() {

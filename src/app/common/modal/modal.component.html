@@ -4,14 +4,14 @@
         <div class="modal-content">
           <button type="button" class="close" (click)="popup.hide()" aria-hidden="true"><i class="pg pg-close fs-14"></i>
           </button>
-          <div class="container-xs-height full-height">
-            <div class="row-xs-height">
-              <div class="modal-body col-xs-height col-middle text-center">
-                <h5 class="text-primary ">{{title}}</h5>
-                <br>
-                <button type="button" class="btn btn-default btn-block" (click)="popup.hide()">Cancel</button>
-              </div>
-            </div>
+          <div *ngIf="!hideHeader" class="modal-header">
+            <ng-content select=".app-modal-header"></ng-content>
+          </div>
+          <div class="modal-body">
+            <ng-content select=".app-modal-body"></ng-content>
+          </div>
+          <div *ngIf="!hideFooter" class="modal-footer">
+            <ng-content select=".app-modal-footer"></ng-content>
           </div>
         </div>
       </div>

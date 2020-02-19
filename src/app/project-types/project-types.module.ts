@@ -10,6 +10,8 @@ import { pgTabsModule } from '../@pages/components/tabs/tabs.module';
 import { ModalModule, TabsModule } from 'ngx-bootstrap';
 import { FieldsModule } from '../fields/fields.module';
 import { FieldsListComponent } from '../fields/fields-list/fields-list.component';
+import { FormModule } from '../common/form/form.module';
+import { ModalComponent } from '../common/modal/modal.component';
 
 
 
@@ -23,6 +25,6 @@ import { FieldsListComponent } from '../fields/fields-list/fields-list.component
     TabsModule.forRoot(),
     pgTabsModule,
     FieldsModule
-  ]
+    ]
 })
 export class ProjectTypesModule { }

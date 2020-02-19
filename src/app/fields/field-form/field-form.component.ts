@@ -2,6 +2,7 @@ import { Component, OnInit, SimpleChanges, SimpleChange, Input, ViewChild } from
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalComponent } from '../../common/modal/modal.component';
 import { FieldService } from '../field.service';
+import { IField } from '../../../models/IField';
 
 @Component({
   selector: 'app-field-form',
@@ -11,7 +12,7 @@ import { FieldService } from '../field.service';
 export class FieldFormComponent implements OnInit {
 
   @Input()
-  public field;
+  public field: IField;
 
   @ViewChild("fieldFormModal", {static: true})
   public fieldFormModal: ModalComponent;
@@ -22,7 +23,7 @@ export class FieldFormComponent implements OnInit {
 
   ngOnInit() {
     if(!this.field) {
-      this.field = {};
+      this.field = {} as IField;
     }
   }
 
@@ -54,7 +55,7 @@ export class FieldFormComponent implements OnInit {
   }
 
   updateField() {
-    this.fieldsService.updateField(this.fieldsForm.value).subscribe((result) => {
-    })
+   // this.fieldsService.updateField(this.fieldsForm.value).subscribe((result) => {
+   // })
   }
 }
