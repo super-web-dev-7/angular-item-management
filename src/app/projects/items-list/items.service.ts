@@ -26,4 +26,50 @@ export class ItemsService {
       headers
     });
   }
+  public Paste(data,type) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    if( localStorage.getItem('pastetype') == 'copy'){
+      return this.httpClient.post<any>(`${environment.apiUrl}/item/duplicate`, data, {
+        headers
+      });
+    }
+    if( localStorage.getItem('pastetype') == 'cut'){
+      return this.httpClient.put<any>(`${environment.apiUrl}/item/paste`, data, {
+        headers
+      });
+    }
+  }
+  public editItemByProject(data) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.put<any>(`${environment.apiUrl}/item/mass`, data, {
+      headers
+    });
+  }
+  public deleteItemsByid(data) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.delete<any>(`${environment.apiUrl}/item/mass-delete`, data,);
+  }
+  public deleteSingleItemByid(id) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.delete<any>(`${environment.apiUrl}/item/`+id,  {
+      headers
+    });
+  }
+  public duplicateItems(data) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.post<any>(`${environment.apiUrl}/item/duplicate`, data, {
+      headers
+    });
+  }
+  
 }

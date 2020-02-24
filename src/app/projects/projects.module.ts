@@ -19,6 +19,9 @@ import { ItemsListComponent } from "./items-list/items-list.component";
 import { ItemDetailsComponent } from "./item-details/item-details.component";
 import { ItemsSelectionComponent } from "./items-selection/items-selection.component";
 import { NewItemComponent } from "./new-item/new-item.component";
+import { EditItemComponent } from './edit-item/edit-item.component';
+import { EditSingleItemComponent } from './edit-single-item/edit-single-item.component';
+import { BottomItemSelectComponent } from './bottom-item-select/bottom-item-select.component';
 
 @NgModule({
   imports: [
@@ -41,8 +44,10 @@ import { NewItemComponent } from "./new-item/new-item.component";
     ItemsListComponent,
     ItemDetailsComponent,
     ItemsSelectionComponent,
-    NewItemComponent
-    
+    NewItemComponent,
+    EditItemComponent,
+    EditSingleItemComponent,
+    BottomItemSelectComponent
   ]
 })
 export class ProjectsModule {}

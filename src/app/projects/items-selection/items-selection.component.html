@@ -1,19 +1,39 @@
-<div bsModal #selectedPopup="bs-modal" class="modal fade stick-up" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+ <!-- <div bsModal #selectedPopup="bs-modal" class="modal fade stick-up" tabindex="" role="dialog" id="popupid" > -->
+  <div class="modal-dialog modal-sm selection-popup " id="popupid" hidden> 
       <div class="modal-content-wrapper">
         <div class="modal-content">
-          <button type="button" class="close" (click)="slideRight.hide()" aria-hidden="true"><i class="pg pg-close fs-14"></i>
+          <button type="button" class="close" (click)="closePopup()" aria-hidden="true"><i class="pg pg-close fs-14"></i>
           </button>
           <div class="container-xs-height full-height">
             <div class="row-xs-height">
               <div class="modal-body col-xs-height col-middle text-center">
-                <h5 class="text-primary ">items selected here</h5>
-                <br>
-                <button type="button" class="btn btn-default btn-block" (click)="selectedPopup.hide()">Cancel</button>
+                <h5 class="text-primary ">Number of rows selected : {{SelectedRowData.length}}</h5>
+                <div class="custom-popup-button">
+                  <p (click)="copyItems()">Copy</p>
+                  <p (click)="cut()">Cut</p>
+                  <p (click)="editItem.show()">Mass Edit</p>
+                  <p (click)="duplicateItems()">Duplicate</p>
+                  <p (click)="deleteItems()">Delete</p>
+                </div>
+                <div *ngIf="copyDataLengthcount > 0 " class="custom-popup-button line">
+                  <h5 class="text-primary ">Number of rows Copied : {{copyDataLengthcount}}</h5>
+                  <p (click)="paste()">Paste</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+      
+</div>
+</div> 
+  <!-- </div>  -->
+
+  <app-edit-item
+  #editItem
+  [fieldslable]=fieldslable
+  [fieldType]="fieldType"
+  [fieldName]="fieldName"
+  [projectId]="projectId"
+  [SelectedRowData]="SelectedRowData"
+  (callgetLatestitem)="callgetLatestitem($event)"
+></app-edit-item>

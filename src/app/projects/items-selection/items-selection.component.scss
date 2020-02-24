@@ -1,1 +1,151 @@
 .modal-backdrop {background: none;}
+.custom-popup {
+    position: fixed;
+    // background: hsla(0, 0%, 0%, 0.5);
+    width: 320px;
+    height: 140px;
+    z-index: 900;
+    right: 0;
+    bottom: 0;
+}
+
+.custom-popup-content {
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    right: 25px;
+    padding: 20px;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 24px rgba(237, 234, 235, 0.6);
+
+}
+
+.custom-popup .close {
+    position: absolute;
+    z-index: 901;
+    background: #000;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    line-height: 23px;
+    right: 12px;
+    top: -12px;
+}
+
+.custom-popup .close i {
+    color: #fff;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 0 4px;
+}
+
+
+.custom-popup-content p {
+    margin: 0;
+    line-height: 24px;
+    font-size: 14px;
+}
+
+.custom-popup-content label {
+    margin: 0;
+    line-height: 24px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;;
+}
+
+.custom-popup-content p {
+    z-index: 11;
+    display: inline-block;
+    padding: 0 15px;
+    border: 1px solid #323237;
+    color: #323237;
+    background: transparent;
+    margin: 0 0 10px 5px;
+    transition: all ease-in 300ms;
+
+}
+
+.custom-popup-content p:hover {
+    color: #fff;
+    background: #323237;
+}
+
+.custom-popup-content p:first-child, .custom-popup-content p:nth-child(5) {
+    margin-left:0px;
+}
+
+.custom-popup-button {
+    width: 100%;
+    float: left;
+    z-index: 12;
+}
+// .custom-popup-content p {
+//     min-width: 31.33%;
+//     float: left;
+//     margin: 3px 01%!important;
+//     padding: 0 4px!important;
+//     text-align: center;
+//     border: 2px solid #333!important;
+//     border-radius: 3px;
+// }
+.modal-backdrop {background: none;}
+.modal .modal-dialog.modal-sm {
+    margin: 0!important;
+    position: absolute!important;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%)!important;
+    max-width: 440px!important;
+    width: 100%!important;
+}
+.custom-popup-button p {
+    display: inline-block;
+    border: 1px solid;
+    color: #5e5e5e;
+    background-color: #fff;
+    border-color: #e7e7e7;
+    letter-spacing: 0.01em;
+    border-radius: 3px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    transition: color 0.1s linear 0s, background-color 0.1s linear 0s, opacity 0.2s linear 0s !important;
+    padding: 6px 10px;
+    margin: 0 2px 2px;
+    cursor: pointer;
+}
+.custom-popup-button p:hover {
+background-color: #f0f0f0;
+border-color: rgba(87, 87, 87, 0.27);
+color: #181818;
+}
+.custom-popup-button.line {
+    border-top: 1px solid #e7e7e7;
+    margin-top: 14px;
+}
+
+.modal .modal-body { 
+    padding:25px;
+    box-shadow: 0 0 11px 0px rgba(134, 134, 134, 0.2);
+}
+
+.modal .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 20;
+}
+
+.modal-dialog.modal-sm .selection-popup { 
+    position: fixed;
+    max-width: 400px;
+    background: #fff;
+    z-index: 9;
+    bottom: 0;
+    margin: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}

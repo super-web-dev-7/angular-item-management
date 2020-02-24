@@ -2,7 +2,7 @@
   Open item details example
 </button>
 
-<button class="btn btn-brimary" (click)="itemsSelection.show()">
+<button class="btn btn-brimary" (click)="itemsSelectionshow()">
   Open items selection example
 </button>
 
@@ -11,18 +11,17 @@
 </button>
 
 <app-item-details #itemDetails></app-item-details>
-<app-items-selection #itemsSelection></app-items-selection>
+<app-items-selection
+#itemsSelection
+[fieldType]="fieldType"
+[fieldName]="fieldName"
+[projectId]="projectId"
+[SelectedRowData]="SelectedRowData"
+[fieldslable]="fieldslable"
+(getLatestitem)="getLatestitem($event)"
 
-<!-- Custom pop up -->
-<div *ngIf="selectedRows > 0" class="custom-popup">
-  <label>Number of rows selected</label>{{selectedRows}}
-  <div>
-    <p (click)="action('copy')">Copy</p>
-    <p (click)="action('cut')">Cut</p>
-    <p (click)="action('paste')">Paste</p>
-  </div>
-</div>
-<!-- Custom popup end -->
+></app-items-selection>
+
 <app-new-item
   #newItem
   [fieldType]="fieldType"
@@ -30,8 +29,10 @@
   [projectId]="projectId"
 ></app-new-item>
 
+
 <ag-grid-angular
   #agGrid
+  id="agGrid"
   style="width: 100%;"
   *ngIf="items && items.length > 0 && columnLoaded"
   class="ag-theme-material"
@@ -46,5 +47,6 @@
   (cellMouseOver)="oncellMouseOver($event)"
   (rowSelected)="onSelectionChanged($event)"
   (gridReady)="onGridReady($event)"
+  (rowSelected)="onrowSelected($event)"
 >
 </ag-grid-angular>
