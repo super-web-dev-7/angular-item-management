@@ -12,4 +12,7 @@ export class FieldService {
     public getFields(){
       return this.httpClient.get(`${environment.apiUrl}/field`);
     }
+    public addField(data){   
+      return this.httpClient.post(`${environment.apiUrl}/field`,data);
+    }
 }

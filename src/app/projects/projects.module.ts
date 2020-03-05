@@ -22,6 +22,7 @@ import { NewItemComponent } from "./new-item/new-item.component";
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { EditSingleItemComponent } from './edit-single-item/edit-single-item.component';
 import { BottomItemSelectComponent } from './bottom-item-select/bottom-item-select.component';
+import { AddNewFieldComponent } from './add-new-field/add-new-field.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { BottomItemSelectComponent } from './bottom-item-select/bottom-item-sele
     NewItemComponent,
     EditItemComponent,
     EditSingleItemComponent,
-    BottomItemSelectComponent
+    BottomItemSelectComponent,
+    AddNewFieldComponent
   ]
 })
 export class ProjectsModule {}

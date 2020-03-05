@@ -18,6 +18,7 @@ export class EditItemComponent implements OnInit {
   @Input() fieldName;
   @Input() fieldslable;
   @Input() SelectedRowData;
+  @Input() fields;
   @Output() callgetLatestitem: EventEmitter<any> = new EventEmitter();
 
 
@@ -34,9 +35,13 @@ export class EditItemComponent implements OnInit {
       this[item] = "";
     });
     this.newItemPopup.show();
-      this.data={}
-      
+    this.data = {}
 
+
+  }
+
+  onChangeSelectValue(event: any) {
+    this[event.target.name] = (<HTMLInputElement>event.target).value;
   }
 
   onFieldValue(event: any) {
@@ -65,14 +70,14 @@ export class EditItemComponent implements OnInit {
     for (let i = 0; i < this.SelectedRowData.length; i++) {
       data['itemIds'].push(this.SelectedRowData[i]._id)
     }
+    console.log('=+++++++++++?',data)
     this.itemsService
       .editItemByProject(data)
       .subscribe(result => {
-
         this.callgetLatestitem.emit(result);
-
       });
     this.newItemPopup.hide()
 
   }
+
 }

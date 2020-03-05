@@ -9,44 +9,56 @@
 <button class="btn btn-brimary" (click)="newItem.show()">
   Add New Item
 </button>
+<button class="btn btn-brimary" (click)="addNewfield.show()">
+  Add new field
+</button>
 
 <app-item-details #itemDetails></app-item-details>
-<app-items-selection
-#itemsSelection
-[fieldType]="fieldType"
-[fieldName]="fieldName"
-[projectId]="projectId"
-[SelectedRowData]="SelectedRowData"
-[fieldslable]="fieldslable"
-(getLatestitem)="getLatestitem($event)"
+<app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
+  [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
+  (getLatestitem)="getLatestitem($event)" ></app-items-selection>
+<app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [fieldName]="fieldName"
+  [projectId]="projectId" [fields]="fields"></app-new-item>
 
-></app-items-selection>
+<app-edit-single-item #editSingleItem [fieldslable]="fieldslable" [fields]="fields" [fieldType]="fieldType"
+  [fieldName]="fieldName" [projectId]="projectId"
+  [dbclicked]="dbclicked" (getLatestitem)="getLatestitem($event)" ></app-edit-single-item>
 
-<app-new-item
-  #newItem
-  [fieldType]="fieldType"
-  [fieldName]="fieldName"
-  [projectId]="projectId"
-></app-new-item>
+<app-add-new-field #addNewfield [fieldType]="fieldType" [fieldName]="fieldName" [projectId]="projectId"
+  [fields]="fields" (calloninit)="calloninit($event)" [fieldTypeWithNo]="fieldTypeWithNo"></app-add-new-field>
 
 
-<ag-grid-angular
-  #agGrid
-  id="agGrid"
-  style="width: 100%;"
-  *ngIf="items && items.length > 0 && columnLoaded"
-  class="ag-theme-material"
-  [domLayout]="'autoHeight'"
-  [rowData]="items"
-  [columnDefs]="itemCulomns"
-  [suppressRowClickSelection]="true"
-  [rowSelection]="rowSelection"
-  [rowDragManaged]="true"
-  [animateRows]="true"
+<ag-grid-angular #agGrid id="agGrid" style="width: 100%;" *ngIf="items && items.length > 0 && columnLoaded"
+  class="ag-theme-material" [domLayout]="'autoHeight'" [rowData]="items" [columnDefs]="itemCulomns"
+  [rowSelection]="rowSelection" [rowDragManaged]="true" [animateRows]="true"
   [defaultColDef]="defaultColDef"
-  (cellMouseOver)="oncellMouseOver($event)"
-  (rowSelected)="onSelectionChanged($event)"
-  (gridReady)="onGridReady($event)"
-  (rowSelected)="onrowSelected($event)"
->
+  (cellDoubleClicked)="oncellDoubleClicked($event,dbclicked)" (cellMouseOver)="oncellMouseOver($event)"
+  (rowSelected)="onSelectionChanged($event)" (gridReady)="onGridReady($event)" (rowSelected)="onrowSelected($event)"
+  (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"
+  [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)" (columnMoved)="oncolumnMoved($event)"
+  (columnValueChanged)="oncolumnValueChanged($event)"   [components]="components"   [modules]="modules" 
+  (sortChanged)="onsortChanged($event)" [sortingOrder]="sortingOrder" (getSort)="getSort($event)"
+  >
 </ag-grid-angular>
+<span class="cz_grid_count_span "> 1 to 100 of more
+ </span>
+ <span class="cz_grid_next_privious_span">
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" (click)="moveToPrivious()" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" (click)="moveToPageNo(1)">1</a></li>
+    <li class="page-item"><a class="page-link" (click)="moveToPageNo(2)">2</a></li>
+    <li class="page-item"><a class="page-link" (click)="moveToPageNo(3)">3</a></li>
+    <li class="page-item">
+      <a class="page-link" (click)="moveToNext()" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+</span>
+

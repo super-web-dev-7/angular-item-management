@@ -1,10 +1,10 @@
 <div
 bsModal
 #newItemPopup="bs-modal"
-class="modal fade slide-right"
+class="modal fade slide-right cz-edit"
 tabindex="-1"
 role="dialog"
-aria-hidden="true"
+id="edit-single-model"
 >
 <div class="modal-dialog">
   <div class="modal-content-wrapper">
@@ -12,36 +12,60 @@ aria-hidden="true"
       <button
         type="button"
         class="close"
-        (click)="slideRight.hide()"
+        (click)="closeModel($event)"
         aria-hidden="true"
       >
         <i class="pg pg-close fs-14"></i>
       </button>
 
 <div class="tab">
-  <button class="tablinks" (click)="openTabs(event, 'TabEdit')">Edit Row Deatil</button>
+  <button class="tablinks active" (click)="openTabs(event, 'TabEdit')">Edit Row Deatil</button>
   <button class="tablinks" (click)="openTabs(event, 'TabComment')">Comments</button>
 </div>
 
 <div id="TabEdit" class="tabcontent">
       <div class="container-xs-height full-height">
         <div class="row-xs-height">
-          <div class="modal-body col-xs-height col-middle text-center">
+          <div class="modal-body col-xs-height col-middle text-center p-up">
             <div
               class="form-group row"
               *ngFor="let itemType of fieldType; index as itemId"
             >
-              <label for="textfield7" class="col-sm-4 col-form-label">{{
-                fieldName[itemId]
-              }}</label>
+              <label for="textfield7" class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
               <div class="col-sm-8">
-                <input
-                
+                <div *ngIf="itemType == 'select'">
+                  <select id="select" (change)="onChangeSelectValue($event)"  class="form-control" [value]="SelectedSingleRowData[fieldName[itemId]]"
+                  [name]="fieldName[itemId]" >
+                    <option *ngFor="let field of fields[itemId].optionsForSelect">
+                      {{field}}
+                    </option>                   
+                  </select>
+                </div>
+                <div *ngIf="itemType !== 'select'">
+                <input *ngIf="itemType !== 'file'"
+                  [value]="SelectedSingleRowData[fieldName[itemId]] == undefined ? '' : SelectedSingleRowData[fieldName[itemId]]"
+                  [id]="fieldName[itemId]"               
                   [type]="itemType"
                   class="form-control"
                   [name]="fieldName[itemId]"
-                  (input)="onFieldValue($event)"
+                  (input)="onFieldValuek($event)"
                 />
+                <!-- <input *ngIf="SelectedSingleRowData[fieldName[itemId]] ==  undefined "
+                [id]="fieldName[itemId]"  
+                [value]=""           
+                [type]="itemType"
+                class="form-control"
+                [name]="fieldName[itemId]"
+                (input)="onFieldValuek($event)"
+              /> -->
+              <input *ngIf="itemType == 'file'"
+              [id]="fieldName[itemId]"               
+              [type]="itemType"
+              class="form-control"
+              [name]="fieldName[itemId]"
+              (input)="onFieldValuek($event)"
+            />
+              </div>
               </div>
             </div>
             <button
@@ -60,33 +84,28 @@ aria-hidden="true"
   <div class="container-xs-height full-height">
     <div class="row-xs-height">
       <div class="modal-body col-xs-height col-middle text-center">
-        <!-- <div
-          class="form-group row"
-          *ngFor="let itemType of fieldType; index as itemId"
-        >
-          <label for="textfield7" class="col-sm-4 col-form-label">{{
-            fieldName[itemId]
-          }}</label>
-          <div class="col-sm-8">
-            <input
-            
-              [type]="itemType"
-              class="form-control"
-              [name]="fieldName[itemId]"
-              (input)="onFieldValue($event)"
-            />
-          </div>
-        </div> -->
-        <button
-          type="submit"
-          class="btn btn-primary"
-          (click)="onEditItem()"
-          
-        >
-         Add Comment
-        </button>
+        <div class="recent-comment">
+          <ul>
+            <li *ngFor="let comments of selectedRowComments; index as i" >
+              <p id="{{comments._id}}" class="cz-p-text-style">{{comments.content}}</p>
+               <textarea id="text{{comments._id}}" rows="4" cols="50"  (mouseleave)="mouseOutFromTaxtArea($event, comments._id,comments.content)" hidden>{{comments.content}}</textarea>
+              <span class="comment-date" id="date"> {{ comments.createdTime | date:'medium' }} </span>
+              <div class="coment-action">
+              <span class="comment-delete-btn"><button (click)="deleteComment(comments._id)">Delete</button></span>
+              <span class="comment-edit-btn"><button (click)="calledit(comments._id)">Edit</button></span>
+            </div>
+            </li>
+          </ul>
+          <textarea  rows="4" cols="50" id="comment" [(ngModel)]='comment' name="comment" ></textarea>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="addComment()"          
+          >
+           Add Comment
+          </button>
+        </div>      
       </div>
-
     </div>
   </div>
 </div>

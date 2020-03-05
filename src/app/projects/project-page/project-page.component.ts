@@ -17,12 +17,12 @@ export class ProjectPageComponent implements OnInit,AfterViewInit {
     this.subscription = this.route.params.subscribe(params => {
       this.projectId = params['id'];
     });
+    // localStorage.removeItem('copydata')
   }
   myfunc(event){
     if(event.target.text){
       if(event.target.text.trim() == "Items"){
         if(localStorage.getItem('copydata')){
-  
             document.getElementById('popupid').hidden = false
         }
       }

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule} from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 //Routing
 import { AppRoutes } from './app.routing';
@@ -88,6 +89,7 @@ export class AppHammerConfig extends HammerGestureConfig  {
     BrowserAnimationsModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
     SharedModule,

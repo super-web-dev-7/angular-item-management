@@ -17,6 +17,7 @@ export class ItemsSelectionComponent implements OnInit {
   @Input() fieldName;
   @Input() fieldslable;
   @Input() SelectedRowData;
+  @Input() fields;
   @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
   copyData = []
   itemCulomns = [];
@@ -35,7 +36,7 @@ export class ItemsSelectionComponent implements OnInit {
   SelectedRowDatalength = []
   pastType = '';
   SelectedSingleRowData;
-  copyDataLengthcount=0
+  copyDataLengthcount = 0
   afterPastPageNotReffress = false
   constructor(
     private itemsService: ItemsService,
@@ -45,13 +46,8 @@ export class ItemsSelectionComponent implements OnInit {
   }
   ngOnInit() {
     this.copyDataLength = JSON.parse(localStorage.getItem('copydata'));
-    this.copyDataLengthcount =  this.copyDataLength.length
-    // document.getElementById('popupid').hidden = true
-
-    if (this.copyDataLength.length > 0) {
-        
-      //document.getElementById('popupid').hidden = false
-
+    if(this.copyDataLength){
+      this.copyDataLengthcount = this.copyDataLength.length
     }
   }
 
@@ -60,7 +56,7 @@ export class ItemsSelectionComponent implements OnInit {
     this.SelectedRowData
   }
   copyItems(val) {
-    localStorage.setItem('pastetype','copy')
+    localStorage.setItem('pastetype', 'copy')
     this.copyData = this.SelectedRowData;
 
     localStorage.setItem('copydata', JSON.stringify(this.copyData));
@@ -68,7 +64,7 @@ export class ItemsSelectionComponent implements OnInit {
     this.copyDataLengthcount = this.copyDataLength.length
   }
   cut() {
-    localStorage.setItem('pastetype','cut')
+    localStorage.setItem('pastetype', 'cut')
     this.copyData = this.SelectedRowData;
     localStorage.setItem('copydata', JSON.stringify(this.copyData));
     this.copyDataLength = JSON.parse(localStorage.getItem('copydata'))
@@ -100,7 +96,7 @@ export class ItemsSelectionComponent implements OnInit {
                   document.getElementById('popupid').hidden = true
                   this.copyData = []
                   this.copyDataLengthcount = 0
-                  localStorage.setItem('notreffress','ture')
+                  localStorage.setItem('notreffress', 'ture')
 
                 });
             }
@@ -132,7 +128,7 @@ export class ItemsSelectionComponent implements OnInit {
                   document.getElementById('popupid').hidden = true
                   this.copyData = []
                   this.copyDataLengthcount = 0
-                  localStorage.setItem('notreffress','true')
+                  localStorage.setItem('notreffress', 'true')
 
                 });
             }
@@ -152,38 +148,21 @@ export class ItemsSelectionComponent implements OnInit {
     for (let i = 0; i < this.SelectedRowData.length; i++) {
       data1['itemIds'].push(this.SelectedRowData[i]._id)
     }
+    this.itemsService
+      .deleteItemsByid(data1)
+      .subscribe((result) => {
+        if (result) {
+          this.itemsService
+            .getItemsByProject(this.projectId)
+            .subscribe((items: any) => {
+              this.getLatestitem.emit();
+              this.SelectedRowData = []
+              document.getElementById('popupid').hidden = true
 
-    // if (this.SelectedRowData.length == 1) {
-    // console.log('===++++++++++++++++++++>single delete',)
-    // this.itemsService
-    //   .deleteSingleItemByid(this.SelectedRowData[0]._id)
-    //   .subscribe((result) => {
-    //     if (result) {
-    //       this.itemsService
-    //         .getItemsByProject(this.projectId)
-    //         .subscribe((items: any) => {
-    //           this.items = items;
-    //           this.SelectedRowData = []
-    //         });
-    //     }
-    //   });
-    // } if(this.SelectedRowData.length > 1) {
-    console.log('===++++++++++++++++++++>multiple delete')
-      this.itemsService
-        .deleteItemsByid(data1)
-        .subscribe((result) => {
-          if (result) {
-            this.itemsService
-              .getItemsByProject(this.projectId)
-              .subscribe((items: any) => {
-                this.getLatestitem.emit();
-                this.SelectedRowData = []
-                document.getElementById('popupid').hidden = true
+            });
+        }
+      });
 
-              });
-          }
-        });
-    
 
     // }
 

@@ -12,12 +12,16 @@ export class NewItemComponent implements OnInit {
   @Input() projectId;
   @Input() fieldType;
   @Input() fieldName;
+  @Input() fields;
+  @Input() fieldslable;
+
+  
   [key: string]: any;
   data = {};
 
-  constructor(private itemsService: ItemsService) {}
+  constructor(private itemsService: ItemsService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   show() {
     this.fieldName.forEach(item => {
@@ -26,6 +30,9 @@ export class NewItemComponent implements OnInit {
     this.newItemPopup.show();
   }
 
+  onChangeSelectValue(event: any) {
+    this[event.target.name] = (<HTMLInputElement>event.target).value;
+  }
   onFieldValue(event: any) {
     this[event.target.name] = (<HTMLInputElement>event.target).value;
   }

@@ -45,6 +45,14 @@ export class ItemsService {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     };
+    return this.httpClient.put<any>(`${environment.apiUrl}/item`, data, {
+      headers
+    });
+  }
+  public editSingleItemByProject(data) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
     return this.httpClient.put<any>(`${environment.apiUrl}/item/mass`, data, {
       headers
     });
@@ -71,5 +79,45 @@ export class ItemsService {
       headers
     });
   }
+
+  public changeOrder(data) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.put<any>(`${environment.apiUrl}/item/change-order`, data, {
+      headers
+    });
+  }
+
+  public addComment(data, id) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.post<any>(`${environment.apiUrl}/item/add-comment`, data, {
+      headers
+    });
+  }
+  public updateComment(data) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.put<any>(`${environment.apiUrl}/item/update-comment`, data, {
+      headers
+    });
+  }
+  public deleteComment(data) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.post<any>(`${environment.apiUrl}/item/delete-comment`, data);
+  }
+  public ongetItemsByProjectWithPagination(projectId,data,pageNO) {
+    console.log('data in server=====+>',data)
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.get<any>(`${environment.apiUrl}/item/project/`+ projectId+'/pageNumber/'+pageNO+'/itemsPerPage/100', data);
+  }
+  
   
 }

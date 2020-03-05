@@ -22,24 +22,34 @@
             <div class="modal-body col-xs-height col-middle text-center">
               <div
                 class="form-group row"
-                *ngFor="let itemType of fieldType; index as itemId"
+                *ngFor="let itemType of fieldType; index as itemId" 
               >
-                <label for="textfield7" class="col-sm-4 col-form-label">{{
-                  fieldName[itemId]
-                }}</label>
-                <div class="col-sm-8">
-                  <input
+                <label class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
+                <div class="col-sm-8" >
+                  <div *ngIf="itemType == 'select'">
+                  <select id="select"  (change)="onChangeSelectValue($event)"  class="form-control"
+                  [name]="fieldName[itemId]" >
+                    <option *ngFor="let field of fields[itemId].optionsForSelect">
+                      {{field}}
+                    </option>
+                    
+                  </select>
+                </div>
+                <div *ngIf="itemType !== 'select'">
+                  <input                                 
                     [type]="itemType"
                     class="form-control"
                     [name]="fieldName[itemId]"
                     (input)="onFieldValue($event)"
                   />
                 </div>
+                </div>
               </div>
               <button
                 type="submit"
                 class="btn btn-primary"
                 (click)="onAddItem()"
+                
               >
                 Add Item
               </button>
