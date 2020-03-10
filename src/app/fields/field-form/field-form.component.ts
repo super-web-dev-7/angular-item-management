@@ -1,8 +1,11 @@
 import { Component, OnInit, SimpleChanges, SimpleChange, Input, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalComponent } from '../../common/modal/modal.component';
-import { FieldService } from '../field.service';
 import { IField } from '../../../models/IField';
+import { FieldService } from '../field.service';
+import { ModalPosition } from '../../common/modal/ModalPosition';
+import { FieldType } from '../../../models/FieldType';
+import { auditTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-field-form',
@@ -14,17 +17,24 @@ export class FieldFormComponent implements OnInit {
   @Input()
   public field: IField;
 
-  @ViewChild("fieldFormModal", {static: true})
+  @ViewChild("fieldFormModal", { static: true })
   public fieldFormModal: ModalComponent;
 
   public fieldsForm: FormGroup = this.initForm();
 
-  constructor(private fb: FormBuilder, private fieldsService: FieldService) { }
+  constructor(private fb: FormBuilder, private fieldService: FieldService) { }
 
   ngOnInit() {
-    if(!this.field) {
+    if (!this.field) {
       this.field = {} as IField;
     }
+    this.fieldsForm.valueChanges.pipe(auditTime(3000)).subscribe(formData => {
+      this.fieldService.updateField(this.fieldsForm.value).subscribe((result) => {
+        console.log("Saving...");
+        console.log(this.field);
+        console.log(result);
+      })
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -37,12 +47,10 @@ export class FieldFormComponent implements OnInit {
       _id: [''],
       label: [''],
       type: [''],
-      isRequired: [''],
-      minLength: [''],
-      maxLength: ['']
+      isRequired: ['']
     });
   }
-  
+
   initFormByField(field) {
     if (field) {
       this.fieldsForm.patchValue(field);
@@ -51,11 +59,19 @@ export class FieldFormComponent implements OnInit {
 
   open() {
     this.fieldsForm.reset();
+    this.initFormByField(this.field);
     this.fieldFormModal.show();
   }
 
   updateField() {
-   // this.fieldsService.updateField(this.fieldsForm.value).subscribe((result) => {
-   // })
+
+  }
+
+  getPosition() {
+    return ModalPosition.RIGHT;
+  }
+
+  getFieldType() {
+    return FieldType;
   }
 }

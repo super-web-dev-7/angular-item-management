@@ -1,26 +1,19 @@
-<app-modal #fieldFormModal dialogClass="modal-right-full" noGreyBackground="true" containerClick="false">
+<app-modal #fieldFormModal position="{{getPosition()}}">
     <div class="app-modal-header">
         <h5 class="modal-title"><app-field-type [type]="field.type"></app-field-type>{{field.label}}</h5>
     </div>
     <div class="app-modal-body">
-        <form [formGroup]="fieldsForm">
+        <form [formGroup]="fieldsForm" [ngSwitch]="field.type">
             <fieldset class="form-group">
                 <app-switch-editor formControlName="isRequired" label="Mandatory" [isChecked]="fieldsForm.get('isRequired')">
                 </app-switch-editor>
             </fieldset>
-            <fieldset class="form-group">
-                <label>Min length</label>
-                <input formControlName="minLength" class="form-control" type="number" [min]="0">
-            </fieldset>
-            <fieldset class="form-group">
-                <label>Max length</label>
-                <input formControlName="maxLength" class="form-control" type="number" [min]="0">
-            </fieldset>
+            <app-dropdown-form *ngSwitchCase="getFieldType().DROPDOWN" [fieldForm]="fieldsForm" [field]="this.field"></app-dropdown-form>
+            <app-text-form *ngSwitchCase="getFieldType().TEXT" [fieldForm]="fieldsForm" [field]="this.field"></app-text-form>
         </form>
     </div>
     <div class="app-modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"
             (click)="fieldFormModal.hide()">Close</button>
-        <button type="button" (click)="updateField()" class="btn btn-primary">Save changes</button>
     </div>
 </app-modal>

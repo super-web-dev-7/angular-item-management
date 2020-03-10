@@ -4,6 +4,7 @@ import { FieldsListComponent } from './fields-list/fields-list.component';
 import { IField } from '../../models/IField';
 import { ProjectTypeService } from '../project-types/project-type.service';
 import { FieldFormComponent } from './field-form/field-form.component';
+import { AddFieldComponent } from './add-field/add-field.component';
 
 @Component({
   selector: 'app-fields',
@@ -19,6 +20,11 @@ export class FieldsComponent implements OnInit, OnDestroy {
 
   @ViewChild("fieldForm", {static: true}) 
   private fieldForm: FieldFormComponent;
+
+  @ViewChild("addFieldModal", {static: true}) 
+  private addFieldModal: AddFieldComponent;
+
+  
 
   public selectedField: IField;
   private createdFielsSubscription;
@@ -47,21 +53,22 @@ export class FieldsComponent implements OnInit, OnDestroy {
      this.fieldForm.open();
    }
 
-  // createField() {
-  //   this.createdFielsSubscription = this.addFieldModal.openAndWaitForFinish().subscribe((createdFields: IField[]) => {
-  //     if (createdFields) {
-  //       const fieldIds = createdFields.map((field) => field._id);
-  //       this.projectTypesService.addFieldToProjectType(this.projectTypeId, fieldIds).subscribe((result) => {
-  //         createdFields.forEach((field) => {
-  //           this.fields.unshift(field);
-  //           this.onSelectField(field);
-  //           this.fieldsList.addFieldAndSelect(field);
-  //         });
-  //       });
-  //     }
-  //     this.createdFielsSubscription.unsubscribe();
-  //   });
-  // }
+  createField() {
+    this.createdFielsSubscription = this.addFieldModal.openAndWaitForFinish().subscribe((createdFields: IField[]) => {
+      console.log(createdFields);
+      if (createdFields) {
+        const fieldIds = createdFields.map((field) => field._id);
+        this.projectTypesService.addFieldToProjectType(this.projectTypeId, fieldIds).subscribe((result) => {
+          createdFields.forEach((field) => {
+            this.fields.unshift(field);
+            this.onSelectField(field);
+            this.fieldsList.addFieldAndSelect(field);
+          });
+        });
+      }
+      this.createdFielsSubscription.unsubscribe();
+    });
+  }
 
    onSelectField = (field: IField) => {
      this.selectedField = field;

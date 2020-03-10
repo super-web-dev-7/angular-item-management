@@ -21,22 +21,22 @@ export class FieldTypeComponent implements OnInit {
 
   ngOnInit() {
     switch (this.type) {
-      case FieldType.Text:
+      case FieldType.TEXT:
         this.typeText = "Text";
         break;
-      case FieldType.Number:
+      case FieldType.NUMBER:
         this.typeText = "Number";
         break;
-      case FieldType.Picture:
+      case FieldType.PICTURE:
         this.typeText = "Picture";
         break;
-      case FieldType.Date:
+      case FieldType.DATE:
         this.typeText = "Date";
         break;
-      case FieldType.Expression:
+      case FieldType.EXPRESSION:
         this.typeText = "Expression";
         break;
-      case FieldType.DropDown:
+      case FieldType.DROPDOWN:
         this.typeText = "Selection List";
         break;
     }

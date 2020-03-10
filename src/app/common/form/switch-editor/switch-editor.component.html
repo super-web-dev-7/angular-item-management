@@ -1,7 +1,10 @@
 <div class="form-group">
-    <div class="switch d-inline m-r-10">
-        <input type="checkbox" [id]="elemId" [disabled]="isDisabled" (change)="onSwitchChanged($event)" [checked]="isChecked">
-        <label for="{{elemId}}" class="cr"></label>
-        <label for="{{elemId}}" class="switch-label">{{label}}</label>
+    <div class="checkbox check-primary">
+        <input type="checkbox"
+        [id]="elemId" 
+        [disabled]="isDisabled" 
+        (change)="onSwitchChanged($event)"
+            [checked]="isChecked">
+        <label for="{{elemId}}">{{label}}</label>
     </div>
 </div>

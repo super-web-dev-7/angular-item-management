@@ -1,3 +1,3 @@
 export enum FieldType {
-    Text = 0, Number, Picture, Date, Expression, DropDown
+    TEXT = 0, NUMBER, PICTURE, DATE, EXPRESSION, DROPDOWN
 }

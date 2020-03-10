@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
+import { ModalPosition } from './ModalPosition';
+import { switchMap } from 'rxjs-compat/operator/switchMap';
 
 @Component({
   selector: 'app-modal',
@@ -10,11 +12,31 @@ export class ModalComponent implements OnInit {
   @Input() title;
   @Input() hideHeader = false;
   @Input() hideFooter = false;
-  @ViewChild("popup", {static: true}) popup;
-  
+  @Input() onCancel: Function;
+  @Input() position: ModalPosition;
+
+  @ViewChild("popup", { static: true }) popup;
+
+  private positionClass;
+
   constructor() { }
 
   ngOnInit() {
+    if(!this.position) {
+      this.positionClass = "slide-up";
+      return;
+    }
+    switch (this.position.toString()) {
+      case ModalPosition.TOP.toString():
+        this.positionClass = "stick-up";
+        break;
+      case ModalPosition.RIGHT.toString():
+        this.positionClass = "slide-right";
+        break;
+      case ModalPosition.CENTER.toString():
+        this.positionClass = "slide-up";
+        break;
+    }
   }
 
   show() {
@@ -22,7 +44,11 @@ export class ModalComponent implements OnInit {
   }
 
   hide() {
-    
+    this.popup.hide();
+  }
+
+  cancel() {
+    this.onCancel();
   }
 
 }

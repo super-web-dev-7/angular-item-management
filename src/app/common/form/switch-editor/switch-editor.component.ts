@@ -45,6 +45,7 @@ export class SwitchEditorComponent implements OnInit, ControlValueAccessor  {
     this.onChange(e.target.checked);
     this.onTouched(true);
   }
+  
   ngOnInit() {
     
   }

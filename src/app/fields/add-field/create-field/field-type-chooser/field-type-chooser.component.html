@@ -1,0 +1,3 @@
+<div *ngFor="let type of typeList" class="type-option m-10" (click)="onTypeSelected(type)">
+    <app-field-type [type]="type" [isLarge]="true" [boxClass]="type === choosedType ? 'selected' : ''"></app-field-type>
+</div>

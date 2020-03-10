@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
 import { TypeRendererComponent } from './cell-renderer/type-renderer.component';
 import { AgGridAngular } from 'ag-grid-angular';
 import { IField } from '../../../models/IField';
@@ -8,7 +8,7 @@ import { IField } from '../../../models/IField';
   templateUrl: './fields-list.component.html',
   styleUrls: ['./fields-list.component.scss']
 })
-export class FieldsListComponent implements OnInit, OnDestroy {
+export class FieldsListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor() { }
 
@@ -22,12 +22,22 @@ export class FieldsListComponent implements OnInit, OnDestroy {
   public rowsPerPage = 50;
   @Input()
   public multiSelect = false;
-  @ViewChild('fieldsGrid', {static: true}) fieldsGrid: AgGridAngular;
+  @ViewChild('fieldsGrid', { static: false }) fieldsGrid: AgGridAngular;
+
+  otherFields;
 
   public selectedField: IField;
   columnDefs = [];
 
   ngOnInit() {
+    this.otherFields = [
+      {type: 1, label: "Hi"},
+      {type: 1, label: "Hi"},
+      {type: 1, label: "Hi"},
+      {type: 1, label: "Hi"},
+      {type: 1, label: "Hi"},
+      {type: 1, label: "Hi"}
+    ];
     this.columnDefs = [
       {
         headerName: "",
@@ -46,21 +56,27 @@ export class FieldsListComponent implements OnInit, OnDestroy {
         cellClass: "no-border"
       }
     ]
-    //this.fieldsGrid.gridReady = this.onGridReady.bind(this);
-    this.fieldsGrid.getRowHeight = () => {
-      return 55;
-    };
+  }
+
+  ngAfterViewInit() {
     this.fieldsGrid.rowClicked.subscribe((row) => {
       this.selectField(row.data);
     });
     this.fieldsGrid.getRowNodeId = (data) => {
       return data._id;
     }
-      this.fieldsGrid.rowSelection =  this.multiSelect ? "multiple": "single";
+    this.fieldsGrid.rowSelection = this.multiSelect ? "multiple" : "single";
+
+    this.fieldsGrid.gridReady.subscribe(() => {
+      this.onGridReady();
+    });
+    this.fieldsGrid.getRowHeight = () => {
+      return 55;
+    };
   }
 
   onGridReady() {
-    this.fieldsGrid.api.sizeColumnsToFit();
+   // this.fieldsGrid.api.sizeColumnsToFit();
   }
 
   selectField(field: IField) {
@@ -77,10 +93,10 @@ export class FieldsListComponent implements OnInit, OnDestroy {
   }
 
   getSelected(): IField[] {
-      return this.fieldsGrid.api.getSelectedRows();
+    return this.fieldsGrid.api.getSelectedRows();
   }
 
   ngOnDestroy() {
-    this.fieldsGrid.rowClicked.unsubscribe();
+    // this.fieldsGrid.rowClicked.unsubscribe();
   }
 }

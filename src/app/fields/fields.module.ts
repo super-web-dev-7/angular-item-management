@@ -11,25 +11,53 @@ import { FieldTypeComponent } from './field-type/field-type.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { TypeRendererComponent } from './fields-list/cell-renderer/type-renderer.component';
 import { FieldFormComponent } from './field-form/field-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormModule } from '../common/form/form.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ModalsModule } from '../common/modal/modals.module';
+import { CreateFieldComponent } from './add-field/create-field/create-field.component';
+import { ExistingFieldSelectComponent } from './add-field/existing-field-select/existing-field-select.component';
+import { FieldTypeChooserComponent } from './add-field/create-field/field-type-chooser/field-type-chooser.component';
+import { AddFieldComponent } from './add-field/add-field.component';
+import { FormModule } from '../common/form/form.module';
+import { DropdownFormComponent } from './field-form/dropdown-form/dropdown-form.component';
+import { TextFormComponent } from './field-form/text-form/text-form.component';
+import { pgCardModule } from '../@pages/components/card/card.module';
+import { pgSwitchModule } from '../@pages/components/switch/switch.module';
 
 
 
 @NgModule({
-  declarations: [FieldsComponent, FieldsListComponent, FieldTypeComponent, FieldFormComponent],
+  declarations: [FieldsComponent,
+    FieldsListComponent,
+    FieldTypeComponent,
+    FieldFormComponent,
+    CreateFieldComponent,
+    ExistingFieldSelectComponent,
+    FieldTypeChooserComponent,
+    AddFieldComponent,
+    TypeRendererComponent,
+    DropdownFormComponent,
+    TextFormComponent],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule.forChild(FieldsRouts),
     TabsModule.forRoot(),
-    FormModule,
+    FormsModule,
     pgTabsModule,
-    AgGridModule.withComponents([]),
+    pgCardModule,
+    AgGridModule.withComponents([TypeRendererComponent]),
     ReactiveFormsModule,
-    ModalsModule
+    ModalsModule,
+    FormModule,
   ],
-  exports: [FieldsComponent, FieldsListComponent, FieldTypeComponent, FieldFormComponent]
+  exports: [
+    FieldsComponent,
+    FieldsListComponent,
+    FieldTypeComponent,
+    FieldFormComponent,
+    CreateFieldComponent,
+    ExistingFieldSelectComponent,
+    FieldTypeChooserComponent,
+    AddFieldComponent]
 })
 export class FieldsModule { }

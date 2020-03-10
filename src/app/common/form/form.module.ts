@@ -3,15 +3,22 @@ import { CommonModule } from '@angular/common';
 import { DropdownEditorComponent } from './dropdown-editor/dropdown-editor.component';
 import { SwitchEditorComponent } from './switch-editor/switch-editor.component';
 import { TextEditorComponent } from './text-editor/text-editor.component';
+import { MultiselectEditorComponent } from './multiselect-editor/multiselect-editor.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { pgCardModule } from '../../@pages/components/card/card.module';
+import { FormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [DropdownEditorComponent, SwitchEditorComponent, TextEditorComponent],
+  declarations: [DropdownEditorComponent, SwitchEditorComponent, TextEditorComponent, MultiselectEditorComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    pgCardModule,
+    PerfectScrollbarModule,
+    FormsModule,
   ],
-  exports: [DropdownEditorComponent, SwitchEditorComponent, TextEditorComponent]
+  exports: [DropdownEditorComponent, SwitchEditorComponent, TextEditorComponent, MultiselectEditorComponent]
 })
 export class FormModule {
 }

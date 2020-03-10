@@ -14,8 +14,8 @@ export class ProjectTypeService {
   }
 
   public addFieldToProjectType(projectTypeId, fieldId) {
-    const addFieldParams = {projectTypeId, fieldId};
-    return this.httpClient.patch(environment.apiUrl+"/project-type/add-field", addFieldParams);
+    const addFieldParams = {projectTypeId, fieldIds: [fieldId]};
+    return this.httpClient.patch(environment.apiUrl+"/project-type/add-fields", addFieldParams);
   }
 
   public getFieldsByProjectType(projectTypeId) {

@@ -1,0 +1,26 @@
+.new-field {
+  display: flex;
+  flex-direction: column;
+
+  .new-field-form {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .new-field-input {
+    margin: 0 10px;
+  }
+
+  .remove-item {
+    padding-top: 6px;
+  }
+
+  .error {
+    padding-left: 23px;
+    padding-top: 4px;
+  }
+}
+
+.options-card {
+  max-height: 300px;
+}

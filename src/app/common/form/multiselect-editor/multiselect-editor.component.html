@@ -1,0 +1,38 @@
+<pgcard Controls="false">
+    <ng-template #CardTitle>Selection options</ng-template>
+    <div class="scrollable options-card" perfectScrollbar>
+        <table class="table table-condensed">
+            <tr *ngIf="newOption">
+                <td class="col-lg-8 col-md-6 col-sm-7 ">
+                    <div class="new-field" [ngClass]="{'has-error': newOptionError.empty || newOptionError.duplicated}">
+                        <div class="new-field-form">
+                        <a href="javascript:void(0)" class="remove-item" (click)="onRemoveNewOption()"><i
+                                class="pg pg-close"></i></a>
+                        <input #newOptionValue type="text" class="has-error form-control new-field-input"
+                            (keydown.enter)="afterAddNewOption()" [(ngModel)]="newOption.value">
+                        <button class="btn btn-white" (click)="afterAddNewOption()">Add</button>
+                        </div>
+                        <label *ngIf="newOptionError.empty" class="error">The option is empty</label>
+                        <label *ngIf="newOptionError.duplicated" class="error">The option is already exist</label>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngFor="let option of options">
+                <td class="col-lg-8 col-md-6 col-sm-7 ">
+                    <div>
+                        <a href="javascript:void(0)" class="remove-item" (click)="onRemove(option)"><i
+                                class="pg pg-close"></i></a>
+                        <span class="m-l-10 ">{{option.value}}</span>
+                    </div>
+                </td>
+                <td class=" col-lg-2 col-md-3 col-sm-3 text-right">
+                    <span></span>
+                </td>
+                <td class=" col-lg-2 col-md-3 col-sm-2 text-right">
+                    <h4 class="text-primary no-margin font-montserrat"></h4>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <button class="btn btn-white btn-block m-t-15" (click)="addEmptyOption()">New option</button>
+</pgcard>
