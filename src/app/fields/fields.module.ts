@@ -21,9 +21,9 @@ import { FormModule } from '../common/form/form.module';
 import { DropdownFormComponent } from './field-form/dropdown-form/dropdown-form.component';
 import { TextFormComponent } from './field-form/text-form/text-form.component';
 import { pgCardModule } from '../@pages/components/card/card.module';
-import { pgSwitchModule } from '../@pages/components/switch/switch.module';
-
-
+import { DateFormComponent } from './field-form/date-form/date-form.component';
+import { NumberFormComponent } from './field-form/number-form/number-form.component';
+import { pgCollapseModule } from '../@pages/components/collapse';
 
 @NgModule({
   declarations: [FieldsComponent,
@@ -36,7 +36,9 @@ import { pgSwitchModule } from '../@pages/components/switch/switch.module';
     AddFieldComponent,
     TypeRendererComponent,
     DropdownFormComponent,
-    TextFormComponent],
+    TextFormComponent,
+    DateFormComponent,
+    NumberFormComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -49,6 +51,7 @@ import { pgSwitchModule } from '../@pages/components/switch/switch.module';
     ReactiveFormsModule,
     ModalsModule,
     FormModule,
+    pgCollapseModule.forRoot(),
   ],
   exports: [
     FieldsComponent,

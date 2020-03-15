@@ -2,6 +2,7 @@
     <div class="modal-dialog">
       <div class="modal-content-wrapper">
         <div class="modal-content">
+          <pg-progress *ngIf="isLoading" type="bar" color="primary" indeterminate="true" thick="true"></pg-progress>
           <button type="button" class="close" (click)="popup.hide()" aria-hidden="true"><i class="pg pg-close fs-14"></i>
           </button>
           <div *ngIf="!hideHeader" class="modal-header">

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from './modal.component';
 import { ModalModule } from 'ngx-bootstrap';
+import { ProgressModule } from '../../@pages/components/progress/progress.module';
 
 
 
@@ -10,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap';
   imports: [
     CommonModule,
     ModalModule.forRoot(),
+    ProgressModule,
   ],
   exports: [ModalComponent]
 })

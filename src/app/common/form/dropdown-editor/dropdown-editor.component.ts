@@ -1,28 +1,50 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-dropdown-editor',
   templateUrl: './dropdown-editor.component.html',
-  styleUrls: ['./dropdown-editor.component.scss']
+  styleUrls: ['./dropdown-editor.component.scss'],
+  providers: [     
+    {       provide: NG_VALUE_ACCESSOR, 
+            useExisting: forwardRef(() => DropdownEditorComponent),
+            multi: true     
+    }   
+    ]
 })
-export class DropdownEditorComponent implements OnInit {
+export class DropdownEditorComponent  implements OnInit, ControlValueAccessor   {
 
   constructor() { }
 
-  selected = {id: 0, text: ""};
+  private onChange;
+  private onTouched;
+  private isDisabled = false;
 
   @Input()
-  options: {id, text}[] = [];
+  options: {value: string, label:string}[] = [];
+
+  private selectedOption;
 
   ngOnInit() {
-    this.options.push({id:1, text: "Hi1" });
-    this.options.push({id:2, text: "Hi2" });
-    this.options.push({id:3, text: "Hi3" });
-    this.options.push({id:4, text: "Hi4" });
   }
 
-  selectOption(selectedOption) {
-    this.selected = selectedOption;
+  writeValue(obj: any): void {
+    this.selectedOption = obj;
   }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    this.isDisabled = isDisabled; 
+  }
+
+  onSelected() {
+    this.onChange(this.selectedOption);
+    this.onTouched(true);
+  }
+ 
 
 }

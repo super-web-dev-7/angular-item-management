@@ -24,38 +24,37 @@ export class FieldsComponent implements OnInit, OnDestroy {
   @ViewChild("addFieldModal", {static: true}) 
   private addFieldModal: AddFieldComponent;
 
-  
-
-  public selectedField: IField;
   private createdFielsSubscription;
   private fields: IField[];
+  private fieldsMap: {[id: string]: IField}
   public filterQuery = '';
 
   constructor(
     private projectTypesService: ProjectTypeService) { }
 
   ngOnInit() {
-    // this.onSelectField.bind(this);
     this.projectTypesService.getFieldsByProjectType(this.projectTypeId).subscribe((
       (fields: IField[]) => {
+        console.log(fields);
         this.fields = fields;
+        this.initFieldsMap(this.fields);
       })
     );
   }
 
-  ngOnDestroy() {
-    if (this.createdFielsSubscription) {
-      this.createdFielsSubscription.unsubscribe();
-    }
+  private initFieldsMap(fields) {
+    this.fieldsMap = {};
+    fields.forEach((field: IField) => {
+      this.fieldsMap[field._id] = field;
+    });
   }
 
-   openForm() {
-     this.fieldForm.open();
+   openForm(field: IField) {
+     this.fieldForm.open(field);
    }
 
   createField() {
     this.createdFielsSubscription = this.addFieldModal.openAndWaitForFinish().subscribe((createdFields: IField[]) => {
-      console.log(createdFields);
       if (createdFields) {
         const fieldIds = createdFields.map((field) => field._id);
         this.projectTypesService.addFieldToProjectType(this.projectTypeId, fieldIds).subscribe((result) => {
@@ -71,7 +70,18 @@ export class FieldsComponent implements OnInit, OnDestroy {
   }
 
    onSelectField = (field: IField) => {
-     this.selectedField = field;
-     this.openForm();
+     this.openForm(field);
    }
+
+   updateFieldInList(updatedField: IField){
+    let index = this.fields.findIndex(field => field._id == updatedField._id);
+    this.fields[index] = updatedField;
+    this.fieldsList.updateField(updatedField);
+  }
+
+  ngOnDestroy() {
+    if (this.createdFielsSubscription) {
+      this.createdFielsSubscription.unsubscribe();
+    }
+  }
 }

@@ -7,6 +7,7 @@ import { MultiselectEditorComponent } from './multiselect-editor/multiselect-edi
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { pgCardModule } from '../../@pages/components/card/card.module';
 import { FormsModule } from '@angular/forms';
+import { pgSelectModule } from '../../@pages/components/select/select.module';
 
 
 
@@ -17,6 +18,7 @@ import { FormsModule } from '@angular/forms';
     pgCardModule,
     PerfectScrollbarModule,
     FormsModule,
+    pgSelectModule,
   ],
   exports: [DropdownEditorComponent, SwitchEditorComponent, TextEditorComponent, MultiselectEditorComponent]
 })

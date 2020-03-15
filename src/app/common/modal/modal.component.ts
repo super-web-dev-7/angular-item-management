@@ -18,6 +18,7 @@ export class ModalComponent implements OnInit {
   @ViewChild("popup", { static: true }) popup;
 
   private positionClass;
+  private isLoading: boolean;
 
   constructor() { }
 
@@ -49,6 +50,14 @@ export class ModalComponent implements OnInit {
 
   cancel() {
     this.onCancel();
+  }
+
+  showLoader() {
+    this.isLoading = true;
+  }
+
+  hideLoader() {
+    this.isLoading = false;
   }
 
 }

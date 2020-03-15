@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy, ViewChild, SimpleChanges, OnChange
 import { TypeRendererComponent } from './cell-renderer/type-renderer.component';
 import { AgGridAngular } from 'ag-grid-angular';
 import { IField } from '../../../models/IField';
+import { GridOptions } from 'ag-grid-community';
 
 @Component({
   selector: 'app-fields-list',
@@ -24,20 +25,10 @@ export class FieldsListComponent implements OnInit, OnDestroy, AfterViewInit {
   public multiSelect = false;
   @ViewChild('fieldsGrid', { static: false }) fieldsGrid: AgGridAngular;
 
-  otherFields;
-
-  public selectedField: IField;
   columnDefs = [];
+  gridOptions = <GridOptions>{};
 
   ngOnInit() {
-    this.otherFields = [
-      {type: 1, label: "Hi"},
-      {type: 1, label: "Hi"},
-      {type: 1, label: "Hi"},
-      {type: 1, label: "Hi"},
-      {type: 1, label: "Hi"},
-      {type: 1, label: "Hi"}
-    ];
     this.columnDefs = [
       {
         headerName: "",
@@ -56,31 +47,30 @@ export class FieldsListComponent implements OnInit, OnDestroy, AfterViewInit {
         cellClass: "no-border"
       }
     ]
+
+    this.gridOptions.getRowNodeId = (data) => {
+      return data._id;
+    }
+
+    this.gridOptions.rowSelection = this.multiSelect ? "multiple" : "single";
+    this.gridOptions.getRowHeight = () => { return 55; };
   }
 
   ngAfterViewInit() {
     this.fieldsGrid.rowClicked.subscribe((row) => {
       this.selectField(row.data);
     });
-    this.fieldsGrid.getRowNodeId = (data) => {
-      return data._id;
-    }
-    this.fieldsGrid.rowSelection = this.multiSelect ? "multiple" : "single";
 
     this.fieldsGrid.gridReady.subscribe(() => {
       this.onGridReady();
     });
-    this.fieldsGrid.getRowHeight = () => {
-      return 55;
-    };
   }
 
   onGridReady() {
-   // this.fieldsGrid.api.sizeColumnsToFit();
+    // this.fieldsGrid.api.sizeColumnsToFit();
   }
 
   selectField(field: IField) {
-    this.selectedField = field;
     if (this.onSelectField) {
       this.onSelectField(field);
     }
@@ -97,6 +87,12 @@ export class FieldsListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    // this.fieldsGrid.rowClicked.unsubscribe();
+    this.fieldsGrid.rowClicked.unsubscribe();
+  }
+
+  public updateField(fieldToUpdate: IField) {
+    console.log(fieldToUpdate);
+    console.log(this.fieldsGrid.api.getRowNode(fieldToUpdate._id));
+    this.fieldsGrid.api.getRowNode(fieldToUpdate._id).setData(fieldToUpdate);
   }
 }
