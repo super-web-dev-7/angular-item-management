@@ -16,13 +16,13 @@
 <app-item-details #itemDetails></app-item-details>
 <app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
   [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
-  (getLatestitem)="getLatestitem($event)" ></app-items-selection>
+  (getLatestitem)="getLatestitem($event)"></app-items-selection>
 <app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [fieldName]="fieldName"
   [projectId]="projectId" [fields]="fields"></app-new-item>
 
 <app-edit-single-item #editSingleItem [fieldslable]="fieldslable" [fields]="fields" [fieldType]="fieldType"
-  [fieldName]="fieldName" [projectId]="projectId"
-  [dbclicked]="dbclicked" (getLatestitem)="getLatestitem($event)" ></app-edit-single-item>
+  [fieldName]="fieldName" [projectId]="projectId" [dbclicked]="dbclicked" (getLatestitem)="getLatestitem($event)">
+</app-edit-single-item>
 
 <app-add-new-field #addNewfield [fieldType]="fieldType" [fieldName]="fieldName" [projectId]="projectId"
   [fields]="fields" (calloninit)="calloninit($event)" [fieldTypeWithNo]="fieldTypeWithNo"></app-add-new-field>
@@ -30,35 +30,26 @@
 
 <ag-grid-angular #agGrid id="agGrid" style="width: 100%;" *ngIf="items && items.length > 0 && columnLoaded"
   class="ag-theme-material" [domLayout]="'autoHeight'" [rowData]="items" [columnDefs]="itemCulomns"
-  [rowSelection]="rowSelection" [rowDragManaged]="true" [animateRows]="true"
-  [defaultColDef]="defaultColDef"
-  (cellDoubleClicked)="oncellDoubleClicked($event,dbclicked)" (cellMouseOver)="oncellMouseOver($event)"
-  (rowSelected)="onSelectionChanged($event)" (gridReady)="onGridReady($event)" (rowSelected)="onrowSelected($event)"
-  (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"
-  [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)" (columnMoved)="oncolumnMoved($event)"
-  (columnValueChanged)="oncolumnValueChanged($event)"   [components]="components"   [modules]="modules" 
-  (sortChanged)="onsortChanged($event)" [sortingOrder]="sortingOrder" (getSort)="getSort($event)"
-  >
+  [rowSelection]="rowSelection" [rowDragManaged]="true" [defaultColDef]="defaultColDef"
+  (columnClick)="onColumnClick($event)" (cellDoubleClicked)="oncellDoubleClicked($event,dbclicked)"
+  (cellMouseOver)="oncellMouseOver($event)" (rowSelected)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+  (rowSelected)="onrowSelected($event)" (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"
+  [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)" (cellClicked)="oncellClicked($event)"
+  (columnMoved)="oncolumnMoved($event)" (columnValueChanged)="oncolumnValueChanged($event)" [components]="components"
+  [modules]="modules" [sortingOrder]="sortingOrder" (getSort)="getSort($event)" (getSortModel)="ongetSortModel($event)"
+  (rowsAfterSort)="onrowsAfterSort($event)" (dataStateChange)="dataStateChange($event)"  (rowDataChanged)="onrowDataChanged($event)"> 
 </ag-grid-angular>
-<span class="cz_grid_count_span "> 1 to 100 of more
- </span>
- <span class="cz_grid_next_privious_span">
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" (click)="moveToPrivious()" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li class="page-item"><a class="page-link" (click)="moveToPageNo(1)">1</a></li>
-    <li class="page-item"><a class="page-link" (click)="moveToPageNo(2)">2</a></li>
-    <li class="page-item"><a class="page-link" (click)="moveToPageNo(3)">3</a></li>
-    <li class="page-item">
-      <a class="page-link" (click)="moveToNext()" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
-</span>
-
+<div class="cz_pagination">
+  <!-- <span class="cz_grid_count_span "> {{this.itemFrom}} to {{this.ItemTO}} of {{this.TotalItems}} </span> -->
+  <span class="cz_grid_next_privious_span">
+    <span class="backward-list">
+      <i class="fa fa-angle-double-left" aria-hidden="true" ></i>
+      <i class="fa fa-angle-left" aria-hidden="true" (click)="moveToPrivious()"></i>
+    </span>
+    <span>Page {{this.pageNo}} of {{this.totalPage}}</span>
+    <span class="forward-list">
+      <i class="fa fa-angle-right" aria-hidden="true"  (click)="moveToNext()" ></i>
+      <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    </span>
+  </span>
+</div>

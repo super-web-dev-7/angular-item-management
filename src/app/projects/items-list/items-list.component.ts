@@ -3,6 +3,9 @@ import { ItemsService } from "./items.service";
 import { FieldService } from "../../fields/field.service";
 import { HttpClient } from "@angular/common/http";
 import { ModalDirective } from 'ngx-bootstrap';
+import { _ } from "ag-grid-community";
+import { json } from "d3";
+import { JsonPipe } from "@angular/common";
 // import { AllModules } from "@ag-grid-enterprise/all-modules";
 // import "@ag-grid-community/all-modules/dist/styles/ag-grid.css";
 // import "@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css";
@@ -14,6 +17,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 export class ItemsListComponent implements OnInit {
   // public modules: any[] = AllModules;
   popupVisi
+  index = []
   copyDataLength = []
   itemCulomns = [];
   itemCulomns1 = []
@@ -47,9 +51,29 @@ export class ItemsListComponent implements OnInit {
   rowModelType
   sortingOrder
   pageNo = 1;
+  TotalItems;
+  clickOnHeader = 0;
+  oldArrow;
+  sortOrder;
+  headerField;
+  totalPage;
   @Input() projectId;
   @Output() getShow: EventEmitter<any> = new EventEmitter();
-
+  itemFrom = 0
+  ItemTO = 0
+  filterIcon;
+  searchedText
+  searchedValue: any;
+  oldSearchId: string;
+  gridRowManage: any;
+  querySelecterData: NodeListOf<Element>;
+  RowIndex = []
+  agHeaderCheckbox = false;
+  agheader: boolean;
+  openedSearchedBoxId: any;
+  conditiononselect = false;
+  datainarry = false;
+  public detector: any;
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService
@@ -62,21 +86,166 @@ export class ItemsListComponent implements OnInit {
     this.gridApi = event.api;
     this.gridRows = event.api.rowModel.rowsToDisplay;
     this.gridApi.setSuppressClipboardPaste(false);
-    // document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-    //   // console.log("=>element", element)
-    //   element.setAttribute("style", "display: none");
-    //   // this.itemCulomns[0]["checkboxSelection"] = true;
-    // })
-    //alert('hello');
-    // document.getElementById('popupid').hidden = true
+    document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+      var x = Math.floor((Math.random() * 99999) + 1);
+      element.setAttribute("style", "display: none");
+      element.setAttribute("id", 'row' + this.pageNo + x);
+    })
+    var ele = document.getElementsByClassName("ag-header-viewport")[0]
+    ele.addEventListener("click", event => {
+      console.log(event)
+      var iconClass = event['toElement'].getAttribute('class')
+      var eventgrid = event['__agGridEventPath']
+      event['path'].forEach(e => {
+        if (e && e.getAttribute && e.getAttribute("col-id")) {
+          if (this.oldArrow) {
+            this.oldArrow.setAttribute("style", "display: none");
+          }
+          if (this.clickOnHeader == 0) {
+            var errow_up = document.createElement("SPAN")
+            errow_up.setAttribute("id", e.getAttribute("col-id"));
+            errow_up.setAttribute("style", "display: block");
+            var errow_up_icon = document.createElement("I")
+            errow_up_icon.setAttribute("class", "fa fa-long-arrow-up");
+            var aa = e.appendChild(errow_up);
+            aa.appendChild(errow_up_icon);
+            this.oldArrow = errow_up
+            this.sortOrder = 'ASC';
+            this.headerField = e.getAttribute("col-id");
+            if (iconClass != 'fa fa-bars' && iconClass != 'filterinput') {
+              console.log('iconClass=+++.', iconClass)
+              this.sortGridbyApi(this.sortOrder, this.headerField, event['__agGridEventPath'])
+            }
+          }
+          if (this.clickOnHeader == 1) {
+            var errow_up = document.createElement("SPAN")
+            errow_up.setAttribute("id", e.getAttribute("col-id"));
+            errow_up.setAttribute("style", "display: block");
+            var errow_up_icon = document.createElement("I")
+            errow_up_icon.setAttribute("class", "fa fa-long-arrow-down");
+            var aa = e.appendChild(errow_up);
+            aa.appendChild(errow_up_icon);
+            this.oldArrow = errow_up
+            this.sortOrder = 'DESC'
+            this.headerField = e.getAttribute("col-id");
+            if (iconClass != 'fa fa-bars' && iconClass != 'filterinput') {
+              console.log('iconClass=+++.', iconClass)
+              this.sortGridbyApi(this.sortOrder, this.headerField, event['__agGridEventPath'])
+            }
+          }
+          if (this.clickOnHeader == 2) {
+            this.sortOrder = 'null';
+            this.headerField = 'null'
+            console.log('sdsds=+>', this.agheader)
+            if (iconClass != 'fa fa-bars' && iconClass != 'filterinput') {
+              console.log('iconClass=+++.', iconClass)
+              this.sortGridbyApi(this.sortOrder, this.headerField, event['__agGridEventPath'])
+            }
+          }
+        }
+        this.clickOnHeader = this.clickOnHeader + 1;
+        if (this.clickOnHeader == 3) {
+          this.clickOnHeader = 0;
+        }
+      })
+    });
+    document.querySelectorAll(".ag-header-cell").forEach((element) => {
+      var id = element.getAttribute("col-id")
+      console.log('col-id', id)
+      var filterIcon = document.createElement("SPAN")
+      var filteredIcon = document.createElement("SPAN")
+      filterIcon.setAttribute("style", "display: none");
+      filterIcon.setAttribute("id", 'serico' + element.getAttribute("col-id"));
+      filteredIcon.setAttribute("style", "display: none");
+      filteredIcon.setAttribute("id", 'filterd' + element.getAttribute("col-id"));
+      var filterIcon_icon = document.createElement("I")
+      var filteredIcon_icon = document.createElement("I")
+
+      filterIcon_icon.setAttribute("class", "fa fa-bars");
+      filteredIcon_icon.setAttribute("class", "fa fa-filter");
+
+      var aa = element.appendChild(filterIcon);
+      var bb = element.appendChild(filteredIcon);
+      aa.appendChild(filterIcon_icon);
+      bb.appendChild(filteredIcon_icon);
+
+      var filterDiv = document.createElement("DIV")
+      filterDiv.setAttribute("class", "search_text_default");
+      filterDiv.setAttribute("id", 'serinp' + element.getAttribute("col-id"));
+      filterDiv.setAttribute("style", "display: none");
+      this.oldSearchId = 'serinp' + element.getAttribute("col-id");
+      var filterInputBox = document.createElement("INPUT");
+      filterInputBox.setAttribute("placeholder", 'search text....')
+      filterInputBox.setAttribute("class", "filterinput")
+      this.fields.forEach(row => {
+        if (row.techName == id) {
+          if (row.type == 1) {
+            filterInputBox.setAttribute("type", "number")
+          }
+        }
+      }); var filteredIcon_hr = document.createElement("HR")
+      var dd = element.appendChild(filterDiv);
+
+      dd.appendChild(filterInputBox);
+      dd.appendChild(filteredIcon_hr);
+    });
+
+    ele.addEventListener("mouseover", event => {
+      event['path'].forEach(e => {
+        if (e && e.getAttribute && e.getAttribute("col-id")) {
+          document.querySelectorAll(".ag-header-cell").forEach((element) => {
+            var data = document.getElementById('serico' + element.getAttribute("col-id"));
+            data.setAttribute("style", "display: none")
+          });
+          var filterIcon_icon = document.getElementById('serico' + e.getAttribute("col-id"));
+          filterIcon_icon.setAttribute("style", "display: block");
+          filterIcon_icon.addEventListener("click", event => {
+            event['path'].forEach(e => {
+              if (e && e.getAttribute && e.getAttribute("col-id")) {
+                document.querySelectorAll(".ag-header-cell").forEach((element) => {
+                  var data = document.getElementById('serinp' + element.getAttribute("col-id"));
+                  data.setAttribute("style", "display: none")
+                });
+                var singleInput = document.getElementById('serinp' + e.getAttribute("col-id"))
+                this.openedSearchedBoxId = 'serinp' + e.getAttribute("col-id");
+                singleInput.setAttribute("style", "display: block")
+                singleInput.addEventListener("keyup", event => {
+                  console.log(e.getAttribute("col-id"))
+                  var filrtedtext = document.getElementById('filterd' + e.getAttribute("col-id"))
+                  filrtedtext.setAttribute("style", "display: block")
+                  var techename = e.getAttribute("col-id");
+                  this.searchedValue = event.target['value']
+                  this.filterGridbyApi(techename);
+                })
+              }
+            })
+          })
+
+        }
+      })
+    });
+
+    var elim = document.getElementsByClassName("ag-row")[0]
+    elim.addEventListener("click", event => {
+      console.log('ddajh')
+      document.querySelectorAll(".ag-header-cell").forEach((element) => {
+        var data = document.getElementById('serinp' + element.getAttribute("col-id"));
+        data.setAttribute("style", "display: none")
+      });
+    })
+    var agHeader = document.getElementsByClassName("ag-header-select-all")[0]
+    agHeader.addEventListener("click", event => {
+      this.agheader = true;
+      this.agHeaderCheckbox = true;
+    })
   }
 
   ngOnInit() {
     this.ongetItemsByProjectWithPagination(this.pageNo);
+    this.countItemsByProject();
     // this.getItems()
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
-
       fields.forEach(field => {
         if (!localStorage.getItem('gridHeader')) {
           if (field.type == 3) {
@@ -85,7 +254,7 @@ export class ItemsListComponent implements OnInit {
               field: field.techName,
               editable: true,
               resizable: true,
-              cellEditor: "datePicker"
+              cellEditor: "datePicker",
             });
             this.components = { datePicker: this.getDatePicker() };
 
@@ -99,15 +268,35 @@ export class ItemsListComponent implements OnInit {
               cellEditor: "agSelectCellEditor",
               cellEditorParams: {
                 values: field.optionsForSelect
+              },
+            });
+          }
+          if (field.type == 1) {
+            this.itemCulomns.push({
+              headerName: field.label,
+              field: field.techName,
+              type: 'number',
+              editable: true,
+              resizable: true,
+              valueGetter: function (params) {
+                return params.data[field.techName];
+              },
+              valueSetter: function (params) {
+                if (params.data[field.techName] !== params.newValue) {
+                  params.data[field.techName] = parseInt(params.newValue);
+                  return true;
+                } else {
+                  return false;
+                }
               }
             });
           }
-          if(field.type!=5 && field.type!=3 ){
+          if (field.type != 5 && field.type != 3 && field.type != 1) {
             this.itemCulomns.push({
               headerName: field.label,
               field: field.techName,
               editable: true,
-              resizable: true
+              resizable: true,
             });
           }
         } else {
@@ -155,20 +344,22 @@ export class ItemsListComponent implements OnInit {
     // console.log('this.itemCulomns=>', this.itemCulomns)
     this.defaultColDef = {
       width: 150,
-      sortable: true,
-      bSortable: false,
-      filter: true,
+      // sortable: true,
+      //  bSortable: false,
+      // filter: true,
       resizeable: true,
-      editable: true
+      editable: true,
     };
     this.rowSelection = "multiple";
-    // this.autoGroupColumnDef = { width: 150 };
+    this.autoGroupColumnDef = {
+
+    };
     // this.rowModelType = "serverSide";
     // this.setheaderEliment()
     localStorage.setItem('pdata', 'true')
     // document.getElementById('popupid').hidden = true
-
   }
+
   itemsSelectionshow() {
     var popupVisi1 = document.getElementById('popupid')
     popupVisi1.hidden = false
@@ -183,34 +374,100 @@ export class ItemsListComponent implements OnInit {
     this.ongetItemsByProjectWithPagination(this.pageNo);
   }
 
+  countItemsByProject() {
+    this.itemsService
+      .countItemsByProject(this.projectId)
+      .subscribe((count: any) => {
+        this.TotalItems = count;
+        this.totalPage = Math.ceil(this.TotalItems / 100);
+      });
+  }
+
   ongetItemsByProjectWithPagination(pageNo) {
     var data = {
       filter: [
         {
-          techName: "TEXT1",
-          value: "puneet"
+          techName: "",
+          value: ""
+
         }
       ],
       sort: {
-        techName: "TEXT1",
-        direction: "desc"
+        techName: "",
+        direction: ""
       }
     }
     this.itemsService
       .ongetItemsByProjectWithPagination(this.projectId, data, pageNo)
       .subscribe((items: any) => {
         this.items = items;
+        this.countPaginetionValues();
+        // if(this.showAllCheckBox == true){
+        //   document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+        //     element.setAttribute("style", "display: block");
+        //   })
+        // }
       });
+
   }
   onSelectionChanged(event) {
-    // console.log("Event==>",event);
-    // console.log("GRID==>",this.gridRows);
+    console.log('event=====++++>', event)
+    //    /******************************************************************/
+    //   document.getElementById('popupid').hidden = false
+    //   //if (event.node.selected == true && this.conditiononselect == false) {
+    //   if (event.node.selected == true) {
+
+    //     // console.log("Current page==>>", this.pageNo);
+    //     // console.log("Pagessss==>>", this.RowIndex);
+    //     //if(this.pageNo < this.RowIndex.length){
+    //       if (this.RowIndex.findIndex(x => x.rowID == event.data._id) <= -1){
+    //      //   console.log("INDEX IFFF======>>>>>>>>>",this.RowIndex.findIndex(x => x.rowID == event.data._id));
+    //         this.SelectedRowData.push(event.data)
+    //        }else{
+    //  //        console.log("INDEX ELSE======>>>>>>>>>",this.RowIndex.findIndex(x => x.rowID == event.data._id));
+    //        }
+    //       // this.SelectedRowData.push(event.data)
+    //     //}
+
+    //     this.noOfSelectedRows = this.SelectedRowData.length
+    //   }
+    //   if (event.node.selected == false && ) {
+    // //    console.log('remove_array_element=++>')
+    //     this.remove_array_element(this.SelectedRowData, event.data)
+    //   }
+
+
+    /******************************************************************/
+
+    document.getElementById('popupid').hidden = false
+
+    var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
+    if (idx > -1) {
+      //  console.log('(idx > -1===++++>', )
+      if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
+        //    console.log('(idx > -1include' )
+
+        if (event.node.selected == false) {
+          //       console.log('(splice' )
+
+          this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
+        }
+      } else {
+        this.RowIndex[idx].rowIndex.push(event.rowIndex);
+      }
+
+    } else {
+      this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
+    }
+    //  console.log('====RowIndex==========>',this.RowIndex)
+    // localStorage.setItem('RowIndex', JSON.stringify(this.RowIndex))
     this.gridRows = '';
     this.gridRows = event.api.rowModel.rowsToDisplay;
+    if (this.pageNo == 1) {
+      localStorage.setItem('gridRows', this.gridRows);
+    }
     if (this.gridRows.findIndex(x => x.selected == true) > -1) {
-      // console.log('11111');
       this.showAllCheckBox = true;
-      // console.log(this.gridRows);
       var d = this.gridRows.filter(x => x.selected == true);
       this.selectedRows = d ? d.length : 0;
       document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
@@ -218,42 +475,63 @@ export class ItemsListComponent implements OnInit {
       })
     } else {
       if (this.notreffress == true) {
-        // console.log('111121212121');
         if (this.gridRows.findIndex(x => x.selected == false) > -1) {
-          // console.log('2222222');
           this.showAllCheckBox = true;
           var d = this.gridRows.filter(x => x.selected == false);
           this.selectedRows = d ? d.length : 0;
           document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
             element.setAttribute("style", "display: block");
           })
-        } else {
-          // console.log('333333');
         }
       } else {
-        // console.log('4444444');
         this.selectedRows = 0;
         this.showAllCheckBox = false;
-        document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-          element.setAttribute("style", "display: none");
-        })
+        if (this.SelectedRowData.length == 0) {
+          document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+            element.setAttribute("style", "display: none");
+          })
+        } else {
+          document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+            element.setAttribute("style", "display: block");
+          })
+        }
       }
+    }
+    if (event.node.selected == true) {
+      const result = this.SelectedRowData.find(elim => elim._id === event.data._id);
+      // const result1 = this.SelectedRowData.find(elim => elim.order ===event.data.order);
+      // console.log('result1=>', result1)  
+      // console.log('this.SelectedRowData=>', this.SelectedRowData)
+      // console.log('event.ssdata==+++>',event.data )
+      if (result == undefined && result != event.data.order) {
+        this.SelectedRowData.push(event.data)
+        this.noOfSelectedRows = this.SelectedRowData.length
+      }
+      console.log(' this.SelectedRowData=>', this.SelectedRowData)
+    }
+    if (event.node.selected == false) {
+      console.log('event.data=+++>', event.data)
+      this.remove_array_element(this.SelectedRowData, event.data)
 
     }
+
   }
 
   oncellMouseOver(event) {
     if (!this.showAllCheckBox) {
-      // if (!this.showAllCheckBox && event.event.target.firstElementChild && event.event.target.firstElementChild.className == "ag-cell-wrapper") {
-      document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-        element.setAttribute("style", "display: none");
-      });
+      if (this.SelectedRowData.length == 0) {
+        document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+          element.setAttribute("style", "display: none");
+        });
+      }
+
       document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
       var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
       if (data) {
         data.setAttribute("style", "display: block");
       }
     }
+
   }
   action(event) {
     if (event == "copy") {
@@ -262,33 +540,29 @@ export class ItemsListComponent implements OnInit {
   }
 
   onrowSelected(event) {
-    document.getElementById('popupid').hidden = false
-    if (event.node.selected == true) {
-      this.SelectedRowData.push(event.data)
-      this.noOfSelectedRows = this.SelectedRowData.length
-    }
-    if (event.node.selected == false) {
-      this.remove_array_element(this.SelectedRowData, event.data)
-    }
+
   }
 
 
   remove_array_element(array, n) {
-    var index = array.indexOf(n);
+    var index = this.SelectedRowData.indexOf(n);
     if (index > -1) {
-      array.splice(index, 1);
+      this.SelectedRowData.splice(index, 1);
+    } else {
+      var indx = this.SelectedRowData.indexOf(n);
+      this.SelectedRowData.splice(indx, 1);
     }
-    return array;
+    // this.SelectedRowData =[]
+
+    return this.SelectedRowData;
   }
 
   getLatestitem(e) {
     this.getItems();
-    // this.onGridReady(this.ongridEventData) 
     this.notreffress = true
     this.SelectedRowData = []
     if (this.notreffress == true) {
       if (this.gridRows.findIndex(x => x.selected == false) > -1) {
-
         this.showAllCheckBox = false;
         var d = this.gridRows.filter(x => x.selected == false);
         this.selectedRows = d ? d.length : 0;
@@ -323,14 +597,26 @@ export class ItemsListComponent implements OnInit {
     this.dbclicked = false;
     localStorage.setItem('pdata', 'true')
     var data
+    console.log(event)
     Object.keys(event.data).forEach((key, index) => {
       if (event.data[key] == event.newValue) {
-        data = {
-          _id: event.data._id,
-          projectId: event.data.projectId,
+        if (event.colDef.cellEditor) {
+          let date = new Date(event.newValue);
+          data = {
+            _id: event.data._id,
+            projectId: event.data.projectId,
+          }
+          data[key] = date
+        } else {
+          data = {
+            _id: event.data._id,
+            projectId: event.data.projectId,
+          }
+          data[key] = event.newValue;
         }
-        data[key] = event.newValue;
+
       }
+      // console.log('data=+++>', data)
       if (event.oldValue != event.newValue) {
         this.itemsService
           .editItemByProject(data)
@@ -356,25 +642,7 @@ export class ItemsListComponent implements OnInit {
     this.move(this.itemCulomns, index, event.toIndex)
     localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
     this.ngOnInit()
-    // this.setheaderEliment()
   }
-  // setheaderEliment(){
-  //   for(let i=0;this.itemCulomns.length;i++){
-  //     if(i == 0){
-  //       this.columnLoaded = true;
-  //       this.itemCulomns[i]["headerCheckboxSelection"] = true;
-  //       // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
-  //       this.itemCulomns[i]["checkboxSelection"] = true;
-  //       this.itemCulomns[i]["rowDrag"] = true;
-  //     }else{
-  //       this.columnLoaded = true;
-  //       this.itemCulomns[i]["headerCheckboxSelection"] = false;
-  //       // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
-  //       this.itemCulomns[i]["checkboxSelection"] = false;
-  //       this.itemCulomns[i]["rowDrag"] = false
-  //     }
-  //   }
-  // }
   move(arr, old_index, new_index) {
     while (old_index < 0) {
       old_index += arr.length;
@@ -480,7 +748,9 @@ export class ItemsListComponent implements OnInit {
       sortable: true,
       filter: true,
       resizeable: true,
-      editable: true
+      editable: true,
+
+
     };
     this.rowSelection = "multiple";
     this.ngOnInit()
@@ -516,23 +786,133 @@ export class ItemsListComponent implements OnInit {
     return Datepicker;
   }
 
-  onsortChanged(event) {
-    console.log('event of short change----------__>', event)
-  }
-  getSort(event) {
-
-  }
-
   moveToNext() {
-    this.pageNo = this.pageNo + 1;
-    this.ongetItemsByProjectWithPagination(this.pageNo)
+    this.datainarry = false;
+    if (this.pageNo < this.totalPage) {
+      console.log(this.showAllCheckBox)
+      this.pageNo = this.pageNo + 1;
+      this.ongetItemsByProjectWithPagination(this.pageNo)
+      // if(this.showAllCheckBox){
+      //   document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+      //     element.setAttribute("style", "display: block");
+      //   });
+      // }
+    }
   }
   moveToPrivious() {
-    this.pageNo = this.pageNo - 1;
-    this.ongetItemsByProjectWithPagination(this.pageNo)
+    this.datainarry = false;
+
+    if (this.pageNo > 1) {
+      this.pageNo = this.pageNo - 1;
+      this.ongetItemsByProjectWithPagination(this.pageNo)
+    }
   }
   moveToPageNo(pageNo) {
     this.pageNo = parseInt(pageNo);
     this.ongetItemsByProjectWithPagination(this.pageNo)
+
+
+  }
+  countPaginetionValues() {
+    this.itemFrom = this.ItemTO + 1;
+    this.ItemTO = this.ItemTO + this.items.length
+  }
+
+  onrowsAfterSort(event) {
+    var data = event.event.api.forEachNodeAfterFilterAndSort();
+  }
+
+  sortGridbyApi(sortOrder, headerField, agGridEventPath) {
+    document.querySelectorAll(".ag-header-cell").forEach((element) => {
+      var data = document.getElementById('serinp' + element.getAttribute("col-id"));
+      data.setAttribute("style", "display: none")
+    });
+    var data = {
+      filter: [
+        {
+          techName: "",
+          value: ""
+
+        }
+      ],
+      sort: {
+        techName: headerField,
+        direction: sortOrder
+      }
+    }
+    if (!agGridEventPath) {
+      this.itemsService
+        .ongetItemsByProjectWithPagination(this.projectId, data, this.pageNo)
+        .subscribe((items: any) => {
+          this.items = items;
+          this.agHeaderCheckbox = false;
+        });
+    }
+
+  }
+
+  filterGridbyApi(techname) {
+
+    var data = {
+      filter: [
+        {
+          techName: techname,
+          value: this.searchedValue
+
+        }
+      ],
+      sort: {
+        techName: "",
+        direction: ""
+      }
+    }
+
+    this.itemsService
+      .ongetItemsByProjectWithPagination(this.projectId, data, this.pageNo)
+      .subscribe((items: any) => {
+        this.items = items;
+      });
+  }
+
+  onrowDataChanged(event) {
+    console.log('onrowDataChanged====+++>')
+    if (this.SelectedRowData.length == 0) {
+      document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
+        element.setAttribute("style", "display: none");
+      })
+    } else {
+      document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
+        element.setAttribute("style", "display: block");
+      })
+    }
+
+    this.gridRows = event.api.rowModel.rowsToDisplay;
+    if (this.RowIndex) {
+      this.datainarry = true
+      console.log('in if======1=++++>', this.RowIndex)
+      this.RowIndex.forEach((row, i) => {
+        if (row.page == this.pageNo) {
+          //console.log('in if==2+>')
+          event.api.forEachNode(function (rowNode, index) {
+            // console.log('forEachNode+>',row.rowIndex)
+            var idx = index
+            for (let a = 0; a < row.rowIndex.length; a++) {
+              if (idx == row.rowIndex[a]) {
+                console.log('row.rowID=+++++++++>', row.rowID)
+                rowNode.setSelected(true);
+              }
+            }
+          });
+        }
+      })
+    }
+    //  });
+  }
+
+  oncellClicked(e) {
+    document.querySelectorAll(".ag-header-cell").forEach((element) => {
+      var data = document.getElementById('serinp' + element.getAttribute("col-id"));
+      data.setAttribute("style", "display: none")
+    });
   }
 }

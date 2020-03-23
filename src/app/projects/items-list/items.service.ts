@@ -112,12 +112,17 @@ export class ItemsService {
     return this.httpClient.post<any>(`${environment.apiUrl}/item/delete-comment`, data);
   }
   public ongetItemsByProjectWithPagination(projectId,data,pageNO) {
-    console.log('data in server=====+>',data)
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     };
-    return this.httpClient.get<any>(`${environment.apiUrl}/item/project/`+ projectId+'/pageNumber/'+pageNO+'/itemsPerPage/100', data);
+    return this.httpClient.post<any>(`${environment.apiUrl}/item/project/`+ projectId+'/pageNumber/'+pageNO+'/itemsPerPage/100', data);
   }
   
+    public countItemsByProject(id) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.get<any>(`${environment.apiUrl}/item/total/project/`+id,);
+  }
   
 }
