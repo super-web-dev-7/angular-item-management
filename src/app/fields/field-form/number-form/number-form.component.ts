@@ -1,6 +1,6 @@
 import { Component, OnInit, SimpleChanges, SimpleChange, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IField, IFieldOptions } from '../../../../models/IField';
+import { IField, IFieldOptions } from '../../../models/field.model';
 
 @Component({
   selector: 'app-number-form',

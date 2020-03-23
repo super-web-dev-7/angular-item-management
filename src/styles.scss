@@ -5,14 +5,14 @@ $ag-accent-color: #FFD740; // amber-A200
 
 @import '../node_modules/ag-grid-community/src/styles/ag-grid.scss';
 @import '../node_modules/ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material.scss';
-.modal .modal-dialog.modal-sm {
+.modal .modal-dialog.modal-sm.selection-popup {
     margin: 0!important;
     position: absolute!important;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%)!important;
 }
-bs-modal-backdrop.modal-backdrop.fade.in.show {
+bs-modal-backdrop.modal-backdrop.fade.in.show.selection-popup {
     opacity: 0;
 }
 .modal-dialog.modal-sm.selection-popup { 

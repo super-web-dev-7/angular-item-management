@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output, OnDestroy, ViewChild, Input } 
 import { FieldService } from '../../field.service';
 import { Subscription } from 'rxjs';
 import { FieldsListComponent } from '../../fields-list/fields-list.component';
-import { IField } from '../../../../models/IField';
+import { IField } from '../../../models/field.model';
 
 @Component({
   selector: 'app-existing-field-select',

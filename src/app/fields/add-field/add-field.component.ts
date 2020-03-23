@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { ModalComponent } from '../../common/modal/modal.component';
 import { CreateFieldComponent } from './create-field/create-field.component';
-import { IField } from '../../../models/IField';
+import { IField } from '../../models/field.model';
 
 @Component({
   selector: 'app-add-field',

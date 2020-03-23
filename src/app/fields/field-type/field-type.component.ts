@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FieldType } from '../../../models/FieldType';
+import { FieldType } from '../../models/FieldType';
 
 @Component({
   selector: 'app-field-type',

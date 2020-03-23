@@ -1,10 +1,10 @@
 import { Component, OnInit, SimpleChanges, SimpleChange, Input, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalComponent } from '../../common/modal/modal.component';
-import { IField } from '../../../models/IField';
+import { IField } from '../../models/field.model';
 import { FieldService } from '../field.service';
 import { ModalPosition } from '../../common/modal/ModalPosition';
-import { FieldType } from '../../../models/FieldType';
+import { FieldType } from '../../models/FieldType';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 

@@ -62,8 +62,9 @@ import {AuthInterceptor} from './auth/auth-interceptor';
 import {pgCardSocial} from './@pages/components/card-social/card-social.component';
 import {BlankComponent} from './@pages/layouts/blank/blank.component';
 import {RootLayout} from './@pages/layouts/root/root.component';
-import { ModalComponent } from './common/modal/modal.component';
-import { FormModule } from './common/form/form.module';
+import { StoreModule } from '@ngrx/store';
+import { ProjectTypeReducer } from './store/reducers/project-type.reducer';
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
 };
@@ -113,8 +114,11 @@ export class AppHammerConfig extends HammerGestureConfig {
         TypeaheadModule.forRoot(),
         pgTabsModule,
         PerfectScrollbarModule,
-        pgSwitchModule,
-        QuillModule.forRoot()
+        pgSwitchModule,   
+        QuillModule.forRoot(),
+    StoreModule.forRoot({
+      projectType: ProjectTypeReducer
+    }),
     ],
     providers: [QuickviewService, pagesToggleService, {
         provide: PERFECT_SCROLLBAR_CONFIG,

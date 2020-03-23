@@ -1,11 +1,11 @@
 import { FieldType } from './FieldType';
 
 export interface IField {
-    _id: string;
-    label: string;
-    type: FieldType;
-    options: IFieldOptions;
-    affectedFields: any[];
+    _id?: string;
+    label?: string;
+    type?: FieldType;
+    options?: IFieldOptions;
+    affectedFields?: any[];
 }
 
 export interface IFieldOptions {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, ViewChild, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
 import { TypeRendererComponent } from './cell-renderer/type-renderer.component';
 import { AgGridAngular } from 'ag-grid-angular';
-import { IField } from '../../../models/IField';
+import { IField } from '../../models/field.model';
 import { GridOptions } from 'ag-grid-community';
 
 @Component({

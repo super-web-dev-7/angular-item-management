@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 
 import { FieldsListComponent } from './fields-list/fields-list.component';
-import { IField } from '../../models/IField';
+import { IField } from '../models/field.model';
 import { ProjectTypeService } from '../project-types/project-type.service';
 import { FieldFormComponent } from './field-form/field-form.component';
 import { AddFieldComponent } from './add-field/add-field.component';
@@ -26,7 +26,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
 
   private createdFielsSubscription;
   private fields: IField[];
-  private fieldsMap: {[id: string]: IField}
+  private fieldsMap: {[id: string]: IField};
   public filterQuery = '';
 
   constructor(
@@ -35,18 +35,18 @@ export class FieldsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.projectTypesService.getFieldsByProjectType(this.projectTypeId).subscribe((
       (fields: IField[]) => {
-        console.log(fields);
         this.fields = fields;
-        this.initFieldsMap(this.fields);
+        this.fieldsMap = this.createFieldsMap(this.fields);
       })
     );
   }
 
-  private initFieldsMap(fields) {
-    this.fieldsMap = {};
+  private createFieldsMap(fields) {
+    let fieldsMap = {};
     fields.forEach((field: IField) => {
-      this.fieldsMap[field._id] = field;
+      fieldsMap[field._id] = field;
     });
+    return fieldsMap;
   }
 
    openForm(field: IField) {

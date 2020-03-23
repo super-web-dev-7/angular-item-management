@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IField } from '../../../../models/IField';
+import { IField } from '../../../models/field.model';
 import { FieldService } from '../../field.service';
 
 @Component({

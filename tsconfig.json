@@ -1,7 +1,10 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "baseUrl": "./src",
+    "paths": {
+      "@app/*": ["app/*"],
+      "@store/*": ["app/store/*"]
+    },
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -14,6 +17,6 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
   }
 }
