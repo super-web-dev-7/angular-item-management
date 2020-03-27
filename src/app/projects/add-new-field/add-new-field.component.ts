@@ -15,7 +15,7 @@ export class AddNewFieldComponent implements OnInit {
   @Input() fields;
   @Input() fieldTypeWithNo
   @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
-  @Output() calloninit: EventEmitter<any> = new EventEmitter();
+  @Output() getfilelds: EventEmitter<any> = new EventEmitter();
 
 
   filteredType = [];
@@ -34,10 +34,8 @@ export class AddNewFieldComponent implements OnInit {
     this.newItemPopup.show();
     let x = this.fieldType.filter((v, i) => this.fieldType.indexOf(v) === i)
     this.fieldType = x
-    console.log(this.fieldTypeWithNo)
   }
   getFieldType(event) {
-    console.log(event)
     this.SelectedfieldType = event.target.value;
   }
 
@@ -57,7 +55,7 @@ export class AddNewFieldComponent implements OnInit {
       .addField(data)
       .subscribe((result: any) => {
         if (result) {
-          this.calloninit.emit();
+          this.getfilelds.emit();
         }
       });
       this.newItemPopup.hide()

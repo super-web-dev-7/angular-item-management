@@ -16,7 +16,6 @@ export class BottomItemSelectComponent implements OnInit {
   }
 
   show() {
-    console.log('selectedPopup')
     this.selectedPopup.show();
   }
 }

@@ -619,7 +619,7 @@ export class pgSliderComponent implements ControlValueAccessor, OnInit, OnChange
   log(...messages: any[]): void {
     if (this.DebugId !== null) {
       const args = [ `[pg-slider][#${this.DebugId}] ` ].concat(Array.prototype.slice.call(arguments));
-      console.log.apply(null, args);
+      // console.log.apply(null, args);
     }
   }
 

@@ -124,13 +124,11 @@ export class EditSingleItemComponent implements OnInit {
         this.data[item] = this[item];
       }
     });
-    console.log(this.SelectedSingleRowData)
     this.data["_id"] = this.SelectedSingleRowData['_id']
     this.data["projectId"] = this.SelectedSingleRowData['projectId']
     this.itemsService
       .editItemByProject(this.data)
       .subscribe(result => {
-        console.log('projectId')
         this.getLatestitem.emit();
       });
     // this.newItemPopup.hide()

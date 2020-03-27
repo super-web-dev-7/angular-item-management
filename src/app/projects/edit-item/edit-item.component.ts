@@ -70,7 +70,6 @@ export class EditItemComponent implements OnInit {
     for (let i = 0; i < this.SelectedRowData.length; i++) {
       data['itemIds'].push(this.SelectedRowData[i]._id)
     }
-    console.log('=+++++++++++?',data)
     this.itemsService
       .editItemByProject(data)
       .subscribe(result => {

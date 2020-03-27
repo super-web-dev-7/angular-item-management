@@ -223,7 +223,7 @@ export class RootLayout implements OnInit,OnDestroy {
   *   @description Open Secondary Sidebar on Mobile - Service
   */
   toggleSecondarySideBar(){
-    console.log("hi")
+    // console.log("hi")
     this._secondarySideBar = (this._secondarySideBar == true ? false : true);
     this.toggler.toggleSecondarySideBar(this._secondarySideBar);
   }

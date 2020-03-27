@@ -44,7 +44,6 @@ export class NewItemComponent implements OnInit {
       }
     });
     this.data["projectId"] = this.projectId;
-    console.log(this.data);
     this.itemsService
       .newItemByProject(this.projectId, this.data)
       .subscribe(result => {

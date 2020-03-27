@@ -38,6 +38,7 @@ export class ItemsSelectionComponent implements OnInit {
   SelectedSingleRowData;
   copyDataLengthcount = 0
   afterPastPageNotReffress = false
+  pastetype = ''
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService
@@ -46,6 +47,7 @@ export class ItemsSelectionComponent implements OnInit {
   }
   ngOnInit() {
     this.copyDataLength = JSON.parse(localStorage.getItem('copydata'));
+    this.pastetype= localStorage.getItem('pastetype')
     if(this.copyDataLength){
       this.copyDataLengthcount = this.copyDataLength.length
     }
@@ -140,7 +142,6 @@ export class ItemsSelectionComponent implements OnInit {
   }
 
   deleteItems() {
-    console.log(this.SelectedRowData)
     var data1 =
     {
       itemIds: []

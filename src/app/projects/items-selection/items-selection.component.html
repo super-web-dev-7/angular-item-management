@@ -16,7 +16,9 @@
                   <p (click)="deleteItems()">Delete</p>
                 </div>
                 <div *ngIf="copyDataLengthcount > 0 " class="custom-popup-button line">
-                  <h5 class="text-primary ">Number of rows Copied : {{copyDataLengthcount}}</h5>
+                  <h5 class="text-primary" *ngIf="pastetype == 'copy'">Number of rows Copied : {{copyDataLengthcount}}</h5>
+                  <h5 class="text-primary" *ngIf="pastetype == 'cut'">Number of rows Cut : {{copyDataLengthcount}}</h5>
+
                   <p (click)="paste()">Paste</p>
                 </div>
               </div>

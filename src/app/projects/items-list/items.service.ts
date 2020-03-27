@@ -61,7 +61,7 @@ export class ItemsService {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     };
-    return this.httpClient.delete<any>(`${environment.apiUrl}/item/mass-delete`, data,);
+    return this.httpClient.post<any>(`${environment.apiUrl}/item/mass-delete`, data,);
   }
   public deleteSingleItemByid(id) {
     const headers = {

@@ -77,6 +77,6 @@ export class SearchOverlayComponent implements OnDestroy {
   }
 
   fadeInComplete(){
-    console.log("compelete")
+    // console.log("compelete")
   }
 }
