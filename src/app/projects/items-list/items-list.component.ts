@@ -421,7 +421,6 @@ export class ItemsListComponent implements OnInit {
   }
 
   onSelectionChanged(event) {
-    //console.log(event);
     document.getElementById('popupid').hidden = false
 
     var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
@@ -537,16 +536,13 @@ export class ItemsListComponent implements OnInit {
     this.notreffress = true
     this.SelectedRowData = []
     if (this.notreffress == true) {
-      console.log( e );
       if( e == 'delete'){
         var truerows = this.gridRows.findIndex(x => x.selected == true);
-        //console.log(truerows);
         //truerows.each(row => {
           this.gridRows[truerows].selected = false;
         //});
         this.RowIndex = [];
       }
-      //console.log(this.gridRows);
       if (this.gridRows.findIndex(x => x.selected == false) > -1) {
         this.showAllCheckBox = false;
         var d = this.gridRows.filter(x => x.selected == false);
@@ -653,6 +649,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   getfilelds(e) {
+       //////////////////  this code is not removable becouse it is refress the grid header please dont remove that./////////////
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
       fields.forEach(field => {
@@ -878,9 +875,7 @@ export class ItemsListComponent implements OnInit {
       this.datainarry = true
       this.RowIndex.forEach((row, i) => {
         if (row.page == this.pageNo) {
-          //console.log('in if==2+>')
           event.api.forEachNode(function (rowNode, index) {
-            // console.log('forEachNode+>',row.rowIndex)
             var idx = index
             for (let a = 0; a < row.rowIndex.length; a++) {
               if (idx == row.rowIndex[a]) {
@@ -902,9 +897,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   cleanCheckboxes(e){
-    console.log('helllo');
       this.gridRows.forEach((row, i) => {
-        console.log(row);
         row.setSelected(false);   
       })
     

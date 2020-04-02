@@ -207,7 +207,6 @@ export class pgTimePickerInnerComponent implements OnInit, ControlValueAccessor 
     this._format = value;
     this._formats = this._format.split(":");
     this._selectedHour =  parseInt(moment(this._now).format(this._formats[0]));
-    // console.log(this._selectedHour)
     this._showHour = this._formats.length >= 1;
     this._showMinute = this._formats.length >= 2;
     this._showSecond = this._formats.length >= 3;

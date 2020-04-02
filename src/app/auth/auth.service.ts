@@ -43,7 +43,6 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    // console.log("To login");
     const authData: AuthData = { email: email, password: password };
     this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
@@ -52,7 +51,6 @@ export class AuthService {
       )
       .subscribe(
         response => {
-          // console.log(response);
           const token = response.token;
           if (token) {
             const expiresInDuration = response.expiresIn;
