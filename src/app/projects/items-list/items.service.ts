@@ -41,6 +41,16 @@ export class ItemsService {
       });
     }
   }
+
+  public editMassItemByProject(data) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    };
+    return this.httpClient.put<any>(`${environment.apiUrl}/item/mass`, data, {
+      headers
+    });
+  }
+
   public editItemByProject(data) {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`

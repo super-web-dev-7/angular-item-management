@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, Output } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap";
 import { ItemsService } from "../items-list/items.service";
+import { EventEmitter } from "@angular/core";
 
 @Component({
   selector: "app-new-item",
@@ -14,6 +15,7 @@ export class NewItemComponent implements OnInit {
   @Input() fieldName;
   @Input() fields;
   @Input() fieldslable;
+  @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
 
   
   [key: string]: any;

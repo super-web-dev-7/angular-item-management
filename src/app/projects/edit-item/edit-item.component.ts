@@ -71,7 +71,7 @@ export class EditItemComponent implements OnInit {
       data['itemIds'].push(this.SelectedRowData[i]._id)
     }
     this.itemsService
-      .editItemByProject(data)
+      .editMassItemByProject(data)
       .subscribe(result => {
         this.callgetLatestitem.emit(result);
       });
