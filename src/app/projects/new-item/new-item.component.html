@@ -27,7 +27,7 @@
                 <label class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
                 <div class="col-sm-8" >
                   <div *ngIf="itemType == 'select'">
-                  <select id="select"  (change)="onChangeSelectValue($event)"  class="form-control"
+                  <select id="select"   (change)="onChangeSelectValue($event)"  class="form-control newItemFields"
                   [name]="fieldName[itemId]" >
                     <option *ngFor="let field of fields[itemId].optionsForSelect">
                       {{field}}
@@ -36,9 +36,10 @@
                   </select>
                 </div>
                 <div *ngIf="itemType !== 'select'">
-                  <input                                 
+                  <input  
+                                              
                     [type]="itemType"
-                    class="form-control"
+                    class="form-control newItemFields"
                     [name]="fieldName[itemId]"
                     (input)="onFieldValue($event)"
                   />

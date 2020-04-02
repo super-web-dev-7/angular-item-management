@@ -6,9 +6,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { _ } from "ag-grid-community";
 import { json } from "d3";
 import { JsonPipe } from "@angular/common";
-// import { AllModules } from "@ag-grid-enterprise/all-modules";
-// import "@ag-grid-community/all-modules/dist/styles/ag-grid.css";
-// import "@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css";
+
 @Component({
   selector: "app-items-list",
   templateUrl: "./items-list.component.html",
@@ -255,7 +253,7 @@ export class ItemsListComponent implements OnInit {
   ngOnInit() {
     this.ongetItemsByProjectWithPagination(this.pageNo);
     this.countItemsByProject();
-    // this.getItems()
+    
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
       fields.forEach(field => {
@@ -358,12 +356,10 @@ export class ItemsListComponent implements OnInit {
       }
 
     });
-    // console.log('this.itemCulomns=>', this.itemCulomns)
+    
+    
     this.defaultColDef = {
       width: 150,
-      // sortable: true,
-      //  bSortable: false,
-      // filter: true,
       resizeable: true,
       editable: true,
     };
@@ -371,10 +367,9 @@ export class ItemsListComponent implements OnInit {
     this.autoGroupColumnDef = {
 
     };
-    // this.rowModelType = "serverSide";
-    // this.setheaderEliment()
+    
     localStorage.setItem('pdata', 'true')
-    // document.getElementById('popupid').hidden = true
+    
   }
 
   itemsSelectionshow() {
@@ -382,6 +377,7 @@ export class ItemsListComponent implements OnInit {
     popupVisi1.hidden = false
     this.popupVisi = popupVisi1.hidden
   }
+
   getItems() {
     this.itemsService
       .getItemsByProject(this.projectId)
@@ -419,53 +415,19 @@ export class ItemsListComponent implements OnInit {
       .subscribe((items: any) => {
         this.items = items;
         this.countPaginetionValues();
-        // if(this.showAllCheckBox == true){
-        //   document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-        //     element.setAttribute("style", "display: block");
-        //   })
-        // }
+        
       });
 
   }
+
   onSelectionChanged(event) {
-    //    /******************************************************************/
-    //   document.getElementById('popupid').hidden = false
-    //   //if (event.node.selected == true && this.conditiononselect == false) {
-    //   if (event.node.selected == true) {
-
-    //     // console.log("Current page==>>", this.pageNo);
-    //     // console.log("Pagessss==>>", this.RowIndex);
-    //     //if(this.pageNo < this.RowIndex.length){
-    //       if (this.RowIndex.findIndex(x => x.rowID == event.data._id) <= -1){
-    //      //   console.log("INDEX IFFF======>>>>>>>>>",this.RowIndex.findIndex(x => x.rowID == event.data._id));
-    //         this.SelectedRowData.push(event.data)
-    //        }else{
-    //  //        console.log("INDEX ELSE======>>>>>>>>>",this.RowIndex.findIndex(x => x.rowID == event.data._id));
-    //        }
-    //       // this.SelectedRowData.push(event.data)
-    //     //}
-
-    //     this.noOfSelectedRows = this.SelectedRowData.length
-    //   }
-    //   if (event.node.selected == false && ) {
-    // //    console.log('remove_array_element=++>')
-    //     this.remove_array_element(this.SelectedRowData, event.data)
-    //   }
-
-
-    /******************************************************************/
-
+    //console.log(event);
     document.getElementById('popupid').hidden = false
 
     var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
     if (idx > -1) {
-      //  console.log('(idx > -1===++++>', )
       if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
-        //    console.log('(idx > -1include' )
-
         if (event.node.selected == false) {
-          //       console.log('(splice' )
-
           this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
         }
       } else {
@@ -475,13 +437,14 @@ export class ItemsListComponent implements OnInit {
     } else {
       this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
     }
-    //  console.log('====RowIndex==========>',this.RowIndex)
-    // localStorage.setItem('RowIndex', JSON.stringify(this.RowIndex))
+    
     this.gridRows = '';
     this.gridRows = event.api.rowModel.rowsToDisplay;
+
     if (this.pageNo == 1) {
       localStorage.setItem('gridRows', this.gridRows);
     }
+
     if (this.gridRows.findIndex(x => x.selected == true) > -1) {
       this.showAllCheckBox = true;
       var d = this.gridRows.filter(x => x.selected == true);
@@ -502,28 +465,27 @@ export class ItemsListComponent implements OnInit {
       } else {
         this.selectedRows = 0;
         this.showAllCheckBox = false;
-        if (this.SelectedRowData.length == 0) {
+        //if (this.SelectedRowData.length == 0) {
           document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
             element.setAttribute("style", "display: none");
           })
-        } else {
+        /*} else {
           document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
             element.setAttribute("style", "display: block");
           })
-        }
+        }*/
       }
     }
+
     if (event.node.selected == true) {
       const result = this.SelectedRowData.find(elim => elim._id === event.data._id);
-      // const result1 = this.SelectedRowData.find(elim => elim.order ===event.data.order);
-      // console.log('result1=>', result1)  
-      // console.log('this.SelectedRowData=>', this.SelectedRowData)
-      // console.log('event.ssdata==+++>',event.data )
+      
       if (result == undefined && result != event.data.order) {
         this.SelectedRowData.push(event.data)
         this.noOfSelectedRows = this.SelectedRowData.length
       }
     }
+
     if (event.node.selected == false) {
       this.remove_array_element(this.SelectedRowData, event.data)
 
@@ -547,6 +509,7 @@ export class ItemsListComponent implements OnInit {
     }
 
   }
+
   action(event) {
     if (event == "copy") {
       this.gridApi.copySelectedRowsToClipboard(false);
@@ -554,7 +517,6 @@ export class ItemsListComponent implements OnInit {
   }
 
   onrowSelected(event) {
-
   }
 
 
@@ -566,7 +528,6 @@ export class ItemsListComponent implements OnInit {
       var indx = this.SelectedRowData.indexOf(n);
       this.SelectedRowData.splice(indx, 1);
     }
-    // this.SelectedRowData =[]
 
     return this.SelectedRowData;
   }
@@ -576,6 +537,16 @@ export class ItemsListComponent implements OnInit {
     this.notreffress = true
     this.SelectedRowData = []
     if (this.notreffress == true) {
+      console.log( e );
+      if( e == 'delete'){
+        var truerows = this.gridRows.findIndex(x => x.selected == true);
+        //console.log(truerows);
+        //truerows.each(row => {
+          this.gridRows[truerows].selected = false;
+        //});
+        this.RowIndex = [];
+      }
+      //console.log(this.gridRows);
       if (this.gridRows.findIndex(x => x.selected == false) > -1) {
         this.showAllCheckBox = false;
         var d = this.gridRows.filter(x => x.selected == false);
@@ -593,8 +564,6 @@ export class ItemsListComponent implements OnInit {
   }
 
   onrowDragEnd(event) {
-    // console.log('event=====hghgg====>',event.node.data._id)
-   //console.log('event=====puneet====>',event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order)
 
     var data = {
       itemIds: [event.node.data._id],
@@ -656,6 +625,7 @@ export class ItemsListComponent implements OnInit {
     this.getShow.emit();
     localStorage.setItem('pdata', 'false')
   }
+
   oncolumnMoved(event) {
     const found = this.itemCulomns.find(element => element.headerName == event.column.userProvidedColDef.headerName);
     const index = this.itemCulomns.indexOf(found);
@@ -663,6 +633,7 @@ export class ItemsListComponent implements OnInit {
     localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
     this.ngOnInit()
   }
+
   move(arr, old_index, new_index) {
     while (old_index < 0) {
       old_index += arr.length;
@@ -771,28 +742,24 @@ export class ItemsListComponent implements OnInit {
 
      this.ngOnInit()
   }
+
   getDatePicker() {
-    // console.log('i am here')
+    
     function Datepicker() { }
     Datepicker.prototype.init = function (params) {
-      // console.log('Inside 1');
+      
       this.eInput = document.createElement("input");
       this.eInput.value = params.value;
-      // console.log("getDatePicker--->>", this.eInput);
       this.eInput.setAttribute('type', 'date');
-      //$(this.eInput).datepicker({ dateFormat: "dd/mm/yy" });
     };
     Datepicker.prototype.getGui = function () {
-      // console.log('Inside 2');
       return this.eInput;
     };
     Datepicker.prototype.afterGuiAttached = function () {
-      // console.log('Inside 3');
       this.eInput.focus();
       this.eInput.select();
     };
     Datepicker.prototype.getValue = function () {
-      // console.log('Inside 4');
       return this.eInput.value;
     };
     Datepicker.prototype.destroy = function () { };
@@ -807,13 +774,9 @@ export class ItemsListComponent implements OnInit {
     if (this.pageNo < this.totalPage) {
       this.pageNo = this.pageNo + 1;
       this.ongetItemsByProjectWithPagination(this.pageNo)
-      // if(this.showAllCheckBox){
-      //   document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-      //     element.setAttribute("style", "display: block");
-      //   });
-      // }
     }
   }
+
   moveToPrivious() {
     this.datainarry = false;
 
@@ -822,12 +785,14 @@ export class ItemsListComponent implements OnInit {
       this.ongetItemsByProjectWithPagination(this.pageNo)
     }
   }
+
   moveToPageNo(pageNo) {
     this.pageNo = parseInt(pageNo);
     this.ongetItemsByProjectWithPagination(this.pageNo)
 
 
   }
+
   countPaginetionValues() {
     this.itemFrom = this.ItemTO + 1;
     this.ItemTO = this.ItemTO + this.items.length
@@ -934,5 +899,14 @@ export class ItemsListComponent implements OnInit {
       var data = document.getElementById('serinp' + element.getAttribute("col-id"));
       data.setAttribute("style", "display: none")
     });
+  }
+
+  cleanCheckboxes(e){
+    console.log('helllo');
+      this.gridRows.forEach((row, i) => {
+        console.log(row);
+        row.setSelected(false);   
+      })
+    
   }
 }

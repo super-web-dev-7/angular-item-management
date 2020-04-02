@@ -27,6 +27,9 @@ export class NewItemComponent implements OnInit {
     this.fieldName.forEach(item => {
       this[item] = "";
     });
+    document.querySelectorAll(".newItemFields").forEach((element, index) => {
+      element.value = '';
+    })
     this.newItemPopup.show();
   }
 
@@ -47,7 +50,7 @@ export class NewItemComponent implements OnInit {
     this.itemsService
       .newItemByProject(this.projectId, this.data)
       .subscribe(result => {
-
+        this.getLatestitem.emit(result);
       });
     this.newItemPopup.hide();
   }

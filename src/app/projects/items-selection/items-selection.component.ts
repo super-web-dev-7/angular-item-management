@@ -19,6 +19,7 @@ export class ItemsSelectionComponent implements OnInit {
   @Input() SelectedRowData;
   @Input() fields;
   @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
+  @Output() cleanCheckboxes: EventEmitter<any> = new EventEmitter();
   copyData = []
   itemCulomns = [];
   itemFields;
@@ -57,19 +58,23 @@ export class ItemsSelectionComponent implements OnInit {
     this.selectedPopup.show();
     this.SelectedRowData
   }
+
   copyItems(val) {
     localStorage.setItem('pastetype', 'copy')
     this.copyData = this.SelectedRowData;
-
+    this.pastetype = 'copy';
     localStorage.setItem('copydata', JSON.stringify(this.copyData));
     this.copyDataLength = JSON.parse(localStorage.getItem('copydata'))
     this.copyDataLengthcount = this.copyDataLength.length
   }
+  
   cut() {
+    this.pastetype = 'cut';
     localStorage.setItem('pastetype', 'cut')
     this.copyData = this.SelectedRowData;
     localStorage.setItem('copydata', JSON.stringify(this.copyData));
     this.copyDataLength = JSON.parse(localStorage.getItem('copydata'))
+    this.copyDataLengthcount = this.copyDataLength.length
   }
 
   paste() {
@@ -149,6 +154,7 @@ export class ItemsSelectionComponent implements OnInit {
     for (let i = 0; i < this.SelectedRowData.length; i++) {
       data1['itemIds'].push(this.SelectedRowData[i]._id)
     }
+
     this.itemsService
       .deleteItemsByid(data1)
       .subscribe((result) => {
@@ -156,7 +162,8 @@ export class ItemsSelectionComponent implements OnInit {
           this.itemsService
             .getItemsByProject(this.projectId)
             .subscribe((items: any) => {
-              this.getLatestitem.emit();
+              this.getLatestitem.emit('delete');
+              
               this.SelectedRowData = []
               document.getElementById('popupid').hidden = true
 
@@ -207,6 +214,7 @@ export class ItemsSelectionComponent implements OnInit {
     }
     return array;
   }
+
   callgetLatestitem(e) {
     this.closePopup()
     this.getLatestitem.emit();
