@@ -113,3 +113,9 @@
     .recent-comment ul::-webkit-scrollbar {
         display: none;
     }
+    .recent-comment ul {
+        -ms-overflow-style: none;
+    }
+    .cz-p-text-style {
+        white-space: pre-wrap;
+    }

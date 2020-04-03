@@ -37,7 +37,8 @@
   [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)" (cellClicked)="oncellClicked($event)"
   (columnMoved)="oncolumnMoved($event)" (columnValueChanged)="oncolumnValueChanged($event)" [components]="components"
   [modules]="modules" [sortingOrder]="sortingOrder" (getSort)="getSort($event)" (getSortModel)="ongetSortModel($event)"
-  (rowsAfterSort)="onrowsAfterSort($event)" (dataStateChange)="dataStateChange($event)"  (rowDataChanged)="onrowDataChanged($event)"> 
+  (rowsAfterSort)="onrowsAfterSort($event)" (dataStateChange)="dataStateChange($event)" (dragStopped)="ondragStopped($event)"
+    (rowDataChanged)="onrowDataChanged($event)"> 
 </ag-grid-angular>
 <div class="cz_pagination">
   <!-- <span class="cz_grid_count_span "> {{this.itemFrom}} to {{this.ItemTO}} of {{this.TotalItems}} </span> -->

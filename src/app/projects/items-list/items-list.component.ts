@@ -72,6 +72,7 @@ export class ItemsListComponent implements OnInit {
   conditiononselect = false;
   datainarry = false;
   public detector: any;
+  CustomeHeaderField: any;
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService
@@ -130,7 +131,8 @@ export class ItemsListComponent implements OnInit {
           }
           if (this.clickOnHeader == 2) {
             this.sortOrder = 'null';
-            this.headerField = 'null'
+            this.headerField ='null';
+            this.CustomeHeaderField = e.getAttribute("col-id");
             if (iconClass != 'fa fa-bars' && iconClass != 'filterinput') {
               this.sortGridbyApi(this.sortOrder, this.headerField, event['__agGridEventPath'])
             }
@@ -139,6 +141,7 @@ export class ItemsListComponent implements OnInit {
         this.clickOnHeader = this.clickOnHeader + 1;
         if (this.clickOnHeader == 3) {
           this.clickOnHeader = 0;
+          
         }
       })
     });
@@ -623,13 +626,20 @@ export class ItemsListComponent implements OnInit {
   }
 
   oncolumnMoved(event) {
-    const found = this.itemCulomns.find(element => element.headerName == event.column.userProvidedColDef.headerName);
-    const index = this.itemCulomns.indexOf(found);
-    this.move(this.itemCulomns, index, event.toIndex)
-    localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
-    this.ngOnInit()
+     const found = this.itemCulomns.find(element => element.headerName == event.column.userProvidedColDef.headerName);
+    if(found){
+      const index = this.itemCulomns.indexOf(found);
+       this.move(this.itemCulomns, index, event.toIndex)
+        localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
+        // this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
+       //  this.ngOnInit()
+    }
+
   }
 
+  ondragStopped(event){
+    this.ngOnInit()
+  }
   move(arr, old_index, new_index) {
     while (old_index < 0) {
       old_index += arr.length;
@@ -804,18 +814,43 @@ export class ItemsListComponent implements OnInit {
       var data = document.getElementById('serinp' + element.getAttribute("col-id"));
       data.setAttribute("style", "display: none")
     });
-    var data = {
-      filter: [
-        {
-          techName: "",
-          value: ""
 
+    var data 
+    if(!this.searchedValue){
+       data = {
+        filter: [
+          {
+            techName: "",
+            value: ""
+  
+          }
+        ],
+        sort: {
+          techName: headerField,
+          direction: sortOrder
         }
-      ],
-      sort: {
-        techName: headerField,
-        direction: sortOrder
       }
+    }
+
+    if( this.searchedValue){
+      if(sortOrder == 'null' && headerField== 'null'){
+        sortOrder ='';
+        headerField= this.CustomeHeaderField;
+      }
+        data = {
+          filter: [
+            {
+              techName:headerField,
+              value: this.searchedValue
+    
+            }
+          ],
+          sort: {
+            techName: headerField,
+            direction: sortOrder
+          }
+        }
+
     }
     if (!agGridEventPath) {
       this.itemsService
