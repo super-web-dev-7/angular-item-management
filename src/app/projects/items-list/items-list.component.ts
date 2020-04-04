@@ -85,10 +85,16 @@ export class ItemsListComponent implements OnInit {
     this.gridApi = event.api;
     this.gridRows = event.api.rowModel.rowsToDisplay;
     this.gridApi.setSuppressClipboardPaste(false);
+    this.onLoadCustonHtml();
+  }
+  onLoadCustonHtml(){
     document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
       var x = Math.floor((Math.random() * 99999) + 1);
-      element.setAttribute("style", "display: none");
-      element.setAttribute("id", 'row' + this.pageNo + x);
+      if(element){
+        element.setAttribute("style", "display: none");
+        element.setAttribute("id", 'row' + this.pageNo + x);
+      }
+
     })
     var ele = document.getElementsByClassName("ag-header-viewport")[0]
     ele.addEventListener("click", event => {
@@ -101,10 +107,14 @@ export class ItemsListComponent implements OnInit {
           }
           if (this.clickOnHeader == 0) {
             var errow_up = document.createElement("SPAN")
-            errow_up.setAttribute("id", e.getAttribute("col-id"));
-            errow_up.setAttribute("style", "display: block");
+            if(errow_up){
+              errow_up.setAttribute("id", e.getAttribute("col-id"));
+              errow_up.setAttribute("style", "display: block");
+            }
             var errow_up_icon = document.createElement("I")
-            errow_up_icon.setAttribute("class", "fa fa-long-arrow-up");
+            if(errow_up_icon){
+              errow_up_icon.setAttribute("class", "fa fa-long-arrow-up");
+            }
             var aa = e.appendChild(errow_up);
             aa.appendChild(errow_up_icon);
             this.oldArrow = errow_up
@@ -145,6 +155,9 @@ export class ItemsListComponent implements OnInit {
         }
       })
     });
+
+    ele.addEventListener("mouseover", event => {
+
     document.querySelectorAll(".ag-header-cell").forEach((element) => {
       var id = element.getAttribute("col-id")
       var filterIcon = document.createElement("SPAN")
@@ -157,7 +170,6 @@ export class ItemsListComponent implements OnInit {
       var filteredIcon_icon = document.createElement("I")
       if(filterIcon_icon){
         filterIcon_icon.setAttribute("class", "fa fa-bars");
-
       }
       if(filteredIcon_icon){
         filteredIcon_icon.setAttribute("class", "fa fa-filter");
@@ -190,16 +202,12 @@ export class ItemsListComponent implements OnInit {
       dd.appendChild(filterInputBox);
       dd.appendChild(filteredIcon_hr);
     });
-
-    ele.addEventListener("mouseover", event => {
       event['path'].forEach(e => {
         if (e && e.getAttribute && e.getAttribute("col-id")) {
           document.querySelectorAll(".ag-header-cell").forEach((element) => {
             var data = document.getElementById('serico' + element.getAttribute("col-id"));
-
             if(data){
-              data.setAttribute("style", "display: none")
-
+             data.setAttribute("style", "display: none")
             }
           });
           var filterIcon_icon = document.getElementById('serico' + e.getAttribute("col-id"));
@@ -252,7 +260,7 @@ export class ItemsListComponent implements OnInit {
       this.agHeaderCheckbox = true;
     })
   }
-
+  
   ngOnInit() {
     this.ongetItemsByProjectWithPagination(this.pageNo);
     this.countItemsByProject();
@@ -268,6 +276,7 @@ export class ItemsListComponent implements OnInit {
               editable: true,
               resizable: true,
               cellEditor: "datePicker",
+              colId:field.techName
             });
             this.components = { datePicker: this.getDatePicker() };
 
@@ -279,6 +288,7 @@ export class ItemsListComponent implements OnInit {
                 field: field.techName,
                 editable: true,
                 resizable: true,
+                colId:field.techName,
                 cellEditor: "agSelectCellEditor",
                 cellEditorParams: {
                   values: field.optionsForSelect
@@ -294,6 +304,7 @@ export class ItemsListComponent implements OnInit {
               type: 'number',
               editable: true,
               resizable: true,
+              colId:field.techName,
               valueGetter: function (params) {
                 return params.data[field.techName];
               },
@@ -312,6 +323,7 @@ export class ItemsListComponent implements OnInit {
               headerName: field.label,
               field: field.techName,
               editable: true,
+              colId:field.techName,
               resizable: true,
             });
           }
@@ -639,6 +651,7 @@ export class ItemsListComponent implements OnInit {
 
   ondragStopped(event){
     this.ngOnInit()
+    // this.onLoadCustonHtml()
   }
   move(arr, old_index, new_index) {
     while (old_index < 0) {
@@ -810,9 +823,13 @@ export class ItemsListComponent implements OnInit {
   }
 
   sortGridbyApi(sortOrder, headerField, agGridEventPath) {
+    headerField = headerField.replace( /_1/g, "" );
     document.querySelectorAll(".ag-header-cell").forEach((element) => {
-      var data = document.getElementById('serinp' + element.getAttribute("col-id"));
-      data.setAttribute("style", "display: none")
+      var data4 = document.getElementById('serinp' + element.getAttribute("col-id"));
+      if(data4){
+        data4.setAttribute("style", "display: none")
+
+      }
     });
 
     var data 
@@ -833,6 +850,8 @@ export class ItemsListComponent implements OnInit {
     }
 
     if( this.searchedValue){
+
+
       if(sortOrder == 'null' && headerField== 'null'){
         sortOrder ='';
         headerField= this.CustomeHeaderField;
@@ -860,7 +879,7 @@ export class ItemsListComponent implements OnInit {
           this.agHeaderCheckbox = false;
         });
     }
-
+``
   }
 
   filterGridbyApi(techname) {
@@ -927,7 +946,10 @@ export class ItemsListComponent implements OnInit {
   oncellClicked(e) {
     document.querySelectorAll(".ag-header-cell").forEach((element) => {
       var data = document.getElementById('serinp' + element.getAttribute("col-id"));
-      data.setAttribute("style", "display: none")
+      if(data){
+        data.setAttribute("style", "display: none")
+
+      }
     });
   }
 
