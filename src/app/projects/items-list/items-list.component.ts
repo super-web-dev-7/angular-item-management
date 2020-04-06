@@ -73,6 +73,7 @@ export class ItemsListComponent implements OnInit {
   datainarry = false;
   public detector: any;
   CustomeHeaderField: any;
+  columnMoved: boolean;
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService
@@ -575,11 +576,11 @@ export class ItemsListComponent implements OnInit {
   }
 
   onrowDragEnd(event) {
-
     var data = {
       itemIds: [event.node.data._id],
       orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order
     }
+    data.itemIds.push( event.api.rowModel.rowsToDisplay[event.overIndex - 1].data._id)
     this.itemsService
       .changeOrder(data)
       .subscribe((result: any) => {
@@ -643,6 +644,7 @@ export class ItemsListComponent implements OnInit {
       const index = this.itemCulomns.indexOf(found);
        this.move(this.itemCulomns, index, event.toIndex)
         localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
+        this.columnMoved = true;
         // this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
        //  this.ngOnInit()
     }
@@ -650,7 +652,9 @@ export class ItemsListComponent implements OnInit {
   }
 
   ondragStopped(event){
-    this.ngOnInit()
+    if(this.columnMoved){
+      this.ngOnInit()
+    }
     // this.onLoadCustonHtml()
   }
   move(arr, old_index, new_index) {
@@ -914,6 +918,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   onrowDataChanged(event) {
+    this.columnMoved = false;
     if (this.SelectedRowData.length == 0) {
       document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
         element.setAttribute("style", "display: none");

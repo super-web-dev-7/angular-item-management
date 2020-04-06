@@ -30,7 +30,7 @@ export class NewItemComponent implements OnInit {
       this[item] = "";
     });
     document.querySelectorAll(".newItemFields").forEach((element, index) => {
-      element.value = '';
+      // element.value = '';
     })
     this.newItemPopup.show();
   }
