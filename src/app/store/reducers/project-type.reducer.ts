@@ -2,15 +2,16 @@
 import * as FieldActions from '../actions/project-type.actions';
 import { IField } from '../../models/field.model';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import * as Immutable from 'immutable';
 
 export interface ProjectTypeState {
     projectTypeId: number;
-    fields: IField[];
+    fields: Immutable.Map<string, IField>;
 };
 
 const initialState: ProjectTypeState = {
     projectTypeId: 0,
-    fields: [],
+    fields: Immutable.Map(),
 }
 
 export function ProjectTypeReducer(state = initialState, action: FieldActions.Actions) {
@@ -19,19 +20,26 @@ export function ProjectTypeReducer(state = initialState, action: FieldActions.Ac
         case FieldActions.ActionTypes.AddField:
             return {
                 ...state,
-                fields: [...state.fields, action.payload]
+                fields: state.fields.set(action.payload._id, action.payload)
             };
 
         case FieldActions.ActionTypes.RemoveField:
             return {
                 ...state,
-                fields: [...state.fields.filter(item => item._id !== action.payload._id)]
+                fields: state.fields.remove(action.payload._id)
             };
+
+        case FieldActions.ActionTypes.UpdateField:
+            return {
+                ...state,
+                fields: state.fields.set(action.payload._id, action.payload)
+            };
+
 
         case FieldActions.ActionTypes.FieldsLoaded:
             return {
                 ...state,
-                items: [...action.payload]
+                fields: Immutable.Map(action.payload)
             };
         default:
             return state;

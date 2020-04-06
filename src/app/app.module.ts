@@ -64,6 +64,7 @@ import {BlankComponent} from './@pages/layouts/blank/blank.component';
 import {RootLayout} from './@pages/layouts/root/root.component';
 import { StoreModule } from '@ngrx/store';
 import { ProjectTypeReducer } from './store/reducers/project-type.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -118,6 +119,9 @@ export class AppHammerConfig extends HammerGestureConfig {
         QuillModule.forRoot(),
     StoreModule.forRoot({
       projectType: ProjectTypeReducer
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
     }),
     ],
     providers: [QuickviewService, pagesToggleService, {

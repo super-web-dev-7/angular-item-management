@@ -91,8 +91,6 @@ export class FieldsListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public updateField(fieldToUpdate: IField) {
-    console.log(fieldToUpdate);
-    console.log(this.fieldsGrid.api.getRowNode(fieldToUpdate._id));
     this.fieldsGrid.api.getRowNode(fieldToUpdate._id).setData(fieldToUpdate);
   }
 }

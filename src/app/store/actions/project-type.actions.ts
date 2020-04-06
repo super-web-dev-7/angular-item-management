@@ -6,6 +6,7 @@ export enum ActionTypes {
     FieldsLoaded = '[PROJECT TYPE] Load success',
     AddField = '[PROJECT TYPE] Add Field',
     RemoveField = '[PROJECT TYPE] Remove Field',
+    UpdateField = '[PROJECT TYPE] Update Field',
 }
 
 export class AddField implements Action {
@@ -20,6 +21,12 @@ export class RemoveField implements Action {
     constructor(public payload: IField) { }
 }
 
+export class UpdateField implements Action {
+    readonly type = ActionTypes.UpdateField;
+
+    constructor(public payload: IField) { }
+}
+
 export class GetFields implements Action {
     readonly type = ActionTypes.GetFields;
 }
@@ -27,7 +34,7 @@ export class GetFields implements Action {
 export class FieldsLoaded implements Action {
     readonly type = ActionTypes.FieldsLoaded;
     
-    constructor(public payload: IField[]) {}
+    constructor(public payload: {[id: string]: IField}) {}
 }
 
-export type Actions = AddField | RemoveField | GetFields | FieldsLoaded;
+export type Actions = AddField | RemoveField | GetFields | FieldsLoaded | UpdateField;

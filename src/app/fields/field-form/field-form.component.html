@@ -1,6 +1,8 @@
 <app-modal #fieldFormModal position="{{getPosition()}}">
     <div class="app-modal-header">
-        <h5 class="modal-title"><app-field-type [type]="field.type"></app-field-type>{{field.label}}</h5>
+        <h5 class="modal-title">
+            <app-field-type [type]="field.type"></app-field-type>{{field.label}}
+        </h5>
     </div>
     <div class="app-modal-body">
         <pg-tabset tabAnimation="slide-left" Type="fillup" ShowPagination="true">
@@ -12,13 +14,18 @@
                     <div class="col-lg-12">
                         <form [formGroup]="fieldsForm" [ngSwitch]="field.type">
                             <fieldset class="form-group">
-                                <app-switch-editor formControlName="isRequired" label="Mandatory" [isChecked]="fieldsForm.get('isRequired')">
+                                <app-switch-editor formControlName="isRequired" label="Mandatory"
+                                    [isChecked]="fieldsForm.get('isRequired')">
                                 </app-switch-editor>
                             </fieldset>
-                            <app-dropdown-form *ngSwitchCase="getFieldType().DROPDOWN" [fieldForm]="fieldsForm" [field]="field"></app-dropdown-form>
-                            <app-text-form *ngSwitchCase="getFieldType().TEXT" [fieldForm]="fieldsForm" [field]="field"></app-text-form>
-                            <app-date-form *ngSwitchCase="getFieldType().DATE" [fieldForm]="fieldsForm" [field]="field"></app-date-form>
-                            <app-number-form *ngSwitchCase="getFieldType().NUMBER" [fieldForm]="fieldsForm" [field]="field"></app-number-form>
+                            <app-dropdown-form *ngSwitchCase="getFieldType().DROPDOWN" [fieldForm]="fieldsForm"
+                                [field]="field"></app-dropdown-form>
+                            <app-text-form *ngSwitchCase="getFieldType().TEXT" [fieldForm]="fieldsForm" [field]="field">
+                            </app-text-form>
+                            <app-date-form *ngSwitchCase="getFieldType().DATE" [fieldForm]="fieldsForm" [field]="field">
+                            </app-date-form>
+                            <app-number-form *ngSwitchCase="getFieldType().NUMBER" [fieldForm]="fieldsForm"
+                                [field]="field"></app-number-form>
                         </form>
                     </div>
                 </div>
@@ -31,7 +38,7 @@
                     <div class="col-lg-12">
                         <button class="btn btn-primary" (click)="onCreateAffectedField()">New</button>
                         <pgcard Controls="false" *ngFor="let affectedField of field.affectedFields">
-                            <ng-template #CardTitle>{{affectedField.name}}</ng-template>
+                            <ng-template #CardTitle>{{ getFieldById(affectedField.fieldId).label }}</ng-template>
                             <div class="scrollable options-card" perfectScrollbar>
                                 <table class="table table-condensed">
                                     <tr *ngFor="let trigger of affectedField.triggers">

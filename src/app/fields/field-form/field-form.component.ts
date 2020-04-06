@@ -7,6 +7,11 @@ import { ModalPosition } from '../../common/modal/ModalPosition';
 import { FieldType } from '../../models/FieldType';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { ProjectTypeState, getFields } from '@app/store/reducers/project-type.reducer';
+import * as Immutable from 'immutable';
+
+
 
 @Component({
   selector: 'app-field-form',
@@ -22,9 +27,12 @@ export class FieldFormComponent implements OnInit, OnDestroy {
   public fieldsForm: FormGroup = this.initForm();
 
   private field: IField;
+  private fieldsMap: Immutable.Map<string, IField>;
   private subscription = new Subscription();
 
-  constructor(private fb: FormBuilder, private fieldService: FieldService) { }
+  constructor(private store: Store<ProjectTypeState>,
+    private fb: FormBuilder, 
+    private fieldService: FieldService) { }
 
   ngOnInit() {
     if (!this.field) {
@@ -44,11 +52,14 @@ export class FieldFormComponent implements OnInit, OnDestroy {
     });
     this.subscription.add(changeSubscription);
     this.subscription.add(updateSubscription);
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    const field: SimpleChange = changes.field;
-    this.initFormByField(field.currentValue);
+    this.store.select(getFields)
+    .subscribe(
+      fields => {
+        this.fieldsMap = fields;
+        console.log(fields);
+      }
+    );
   }
 
   initForm() {
@@ -73,10 +84,6 @@ export class FieldFormComponent implements OnInit, OnDestroy {
     this.fieldFormModal.show();
   }
 
-  updateField() {
-
-  }
-
   getPosition() {
     return ModalPosition.RIGHT;
   }
@@ -92,6 +99,10 @@ export class FieldFormComponent implements OnInit, OnDestroy {
     this.field.affectedFields.unshift({});
   }
 
+  getFieldById(id) {
+    let field = this.fieldsMap.get(id);
+    return field;
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
