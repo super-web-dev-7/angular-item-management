@@ -1,0 +1,6 @@
+<button class="btn btn-white btn-block m-t-15 m-b-15" (click)="openNewAffectedFieldForm()">New</button>
+ <app-new-affected-field #newAffectedField></app-new-affected-field>
+ <app-affected-field-box 
+ *ngFor="let affectedField of field.affectedFields"
+ [affectedField]="getFieldById(affectedField.fieldId)"
+ [affectedFieldDef]="affectedField"></app-affected-field-box>

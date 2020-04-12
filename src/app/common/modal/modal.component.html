@@ -1,5 +1,8 @@
 <div bsModal #popup="bs-modal" class="modal fade {{positionClass}}" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" [ngClass]="{
+      'modal-sm': modalSizeEnum.SMALL,
+      'modal-lg': modalSizeEnum.LARGE
+    }">
       <div class="modal-content-wrapper">
         <div class="modal-content">
           <pg-progress *ngIf="isLoading" type="bar" color="primary" indeterminate="true" thick="true"></pg-progress>

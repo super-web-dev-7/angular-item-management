@@ -7,11 +7,13 @@ import * as Immutable from 'immutable';
 export interface ProjectTypeState {
     projectTypeId: number;
     fields: Immutable.Map<string, IField>;
+    selectedField: IField;
 };
 
 const initialState: ProjectTypeState = {
     projectTypeId: 0,
     fields: Immutable.Map(),
+    selectedField: undefined
 }
 
 export function ProjectTypeReducer(state = initialState, action: FieldActions.Actions) {
@@ -35,6 +37,11 @@ export function ProjectTypeReducer(state = initialState, action: FieldActions.Ac
                 fields: state.fields.set(action.payload._id, action.payload)
             };
 
+        case FieldActions.ActionTypes.SelectField:
+            return {
+                ...state,
+                selectedField: action.payload
+            };
 
         case FieldActions.ActionTypes.FieldsLoaded:
             return {
@@ -49,4 +56,7 @@ export function ProjectTypeReducer(state = initialState, action: FieldActions.Ac
 export const getFieldsState = createFeatureSelector<ProjectTypeState>('projectType');
 
 export const getFields = createSelector(getFieldsState,
-  (state: ProjectTypeState) => state.fields);
+    (state: ProjectTypeState) => state.fields);
+
+export const getSelectedField = createSelector(getFieldsState,
+    (state: ProjectTypeState) => state.selectedField);

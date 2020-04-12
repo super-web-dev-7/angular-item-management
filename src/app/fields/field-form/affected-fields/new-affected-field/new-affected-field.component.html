@@ -1,0 +1,28 @@
+<pgcard #newAffectedFieldCard Controls="false" HideHeader="true" CloseCard="true" Type="default bg-success-lighter">
+    <form [formGroup]="newAffectedFieldForm">
+        <h3>When <b>{{ selectedField.label }}</b> equals to </h3>
+        <fieldset class="form-group" 
+        [class.has-error]="newAffectedFieldForm.controls['triggerText'].invalid && 
+        (newAffectedFieldForm.controls['triggerText'].dirty || newAffectedFieldForm.controls['triggerText'].touched)">
+            <input #triggerText formControlName="triggerText" class="form-control" type="text" placeholder="Trigger text">
+        </fieldset>
+        <h3>Change the value of </h3>
+        <fieldset class="form-group m-b-0" 
+        [class.has-error]="newAffectedFieldForm.controls['affectedFieldId'].invalid && 
+        (newAffectedFieldForm.controls['affectedFieldId'].dirty || newAffectedFieldForm.controls['affectedFieldId'].touched)">
+            <pg-select formControlName="affectedFieldId" style="width: 100%;" [PlaceHolder]="'Select Field'" AllowClear
+                ShowSearch>
+                <pg-option *ngFor="let field of fields" [Label]="field.label" [Value]="field._id">
+                </pg-option>
+            </pg-select>
+        </fieldset>
+        <h3>To </h3>
+        <fieldset class="form-group"
+        [class.has-error]="newAffectedFieldForm.controls['actionText'].invalid && 
+        (newAffectedFieldForm.controls['actionText'].dirty || newAffectedFieldForm.controls['actionText'].touched)">
+            <input formControlName="actionText" class="form-control" type="text" placeholder="Action text">
+        </fieldset>
+        <button class="btn btn-success m-t-5" (click)="onSave()">Save</button>
+        <button class="btn m-t-5" (click)="onCancel()">Cancel</button>
+    </form>
+</pgcard>

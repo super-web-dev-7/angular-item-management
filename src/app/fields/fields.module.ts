@@ -24,6 +24,11 @@ import { pgCardModule } from '../@pages/components/card/card.module';
 import { DateFormComponent } from './field-form/date-form/date-form.component';
 import { NumberFormComponent } from './field-form/number-form/number-form.component';
 import { pgCollapseModule } from '../@pages/components/collapse';
+import { AffectedFieldsComponent } from './field-form/affected-fields/affected-fields.component';
+import { AffectedFieldBoxComponent } from './field-form/affected-fields/affected-field-box/affected-field-box.component';
+import { pgSelectModule } from '@app/@pages/components/select/select.module';
+import { NewAffectedFieldComponent } from './field-form/affected-fields/new-affected-field/new-affected-field.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [FieldsComponent,
@@ -38,9 +43,13 @@ import { pgCollapseModule } from '../@pages/components/collapse';
     DropdownFormComponent,
     TextFormComponent,
     DateFormComponent,
-    NumberFormComponent],
+    NumberFormComponent,
+    AffectedFieldsComponent,
+    AffectedFieldBoxComponent,
+    NewAffectedFieldComponent],
   imports: [
     CommonModule,
+    FontAwesomeModule,
     SharedModule,
     RouterModule.forChild(FieldsRouts),
     TabsModule.forRoot(),
@@ -52,6 +61,7 @@ import { pgCollapseModule } from '../@pages/components/collapse';
     ModalsModule,
     FormModule,
     pgCollapseModule.forRoot(),
+    pgSelectModule
   ],
   exports: [
     FieldsComponent,

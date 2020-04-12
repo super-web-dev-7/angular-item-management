@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
-import { ModalPosition } from './ModalPosition';
-import { switchMap } from 'rxjs-compat/operator/switchMap';
+import { ModalPosition, ModalSize } from './ModalEnums';
 
 @Component({
   selector: 'app-modal',
@@ -9,21 +7,24 @@ import { switchMap } from 'rxjs-compat/operator/switchMap';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
-  @Input() title;
+  @Input() title: string;
   @Input() hideHeader = false;
   @Input() hideFooter = false;
   @Input() onCancel: Function;
   @Input() position: ModalPosition;
+  @Input() onClose: Function;
+  @Input() size: ModalSize = ModalSize.MEDIUM;
 
   @ViewChild("popup", { static: true }) popup;
 
+  private modalSizeEnum = ModalSize;
   private positionClass;
   private isLoading: boolean;
 
   constructor() { }
 
   ngOnInit() {
-    if(!this.position) {
+    if (!this.position) {
       this.positionClass = "slide-up";
       return;
     }
@@ -46,10 +47,18 @@ export class ModalComponent implements OnInit {
 
   hide() {
     this.popup.hide();
+    if (this.onClose) {
+      this.onClose();
+    }
   }
 
   cancel() {
-    this.onCancel();
+    if (this.onCancel) {
+      this.onCancel();
+    }
+    if (this.onClose) {
+      this.onClose();
+    }
   }
 
   showLoader() {
@@ -59,5 +68,4 @@ export class ModalComponent implements OnInit {
   hideLoader() {
     this.isLoading = false;
   }
-
 }

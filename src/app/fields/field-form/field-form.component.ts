@@ -3,15 +3,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalComponent } from '../../common/modal/modal.component';
 import { IField } from '../../models/field.model';
 import { FieldService } from '../field.service';
-import { ModalPosition } from '../../common/modal/ModalPosition';
+import { ModalPosition, ModalSize } from '../../common/modal/ModalEnums';
 import { FieldType } from '../../models/FieldType';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ProjectTypeState, getFields } from '@app/store/reducers/project-type.reducer';
-import * as Immutable from 'immutable';
-
-
+import { ProjectTypeState, getSelectedField } from '@app/store/reducers/project-type.reducer';
+import { SelectField } from '@app/store/actions/project-type.actions';
 
 @Component({
   selector: 'app-field-form',
@@ -27,7 +25,6 @@ export class FieldFormComponent implements OnInit, OnDestroy {
   public fieldsForm: FormGroup = this.initForm();
 
   private field: IField;
-  private fieldsMap: Immutable.Map<string, IField>;
   private subscription = new Subscription();
 
   constructor(private store: Store<ProjectTypeState>,
@@ -35,9 +32,6 @@ export class FieldFormComponent implements OnInit, OnDestroy {
     private fieldService: FieldService) { }
 
   ngOnInit() {
-    if (!this.field) {
-      this.field = {} as IField;
-    }
     let updateSubscription: Subscription;
     let changeSubscription = this.fieldsForm.valueChanges.pipe(
       debounceTime(1500)
@@ -53,11 +47,12 @@ export class FieldFormComponent implements OnInit, OnDestroy {
     this.subscription.add(changeSubscription);
     this.subscription.add(updateSubscription);
 
-    this.store.select(getFields)
+    this.store.select(getSelectedField)
     .subscribe(
-      fields => {
-        this.fieldsMap = fields;
-        console.log(fields);
+      field => {
+        this.field = field;
+        this.fieldsForm.reset();
+        this.initFormByField(this.field);
       }
     );
   }
@@ -78,9 +73,7 @@ export class FieldFormComponent implements OnInit, OnDestroy {
   }
 
   open(field) {
-    this.field = field;
-    this.fieldsForm.reset();
-    this.initFormByField(this.field);
+    this.store.dispatch(new SelectField(field));
     this.fieldFormModal.show();
   }
 
@@ -88,21 +81,14 @@ export class FieldFormComponent implements OnInit, OnDestroy {
     return ModalPosition.RIGHT;
   }
 
+  getSize() {
+    return ModalSize.LARGE;
+  }
+
   getFieldType() {
     return FieldType;
   }
 
-  onCreateAffectedField() {
-    if(!this.field.affectedFields) {
-      this.field.affectedFields = [];
-    }
-    this.field.affectedFields.unshift({});
-  }
-
-  getFieldById(id) {
-    let field = this.fieldsMap.get(id);
-    return field;
-  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

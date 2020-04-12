@@ -8,6 +8,11 @@ export interface IField {
     affectedFields?: any[];
 }
 
+export interface IAffectedField {
+    fieldId: string;
+    triggers: {triggerFieldText: string, actionFieldText:string}[];
+}
+
 export interface IFieldOptions {
     optionsForSelect?: {value:string}[];
     isMultiSelect?: boolean;

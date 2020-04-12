@@ -7,7 +7,8 @@ import {
     TemplateRef,
     ContentChild,
     EventEmitter,
-    Output
+    Output,
+    OnInit
   } from '@angular/core';
 
   import {
@@ -49,14 +50,24 @@ import {
         transition('false => true', animate('500ms ease-in')),
         transition('true => false', animate('500ms ease-out'))
       ]),
+      trigger('showHideAnimation', [
+        transition(':enter', [ 
+          style({ opacity: 0, height: 0 }),
+          animate('150ms', style({ opacity: 1, height: '*' }))
+        ]),
+        transition(':leave', [ 
+          animate('300ms', style({ opacity: 0 }))
+        ])
+      ]),
     
     ],
   })
-  export class pgCard {
+  export class pgCard implements OnInit {
     _isCollapsed:boolean = false;
     _isMaximixed:boolean = false;
     _isLoading:boolean = false;
     _minimalHeader:boolean = false;
+    _hideHeader: boolean = false;
     _message:string = "";
     _messageType:string = "danger";
     _messageVisible:boolean = false;
@@ -83,6 +94,11 @@ import {
     @ViewChild('minimalCircleLoadingTrigger', { static: false }) minimalCircleLoadingTrigger: ElementRef;
     @ContentChild('CardTitle', {static: true}) CardTitle: TemplateRef<void>;
     @ContentChild('CardExtraControls', {static: true}) CardExtraControls: TemplateRef<void>;
+
+    ngOnInit() {
+      console.log(this._close_card);
+    }
+
     @Input()
     set Title(value:string){
       this._titleText = value
@@ -99,6 +115,11 @@ import {
     @Input()
     set MinimalHeader(value:boolean){
       this._minimalHeader = value;
+    }
+
+    @Input()
+    set HideHeader(value:boolean){
+      this._hideHeader = value;
     }
 
     @Input()
@@ -176,6 +197,11 @@ import {
       this._timeout = value;
     }
 
+    @Input()
+    set CloseCard(value: boolean) {
+      this._close_card = value;
+    }
+
     @Output() onRefresh: EventEmitter<void> = new EventEmitter();
 
     toggle(): void {
@@ -217,6 +243,9 @@ import {
     }
     close():void{
       this._close_card = true;
+    }
+    open():void{
+      this._close_card = false;
     }
   }
   

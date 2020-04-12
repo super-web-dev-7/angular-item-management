@@ -3,6 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import { ModalComponent } from '../../common/modal/modal.component';
 import { CreateFieldComponent } from './create-field/create-field.component';
 import { IField } from '../../models/field.model';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-add-field',
@@ -11,7 +12,11 @@ import { IField } from '../../models/field.model';
 })
 export class AddFieldComponent implements OnInit {
 
-  constructor() { }
+  private existingFieldIcon;
+
+  constructor() { 
+    this.existingFieldIcon = faLink;
+  }
 
   @ViewChild("createFieldModal", {static: true})
   public createFieldModal: ModalComponent;

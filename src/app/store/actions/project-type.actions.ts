@@ -7,6 +7,7 @@ export enum ActionTypes {
     AddField = '[PROJECT TYPE] Add Field',
     RemoveField = '[PROJECT TYPE] Remove Field',
     UpdateField = '[PROJECT TYPE] Update Field',
+    SelectField = '[PROJECT TYPE] Select Field',
 }
 
 export class AddField implements Action {
@@ -31,10 +32,16 @@ export class GetFields implements Action {
     readonly type = ActionTypes.GetFields;
 }
 
+export class SelectField implements Action {
+    readonly type = ActionTypes.SelectField;
+
+    constructor(public payload: IField) {}
+}
+
 export class FieldsLoaded implements Action {
     readonly type = ActionTypes.FieldsLoaded;
     
     constructor(public payload: {[id: string]: IField}) {}
 }
 
-export type Actions = AddField | RemoveField | GetFields | FieldsLoaded | UpdateField;
+export type Actions = AddField | RemoveField | GetFields | FieldsLoaded | UpdateField | SelectField;

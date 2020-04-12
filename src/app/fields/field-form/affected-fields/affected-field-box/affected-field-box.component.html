@@ -1,0 +1,25 @@
+<pgcard Controls="false">
+    <ng-template #CardTitle>{{ affectedField.label }}</ng-template>
+    <div class="scrollable options-card" perfectScrollbar>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>
+                        Trigger
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tr *ngFor="let trigger of affectedFieldDef.triggers">
+                <td class="col-sm-6 ">
+                    {{ trigger.triggerFieldText }}
+                </td>
+                <td class="col-sm-6">
+                    {{ trigger.actionFieldText }}
+                </td>
+            </tr>
+        </table>
+    </div>
+</pgcard>

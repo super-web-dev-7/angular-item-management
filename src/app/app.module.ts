@@ -65,6 +65,7 @@ import {RootLayout} from './@pages/layouts/root/root.component';
 import { StoreModule } from '@ngrx/store';
 import { ProjectTypeReducer } from './store/reducers/project-type.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -92,6 +93,7 @@ export class AppHammerConfig extends HammerGestureConfig {
     ],
     imports: [
         BrowserModule,
+    FontAwesomeModule,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,

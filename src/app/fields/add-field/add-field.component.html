@@ -7,17 +7,18 @@
   <div class="app-modal-body">
     <div class="row" *ngIf="!shouldCreateNewField && !shouldAddExistingField">
       <div class="col-sm-6">
-        <div class="bg-c-green add-field-option" (click)="onSelectNewFieldOption()">
-          <h2 class="text-white mb-2 f-w-300">New Field</h2>
-          <span class="text-white d-block">Create a new Field</span>
+        <div class="bg-primary add-field-option" (click)="onSelectNewFieldOption()">
+          <h2 class="text-white">New Field</h2>
+          <span class="text-white">Create a new Field</span>
           <i class="fas fa-plus f-70 text-white"></i>
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="bg-c-blue add-field-option" (click)="onSelectExistingFieldOption()">
-          <h2 class="text-white mb-2 f-w-300">Existing field</h2>
-          <span class="text-white d-block">Add Exiting Field from other project type</span>
-          <i class="fas fa-link f-70 text-white"></i>
+        <div class="bg-primary add-field-option" (click)="onSelectExistingFieldOption()">
+          <h2 class="text-white">Existing field</h2>
+          <span class="text-white">Add Exiting Field from other project type</span>
+          <fa-icon [icon]="existingFieldIcon" size="5x" class="icon"></fa-icon>
+          <i class="fa fa-link f-70 text-white"></i>
         </div>
       </div>
     </div>

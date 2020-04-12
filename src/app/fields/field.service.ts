@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { IField } from '../models/field.model';
+import { IField, IAffectedField } from '../models/field.model';
 
 @Injectable({
     providedIn: 'root'
@@ -22,5 +22,10 @@ import { IField } from '../models/field.model';
     }
     public addField(data){   
       return this.httpClient.post(`${environment.apiUrl}/field`,data);
+    }
+
+    public addAffectedField(fieldId, affectedField: IAffectedField) {
+      let data = { fieldId, affectedFieldId: affectedField.fieldId, triggers: affectedField.triggers  };
+      return this.httpClient.post(`${environment.apiUrl}/field/add-affected-field`,data);
     }
   }
