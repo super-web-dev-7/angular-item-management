@@ -237,7 +237,10 @@ export class ItemsListComponent implements OnInit {
                   filrtedtext.setAttribute("style", "display: block")
                   var techename = e.getAttribute("col-id");
                   this.searchedValue = event.target['value']
-                  this.filterGridbyApi(techename);
+                  setTimeout(() => {
+                    this.filterGridbyApi(techename);
+                   }, 2000);
+                  
                 })
               }
             })
@@ -269,7 +272,7 @@ export class ItemsListComponent implements OnInit {
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
       fields.forEach(field => {
-        if (!localStorage.getItem('gridHeader')) {
+        // if (!localStorage.getItem('gridHeader')) {
           if (field.type == 3) {
             this.itemCulomns.push({
               headerName: field.label,
@@ -352,13 +355,18 @@ export class ItemsListComponent implements OnInit {
           else {
             this.fieldType.push("text");
           }
-        } else {
-          this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
-        }
-
-   
+     //   } 
+        // else {
+        //   this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
+        
+        // }
 
       });
+
+      if(localStorage.getItem('gridHeader')){
+        this.itemCulomns =[]
+        this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
+      }
       this.columnLoaded = true;
       this.itemCulomns[0]["headerCheckboxSelection"] = true;
       // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
@@ -583,6 +591,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   onSingleItemSelect(event) {
+    console.log('event============1====>')
     this.SelectedSingleRowData = event.data;
   }
 
