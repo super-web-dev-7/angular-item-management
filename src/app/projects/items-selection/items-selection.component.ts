@@ -193,8 +193,8 @@ export class ItemsSelectionComponent implements OnInit {
             this.itemsService
               .getItemsByProject(this.projectId)
               .subscribe((items: any) => {
-                this.getLatestitem.emit();
                 document.getElementById('popupid').hidden = true
+                this.getLatestitem.emit('duplicate');
 
               });
           }
@@ -217,7 +217,7 @@ export class ItemsSelectionComponent implements OnInit {
 
   callgetLatestitem(e) {
     this.closePopup()
-    this.getLatestitem.emit();
+    this.getLatestitem.emit(e);
   }
 
 }

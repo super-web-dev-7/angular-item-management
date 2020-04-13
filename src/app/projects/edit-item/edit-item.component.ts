@@ -25,6 +25,7 @@ export class EditItemComponent implements OnInit {
   [key: string]: any;
   data = {};
   items;
+  blankfill = ''
   constructor(private itemsService: ItemsService) { }
 
   ngOnInit() {
@@ -37,7 +38,7 @@ export class EditItemComponent implements OnInit {
     this.newItemPopup.show();
     this.data = {}
 
-
+  
   }
 
   onChangeSelectValue(event: any) {
@@ -73,10 +74,10 @@ export class EditItemComponent implements OnInit {
     this.itemsService
       .editMassItemByProject(data)
       .subscribe(result => {
-        this.callgetLatestitem.emit(result);
+        this.callgetLatestitem.emit(result);      
       });
     this.newItemPopup.hide()
 
-  }
+}
 
 }

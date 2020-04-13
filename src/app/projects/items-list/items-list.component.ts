@@ -525,6 +525,16 @@ export class ItemsListComponent implements OnInit {
 
   }
 
+
+  oncellMouseOut(event){
+    if (!this.showAllCheckBox) {
+      if (this.SelectedRowData.length == 0) {
+        document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+          element.setAttribute("style", "display: none");
+        });
+      }
+    }
+  }
   action(event) {
     if (event == "copy") {
       this.gridApi.copySelectedRowsToClipboard(false);
@@ -549,10 +559,11 @@ export class ItemsListComponent implements OnInit {
 
   getLatestitem(e) {
     this.getItems();
+    this.countItemsByProject();
     this.notreffress = true
     this.SelectedRowData = []
     if (this.notreffress == true) {
-      if( e == 'delete'){
+      if( e == 'delete' || e == 'duplicate'|| e.ok == 1){
         var truerows = this.gridRows.findIndex(x => x.selected == true);
         //truerows.each(row => {
           this.gridRows[truerows].selected = false;
