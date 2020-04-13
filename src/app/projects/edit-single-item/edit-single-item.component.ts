@@ -73,7 +73,7 @@ export class EditSingleItemComponent implements OnInit {
             if (localStorage.getItem('pdata') == 'false') {
               // popup.hide()
             }
-          }, 2000);
+          }, 300);
         }
       }
       // this.newItemPopup.show();
