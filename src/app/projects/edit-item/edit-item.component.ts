@@ -35,18 +35,11 @@ export class EditItemComponent implements OnInit {
   }
 
   show() {
-    this.fieldName.forEach(item => {
-      this[item] = "";
-    });
-    this.newItemPopup.show();
-    this.data = {}
-    
-    this.fieldService.getFields().subscribe((fields: any) => {
-      this.fields = fields
-    })
-  
+	  this.resetPopValues('show')
+    }
+  clearPopUpValues(){
+	  this.resetPopValues('hide')
   }
-
   onChangeSelectValue(event: any) {
     this[event.target.name] = (<HTMLInputElement>event.target).value;
   }
@@ -56,10 +49,11 @@ export class EditItemComponent implements OnInit {
   }
 
   onEditItem() {
+	 
     this.fieldName.forEach(item => {
-      if (this[item]) {
-        this.data[item] = this[item];
-      }
+      	if (this[item]) {
+        	this.data[item] = this[item];
+      	}
     });
     var entries = Object.entries(this.data)
     var data =
@@ -80,10 +74,30 @@ export class EditItemComponent implements OnInit {
     this.itemsService
       .editMassItemByProject(data)
       .subscribe(result => {
+		 
         this.callgetLatestitem.emit(result);      
       });
-    this.newItemPopup.hide()
-
+	  this.clearPopUpValues();
 }
-
+	 resetPopValues(value){
+		this.fieldName.forEach(item => {
+		  this[item] = "";
+		});
+		this.data = {}
+		if(value == 'hide'){
+			
+			this.newItemPopup.hide();
+			this.fieldService.getFields().subscribe((fields: any) => {
+				this.fields = ''
+			})
+		}else{
+			
+			this.newItemPopup.show();
+			this.fieldService.getFields().subscribe((fields: any) => {
+				console.log(fields);
+				this.fields = fields
+			})
+		}
+	
+	}
 }
