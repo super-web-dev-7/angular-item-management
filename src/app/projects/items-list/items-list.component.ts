@@ -158,7 +158,6 @@ export class ItemsListComponent implements OnInit {
     });
 
     ele.addEventListener("mouseover", event => {
-
     document.querySelectorAll(".ag-header-cell").forEach((element) => {
       var id = element.getAttribute("col-id")
       var filterIcon = document.createElement("SPAN")
@@ -203,6 +202,7 @@ export class ItemsListComponent implements OnInit {
       dd.appendChild(filterInputBox);
       dd.appendChild(filteredIcon_hr);
     });
+
       event['path'].forEach(e => {
         if (e && e.getAttribute && e.getAttribute("col-id")) {
           document.querySelectorAll(".ag-header-cell").forEach((element) => {
@@ -272,7 +272,7 @@ export class ItemsListComponent implements OnInit {
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
       fields.forEach(field => {
-        // if (!localStorage.getItem('gridHeader')) {
+        if (!localStorage.getItem('gridHeader')) {
           if (field.type == 3) {
             this.itemCulomns.push({
               headerName: field.label,
@@ -359,14 +359,37 @@ export class ItemsListComponent implements OnInit {
         // else {
         //   this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
         
-        // }
-
+        }
+        if(localStorage.getItem('gridHeader')){
+          this.fieldslable.push(field.label)
+          this.fieldName.push(field.techName);
+          if (field.type == 0) {
+            this.fieldTypeWithNo.push({ type: "text", no: 0 })
+            this.fieldType.push("text");
+          } else if (field.type == 1) {
+            this.fieldTypeWithNo.push({ type: "number", no: 1 })
+            this.fieldType.push("number");
+          } else if (field.type == 2) {
+            this.fieldTypeWithNo.push({ type: "file", no: 2 })
+            this.fieldType.push("file");
+          } else if (field.type == 3) {
+            this.fieldTypeWithNo.push({ type: "date", no: 3 })
+            this.fieldType.push("date");
+          } else if (field.type == 4) {
+            this.fieldType.push("text");
+          } else if (field.type == 5) {
+            this.fieldTypeWithNo.push({ type: "select", no: 5 })
+            this.fieldType.push("select");
+          }
+          else {
+            this.fieldType.push("text");
+          }
+          this.itemCulomns =[]
+          this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
+        }
       });
 
-      if(localStorage.getItem('gridHeader')){
-        this.itemCulomns =[]
-        this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
-      }
+
       this.columnLoaded = true;
       this.itemCulomns[0]["headerCheckboxSelection"] = true;
       // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
@@ -591,7 +614,6 @@ export class ItemsListComponent implements OnInit {
   }
 
   onSingleItemSelect(event) {
-    console.log('event============1====>')
     this.SelectedSingleRowData = event.data;
   }
 

@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild, Input, ɵConsole, Output } from "@angular
 import { ModalDirective } from "ngx-bootstrap";
 import { ItemsService } from "../items-list/items.service";
 import { EventEmitter } from "@angular/core";
+import { FieldService } from "../../fields/field.service";
 
 @Component({
   selector: "app-edit-item",
@@ -26,9 +27,11 @@ export class EditItemComponent implements OnInit {
   data = {};
   items;
   blankfill = ''
-  constructor(private itemsService: ItemsService) { }
+  constructor(private itemsService: ItemsService,private fieldService: FieldService
+    ) { }
 
   ngOnInit() {
+    
   }
 
   show() {
@@ -37,7 +40,10 @@ export class EditItemComponent implements OnInit {
     });
     this.newItemPopup.show();
     this.data = {}
-
+    
+    this.fieldService.getFields().subscribe((fields: any) => {
+      this.fields = fields
+    })
   
   }
 
