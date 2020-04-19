@@ -1,0 +1,40 @@
+.expression-editor {
+    outline: none;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid rgba(#000000, .07);
+    font-size: x-large;
+}
+.expression-toolbar, .fields-options {
+    padding: 5px;
+    border: 1px solid rgba(#000000, .07);
+    border-bottom: 0;
+
+    button {
+        border:0;
+    }
+}
+
+.expression-toolbar {
+    background: #ffffff;
+}
+
+.fields-options {
+    max-height: 100px;
+    overflow: hidden;
+    transition: all .3s;
+    background-color: #f7f7f7;
+
+    button {
+        background: #f7f7f7;
+    }
+
+    button:hover {
+        background: #efeeee;
+    }
+}
+
+.active {
+    position: relative;
+    top: 5px;
+}

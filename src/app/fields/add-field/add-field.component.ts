@@ -4,6 +4,7 @@ import { ModalComponent } from '../../common/modal/modal.component';
 import { CreateFieldComponent } from './create-field/create-field.component';
 import { IField } from '../../models/field.model';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { ModalSize } from '@app/common/modal/ModalEnums';
 
 @Component({
   selector: 'app-add-field',
@@ -13,6 +14,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons';
 export class AddFieldComponent implements OnInit {
 
   private existingFieldIcon;
+  private size = this.getSize();
 
   constructor() { 
     this.existingFieldIcon = faLink;
@@ -69,5 +71,9 @@ export class AddFieldComponent implements OnInit {
     console.log(createdField);
     this.createFieldModal.hide();
     this.createdSubject.next(createdField);
+  }
+
+  getSize() {
+    return ModalSize.LARGE;
   }
 }

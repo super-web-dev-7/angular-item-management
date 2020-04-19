@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges, SimpleChange, Input, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalComponent } from '../../common/modal/modal.component';
 import { IField } from '../../models/field.model';
@@ -26,6 +26,8 @@ export class FieldFormComponent implements OnInit, OnDestroy {
 
   private field: IField;
   private subscription = new Subscription();
+  private size = this.getSize();
+  private position = this.getPosition();
 
   constructor(private store: Store<ProjectTypeState>,
     private fb: FormBuilder, 
@@ -82,7 +84,7 @@ export class FieldFormComponent implements OnInit, OnDestroy {
   }
 
   getSize() {
-    return ModalSize.LARGE;
+    return ModalSize.MEDIUM;
   }
 
   getFieldType() {

@@ -1,4 +1,4 @@
-<app-modal #fieldFormModal position="{{getPosition()}}" size="{{getSize()}}">
+<app-modal #fieldFormModal [position]="position" [size]="size">
     <div class="app-modal-header" *ngIf="field">
         <h5 class="modal-title">
             <app-field-type [type]="field.type"></app-field-type>{{field.label}}
@@ -26,6 +26,8 @@
                             </app-date-form>
                             <app-number-form *ngSwitchCase="getFieldType().NUMBER" [fieldForm]="fieldsForm"
                                 [field]="field"></app-number-form>
+                            <app-expression-form *ngSwitchCase="getFieldType().EXPRESSION" [fieldForm]="fieldsForm"
+                                [field]="field"></app-expression-form>
                         </form>
                     </div>
                 </div>

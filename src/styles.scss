@@ -98,4 +98,24 @@ div#edit-single-model {
     left: auto;
 }
 
+mark.number {
+    display: inline-block;
+    background-color: red;
+}
 
+mark.add {
+    display: inline-block;
+    background-color: blue;
+}
+mark.mult {
+    display: inline-block;
+    background-color: yellow;
+}
+mark.division {
+    display: inline-block;
+    background-color: pink;
+}
+mark.subtract {
+    display: inline-block;
+    background-color: brown;
+}

@@ -96,7 +96,6 @@ import {
     @ContentChild('CardExtraControls', {static: true}) CardExtraControls: TemplateRef<void>;
 
     ngOnInit() {
-      console.log(this._close_card);
     }
 
     @Input()

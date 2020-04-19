@@ -29,6 +29,7 @@ import { AffectedFieldBoxComponent } from './field-form/affected-fields/affected
 import { pgSelectModule } from '@app/@pages/components/select/select.module';
 import { NewAffectedFieldComponent } from './field-form/affected-fields/new-affected-field/new-affected-field.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ExpressionFormComponent } from './field-form/expression-form/expression-form.component';
 
 @NgModule({
   declarations: [FieldsComponent,
@@ -46,7 +47,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NumberFormComponent,
     AffectedFieldsComponent,
     AffectedFieldBoxComponent,
-    NewAffectedFieldComponent],
+    NewAffectedFieldComponent,
+    ExpressionFormComponent],
   imports: [
     CommonModule,
     FontAwesomeModule,
@@ -61,7 +63,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ModalsModule,
     FormModule,
     pgCollapseModule.forRoot(),
-    pgSelectModule
+    pgSelectModule,
   ],
   exports: [
     FieldsComponent,

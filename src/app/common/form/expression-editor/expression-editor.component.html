@@ -1,0 +1,28 @@
+<div class="expression-toolbar flex-wrap" role="toolbar">
+    <div class="btn-group sm-m-t-10">
+        <button type="button" class="btn btn-default" (click)="onToggleFields()" [class.active]="showFieldsOptions">
+           Fields  <fa-icon [icon]="menuDownIcon" class="icon"></fa-icon>
+        </button>
+    </div>
+    <div class="btn-group sm-m-t-10 m-l-20">
+        <button type="button" class="btn btn-default" (click)="onAddClick()">
+            <fa-icon [icon]="addIcon" class="icon"></fa-icon>
+        </button>
+        <button type="button" class="btn btn-default" (click)="onSubtractClick()">
+            <fa-icon [icon]="subtractIcon" class="icon"></fa-icon>
+        </button>
+        <button type="button" class="btn btn-default" (click)="onMultClick()">
+            <fa-icon [icon]="multIcon" class="icon"></fa-icon>
+        </button>
+        <button type="button" class="btn btn-default" (click)="onDivisionClick()">
+            <fa-icon [icon]="divisionIcon" class="icon"></fa-icon>
+        </button>
+    </div>
+</div>
+<div class="fields-options flex-wrap" role="toolbar" perfectScrollbar *ngIf="showFieldsOptions" [@panelInOut]>
+    <button type="button" class="btn btn-default" (click)="onFieldClick(field)" *ngFor="let field of fieldsOptions">
+        {{field.label}}
+    </button>
+</div>
+<div #expressionEditor (input)="onExpressionChange($event.target.innerHTML)" contenteditable="true"
+    class="expression-editor"></div>

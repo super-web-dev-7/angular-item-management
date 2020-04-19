@@ -29,7 +29,9 @@
             "styles": [
               "src/assets/plugins/bootstrap/css/bootstrap.min.css",
               "src/assets/plugins/codrops-stepsform/css/component.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+              "node_modules/froala-editor/css/froala_style.min.css"
             ],
             "scripts": [
               "node_modules/scrollreveal/dist/scrollreveal.js",
@@ -104,7 +106,9 @@
             "styles": [
               "src/assets/plugins/bootstrap/css/bootstrap.min.css",
               "src/assets/plugins/codrops-stepsform/css/component.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+              "node_modules/froala-editor/css/froala_style.min.css"
             ],
             "assets": [
               "src/assets",
