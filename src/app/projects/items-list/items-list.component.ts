@@ -431,7 +431,7 @@ export class ItemsListComponent implements OnInit {
       .subscribe((items: any) => {
         this.items = items;
       });
-    this.ongetItemsByProjectWithPagination(this.pageNo);
+     this.ongetItemsByProjectWithPagination(this.pageNo);
   }
 
   countItemsByProject() {
@@ -622,16 +622,20 @@ export class ItemsListComponent implements OnInit {
       itemIds: [event.node.data._id],
       orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order
     }
-    data.itemIds.push( event.api.rowModel.rowsToDisplay[event.overIndex - 1].data._id)
+    // data.itemIds.push( event.api.rowModel.rowsToDisplay[event.overIndex - 1].data._id)
     this.itemsService
       .changeOrder(data)
       .subscribe((result: any) => {
         if (result) {
-          this.itemsService
-          .getItemsByProject(this.projectId)
-          .subscribe((items: any) => {
-            this.items = items;
-          });        }
+          // this.itemsService
+          // .getItemsByProject(this.projectId)
+          // .subscribe((items: any) => {
+          //  console.log('after drg====items===>',items)
+          //   this.items = items;
+          // });    
+          this.ongetItemsByProjectWithPagination(this.pageNo)
+
+            }
       });
 
   }
