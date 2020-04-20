@@ -185,12 +185,14 @@ export class ItemsListComponent implements OnInit {
       var filterDiv = document.createElement("DIV")
       filterDiv.setAttribute("class", "search_text_default");
       filterDiv.setAttribute("id", 'serinp' + element.getAttribute("col-id"));
+      filterDiv.setAttribute("name", element.getAttribute("col-id"))
       filterDiv.setAttribute("style", "display: none");
       this.oldSearchId = 'serinp' + element.getAttribute("col-id");
       var filterInputBox = document.createElement("INPUT");
     
       filterInputBox.setAttribute("placeholder", 'search text....')
       filterInputBox.setAttribute("class", "filterinput")
+
       this.fields.forEach(row => {
         if (row.techName == id) {
           if (row.type == 1) {
@@ -231,16 +233,10 @@ export class ItemsListComponent implements OnInit {
                 this.openedSearchedBoxId = 'serinp' + e.getAttribute("col-id");
                 if(singleInput){
                   singleInput.setAttribute("style", "display: block")
-
                 }
                 singleInput.addEventListener("keyup", event =>{
                     var filrtedtext = document.getElementById('filterd' + e.getAttribute("col-id"))
                     filrtedtext.setAttribute("style", "display: block")
-                    var techename = e.getAttribute("col-id");
-                      this.searchedValue = event.target['value']
-                    setTimeout(() => {
-                      this.filterGridbyApi(techename);
-                     }, 2000);  
                 })
               }
             })
@@ -250,6 +246,15 @@ export class ItemsListComponent implements OnInit {
         }
       })
     });
+
+    document.addEventListener("keyup", event =>{
+    var  techename = event['path'][1].getAttribute('name')
+      this.searchedValue = event.target['value']
+      setTimeout(() => {
+        this.filterGridbyApi(techename);
+       }, 300);  
+
+  })
 
     var elim = document.getElementsByClassName("ag-row")[0]
     elim.addEventListener("click", event => {
