@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from "@angu
 import { ItemsService } from "./items.service";
 import { FieldService } from "../../fields/field.service";
 import { HttpClient } from "@angular/common/http";
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective, idLocale } from 'ngx-bootstrap';
 import { _ } from "ag-grid-community";
 import { json } from "d3";
 import { JsonPipe } from "@angular/common";
@@ -74,6 +74,7 @@ export class ItemsListComponent implements OnInit {
   public detector: any;
   CustomeHeaderField: any;
   columnMoved: boolean;
+  countCallingOfKeypress: number;
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService
@@ -232,15 +233,14 @@ export class ItemsListComponent implements OnInit {
                   singleInput.setAttribute("style", "display: block")
 
                 }
-                singleInput.addEventListener("keyup", event => {
-                  var filrtedtext = document.getElementById('filterd' + e.getAttribute("col-id"))
-                  filrtedtext.setAttribute("style", "display: block")
-                  var techename = e.getAttribute("col-id");
-                  this.searchedValue = event.target['value']
-                  setTimeout(() => {
-                    this.filterGridbyApi(techename);
-                   }, 2000);
-                  
+                singleInput.addEventListener("keyup", event =>{
+                    var filrtedtext = document.getElementById('filterd' + e.getAttribute("col-id"))
+                    filrtedtext.setAttribute("style", "display: block")
+                    var techename = e.getAttribute("col-id");
+                      this.searchedValue = event.target['value']
+                    setTimeout(() => {
+                      this.filterGridbyApi(techename);
+                     }, 2000);  
                 })
               }
             })
@@ -260,8 +260,18 @@ export class ItemsListComponent implements OnInit {
     })
     var agHeader = document.getElementsByClassName("ag-header-select-all")[0]
     agHeader.addEventListener("click", event => {
-      this.agheader = true;
-      this.agHeaderCheckbox = true;
+       var hederEliment =event['toElement'].getAttribute('class')
+       console.log(hederEliment)
+
+      if(hederEliment == 'ag-icon ag-icon-checkbox-unchecked'){
+        this.agheader = true;
+        this.agHeaderCheckbox = true;     
+       }
+       if(hederEliment == 'ag-icon ag-icon-checkbox-checked'){
+        this.agheader = false;
+        this.agHeaderCheckbox = false;     
+       }
+
     })
   }
   
@@ -427,11 +437,16 @@ export class ItemsListComponent implements OnInit {
 
   getItems() {
     this.itemsService
-      .getItemsByProject(this.projectId)
-      .subscribe((items: any) => {
-        this.items = items;
+      .countItemsByProject(this.projectId)
+      .subscribe((count: any) => {
+        this.TotalItems = count;
+        this.totalPage = Math.ceil(this.TotalItems / 100);
+        if( this.totalPage == 1){
+          this.pageNo =1;
+        }
+        this.ongetItemsByProjectWithPagination(this.pageNo);
       });
-     this.ongetItemsByProjectWithPagination(this.pageNo);
+     
   }
 
   countItemsByProject() {
@@ -440,6 +455,9 @@ export class ItemsListComponent implements OnInit {
       .subscribe((count: any) => {
         this.TotalItems = count;
         this.totalPage = Math.ceil(this.TotalItems / 100);
+        if( this.totalPage == 1){
+          this.pageNo =1;
+        }
       });
   }
 
@@ -472,6 +490,7 @@ export class ItemsListComponent implements OnInit {
 
     var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
     if (idx > -1) {
+      // console.log('=====1==>')
       if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
         if (event.node.selected == false) {
           this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
@@ -481,6 +500,8 @@ export class ItemsListComponent implements OnInit {
       }
 
     } else {
+      // console.log('=====2>')
+
       this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
     }
     
@@ -582,6 +603,7 @@ export class ItemsListComponent implements OnInit {
       this.SelectedRowData.splice(index, 1);
     } else {
       var indx = this.SelectedRowData.indexOf(n);
+
       this.SelectedRowData.splice(indx, 1);
     }
 
@@ -589,17 +611,22 @@ export class ItemsListComponent implements OnInit {
   }
 
   getLatestitem(e) {
+    // this.countItemsByProject();
     this.getItems();
-    this.countItemsByProject();
     this.notreffress = true
     this.SelectedRowData = []
     if (this.notreffress == true) {
       if( e == 'delete' || e == 'duplicate'|| e.ok == 1){
+        if(e == 'duplicate'){
+          this.notreffress = false;
+
+        }
         var truerows = this.gridRows.findIndex(x => x.selected == true);
         //truerows.each(row => {
           this.gridRows[truerows].selected = false;
         //});
         this.RowIndex = [];
+        
       }
       if (this.gridRows.findIndex(x => x.selected == false) > -1) {
         this.showAllCheckBox = false;
@@ -989,8 +1016,19 @@ export class ItemsListComponent implements OnInit {
             }
           });
         }
+        // console.log('this.agHeaderCheckbox=======>', this.agHeaderCheckbox)
+        // console.log('this.agheader=======>', this.agheader)
+
+        if(this.agHeaderCheckbox == true && this.agheader == true){
+          event.api.selectAll();
+        }
+        if(this.agHeaderCheckbox == false && this.agheader == false){
+          event.api.deselectAll();
+        }
+        
       })
     }
+
     //  });
   }
 

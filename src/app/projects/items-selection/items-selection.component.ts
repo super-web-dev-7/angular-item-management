@@ -159,15 +159,9 @@ export class ItemsSelectionComponent implements OnInit {
       .deleteItemsByid(data1)
       .subscribe((result) => {
         if (result) {
-          this.itemsService
-            .getItemsByProject(this.projectId)
-            .subscribe((items: any) => {
-              this.getLatestitem.emit('delete');
-              
+              this.getLatestitem.emit('delete');            
               this.SelectedRowData = []
               document.getElementById('popupid').hidden = true
-
-            });
         }
       });
 
