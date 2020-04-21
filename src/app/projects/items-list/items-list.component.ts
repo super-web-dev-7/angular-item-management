@@ -246,17 +246,35 @@ export class ItemsListComponent implements OnInit {
         }
       })
     });
+  //   let timeout = null;
+  //   document.addEventListener("keydown", event =>{
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(function () {
+  //       if(event['path'][1].getAttribute('class')=='filterinput'){
+  //         var  techename = event['path'][1].getAttribute('name')
+  //         this.searchedValue = event.target['value']
+  //         setTimeout(() => {
+  //           this.filterGridbyApi(techename);
+  //          }, 500);  
+  //        }
+  //     }, 1000);
 
-    document.addEventListener("keyup", event =>{
-     if(event['path'][1].getAttribute('class')=='filterinput'){
-      var  techename = event['path'][1].getAttribute('name')
-      this.searchedValue = event.target['value']
-      setTimeout(() => {
-        this.filterGridbyApi(techename);
-       }, 500);  
-     }
 
-  })
+  // })
+
+  let timeout = null;
+  document.addEventListener("keyup", event =>{
+    console.log('')
+    clearTimeout(timeout);
+    if(event['path'][1].getAttribute('class')=='search_text_default'){
+    timeout = setTimeout(() => {
+        var techename = event['path'][1].getAttribute('name')
+        this.searchedValue = event.target['value']
+        this.filterGridbyApi(techename);     
+    }, 1000);
+
+  }
+})
 
     var elim = document.getElementsByClassName("ag-row")[0]
     elim.addEventListener("click", event => {
