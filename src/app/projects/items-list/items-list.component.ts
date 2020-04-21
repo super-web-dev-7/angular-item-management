@@ -248,11 +248,12 @@ export class ItemsListComponent implements OnInit {
     });
 
     document.addEventListener("keyup", event =>{
+      console.log('')
     var  techename = event['path'][1].getAttribute('name')
       this.searchedValue = event.target['value']
       setTimeout(() => {
         this.filterGridbyApi(techename);
-       }, 300);  
+       }, 500);  
 
   })
 
