@@ -264,7 +264,7 @@ export class ItemsListComponent implements OnInit {
 
   let timeout = null;
   document.addEventListener("keyup", event =>{
-    console.log('')
+    console.log('');
     clearTimeout(timeout);
     if(event['path'][1].getAttribute('class')=='search_text_default'){
     timeout = setTimeout(() => {
