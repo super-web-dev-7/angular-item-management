@@ -248,12 +248,13 @@ export class ItemsListComponent implements OnInit {
     });
 
     document.addEventListener("keyup", event =>{
-      console.log('')
-    var  techename = event['path'][1].getAttribute('name')
+     if(event['path'][1].getAttribute('class')=='filterinput'){
+      var  techename = event['path'][1].getAttribute('name')
       this.searchedValue = event.target['value']
       setTimeout(() => {
         this.filterGridbyApi(techename);
        }, 500);  
+     }
 
   })
 
@@ -267,8 +268,6 @@ export class ItemsListComponent implements OnInit {
     var agHeader = document.getElementsByClassName("ag-header-select-all")[0]
     agHeader.addEventListener("click", event => {
        var hederEliment =event['toElement'].getAttribute('class')
-       console.log(hederEliment)
-
       if(hederEliment == 'ag-icon ag-icon-checkbox-unchecked'){
         this.agheader = true;
         this.agHeaderCheckbox = true;     
@@ -674,44 +673,51 @@ export class ItemsListComponent implements OnInit {
   }
 
   oncellValueChanged(event) {
-    this.dbclicked = false;
-    localStorage.setItem('pdata', 'true')
-    var data
-    Object.keys(event.data).forEach((key, index) => {
-      if (event.data[key] == event.newValue) {
-        if (event.colDef.cellEditor) {
-          let date = new Date(event.newValue);
-          data = {
-            _id: event.data._id,
-            projectId: event.data.projectId,
+    if(!event.newValue){
+      this.ongetItemsByProjectWithPagination(this.pageNo); 
+    }else{
+      this.dbclicked = false;
+      localStorage.setItem('pdata', 'true')
+      var data
+      Object.keys(event.data).forEach((key, index) => {
+        if (event.data[key] == event.newValue) {
+          if (event.colDef.cellEditor) {
+            let date = new Date(event.newValue);
+            data = {
+              _id: event.data._id,
+              projectId: event.data.projectId,
+            }
+            data[key] = date
+          } else {
+            data = {
+              _id: event.data._id,
+              projectId: event.data.projectId,
+            }
+            data[key] = event.newValue;
           }
-          data[key] = date
-        } else {
-          data = {
-            _id: event.data._id,
-            projectId: event.data.projectId,
-          }
-          data[key] = event.newValue;
+  
         }
-
-      }
-    })
-    if (event.oldValue != event.newValue ) {
-      if(data._id){
-        this.itemsService
-        .editItemByProject(data)
-        .subscribe(result => {
-          if (result) {
-            this.dbclicked = false;
-            localStorage.setItem('pdata', 'true')
-            // this.getItems();
-          }
-        });
+      })
+      if (event.oldValue != event.newValue ) {
+        if(data._id){
+          this.itemsService
+          .editItemByProject(data)
+          .subscribe(result => {
+            if (result) {
+              this.ongetItemsByProjectWithPagination(this.pageNo); 
+              this.dbclicked = false;
+              localStorage.setItem('pdata', 'true')
+                  
+               }
+          });
+        }
       }
     }
+  
   }
 
   oncellDoubleClicked(event) {
+
     this.dbclicked = true;
     this.getShow.emit();
     localStorage.setItem('pdata', 'false')
@@ -966,7 +972,6 @@ export class ItemsListComponent implements OnInit {
   }
 
   filterGridbyApi(techname) {
-
     var data = {
       filter: [
         {
