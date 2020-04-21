@@ -3,7 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import { ModalComponent } from '../../common/modal/modal.component';
 import { CreateFieldComponent } from './create-field/create-field.component';
 import { IField } from '../../models/field.model';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { faLink } from '@fortawesome/pro-light-svg-icons';
 import { ModalSize } from '@app/common/modal/ModalEnums';
 
 @Component({

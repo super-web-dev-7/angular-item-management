@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input, forwardRef } from '@angular/core';
 import { EditorSelection } from './selection';
-import { faPlus, faMinus, faTimes, faDivide, faCaretDown, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus, faTimes, faDivide, faCaretDown, IconDefinition } from '@fortawesome/pro-light-svg-icons';;
 import { IField } from '@app/models/field.model';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { FieldType } from '@app/models/FieldType';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { SwitchEditorComponent } from '../switch-editor/switch-editor.component';
 
 @Component({
   selector: 'app-expression-editor',
@@ -10,26 +13,37 @@ import { trigger, transition, style, animate } from '@angular/animations';
   styleUrls: ['./expression-editor.component.scss'],
   animations: [
     trigger('panelInOut', [
-        transition('void => *', [
-            style({transform: 'translateY(-20%)'}),
-            animate(100)
-        ]),
-        transition('* => void', [
-            animate(100, style({transform: 'translateY(-20%)'}))
-        ])
+      transition('void => *', [
+        style({ transform: 'translateY(-20%)' }),
+        animate(100)
+      ]),
+      transition('* => void', [
+        animate(100, style({ transform: 'translateY(-20%)' }))
+      ])
     ])
-]
+  ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ExpressionEditorComponent),
+      multi: true
+    }
+  ]
 })
-export class ExpressionEditorComponent implements OnInit, AfterViewInit {
+export class ExpressionEditorComponent implements OnInit, ControlValueAccessor {
 
   private plainText = "";
   private formattedText = "";
-  private addIcon: IconDefinition;
-  private subtractIcon;
-  private multIcon;
-  private divisionIcon;
-  private menuDownIcon;
-  private fieldRegexList = [];
+  onChange;
+  onTouched;
+  isDisabled = false;
+  addIcon: IconDefinition;
+  subtractIcon;
+  multIcon;
+  divisionIcon;
+  menuDownIcon;
+  fieldRegexList = [];
+  filterParams = { type: FieldType.NUMBER, label: "" }
 
   @Input() fieldsOptions: IField[];
 
@@ -48,34 +62,50 @@ export class ExpressionEditorComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit() {
-
+  writeValue(obj: any): void {
+    console.log(obj);
+    setTimeout(() => {
+      if (this.expressionEditor) {
+        this.expressionEditor.nativeElement.innerHTML = obj;
+        this.onExpressionChange();
+      }
+    });
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
-  onExpressionChange(value) {
+  setDisabledState?(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+  }
+
+  onExpressionChange() {
     this.plainText = this.expressionEditor.nativeElement.innerText;
     this.formattedText = this.applyHighlights(this.plainText);
     let selection = new EditorSelection(this.expressionEditor.nativeElement);
     selection.saveCurrentSelection();
     this.expressionEditor.nativeElement.innerHTML = this.formattedText;
     selection.restoreSelection();
+    this.onChange(this.plainText);
+    this.onTouched(true);
   }
 
   applyHighlights(text) {
     let replacedText = text;
+    this.fieldsOptions.forEach(field => {
+      replacedText = replacedText.replace(new RegExp(field.label, 'g'), this.getFieldElement(field.label))
+    });
     replacedText = replacedText
       //  .replace(/([a-zA-Z]+)/g,'<span class="text">$1</span>')
-      .replace(/([/])/g, this.getDivisionElement())
-      .replace(/([0-9]+)/g, this.getNumberElement("$1"))
+      .replace(/(?=[/])(?!\/mark)./g, this.getDivisionElement())
+      .replace(/(?!<mark[^>]*?>)([0-9]+)(?![^<]*?<\/mark>)/g, this.getNumberElement("$1"))
       .replace(/([+])/g, this.getAddElement())
       .replace(/([*])/g, this.getMultElement())
       .replace(/([-])/g, this.getSubtractElement());
-      this.fieldsOptions.forEach(field => {
-        console.log(field.label);
-        console.log(replacedText.indexOf(field.label));
-        replacedText = replacedText.replace(new RegExp(field.label, 'g'), this.getFieldElement(field.label))
-      });
-      return replacedText;
+    return replacedText;
   }
 
   onToggleFields() {
@@ -110,7 +140,7 @@ export class ExpressionEditorComponent implements OnInit, AfterViewInit {
     var textAfter = text.substring(pos, text.length);
     text = `${textBefore}${operationText}${textAfter}`;
     this.expressionEditor.nativeElement.innerHTML = text;
-    this.onExpressionChange(text);
+    this.onExpressionChange();
     selection.restoreSelectionPlus(operationText.length);
   }
 

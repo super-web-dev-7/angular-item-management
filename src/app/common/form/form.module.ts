@@ -12,9 +12,10 @@ import { ExpressionEditorComponent } from './expression-editor/expression-editor
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { FieldsFilterPipe } from './expression-editor/fields-filter.pipe';
 
 @NgModule({
-  declarations: [DropdownEditorComponent, SwitchEditorComponent, TextEditorComponent, MultiselectEditorComponent, ExpressionEditorComponent],
+  declarations: [DropdownEditorComponent, SwitchEditorComponent, TextEditorComponent, MultiselectEditorComponent, ExpressionEditorComponent, FieldsFilterPipe],
   imports: [
     CommonModule,
     FontAwesomeModule,

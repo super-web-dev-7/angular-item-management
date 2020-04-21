@@ -20,8 +20,6 @@
 }
 
 .fields-options {
-    max-height: 100px;
-    overflow: hidden;
     transition: all .3s;
     background-color: #f7f7f7;
 
@@ -31,6 +29,10 @@
 
     button:hover {
         background: #efeeee;
+    }
+    .fields {
+        max-height: 100px;
+        overflow: hidden;
     }
 }
 
