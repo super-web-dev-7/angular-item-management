@@ -555,15 +555,16 @@ export class ItemsListComponent implements OnInit {
       } else {
         this.selectedRows = 0;
         this.showAllCheckBox = false;
-        //if (this.SelectedRowData.length == 0) {
+        if (this.SelectedRowData.length == 0) {
           document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
             element.setAttribute("style", "display: none");
           })
-        /*} else {
+        }
+         else {
           document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
             element.setAttribute("style", "display: block");
           })
-        }*/
+         }
       }
     }
 
