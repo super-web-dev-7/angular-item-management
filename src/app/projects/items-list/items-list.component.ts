@@ -77,6 +77,7 @@ export class ItemsListComponent implements OnInit {
   CustomeHeaderField: any;
   columnMoved: boolean;
   countCallingOfKeypress: number;
+  dragEnterRowOrder: any;
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService
@@ -681,28 +682,31 @@ export class ItemsListComponent implements OnInit {
     this.SelectedSingleRowData = event.data;
   }
 
+  onrowDragEnter(event){
+    this.dragEnterRowOrder = event.api.rowModel.rowsToDisplay[0].data.order;
+  }
   onrowDragEnd(event) {
-    if (event.overIndex == 0) {
-      event.overIndex = 1
-    }
-    var data = {
-      itemIds: [event.node.data._id],
-      orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order
-    }
+    var data ;
+    //  console.log('event=>',event)
+    // console.log('order=>',event.api.rowModel.rowsToDisplay[100].data.order)
 
-    // data.itemIds.push( event.api.rowModel.rowsToDisplay[event.overIndex - 1].data._id)
+    if (event.overIndex == 0) {
+      data = {
+        itemIds: [event.node.data._id],
+        orderToPlace:this.dragEnterRowOrder-1
+      }
+    }else{
+      data = {
+        itemIds: [event.node.data._id],
+        orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order
+      }
+    }
     this.itemsService
       .changeOrder(data)
       .subscribe((result: any) => {
         if (result) {
-          // this.itemsService
-          // .getItemsByProject(this.projectId)
-          // .subscribe((items: any) => {
-          //  console.log('after drg====items===>',items)
-          //   this.items = items;
-          // });    
-          this.ongetItemsByProjectWithPagination(this.pageNo)
-
+          this.dragEnterRowOrder=null
+         this.ongetItemsByProjectWithPagination(this.pageNo);
         }
       });
 
