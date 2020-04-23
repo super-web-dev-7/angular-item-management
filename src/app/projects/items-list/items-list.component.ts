@@ -539,10 +539,11 @@ export class ItemsListComponent implements OnInit {
       this.showAllCheckBox = true;
       var d = this.gridRows.filter(x => x.selected == true);
       this.selectedRows = d ? d.length : 0;
-      document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-        element.setAttribute("style", "display: block");
-      })
-    } else {
+        document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+          element.setAttribute("style", "display: block");
+        })
+      } else {
+        
       if (this.notreffress == true) {
         if (this.gridRows.findIndex(x => x.selected == false) > -1) {
           this.showAllCheckBox = true;
@@ -553,18 +554,20 @@ export class ItemsListComponent implements OnInit {
           })
         }
       } else {
-        this.selectedRows = 0;
-        this.showAllCheckBox = false;
+        // if(this.SelectedRowData.length == 0){
+          this.selectedRows = 0;
+          this.showAllCheckBox = false;
+        // }
+
         if (this.SelectedRowData.length == 0) {
           document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
             element.setAttribute("style", "display: none");
           })
-        }
-         else {
+        } else {
           document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
             element.setAttribute("style", "display: block");
           })
-         }
+        }
       }
     }
 
@@ -669,10 +672,14 @@ export class ItemsListComponent implements OnInit {
   }
 
   onrowDragEnd(event) {
+    if(event.overIndex == 0){
+      event.overIndex =1
+    }
     var data = {
       itemIds: [event.node.data._id],
       orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order
     }
+
     // data.itemIds.push( event.api.rowModel.rowsToDisplay[event.overIndex - 1].data._id)
     this.itemsService
       .changeOrder(data)
@@ -898,6 +905,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   moveToNext() {
+  
     this.datainarry = false;
     if (this.pageNo < this.totalPage) {
       this.pageNo = this.pageNo + 1;
