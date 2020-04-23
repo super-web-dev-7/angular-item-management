@@ -6,6 +6,8 @@ import { ModalDirective, idLocale } from 'ngx-bootstrap';
 import { _ } from "ag-grid-community";
 import { json } from "d3";
 import { JsonPipe } from "@angular/common";
+// import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component';
+// import 'ag-grid-enterprise';
 
 @Component({
   selector: "app-items-list",
@@ -89,10 +91,10 @@ export class ItemsListComponent implements OnInit {
     this.gridApi.setSuppressClipboardPaste(false);
     this.onLoadCustonHtml();
   }
-  onLoadCustonHtml(){
+  onLoadCustonHtml() {
     document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
       var x = Math.floor((Math.random() * 99999) + 1);
-      if(element){
+      if (element) {
         element.setAttribute("style", "display: none");
         element.setAttribute("id", 'row' + this.pageNo + x);
       }
@@ -109,12 +111,12 @@ export class ItemsListComponent implements OnInit {
           }
           if (this.clickOnHeader == 0) {
             var errow_up = document.createElement("SPAN")
-            if(errow_up){
+            if (errow_up) {
               errow_up.setAttribute("id", e.getAttribute("col-id"));
               errow_up.setAttribute("style", "display: block");
             }
             var errow_up_icon = document.createElement("I")
-            if(errow_up_icon){
+            if (errow_up_icon) {
               errow_up_icon.setAttribute("class", "fa fa-long-arrow-up");
             }
             var aa = e.appendChild(errow_up);
@@ -143,7 +145,7 @@ export class ItemsListComponent implements OnInit {
           }
           if (this.clickOnHeader == 2) {
             this.sortOrder = 'null';
-            this.headerField ='null';
+            this.headerField = 'null';
             this.CustomeHeaderField = e.getAttribute("col-id");
             if (iconClass != 'fa fa-bars' && iconClass != 'filterinput') {
               this.sortGridbyApi(this.sortOrder, this.headerField, event['__agGridEventPath'])
@@ -153,128 +155,128 @@ export class ItemsListComponent implements OnInit {
         this.clickOnHeader = this.clickOnHeader + 1;
         if (this.clickOnHeader == 3) {
           this.clickOnHeader = 0;
-          
+
         }
       })
     });
 
     ele.addEventListener("mouseover", event => {
-    document.querySelectorAll(".ag-header-cell").forEach((element) => {
-      var id = element.getAttribute("col-id")
-      var filterIcon = document.createElement("SPAN")
-      var filteredIcon = document.createElement("SPAN")
-      filterIcon.setAttribute("style", "display: none");
-      filterIcon.setAttribute("id", 'serico' + element.getAttribute("col-id"));
-      filteredIcon.setAttribute("style", "display: none");
-      filteredIcon.setAttribute("id", 'filterd' + element.getAttribute("col-id"));
-      var filterIcon_icon = document.createElement("I")
-      var filteredIcon_icon = document.createElement("I")
-      if(filterIcon_icon){
-        filterIcon_icon.setAttribute("class", "fa fa-bars");
-      }
-      if(filteredIcon_icon){
-        filteredIcon_icon.setAttribute("class", "fa fa-filter");
-
-      }
-
-      var aa = element.appendChild(filterIcon);
-      var bb = element.appendChild(filteredIcon);
-      aa.appendChild(filterIcon_icon);
-      bb.appendChild(filteredIcon_icon);
-
-      var filterDiv = document.createElement("DIV")
-      filterDiv.setAttribute("class", "search_text_default");
-      filterDiv.setAttribute("id", 'serinp' + element.getAttribute("col-id"));
-      filterDiv.setAttribute("name", element.getAttribute("col-id"))
-      filterDiv.setAttribute("style", "display: none");
-      this.oldSearchId = 'serinp' + element.getAttribute("col-id");
-      var filterInputBox = document.createElement("INPUT");
-    
-      filterInputBox.setAttribute("placeholder", 'search text....')
-      filterInputBox.setAttribute("class", "filterinput")
-
-      this.fields.forEach(row => {
-        if (row.techName == id) {
-          if (row.type == 1) {
-            filterInputBox.setAttribute("type", "number")
-          }
+      document.querySelectorAll(".ag-header-cell").forEach((element) => {
+        var id = element.getAttribute("col-id")
+        var filterIcon = document.createElement("SPAN")
+        var filteredIcon = document.createElement("SPAN")
+        filterIcon.setAttribute("style", "display: none");
+        filterIcon.setAttribute("id", 'serico' + element.getAttribute("col-id"));
+        filteredIcon.setAttribute("style", "display: none");
+        filteredIcon.setAttribute("id", 'filterd' + element.getAttribute("col-id"));
+        var filterIcon_icon = document.createElement("I")
+        var filteredIcon_icon = document.createElement("I")
+        if (filterIcon_icon) {
+          filterIcon_icon.setAttribute("class", "fa fa-bars");
         }
-      }); var filteredIcon_hr = document.createElement("HR")
-      var dd = element.appendChild(filterDiv);
+        if (filteredIcon_icon) {
+          filteredIcon_icon.setAttribute("class", "fa fa-filter");
 
-      dd.appendChild(filterInputBox);
-      dd.appendChild(filteredIcon_hr);
-    });
+        }
+
+        var aa = element.appendChild(filterIcon);
+        var bb = element.appendChild(filteredIcon);
+        aa.appendChild(filterIcon_icon);
+        bb.appendChild(filteredIcon_icon);
+
+        var filterDiv = document.createElement("DIV")
+        filterDiv.setAttribute("class", "search_text_default");
+        filterDiv.setAttribute("id", 'serinp' + element.getAttribute("col-id"));
+        filterDiv.setAttribute("name", element.getAttribute("col-id"))
+        filterDiv.setAttribute("style", "display: none");
+        this.oldSearchId = 'serinp' + element.getAttribute("col-id");
+        var filterInputBox = document.createElement("INPUT");
+
+        filterInputBox.setAttribute("placeholder", 'search text....')
+        filterInputBox.setAttribute("class", "filterinput")
+
+        this.fields.forEach(row => {
+          if (row.techName == id) {
+            if (row.type == 1) {
+              filterInputBox.setAttribute("type", "number")
+            }
+          }
+        }); var filteredIcon_hr = document.createElement("HR")
+        var dd = element.appendChild(filterDiv);
+
+        dd.appendChild(filterInputBox);
+        dd.appendChild(filteredIcon_hr);
+      });
 
       event['path'].forEach(e => {
         if (e && e.getAttribute && e.getAttribute("col-id")) {
           document.querySelectorAll(".ag-header-cell").forEach((element) => {
             var data = document.getElementById('serico' + element.getAttribute("col-id"));
-            if(data){
-             data.setAttribute("style", "display: none")
+            if (data) {
+              data.setAttribute("style", "display: none")
             }
           });
           var filterIcon_icon = document.getElementById('serico' + e.getAttribute("col-id"));
-          if(filterIcon_icon){
+          if (filterIcon_icon) {
             filterIcon_icon.setAttribute("style", "display: block");
 
           }
-          if(filterIcon_icon){
-          filterIcon_icon.addEventListener("click", event => {
-            event['path'].forEach(e => {
-              if (e && e.getAttribute && e.getAttribute("col-id")) {
-                document.querySelectorAll(".ag-header-cell").forEach((element) => {
-                  var data = document.getElementById('serinp' + element.getAttribute("col-id"));
-                  if(data){
-                    data.setAttribute("style", "display: none")
+          if (filterIcon_icon) {
+            filterIcon_icon.addEventListener("click", event => {
+              event['path'].forEach(e => {
+                if (e && e.getAttribute && e.getAttribute("col-id")) {
+                  document.querySelectorAll(".ag-header-cell").forEach((element) => {
+                    var data = document.getElementById('serinp' + element.getAttribute("col-id"));
+                    if (data) {
+                      data.setAttribute("style", "display: none")
+                    }
+                  });
+                  var singleInput = document.getElementById('serinp' + e.getAttribute("col-id"))
+                  this.openedSearchedBoxId = 'serinp' + e.getAttribute("col-id");
+                  if (singleInput) {
+                    singleInput.setAttribute("style", "display: block")
                   }
-                });
-                var singleInput = document.getElementById('serinp' + e.getAttribute("col-id"))
-                this.openedSearchedBoxId = 'serinp' + e.getAttribute("col-id");
-                if(singleInput){
-                  singleInput.setAttribute("style", "display: block")
-                }
-                singleInput.addEventListener("keyup", event =>{
+                  singleInput.addEventListener("keyup", event => {
                     var filrtedtext = document.getElementById('filterd' + e.getAttribute("col-id"))
                     filrtedtext.setAttribute("style", "display: block")
-                })
-              }
+                  })
+                }
+              })
             })
-          })
-        }
+          }
 
         }
       })
     });
-  //   let timeout = null;
-  //   document.addEventListener("keydown", event =>{
-  //     clearTimeout(timeout);
-  //     timeout = setTimeout(function () {
-  //       if(event['path'][1].getAttribute('class')=='filterinput'){
-  //         var  techename = event['path'][1].getAttribute('name')
-  //         this.searchedValue = event.target['value']
-  //         setTimeout(() => {
-  //           this.filterGridbyApi(techename);
-  //          }, 500);  
-  //        }
-  //     }, 1000);
+    //   let timeout = null;
+    //   document.addEventListener("keydown", event =>{
+    //     clearTimeout(timeout);
+    //     timeout = setTimeout(function () {
+    //       if(event['path'][1].getAttribute('class')=='filterinput'){
+    //         var  techename = event['path'][1].getAttribute('name')
+    //         this.searchedValue = event.target['value']
+    //         setTimeout(() => {
+    //           this.filterGridbyApi(techename);
+    //          }, 500);  
+    //        }
+    //     }, 1000);
 
 
-  // })
+    // })
 
-  let timeout = null;
-  document.addEventListener("keyup", event =>{
-    console.log('');
-    clearTimeout(timeout);
-    if(event['path'][1].getAttribute('class')=='search_text_default'){
-    timeout = setTimeout(() => {
-        var techename = event['path'][1].getAttribute('name')
-        this.searchedValue = event.target['value']
-        this.filterGridbyApi(techename);     
-    }, 1000);
+    let timeout = null;
+    document.addEventListener("keyup", event => {
+      console.log('');
+      clearTimeout(timeout);
+      if (event['path'][1].getAttribute('class') == 'search_text_default') {
+        timeout = setTimeout(() => {
+          var techename = event['path'][1].getAttribute('name')
+          this.searchedValue = event.target['value']
+          this.filterGridbyApi(techename);
+        }, 1000);
 
-  }
-})
+      }
+    })
 
     var elim = document.getElementsByClassName("ag-row")[0]
     elim.addEventListener("click", event => {
@@ -285,23 +287,23 @@ export class ItemsListComponent implements OnInit {
     })
     var agHeader = document.getElementsByClassName("ag-header-select-all")[0]
     agHeader.addEventListener("click", event => {
-       var hederEliment =event['toElement'].getAttribute('class')
-      if(hederEliment == 'ag-icon ag-icon-checkbox-unchecked'){
+      var hederEliment = event['toElement'].getAttribute('class')
+      if (hederEliment == 'ag-icon ag-icon-checkbox-unchecked') {
         this.agheader = true;
-        this.agHeaderCheckbox = true;     
-       }
-       if(hederEliment == 'ag-icon ag-icon-checkbox-checked'){
+        this.agHeaderCheckbox = true;
+      }
+      if (hederEliment == 'ag-icon ag-icon-checkbox-checked') {
         this.agheader = false;
-        this.agHeaderCheckbox = false;     
-       }
+        this.agHeaderCheckbox = false;
+      }
 
     })
   }
-  
+
   ngOnInit() {
     this.ongetItemsByProjectWithPagination(this.pageNo);
     this.countItemsByProject();
-    
+
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
       fields.forEach(field => {
@@ -313,19 +315,19 @@ export class ItemsListComponent implements OnInit {
               editable: true,
               resizable: true,
               cellEditor: "datePicker",
-              colId:field.techName
+              colId: field.techName
             });
             this.components = { datePicker: this.getDatePicker() };
 
           }
           if (field.type == 5) {
-            if(field.optionsForSelect){
+            if (field.optionsForSelect) {
               this.itemCulomns.push({
                 headerName: field.label,
                 field: field.techName,
                 editable: true,
                 resizable: true,
-                colId:field.techName,
+                colId: field.techName,
                 cellEditor: "agSelectCellEditor",
                 cellEditorParams: {
                   values: field.optionsForSelect
@@ -341,13 +343,21 @@ export class ItemsListComponent implements OnInit {
               type: 'number',
               editable: true,
               resizable: true,
-              colId:field.techName,
+              colId: field.techName,
               valueGetter: function (params) {
                 return params.data[field.techName];
               },
               valueSetter: function (params) {
+
                 if (params.data[field.techName] !== params.newValue) {
-                  params.data[field.techName] = parseInt(params.newValue);
+                  var data = parseInt(params.newValue)
+                  if (!data) {
+                    params.newValue = parseInt(params.oldValue);
+                  } else {
+                    params.data[field.techName] = parseInt(params.newValue);
+                    return true;
+                  }
+
                   return true;
                 } else {
                   return false;
@@ -360,7 +370,7 @@ export class ItemsListComponent implements OnInit {
               headerName: field.label,
               field: field.techName,
               editable: true,
-              colId:field.techName,
+              colId: field.techName,
               resizable: true,
             });
           }
@@ -388,12 +398,12 @@ export class ItemsListComponent implements OnInit {
           else {
             this.fieldType.push("text");
           }
-     //   } 
-        // else {
-        //   this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
-        
+          //   } 
+          // else {
+          //   this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
+
         }
-        if(localStorage.getItem('gridHeader')){
+        if (localStorage.getItem('gridHeader')) {
           this.fieldslable.push(field.label)
           this.fieldName.push(field.techName);
           if (field.type == 0) {
@@ -417,7 +427,7 @@ export class ItemsListComponent implements OnInit {
           else {
             this.fieldType.push("text");
           }
-          this.itemCulomns =[]
+          this.itemCulomns = []
           this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
         }
       });
@@ -436,8 +446,8 @@ export class ItemsListComponent implements OnInit {
       }
 
     });
-    
-    
+
+
     this.defaultColDef = {
       width: 150,
       resizeable: true,
@@ -447,9 +457,9 @@ export class ItemsListComponent implements OnInit {
     this.autoGroupColumnDef = {
 
     };
-    
+
     localStorage.setItem('pdata', 'true')
-    
+
   }
 
   itemsSelectionshow() {
@@ -464,12 +474,12 @@ export class ItemsListComponent implements OnInit {
       .subscribe((count: any) => {
         this.TotalItems = count;
         this.totalPage = Math.ceil(this.TotalItems / 100);
-        if( this.totalPage == 1){
-          this.pageNo =1;
+        if (this.totalPage == 1) {
+          this.pageNo = 1;
         }
         this.ongetItemsByProjectWithPagination(this.pageNo);
       });
-     
+
   }
 
   countItemsByProject() {
@@ -478,8 +488,8 @@ export class ItemsListComponent implements OnInit {
       .subscribe((count: any) => {
         this.TotalItems = count;
         this.totalPage = Math.ceil(this.TotalItems / 100);
-        if( this.totalPage == 1){
-          this.pageNo =1;
+        if (this.totalPage == 1) {
+          this.pageNo = 1;
         }
       });
   }
@@ -503,7 +513,7 @@ export class ItemsListComponent implements OnInit {
       .subscribe((items: any) => {
         this.items = items;
         this.countPaginetionValues();
-        
+
       });
 
   }
@@ -527,7 +537,7 @@ export class ItemsListComponent implements OnInit {
 
       this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
     }
-    
+
     this.gridRows = '';
     this.gridRows = event.api.rowModel.rowsToDisplay;
 
@@ -539,11 +549,11 @@ export class ItemsListComponent implements OnInit {
       this.showAllCheckBox = true;
       var d = this.gridRows.filter(x => x.selected == true);
       this.selectedRows = d ? d.length : 0;
-        document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-          element.setAttribute("style", "display: block");
-        })
-      } else {
-        
+      document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+        element.setAttribute("style", "display: block");
+      })
+    } else {
+
       if (this.notreffress == true) {
         if (this.gridRows.findIndex(x => x.selected == false) > -1) {
           this.showAllCheckBox = true;
@@ -555,8 +565,8 @@ export class ItemsListComponent implements OnInit {
         }
       } else {
         // if(this.SelectedRowData.length == 0){
-          this.selectedRows = 0;
-          this.showAllCheckBox = false;
+        this.selectedRows = 0;
+        this.showAllCheckBox = false;
         // }
 
         if (this.SelectedRowData.length == 0) {
@@ -573,7 +583,7 @@ export class ItemsListComponent implements OnInit {
 
     if (event.node.selected == true) {
       const result = this.SelectedRowData.find(elim => elim._id === event.data._id);
-      
+
       if (result == undefined && result != event.data.order) {
         this.SelectedRowData.push(event.data)
         this.noOfSelectedRows = this.SelectedRowData.length
@@ -605,7 +615,7 @@ export class ItemsListComponent implements OnInit {
   }
 
 
-  oncellMouseOut(event){
+  oncellMouseOut(event) {
     if (!this.showAllCheckBox) {
       if (this.SelectedRowData.length == 0) {
         document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
@@ -643,17 +653,17 @@ export class ItemsListComponent implements OnInit {
     this.notreffress = true
     this.SelectedRowData = []
     if (this.notreffress == true) {
-      if( e == 'delete' || e == 'duplicate'|| e.ok == 1){
-        if(e == 'duplicate'){
+      if (e == 'delete' || e == 'duplicate' || e.ok == 1) {
+        if (e == 'duplicate') {
           this.notreffress = false;
 
         }
         var truerows = this.gridRows.findIndex(x => x.selected == true);
         //truerows.each(row => {
-          this.gridRows[truerows].selected = false;
+        this.gridRows[truerows].selected = false;
         //});
         this.RowIndex = [];
-        
+
       }
       if (this.gridRows.findIndex(x => x.selected == false) > -1) {
         this.showAllCheckBox = false;
@@ -672,8 +682,8 @@ export class ItemsListComponent implements OnInit {
   }
 
   onrowDragEnd(event) {
-    if(event.overIndex == 0){
-      event.overIndex =1
+    if (event.overIndex == 0) {
+      event.overIndex = 1
     }
     var data = {
       itemIds: [event.node.data._id],
@@ -693,15 +703,16 @@ export class ItemsListComponent implements OnInit {
           // });    
           this.ongetItemsByProjectWithPagination(this.pageNo)
 
-            }
+        }
       });
 
   }
 
   oncellValueChanged(event) {
-    if(!event.newValue){
-      this.ongetItemsByProjectWithPagination(this.pageNo); 
-    }else{
+    if (!event.newValue) {
+
+      // this.ongetItemsByProjectWithPagination(this.pageNo); 
+    } else {
       this.dbclicked = false;
       localStorage.setItem('pdata', 'true')
       var data
@@ -721,25 +732,25 @@ export class ItemsListComponent implements OnInit {
             }
             data[key] = event.newValue;
           }
-  
+
         }
       })
-      if (event.oldValue != event.newValue ) {
-        if(data._id){
+      if (event.oldValue != event.newValue) {
+        if (data._id) {
           this.itemsService
-          .editItemByProject(data)
-          .subscribe(result => {
-            if (result) {
-          //    this.ongetItemsByProjectWithPagination(this.pageNo); 
-              this.dbclicked = false;
-              localStorage.setItem('pdata', 'true')
-                  
-               }
-          });
+            .editItemByProject(data)
+            .subscribe(result => {
+              if (result) {
+                //    this.ongetItemsByProjectWithPagination(this.pageNo); 
+                this.dbclicked = false;
+                localStorage.setItem('pdata', 'true')
+
+              }
+            });
         }
       }
     }
-  
+
   }
 
   oncellDoubleClicked(event) {
@@ -750,20 +761,20 @@ export class ItemsListComponent implements OnInit {
   }
 
   oncolumnMoved(event) {
-     const found = this.itemCulomns.find(element => element.headerName == event.column.userProvidedColDef.headerName);
-    if(found){
+    const found = this.itemCulomns.find(element => element.headerName == event.column.userProvidedColDef.headerName);
+    if (found) {
       const index = this.itemCulomns.indexOf(found);
-       this.move(this.itemCulomns, index, event.toIndex)
-        localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
-        this.columnMoved = true;
-        // this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
-       //  this.ngOnInit()
+      this.move(this.itemCulomns, index, event.toIndex)
+      localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
+      this.columnMoved = true;
+      // this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
+      //  this.ngOnInit()
     }
 
   }
 
-  ondragStopped(event){
-    if(this.columnMoved){
+  ondragStopped(event) {
+    if (this.columnMoved) {
       this.ngOnInit()
     }
     // this.onLoadCustonHtml()
@@ -787,7 +798,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   getfilelds(e) {
-       //////////////////  this code is not removable becouse it is refress the grid header please dont remove that./////////////
+    //////////////////  this code is not removable becouse it is refress the grid header please dont remove that./////////////
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
       fields.forEach(field => {
@@ -803,18 +814,18 @@ export class ItemsListComponent implements OnInit {
 
         }
         if (field.type == 5) {
-          if(field.optionsForSelect){
-          this.itemCulomns1.push({
-            headerName: field.label,
-            field: field.techName,
-            editable: true,
-            resizable: true,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-              values: field.optionsForSelect
-            }
-          });
-        }
+          if (field.optionsForSelect) {
+            this.itemCulomns1.push({
+              headerName: field.label,
+              field: field.techName,
+              editable: true,
+              resizable: true,
+              cellEditor: "agSelectCellEditor",
+              cellEditorParams: {
+                values: field.optionsForSelect
+              }
+            });
+          }
         }
         else {
           this.itemCulomns1.push({
@@ -875,14 +886,14 @@ export class ItemsListComponent implements OnInit {
     };
     this.rowSelection = "multiple";
 
-     this.ngOnInit()
+    this.ngOnInit()
   }
 
   getDatePicker() {
-    
+
     function Datepicker() { }
     Datepicker.prototype.init = function (params) {
-      
+
       this.eInput = document.createElement("input");
       this.eInput.value = params.value;
       this.eInput.setAttribute('type', 'date');
@@ -905,7 +916,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   moveToNext() {
-  
+
     this.datainarry = false;
     if (this.pageNo < this.totalPage) {
       this.pageNo = this.pageNo + 1;
@@ -939,23 +950,23 @@ export class ItemsListComponent implements OnInit {
   }
 
   sortGridbyApi(sortOrder, headerField, agGridEventPath) {
-    headerField = headerField.replace( /_1/g, "" );
+    headerField = headerField.replace(/_1/g, "");
     document.querySelectorAll(".ag-header-cell").forEach((element) => {
       var data4 = document.getElementById('serinp' + element.getAttribute("col-id"));
-      if(data4){
+      if (data4) {
         data4.setAttribute("style", "display: none")
 
       }
     });
 
-    var data 
-    if(!this.searchedValue){
-       data = {
+    var data
+    if (!this.searchedValue) {
+      data = {
         filter: [
           {
             techName: "",
             value: ""
-  
+
           }
         ],
         sort: {
@@ -965,26 +976,26 @@ export class ItemsListComponent implements OnInit {
       }
     }
 
-    if( this.searchedValue){
+    if (this.searchedValue) {
 
 
-      if(sortOrder == 'null' && headerField== 'null'){
-        sortOrder ='';
-        headerField= this.CustomeHeaderField;
+      if (sortOrder == 'null' && headerField == 'null') {
+        sortOrder = '';
+        headerField = this.CustomeHeaderField;
       }
-        data = {
-          filter: [
-            {
-              techName:headerField,
-              value: this.searchedValue
-    
-            }
-          ],
-          sort: {
+      data = {
+        filter: [
+          {
             techName: headerField,
-            direction: sortOrder
+            value: this.searchedValue
+
           }
+        ],
+        sort: {
+          techName: headerField,
+          direction: sortOrder
         }
+      }
 
     }
     if (!agGridEventPath) {
@@ -995,7 +1006,7 @@ export class ItemsListComponent implements OnInit {
           this.agHeaderCheckbox = false;
         });
     }
-``
+    ``
   }
 
   filterGridbyApi(techname) {
@@ -1016,12 +1027,12 @@ export class ItemsListComponent implements OnInit {
     this.itemsService
       .ongetItemsByProjectWithPagination(this.projectId, data, this.pageNo)
       .subscribe((items: any) => {
-        if(items.length > 0){
+        if (items.length > 0) {
           this.items = items;
-        } else{
+        } else {
           this.items = [{
-            _id:'5e4e36fdd4c40b0cf12378f0',
-            DATE0:'No Data Found !!'
+            _id: '5e4e36fdd4c40b0cf12378f0',
+            DATE0: 'No Data Found !!'
           }]
         }
 
@@ -1057,13 +1068,13 @@ export class ItemsListComponent implements OnInit {
         // console.log('this.agHeaderCheckbox=======>', this.agHeaderCheckbox)
         // console.log('this.agheader=======>', this.agheader)
 
-        if(this.agHeaderCheckbox == true && this.agheader == true){
+        if (this.agHeaderCheckbox == true && this.agheader == true) {
           event.api.selectAll();
         }
-        if(this.agHeaderCheckbox == false && this.agheader == false){
+        if (this.agHeaderCheckbox == false && this.agheader == false) {
           event.api.deselectAll();
         }
-        
+
       })
     }
 
@@ -1073,17 +1084,17 @@ export class ItemsListComponent implements OnInit {
   oncellClicked(e) {
     document.querySelectorAll(".ag-header-cell").forEach((element) => {
       var data = document.getElementById('serinp' + element.getAttribute("col-id"));
-      if(data){
+      if (data) {
         data.setAttribute("style", "display: none")
 
       }
     });
   }
 
-  cleanCheckboxes(e){
-      this.gridRows.forEach((row, i) => {
-        row.setSelected(false);   
-      })
-    
+  cleanCheckboxes(e) {
+    this.gridRows.forEach((row, i) => {
+      row.setSelected(false);
+    })
+
   }
 }

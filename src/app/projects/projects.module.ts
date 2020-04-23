@@ -23,6 +23,7 @@ import { EditItemComponent } from './edit-item/edit-item.component';
 import { EditSingleItemComponent } from './edit-single-item/edit-single-item.component';
 import { BottomItemSelectComponent } from './bottom-item-select/bottom-item-select.component';
 import { AddNewFieldComponent } from './add-new-field/add-new-field.component';
+// import { NumericEditorComponent } from './numeric-editor/numeric-editor.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { AddNewFieldComponent } from './add-new-field/add-new-field.component';
     EditItemComponent,
     EditSingleItemComponent,
     BottomItemSelectComponent,
-    AddNewFieldComponent
+    AddNewFieldComponent,
+    // NumericEditorComponent
   ]
 })
 export class ProjectsModule {}
