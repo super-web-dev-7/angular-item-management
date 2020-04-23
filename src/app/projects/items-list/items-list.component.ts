@@ -700,7 +700,7 @@ export class ItemsListComponent implements OnInit {
 
   oncellValueChanged(event) {
     if(!event.newValue){
-     // this.ongetItemsByProjectWithPagination(this.pageNo); 
+      this.ongetItemsByProjectWithPagination(this.pageNo); 
     }else{
       this.dbclicked = false;
       localStorage.setItem('pdata', 'true')
