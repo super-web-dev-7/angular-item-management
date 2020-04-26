@@ -6,7 +6,8 @@ phases:
     install:
         commands:
             - echo Installing source NPM dependencies...
-            - npm config set @fortawesome:registry https://npm.fontawesome.com/EE97B62E-226E-42C3-BCBC-4D2FD10216A7
+            - npm config set "@fortawesome:registry" https://npm.fontawesome.com/ 
+            - npm config set "//npm.fontawesome.com/:_authToken" EE97B62E-226E-42C3-BCBC-4D2FD10216A7
             - npm install
             - npm install -g @angular/cli
     build:
