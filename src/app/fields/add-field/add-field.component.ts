@@ -68,12 +68,11 @@ export class AddFieldComponent implements OnInit {
   }
 
   afterFieldCreated(createdField: IField[]) {
-    console.log(createdField);
     this.createFieldModal.hide();
     this.createdSubject.next(createdField);
   }
 
   getSize() {
-    return ModalSize.LARGE;
+    return ModalSize.XLARGE;
   }
 }

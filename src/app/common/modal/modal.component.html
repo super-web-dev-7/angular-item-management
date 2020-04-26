@@ -1,7 +1,8 @@
 <div bsModal #popup="bs-modal" class="modal fade {{positionClass}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" [ngClass]="{
       'modal-sm': modalSizeEnum.SMALL == size,
-      'modal-lg': modalSizeEnum.LARGE == size
+      'modal-lg': modalSizeEnum.LARGE == size,
+      'modal-xl': modalSizeEnum.XLARGE == size
     }">
       <div class="modal-content-wrapper">
         <div class="modal-content">

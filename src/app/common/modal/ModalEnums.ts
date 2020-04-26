@@ -3,6 +3,6 @@ export enum ModalPosition {
 }
 
 export enum ModalSize {
-    SMALL, MEDIUM, LARGE
+    SMALL, MEDIUM, LARGE, XLARGE
   }
   

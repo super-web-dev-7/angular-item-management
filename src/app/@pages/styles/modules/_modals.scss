@@ -227,6 +227,10 @@
 	.modal-lg {
 		width: 900px;
 	}
+	.modal-xl {
+		width: 1100px;
+		max-width: 1100px;
+	}
 }
 
 @media (max-width: 768px){
@@ -274,6 +278,10 @@
 		}
 		.modal-lg {
 			width: 700px;
+		}
+		.modal-xl {
+			width: 900px;
+			max-width: 900px;
 		}
 	}
 }
