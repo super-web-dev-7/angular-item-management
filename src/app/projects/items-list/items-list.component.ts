@@ -6,8 +6,7 @@ import { ModalDirective, idLocale } from 'ngx-bootstrap';
 import { _ } from "ag-grid-community";
 import { json } from "d3";
 import { JsonPipe } from "@angular/common";
-// import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component';
-// import 'ag-grid-enterprise';
+
 
 @Component({
   selector: "app-items-list",
@@ -249,21 +248,7 @@ export class ItemsListComponent implements OnInit {
         }
       })
     });
-    //   let timeout = null;
-    //   document.addEventListener("keydown", event =>{
-    //     clearTimeout(timeout);
-    //     timeout = setTimeout(function () {
-    //       if(event['path'][1].getAttribute('class')=='filterinput'){
-    //         var  techename = event['path'][1].getAttribute('name')
-    //         this.searchedValue = event.target['value']
-    //         setTimeout(() => {
-    //           this.filterGridbyApi(techename);
-    //          }, 500);  
-    //        }
-    //     }, 1000);
 
-
-    // })
 
     let timeout = null;
     document.addEventListener("keyup", event => {
@@ -399,9 +384,6 @@ export class ItemsListComponent implements OnInit {
           else {
             this.fieldType.push("text");
           }
-          //   } 
-          // else {
-          //   this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
 
         }
         if (localStorage.getItem('gridHeader')) {
@@ -436,12 +418,10 @@ export class ItemsListComponent implements OnInit {
 
       this.columnLoaded = true;
       this.itemCulomns[0]["headerCheckboxSelection"] = true;
-      // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
       this.itemCulomns[0]["checkboxSelection"] = true;
       this.itemCulomns[0]["rowDrag"] = true;
       for (let j = 1; j < this.itemCulomns.length; j++) {
         this.itemCulomns[j]["headerCheckboxSelection"] = false;
-        // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
         this.itemCulomns[j]["checkboxSelection"] = false;
         this.itemCulomns[j]["rowDrag"] = false;
       }
@@ -524,7 +504,6 @@ export class ItemsListComponent implements OnInit {
 
     var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
     if (idx > -1) {
-     
       if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
         if (event.node.selected == false) {
           this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
@@ -702,9 +681,6 @@ export class ItemsListComponent implements OnInit {
   }
   onrowDragEnd(event) {
     var data ;
-      console.log('event=>',event)
-    // console.log('order=>',event.api.rowModel.rowsToDisplay[100].data.order)
-
     if (event.overIndex == 0) {
       data = {
         itemIds: [event.node.data._id],
@@ -786,8 +762,7 @@ export class ItemsListComponent implements OnInit {
       this.move(this.itemCulomns, index, event.toIndex)
       localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
       this.columnMoved = true;
-      // this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
-      //  this.ngOnInit()
+
     }
 
   }
@@ -796,7 +771,6 @@ export class ItemsListComponent implements OnInit {
     if (this.columnMoved) {
       this.ngOnInit()
     }
-    // this.onLoadCustonHtml()
   }
   move(arr, old_index, new_index) {
     while (old_index < 0) {
@@ -883,12 +857,10 @@ export class ItemsListComponent implements OnInit {
 
       this.columnLoaded = true;
       this.itemCulomns[0]["headerCheckboxSelection"] = true;
-      // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
       this.itemCulomns[0]["checkboxSelection"] = true;
       this.itemCulomns[0]["rowDrag"] = true;
       for (let j = 1; j < this.itemCulomns.length; j++) {
         this.itemCulomns[j]["headerCheckboxSelection"] = false;
-        // this.itemCulomns[0]["headerCheckboxSelectionFilteredOnly"] = true;
         this.itemCulomns[j]["checkboxSelection"] = false;
         this.itemCulomns[j]["rowDrag"] = false;
       }
@@ -1092,11 +1064,11 @@ export class ItemsListComponent implements OnInit {
         // console.log('this.agheader=======>', this.agheader)
 		if(this.SelectedRowData.length >= this.TotalItems){
 			if (this.agHeaderCheckbox == true && this.agheader == true) {
-				console.log('TRUEEE')
+				
 				event.api.selectAll();
 			}
 		}
-        
+  
         if (this.agHeaderCheckbox == false && this.agheader == false) {
           event.api.deselectAll();
         }
@@ -1104,7 +1076,6 @@ export class ItemsListComponent implements OnInit {
       })
     }
 
-    //  });
   }
 
   oncellClicked(e) {
