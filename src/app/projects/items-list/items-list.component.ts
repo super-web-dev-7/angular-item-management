@@ -499,83 +499,81 @@ export class ItemsListComponent implements OnInit {
   }
 
   onSelectionChanged(event) {
-    document.getElementById('popupid').hidden = false
+    	document.getElementById('popupid').hidden = false
     
-    var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
-    if (idx > -1) {
-      if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
-        if (event.node.selected == false) {
-          this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
+    	var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
+    	if (idx > -1) {
+      		if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
+				if (event.node.selected == false) {
+				  this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
+				}
+			} else {
+				this.RowIndex[idx].rowIndex.push(event.rowIndex);
+			}
+		} else {
+		  this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
+		}
+
+    	this.gridRows = '';
+    	this.gridRows = event.api.rowModel.rowsToDisplay;
+
+		if (this.pageNo == 1) {
+		  localStorage.setItem('gridRows', this.gridRows);
+		}
+
+    	if (this.gridRows.findIndex(x => x.selected == true) > -1) {
+			  this.showAllCheckBox = true;
+			  var d = this.gridRows.filter(x => x.selected == true);
+			  this.selectedRows = d ? d.length : 0;
+			  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+				element.setAttribute("style", "display: block");
+			  })
+    	} else {
+
+			  if (this.notreffress == true) {
+					if (this.gridRows.findIndex(x => x.selected == false) > -1) {
+						  this.showAllCheckBox = true;
+						  var d = this.gridRows.filter(x => x.selected == false);
+						  this.selectedRows = d ? d.length : 0;
+						  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+							element.setAttribute("style", "display: block");
+						  })
+					}
+      		  } else {
+					// if(this.SelectedRowData.length == 0){
+					this.selectedRows = 0;
+					this.showAllCheckBox = false;
+					// }
+					if (this.selectedRows == 0) {
+						  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+							element.setAttribute("style", "display: none");
+						  })
+					} else {
+						  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+							element.setAttribute("style", "display: block");
+						  })
+					}
+      		  }
         }
-      } else {
-        this.RowIndex[idx].rowIndex.push(event.rowIndex);
-      }
 
-    } else {
-      this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
-    }
+		if (event.node.selected == true) {
+		  const result = this.SelectedRowData.find(elim => elim._id === event.data._id);
 
-    this.gridRows = '';
-    this.gridRows = event.api.rowModel.rowsToDisplay;
+		  if (result == undefined && result != event.data.order) {
+			this.SelectedRowData.push(event.data)
+			this.noOfSelectedRows = this.SelectedRowData.length
+		  }
+		}
 
-    if (this.pageNo == 1) {
-      localStorage.setItem('gridRows', this.gridRows);
-    }
+		if (event.node.selected == false) {
+		  this.remove_array_element(this.SelectedRowData, event.data)
 
-    if (this.gridRows.findIndex(x => x.selected == true) > -1) {
-      this.showAllCheckBox = true;
-      var d = this.gridRows.filter(x => x.selected == true);
-      this.selectedRows = d ? d.length : 0;
-      document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-        element.setAttribute("style", "display: block");
-      })
-    } else {
-
-      if (this.notreffress == true) {
-        if (this.gridRows.findIndex(x => x.selected == false) > -1) {
-          this.showAllCheckBox = true;
-          var d = this.gridRows.filter(x => x.selected == false);
-          this.selectedRows = d ? d.length : 0;
-          document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-            element.setAttribute("style", "display: block");
-          })
-        }
-      } else {
-        // if(this.SelectedRowData.length == 0){
-        this.selectedRows = 0;
-        this.showAllCheckBox = false;
-        // }
-
-        if (this.SelectedRowData.length == 0) {
-          document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-            element.setAttribute("style", "display: none");
-          })
-        } else {
-          document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-            element.setAttribute("style", "display: block");
-          })
-        }
-      }
-    }
-
-    if (event.node.selected == true) {
-      const result = this.SelectedRowData.find(elim => elim._id === event.data._id);
-
-      if (result == undefined && result != event.data.order) {
-        this.SelectedRowData.push(event.data)
-        this.noOfSelectedRows = this.SelectedRowData.length
-      }
-    }
-
-    if (event.node.selected == false) {
-      this.remove_array_element(this.SelectedRowData, event.data)
-
-    }
+		}
 
   }
 
   oncellMouseOver(event) {
-    	if (!this.showAllCheckBox) {
+    	if (!this.showAllCheckBox && this.noOfSelectedRows == 0) {
 			  if (this.SelectedRowData.length == 0) {
 				document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
 				  element.setAttribute("style", "display: none");
@@ -588,7 +586,6 @@ export class ItemsListComponent implements OnInit {
 				data.setAttribute("style", "display: block");
 			}
     	}else{
-			
 			if(this.SelectedRowData.length < this.TotalItems){
 				if(this.RowIndex.length){
 					  if(this.RowIndex.filter(value=> (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0){
