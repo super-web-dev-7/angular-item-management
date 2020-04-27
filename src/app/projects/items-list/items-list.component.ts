@@ -529,7 +529,7 @@ export class ItemsListComponent implements OnInit {
 				element.setAttribute("style", "display: block");
 			  })
     	} else {
-
+			console.log("THIS===>>",this)
 			  if (this.notreffress == true) {
 					if (this.gridRows.findIndex(x => x.selected == false) > -1) {
 						  this.showAllCheckBox = true;
@@ -540,14 +540,20 @@ export class ItemsListComponent implements OnInit {
 						  })
 					}
       		  } else {
-					// if(this.SelectedRowData.length == 0){
-					this.selectedRows = 0;
-					this.showAllCheckBox = false;
-					// }
-					if (this.selectedRows == 0) {
-						  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-							element.setAttribute("style", "display: none");
-						  })
+				  	this.selectedRows = this.SelectedRowData.length;				 
+					if (this.SelectedRowData.length < this.TotalItems) {
+						//this.selectedRows = 0;
+						//this.showAllCheckBox = false;
+						
+						if(this.RowIndex.length){
+					  		if(this.RowIndex.filter(value=> (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0){
+					  		}else{
+								 document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+									element.setAttribute("style", "display: none");
+								  })
+							}
+						}
+						
 					} else {
 						  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
 							element.setAttribute("style", "display: block");
