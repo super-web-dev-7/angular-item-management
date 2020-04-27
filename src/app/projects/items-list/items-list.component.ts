@@ -529,7 +529,6 @@ export class ItemsListComponent implements OnInit {
 				element.setAttribute("style", "display: block");
 			  })
     	} else {
-			console.log("THIS===>>",this)
 			  if (this.notreffress == true) {
 					if (this.gridRows.findIndex(x => x.selected == false) > -1) {
 						  this.showAllCheckBox = true;
