@@ -252,7 +252,6 @@ export class ItemsListComponent implements OnInit {
 
     let timeout = null;
     document.addEventListener("keyup", event => {
-      console.log('');
       clearTimeout(timeout);
       if (event['path'][1].getAttribute('class') == 'search_text_default') {
         timeout = setTimeout(() => {
@@ -501,7 +500,7 @@ export class ItemsListComponent implements OnInit {
 
   onSelectionChanged(event) {
     document.getElementById('popupid').hidden = false
-
+    
     var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
     if (idx > -1) {
       if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
@@ -576,7 +575,6 @@ export class ItemsListComponent implements OnInit {
   }
 
   oncellMouseOver(event) {
-	  	
     	if (!this.showAllCheckBox) {
 			  if (this.SelectedRowData.length == 0) {
 				document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
@@ -590,9 +588,10 @@ export class ItemsListComponent implements OnInit {
 				data.setAttribute("style", "display: block");
 			}
     	}else{
+			
 			if(this.SelectedRowData.length < this.TotalItems){
 				if(this.RowIndex.length){
-					  if(this.RowIndex.filter(value=> value.page == this.pageNo).length > 0){
+					  if(this.RowIndex.filter(value=> (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0){
 					  }else{
 						   document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
 								element.setAttribute("style", "display: none");
