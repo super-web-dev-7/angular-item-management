@@ -542,7 +542,8 @@ export class ItemsListComponent implements OnInit {
       		  } else {
 					// if(this.SelectedRowData.length == 0){
 					this.selectedRows = 0;
-					this.showAllCheckBox = false;
+          this.showAllCheckBox = false;
+          
 					// }
 					if (this.selectedRows == 0) {
 						  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
