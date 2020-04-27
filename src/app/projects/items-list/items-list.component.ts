@@ -524,7 +524,7 @@ export class ItemsListComponent implements OnInit {
 
     var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
     if (idx > -1) {
-      // console.log('=====1==>')
+     
       if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
         if (event.node.selected == false) {
           this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
@@ -534,8 +534,6 @@ export class ItemsListComponent implements OnInit {
       }
 
     } else {
-      // console.log('=====2>')
-
       this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
     }
 
@@ -599,21 +597,38 @@ export class ItemsListComponent implements OnInit {
   }
 
   oncellMouseOver(event) {
-    if (!this.showAllCheckBox) {
-      if (this.SelectedRowData.length == 0) {
-        document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-          element.setAttribute("style", "display: none");
-        });
-      }
+	  	
+    	if (!this.showAllCheckBox) {
+			  if (this.SelectedRowData.length == 0) {
+				document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+				  element.setAttribute("style", "display: none");
+				});
+			  }
 
-      document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
-      var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
-      if (data) {
-        data.setAttribute("style", "display: block");
-      }
-    }
-
-  }
+			document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
+			var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
+			if (data) {
+				data.setAttribute("style", "display: block");
+			}
+    	}else{
+			if(this.SelectedRowData.length < this.TotalItems){
+				if(this.RowIndex.length){
+					  if(this.RowIndex.filter(value=> value.page == this.pageNo).length > 0){
+					  }else{
+						   document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
+								element.setAttribute("style", "display: none");
+						   });
+					  }
+				}
+				
+				document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
+				var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
+				if (data) {
+					data.setAttribute("style", "display: block");
+				}
+			}
+		}
+}
 
 
   oncellMouseOut(event) {
@@ -687,7 +702,7 @@ export class ItemsListComponent implements OnInit {
   }
   onrowDragEnd(event) {
     var data ;
-    //  console.log('event=>',event)
+      console.log('event=>',event)
     // console.log('order=>',event.api.rowModel.rowsToDisplay[100].data.order)
 
     if (event.overIndex == 0) {
@@ -1049,10 +1064,14 @@ export class ItemsListComponent implements OnInit {
       document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
         element.setAttribute("style", "display: none");
       })
-    } else {
+    } else if(this.SelectedRowData.length < this.TotalItems) {
       document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
-        element.setAttribute("style", "display: block");
+        element.setAttribute("style", "display: none");
       })
+    } else {
+      	document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
+        	element.setAttribute("style", "display: block");
+      	})
     }
 
     this.gridRows = event.api.rowModel.rowsToDisplay;
@@ -1071,10 +1090,13 @@ export class ItemsListComponent implements OnInit {
         }
         // console.log('this.agHeaderCheckbox=======>', this.agHeaderCheckbox)
         // console.log('this.agheader=======>', this.agheader)
-
-        if (this.agHeaderCheckbox == true && this.agheader == true) {
-          event.api.selectAll();
-        }
+		if(this.SelectedRowData.length >= this.TotalItems){
+			if (this.agHeaderCheckbox == true && this.agheader == true) {
+				console.log('TRUEEE')
+				event.api.selectAll();
+			}
+		}
+        
         if (this.agHeaderCheckbox == false && this.agheader == false) {
           event.api.deselectAll();
         }
