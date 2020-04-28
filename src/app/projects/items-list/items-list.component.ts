@@ -543,7 +543,7 @@ export class ItemsListComponent implements OnInit {
 					if (this.SelectedRowData.length < this.TotalItems) {
 						//this.selectedRows = 0;
 						//this.showAllCheckBox = false;
-						
+						console.log('====++++++++++++++++inner if>', this.SelectedRowData)
 						if(this.RowIndex.length){
 					  		if(this.RowIndex.filter(value=> (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0){
 					  		}else{
@@ -562,15 +562,18 @@ export class ItemsListComponent implements OnInit {
         }
 
 		if (event.node.selected == true) {
-		  const result = this.SelectedRowData.find(elim => elim._id === event.data._id);
+      var result = ''
+		   result = this.SelectedRowData.find(elim => elim.order === event.data.order );
 
 		  if (result == undefined && result != event.data.order) {
+        event.data['page'] = this.pageNo
 			this.SelectedRowData.push(event.data)
 			this.noOfSelectedRows = this.SelectedRowData.length
 		  }
 		}
 
 		if (event.node.selected == false) {
+      
 		  this.remove_array_element(this.SelectedRowData, event.data)
 
 		}
@@ -631,13 +634,21 @@ export class ItemsListComponent implements OnInit {
 
 
   remove_array_element(array, n) {
+
+    var  result =''
+    result = this.SelectedRowData.find(elim => elim._id === n._id);
+
     var index = this.SelectedRowData.indexOf(n);
-    if (index > -1) {
+
+    if (index > -1 && result['page'] == this.pageNo) {
+
       this.SelectedRowData.splice(index, 1);
     } else {
       var indx = this.SelectedRowData.indexOf(n);
+       if(result['page'] == this.pageNo){
+        this.SelectedRowData.splice(0, 1);
 
-      this.SelectedRowData.splice(indx, 1);
+       }
     }
 
     return this.SelectedRowData;
@@ -1061,22 +1072,15 @@ export class ItemsListComponent implements OnInit {
             }
           });
         }
-        // console.log('this.agHeaderCheckbox=======>', this.agHeaderCheckbox)
-        // console.log('this.agheader=======>', this.agheader)
+
 		if(this.SelectedRowData.length >= this.TotalItems){
-			if (this.agHeaderCheckbox == true && this.agheader == true) {
-				
+			if (this.agHeaderCheckbox == true && this.agheader == true) {				
 				event.api.selectAll();
 			}
 		}
   
-        if (this.agHeaderCheckbox == false && this.agheader == false) {
-          event.api.deselectAll();
-        }
-
       })
     }
-
   }
 
   oncellClicked(e) {
