@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store'
+import { Action, createAction, props } from '@ngrx/store'
 import { IField } from '../../models/field.model'
 
 export enum ActionTypes {
@@ -8,40 +8,38 @@ export enum ActionTypes {
     RemoveField = '[PROJECT TYPE] Remove Field',
     UpdateField = '[PROJECT TYPE] Update Field',
     SelectField = '[PROJECT TYPE] Select Field',
+    ErrorFields = '[PROJECT TYPE] Error'
 }
 
-export class AddField implements Action {
-    readonly type = ActionTypes.AddField;
+export const AddFieldAction = createAction(
+    ActionTypes.AddField,
+    props<{ payload: IField }>()
+);
 
-    constructor(public payload: IField) { }
-}
+export const RemoveFieldAction = createAction(
+    ActionTypes.RemoveField,
+    props<{ payload: IField }>()
+);
 
-export class RemoveField implements Action {
-    readonly type = ActionTypes.RemoveField;
+export const UpdateFieldAction = createAction(
+    ActionTypes.UpdateField,
+    props<{ payload: IField }>()
+);
 
-    constructor(public payload: IField) { }
-}
+export const GetFieldsAction = createAction(
+    ActionTypes.GetFields
+);
 
-export class UpdateField implements Action {
-    readonly type = ActionTypes.UpdateField;
+export const FieldsLoadedAction = createAction(
+    ActionTypes.FieldsLoaded,
+    props<{ payload: { [id: string]: IField } }>()
+);
 
-    constructor(public payload: IField) { }
-}
+export const SelectFieldAction = createAction(
+    ActionTypes.SelectField,
+    props<{ payload: IField }>()
+);
 
-export class GetFields implements Action {
-    readonly type = ActionTypes.GetFields;
-}
-
-export class SelectField implements Action {
-    readonly type = ActionTypes.SelectField;
-
-    constructor(public payload: IField) {}
-}
-
-export class FieldsLoaded implements Action {
-    readonly type = ActionTypes.FieldsLoaded;
-    
-    constructor(public payload: {[id: string]: IField}) {}
-}
-
-export type Actions = AddField | RemoveField | GetFields | FieldsLoaded | UpdateField | SelectField;
+export const ErrorFieldsAction = createAction(
+    ActionTypes.ErrorFields, props<Error>()
+);

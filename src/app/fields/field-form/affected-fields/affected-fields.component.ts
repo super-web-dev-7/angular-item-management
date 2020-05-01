@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { IField } from '@app/models/field.model';
-import { getFields, ProjectTypeState } from '@app/store/reducers/project-type.reducer';
+import { getFields } from '@app/store/reducers/project-type.reducer';
 import * as Immutable from 'immutable';
 import { Store } from '@ngrx/store';
 import { NewAffectedFieldComponent } from './new-affected-field/new-affected-field.component';
+import { ProjectTypeState } from '@app/store/states/project-type.state';
 
 @Component({
   selector: 'app-affected-fields',

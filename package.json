@@ -32,7 +32,7 @@
     "@fortawesome/pro-light-svg-icons": "^5.13.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.1",
     "@ngrx/core": "^1.2.0",
-    "@ngrx/effects": "^9.0.0",
+    "@ngrx/effects": "^9.1.0",
     "@ngrx/store": "^9.0.0",
     "@ngrx/store-devtools": "^9.0.0",
     "@ngui/map": "^0.20.2",

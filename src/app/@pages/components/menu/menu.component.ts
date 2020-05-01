@@ -1,5 +1,5 @@
 
-import { Component, OnInit,Input, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, OnInit,Input, ViewEncapsulation, HostListener, ViewChild } from '@angular/core';
 import {
   animate,
   state,
@@ -9,6 +9,7 @@ import {
 } from '@angular/animations';
 import { PerfectScrollbarConfigInterface,
   PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import { CreateProjectComponent } from '@app/common/common-forms/create-project/create-project.component';
 
 @Component({
   selector: 'pg-menu-items',
@@ -37,6 +38,7 @@ import { PerfectScrollbarConfigInterface,
 })
 export class MenuComponent implements OnInit {
   menuItems = [];
+  projectItems = [];
   currentItem = null;
   isPerfectScrollbarDisabled = false
   public config: PerfectScrollbarConfigInterface = {};
@@ -63,6 +65,11 @@ export class MenuComponent implements OnInit {
   @Input()
   set Items(value) {
     this.menuItems = value
+  }
+
+  @Input()
+  set Projects(value) {
+    this.projectItems = value;
   }
   
   toggleNavigationSub(event,item) {

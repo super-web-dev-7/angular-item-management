@@ -1,3 +1,9 @@
 <div class="container-fluid padding-25 sm-padding-10 sm-gutter">
-    <app-project-box  *ngFor="let project of projects" [type]="project.projectType" [name]="project.name" [description]="project.description" [id]="project._id"></app-project-box>
+    <div class="p-t-20 p-b-20">
+        <button class="btn btn-primary" (click)="openCreateProject()">+ New Project</button>
+    </div>
+    <app-project-box *ngFor="let project of projects" [type]="project.projectType" [name]="project.name" [description]="project.description"
+        [id]="project._id"></app-project-box>
 </div>
+
+<app-create-project #createProjectModal></app-create-project>

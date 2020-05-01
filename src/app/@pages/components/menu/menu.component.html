@@ -40,4 +40,15 @@
             </li>
         </ul>
     </li>
+    <li class="m-t-20">
+        <hr/>
+    </li>
+    <li class="m-t-20">
+        <p class="p-l-30">Recently used</p>
+    </li>
+    <li *ngFor="let project of projectItems">
+        <a [routerLink]="[project.routerLink]">
+            <span class="title">{{ project.label }}</span>
+        </a>
+    </li>
 </ul>

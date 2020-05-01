@@ -1,62 +1,55 @@
 
-import * as FieldActions from '../actions/project-type.actions';
-import { IField } from '../../models/field.model';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import * as ProjectTypeActions from '../actions/project-type.actions';
+import { createFeatureSelector, createSelector, createReducer, on, Action } from '@ngrx/store';
 import * as Immutable from 'immutable';
+import { ProjectTypeState, initializeProjectTypeState } from '../states/project-type.state';
 
-export interface ProjectTypeState {
-    projectTypeId: number;
-    fields: Immutable.Map<string, IField>;
-    selectedField: IField;
-};
 
-const initialState: ProjectTypeState = {
-    projectTypeId: 0,
-    fields: Immutable.Map(),
-    selectedField: undefined
-}
+export const intialState = initializeProjectTypeState();
 
-export function ProjectTypeReducer(state = initialState, action: FieldActions.Actions) {
+const reducer = createReducer(
+    intialState,
+    on(ProjectTypeActions.GetFieldsAction, state => state),
+    on(ProjectTypeActions.AddFieldAction, (state: ProjectTypeState, { payload }) => {
+        return {
+            ...state,
+            fields: state.fields.set(payload._id, payload)
+        };
+      }),
+      on(ProjectTypeActions.RemoveFieldAction, (state: ProjectTypeState, { payload }) => {
+        return {
+            ...state,
+            fields: state.fields.remove(payload._id)
+        };
+      }),
+      on(ProjectTypeActions.UpdateFieldAction, (state: ProjectTypeState, { payload }) => {
+        return {
+            ...state,
+            fields: state.fields.set(payload._id, payload)
+        };
+      }),
+      on(ProjectTypeActions.SelectFieldAction, (state: ProjectTypeState, { payload }) => {
+        return {
+            ...state,
+            selectedField: payload
+        };
+      }),
+      on(ProjectTypeActions.FieldsLoadedAction, (state: ProjectTypeState, { payload }) => {
+        return {
+            ...state,
+            fields: Immutable.Map(payload)
+        };
+      }),
+  );
 
-    switch (action.type) {
-        case FieldActions.ActionTypes.AddField:
-            return {
-                ...state,
-                fields: state.fields.set(action.payload._id, action.payload)
-            };
+  export function ProjectTypeReducer(state: ProjectTypeState | undefined, action: Action) {
+    return reducer(state, action);
+  }
 
-        case FieldActions.ActionTypes.RemoveField:
-            return {
-                ...state,
-                fields: state.fields.remove(action.payload._id)
-            };
+export const getProjectTypeState = createFeatureSelector<ProjectTypeState>('projectType');
 
-        case FieldActions.ActionTypes.UpdateField:
-            return {
-                ...state,
-                fields: state.fields.set(action.payload._id, action.payload)
-            };
-
-        case FieldActions.ActionTypes.SelectField:
-            return {
-                ...state,
-                selectedField: action.payload
-            };
-
-        case FieldActions.ActionTypes.FieldsLoaded:
-            return {
-                ...state,
-                fields: Immutable.Map(action.payload)
-            };
-        default:
-            return state;
-    }
-}
-
-export const getFieldsState = createFeatureSelector<ProjectTypeState>('projectType');
-
-export const getFields = createSelector(getFieldsState,
+export const getFields = createSelector(getProjectTypeState,
     (state: ProjectTypeState) => state.fields);
 
-export const getSelectedField = createSelector(getFieldsState,
+export const getSelectedField = createSelector(getProjectTypeState,
     (state: ProjectTypeState) => state.selectedField);

@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ProjectTypeState, getFields, getSelectedField } from '@app/store/reducers/project-type.reducer';
+import { getFields, getSelectedField } from '@app/store/reducers/project-type.reducer';
 import { Store } from '@ngrx/store';
 import { IField } from '@app/models/field.model';
 import { take } from 'rxjs/operators';
 import { pgCard } from '@app/@pages/components/card/card.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FieldService } from '@app/fields/field.service';
-import { SelectField } from '@app/store/actions/project-type.actions';
+import { ProjectTypeState } from '@app/store/states/project-type.state';
+import { SelectFieldAction } from '@app/store/actions/project-type.actions';
 
 @Component({
   selector: 'app-new-affected-field',
@@ -71,7 +72,7 @@ export class NewAffectedFieldComponent implements OnInit {
       const { affectedFieldId, triggerText, actionText } = this.newAffectedFieldForm.value;
       let affectedField = { fieldId: affectedFieldId, triggers: [{ triggerFieldText: triggerText, actionFieldText: actionText }] };
       this.fieldService.addAffectedField(this.selectedField._id, affectedField).pipe(take(1)).subscribe((field) => {
-        this.store.dispatch(new SelectField(field));
+        this.store.dispatch(SelectFieldAction({payload: field}));
         this.hide();
       });
     } else {

@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, SimpleChanges, SimpleChange } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { IField } from '@app/models/field.model';
-import { ProjectTypeState, getFields } from '@app/store/reducers/project-type.reducer';
+import { getFields } from '@app/store/reducers/project-type.reducer';
 import { Store } from '@ngrx/store';
+import { ProjectTypeState } from '@app/store/states/project-type.state';
 
 @Component({
   selector: 'app-expression-form',

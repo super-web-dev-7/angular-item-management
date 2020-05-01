@@ -23,6 +23,8 @@ import {EditSingleItemComponent} from './edit-single-item/edit-single-item.compo
 import {BottomItemSelectComponent} from './bottom-item-select/bottom-item-select.component';
 import {AddNewFieldComponent} from './add-new-field/add-new-field.component';
 import {AgGridComponent} from './ag-grid/ag-grid.component';
+import { ModalsModule } from "@app/common/modal/modals.module";
+import { CommonFormsModule } from "@app/common/common-forms/common-forms.module";
 // import { NumericEditorComponent } from './numeric-editor/numeric-editor.component';
 import {AgGridModule} from 'ag-grid-angular';
 import {FilterInputComponent} from './filter-input/filter-input.component';
@@ -45,7 +47,9 @@ import {SetColumnItemsComponent} from './set-column-items/set-column-items.compo
         TabsModule.forRoot(),
         pgTabsModule,
         AgGridModule.withComponents([FilterInputComponent, DateEditorComponent]),
-        FormsModule
+    FormsModule,
+    ModalsModule,
+    CommonFormsModule
     ],
     providers: [],
     declarations: [

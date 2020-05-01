@@ -1,0 +1,29 @@
+<app-modal #createProjectModal [position]="position" [size]="size">
+    <div class="app-modal-header">
+        <h5 class="modal-title">
+            Create project
+        </h5>
+    </div>
+    <div class="app-modal-body">
+        <div [formGroup]="createProjectForm">
+            <fieldset class="form-group">
+                <label>Name</label>
+                <input formControlName="name" class="form-control" type="text">
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Description</label>
+                <input formControlName="description" class="form-control" type="text">
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Type</label>
+                <input formControlName="type" class="form-control" type="text">
+            </fieldset>
+        </div>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+        (click)="createProjectModal.hide()">Create</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="createProjectModal.hide()">Close</button>
+    </div>
+</app-modal>

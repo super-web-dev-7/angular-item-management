@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ProjectTypeService} from '../project-type.service';
+import { ProjectTypeService } from '../project-type.service';
+import { ProjectTypesState } from '@app/store/states/project-types.state';
+import { Store } from '@ngrx/store';
+import { getTypes } from '@app/store/reducers/project-types.reducer';
+import * as  ProjectTypesActions from '@app/store/actions/project-types.actions';
+
 
 @Component({
   selector: 'app-project-types-list',
@@ -10,12 +15,19 @@ export class ProjectTypesListComponent implements OnInit {
 
   public projectTypes;
 
-  constructor(private projectTypeService: ProjectTypeService) {
+  constructor(private store: Store<ProjectTypesState>) {
 
   }
 
   ngOnInit() {
-    this.projectTypeService.getProjectTypes().subscribe(((projectTypes: any) => { this.projectTypes = projectTypes; console.log(projectTypes) }));
+    this.store.select(getTypes)
+      .subscribe(
+        types => {
+          this.projectTypes = types;
+        }
+      );
+
+    this.store.dispatch(ProjectTypesActions.GetProjectTypesAction());
   }
 
 }

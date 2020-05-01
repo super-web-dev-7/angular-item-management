@@ -64,9 +64,15 @@ import {BlankComponent} from './@pages/layouts/blank/blank.component';
 import {RootLayout} from './@pages/layouts/root/root.component';
 import { StoreModule } from '@ngrx/store';
 import { ProjectTypeReducer } from './store/reducers/project-type.reducer';
+import { ProjectsEffects } from '@store/effects/projects.effect';
+import { ProjectTypeEffects } from '@app/store/effects/project-type.effect';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { ProjectsReducer } from './store/reducers/projects-reducer';
+import { ProjectTypesReducer } from './store/reducers/project-types.reducer';
+import { ProjectTypesEffects } from './store/effects/project-types.effect';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -123,11 +129,14 @@ export class AppHammerConfig extends HammerGestureConfig {
     FroalaEditorModule.forRoot(), 
     FroalaViewModule.forRoot(),
     StoreModule.forRoot({
-      projectType: ProjectTypeReducer
+      projects: ProjectsReducer,
+      projectType: ProjectTypeReducer,
+      projectTypes: ProjectTypesReducer,
     }),
+    EffectsModule.forRoot([ProjectsEffects, ProjectTypeEffects, ProjectTypesEffects ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-    }),
+    })
     ],
     providers: [QuickviewService, pagesToggleService, {
         provide: PERFECT_SCROLLBAR_CONFIG,

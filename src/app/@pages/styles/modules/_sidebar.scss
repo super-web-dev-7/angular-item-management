@@ -72,7 +72,7 @@ body{
         transition: transform 400ms cubic-bezier($menu-bezier);
 -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000px;
-    a,button {
+    a {
         color:$color-menu-light;
         &:hover,&:active{
             color:$color-menu-link-hover;
@@ -93,6 +93,9 @@ body{
                 background: transparent;
             }
         }
+    }
+    hr {
+        border-color: $color-menu-seperator;
     }
     .scroll-element{
         visibility: hidden;

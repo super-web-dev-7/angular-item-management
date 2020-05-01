@@ -8,8 +8,9 @@ import { FieldType } from '../../models/FieldType';
 import { debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ProjectTypeState, getSelectedField } from '@app/store/reducers/project-type.reducer';
-import { SelectField } from '@app/store/actions/project-type.actions';
+import { getSelectedField } from '@app/store/reducers/project-type.reducer';
+import * as ProjectTypeActions from '@app/store/actions/project-type.actions';
+import { ProjectTypeState } from '@app/store/states/project-type.state';
 
 @Component({
   selector: 'app-field-form',
@@ -75,7 +76,7 @@ export class FieldFormComponent implements OnInit, OnDestroy {
   }
 
   open(field) {
-    this.store.dispatch(new SelectField(field));
+    this.store.dispatch(ProjectTypeActions.SelectFieldAction({payload: field}));
     this.fieldFormModal.show();
   }
 

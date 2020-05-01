@@ -5,10 +5,12 @@ import { IField, IFieldOptions } from '../models/field.model';
 import { ProjectTypeService } from '../project-types/project-type.service';
 import { FieldFormComponent } from './field-form/field-form.component';
 import { AddFieldComponent } from './add-field/add-field.component';
-import { Store } from '@ngrx/store';
-import { ProjectTypeState, getFields } from '@app/store/reducers/project-type.reducer';
-import { UpdateField, FieldsLoaded, AddField } from '@app/store/actions/project-type.actions';
+import { Store, select } from '@ngrx/store';
+import { getFields, getProjectTypeState } from '@app/store/reducers/project-type.reducer';
 import * as Immutable from 'immutable';
+import { ProjectTypeState } from '@app/store/states/project-type.state';
+import * as  ProjectTypeActions from '@app/store/actions/project-type.actions';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -35,15 +37,11 @@ export class FieldsComponent implements OnInit, OnDestroy {
   public filterQuery = '';
 
   constructor(private store: Store<ProjectTypeState>,
-    private projectTypesService: ProjectTypeService) { }
+    private projectTypesService: ProjectTypeService) { 
+      this.projectType$ = this.store.pipe(select(getProjectTypeState));
+    }
 
   ngOnInit() {
-    this.projectTypesService.getFieldsByProjectType(this.projectTypeId).subscribe((
-      (fields: IField[]) => {
-        this.store.dispatch(new FieldsLoaded(this.createFieldsMap(fields)))
-      })
-    );
-
     this.store.select(getFields)
     .subscribe(
       fields => {
@@ -51,15 +49,11 @@ export class FieldsComponent implements OnInit, OnDestroy {
         this.fields = this.fieldsMap.valueSeq().toArray();
       }
     );
+
+    this.store.dispatch(ProjectTypeActions.GetFieldsAction());
   }
 
-  private createFieldsMap(fields) {
-    let fieldsMap: {[id: string]: IField} = {};
-    fields.forEach((field: IField) => {
-      fieldsMap[field._id] = field;
-    });
-    return fieldsMap;
-  }
+  projectType$: Observable<ProjectTypeState>;
 
    openForm(field: IField) {
      this.fieldForm.open(field);
@@ -71,7 +65,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
         const fieldIds = createdFields.map((field) => field._id);
         this.projectTypesService.addFieldToProjectType(this.projectTypeId, fieldIds).subscribe((result) => {
           createdFields.forEach((field) => {
-            this.store.dispatch(new AddField(field));
+            this.store.dispatch(ProjectTypeActions.AddFieldAction({payload: field}));
             this.onSelectField(field);
             this.fieldsList.addFieldAndSelect(field);
           });
@@ -86,7 +80,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
    }
 
    updateFieldInList(updatedField: IField){
-    this.store.dispatch(new UpdateField(updatedField));
+    this.store.dispatch(ProjectTypeActions.UpdateFieldAction({payload: updatedField}));
     this.fieldsList.updateField(updatedField);
   }
 
