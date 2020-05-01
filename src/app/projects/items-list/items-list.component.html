@@ -1,8 +1,9 @@
+
 <button class="btn btn-brimary" (click)="itemDetails.show()">
   Open item details example
 </button>
 
-<button class="btn btn-brimary" (click)="itemsSelectionshow()">
+<button class="btn btn-brimary" (click)="itemsSelection.show()">
   Open items selection example
 </button>
 
@@ -12,11 +13,12 @@
 <button class="btn btn-brimary" (click)="addNewfield.show()">
   Add new field
 </button>
-
+<!-- <app-filter-input ></app-filter-input> -->
 <app-item-details #itemDetails></app-item-details>
 <app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
-  [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
-  (getLatestitem)="getLatestitem($event)"></app-items-selection>
+  [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable" [itemSelectionView]="itemSelectionView"
+  (getLatestitem)="getLatestitem($event)"
+  ></app-items-selection>
 <app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [fieldName]="fieldName"
   [projectId]="projectId" [fields]="fields" (getLatestitem)="getLatestitem($event)"></app-new-item>
 
@@ -26,6 +28,28 @@
 
 <app-add-new-field #addNewfield [fieldType]="fieldType" [fieldName]="fieldName" [projectId]="projectId"
   [fields]="fields" (getfilelds)="getfilelds($event)" [fieldTypeWithNo]="fieldTypeWithNo" ></app-add-new-field>
+  <app-ag-grid #agGridComponent
+  [fields]="fields"
+  [searchedValue]="searchedValue"
+  [clickOnHeader]="clickOnHeader"
+  [oldArrow]="oldArrow"
+  [sortOrder]="sortOrder"
+  [headerField]="headerField"
+  [CustomeHeaderField]="CustomeHeaderField"
+  [oldSearchId]="oldSearchId"
+  [openedSearchedBoxId]="openedSearchedBoxId"
+  [agheader]="agheader"
+  [agHeaderCheckbox]="agHeaderCheckbox"
+  [pageNo]="pageNo"
+  [RowIndex]="RowIndex"
+  [gridRows]="gridRows"
+  [showAllCheckBox]="showAllCheckBox"
+  [notreffress]="notreffress"
+  [SelectedRowData]="SelectedRowData"
+  [TotalItems]="TotalItems"
+  [noOfSelectedRows]="noOfSelectedRows"
+  [itemSelectionView]="itemSelectionView"
+  ></app-ag-grid>
 
 
 <ag-grid-angular #agGrid id="agGrid" style="width: 100%;" *ngIf="items && items.length > 0 && columnLoaded"
@@ -33,13 +57,15 @@
   [rowSelection]="rowSelection" [rowDragManaged]="true" [defaultColDef]="defaultColDef"
   (columnClick)="onColumnClick($event)" (cellDoubleClicked)="oncellDoubleClicked($event,dbclicked)"
   (cellMouseOver)="oncellMouseOver($event)" (rowSelected)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
-  (rowSelected)="onrowSelected($event)" (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"
+  (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"
   [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)" (cellClicked)="oncellClicked($event)"
   (columnMoved)="oncolumnMoved($event)" (columnValueChanged)="oncolumnValueChanged($event)" [components]="components"
   [modules]="modules" [sortingOrder]="sortingOrder" (getSort)="getSort($event)" (getSortModel)="ongetSortModel($event)"
   (rowsAfterSort)="onrowsAfterSort($event)" (dataStateChange)="dataStateChange($event)" (dragStopped)="ondragStopped($event)"
-    (rowDataChanged)="onrowDataChanged($event)" (cellMouseOut)="oncellMouseOut($event)" (rowDragEnter)="onrowDragEnter($event)"> 
-</ag-grid-angular>
+    (rowDataChanged)="onrowDataChanged($event)" (cellMouseOut)="oncellMouseOut($event)" (rowDragEnter)="onrowDragEnter($event)"
+    [frameworkComponents]="frameworkComponents" (sortChanged)="onsortChanged($event)"> 
+
+  </ag-grid-angular>
 <div class="cz_pagination">
   <!-- <span class="cz_grid_count_span "> {{this.itemFrom}} to {{this.ItemTO}} of {{this.TotalItems}} </span> -->
   <span class="cz_grid_next_privious_span">

@@ -10,7 +10,7 @@ export class ProjectPageComponent implements OnInit,AfterViewInit {
 
   subscription;
   projectId;
-  
+  itemSelectionView =false;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -19,11 +19,12 @@ export class ProjectPageComponent implements OnInit,AfterViewInit {
     });
     
   }
-  myfunc(event){
+  ShowItemSelection(event){
     if(event.target.text){
       if(event.target.text.trim() == "Items"){
         if(localStorage.getItem('copydata')){
-            document.getElementById('popupid').hidden = false
+         this.itemSelectionView=true;
+
         }
       }
     }   

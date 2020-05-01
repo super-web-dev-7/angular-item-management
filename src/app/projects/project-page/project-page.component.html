@@ -1,6 +1,6 @@
 <div class="container-fluid padding-25 sm-padding-10 sm-gutter">
     <div class="card card-borderless">
-        <pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true" (click)="myfunc($event)">
+        <pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true" (click)="ShowItemSelection($event)">
             <pg-tab>
                 <ng-template #TabHeading>
                     Summary
@@ -20,7 +20,7 @@
                 </ng-template>
                 <div class="row" >
                     <div class="col-lg-12">
-                        <app-items-list [projectId]="projectId"></app-items-list>
+                        <app-items-list [projectId]="projectId" [itemSelectionView]="itemSelectionView"></app-items-list>
                     </div>
                 </div>
             </pg-tab>

@@ -29,12 +29,17 @@ export class EditSingleItemComponent implements OnInit {
   selectedRowComments = []
   fieldWithData = []
   reverse = false;
+  commentEditingMode = false;
+  EditableCommentId;
   constructor(private itemsService: ItemsService, ) { }
 
   ngOnInit() {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementById("TabComment");
-    tabcontent.style.display = "none"
+	if(tabcontent){
+		 tabcontent.style.display = "none"
+	}
+    
   }
   getItems(itemId) {
     var itemcomment = []
@@ -44,20 +49,13 @@ export class EditSingleItemComponent implements OnInit {
         const found = items.find(element => element._id == itemId);
         this.selectedRowComments = found.comments.reverse();
         this.selectedRowComments['itemid'] = found._id
-        // this.shortedcoment = shortedcoment.reverse();
-        // this.selectedRowComments = shortedcoment;
       });
-
-
   }
-
-
-
   show(event) {
     this.newItemPopup.config.ignoreBackdropClick = true
     this.newItemPopup.config.backdrop = false
     this.newItemPopup.config.keyboard = true
-    // this.getItems(event.data._id)
+    // this.git getItems(event.data._id)
     if (this.dbclicked == true) {
      // this.newItemPopup.hide();
     } else {
@@ -71,12 +69,10 @@ export class EditSingleItemComponent implements OnInit {
               popup.show()
             }
             if (localStorage.getItem('pdata') == 'false') {
-              // popup.hide()
             }
           }, 300);
         }
       }
-      // this.newItemPopup.show();
       if (this.SelectedSingleRowData) {
         this.selectedRowComments = this.SelectedSingleRowData['comments']
         this.selectedRowComments['itemid'] = this.SelectedSingleRowData['_id']
@@ -85,12 +81,7 @@ export class EditSingleItemComponent implements OnInit {
           this.reverse = true;
          
         }
-        // this.selectedRowComments = shorted;
       }
-
-      // if (this.dbclicked == true) {
-      //   this.newItemPopup.hide();
-      // }
       this.fieldName.forEach(item => {
         this.data[item] = '';
       })
@@ -98,19 +89,6 @@ export class EditSingleItemComponent implements OnInit {
 
   }
 
-  openTabs(evt, tabID) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(tabID).style.display = "block";
-    evt.currentTarget.className += " active";
-  }
   onChangeSelectValue(event: any) {
     this[event.target.name] = (<HTMLInputElement>event.target).value;
   }
@@ -154,12 +132,10 @@ export class EditSingleItemComponent implements OnInit {
     }
   }
 
-  calledit(id) {
-    document.getElementById(id).hidden = true
-    document.getElementById('text' + id).hidden = false
-    document.getElementById('date').hidden = true
+  editComment(id) {
+    this.commentEditingMode = true;
+    this.EditableCommentId= id
   }
-
   mouseOutFromTaxtArea(event, commentID, comment) {
     var data = {
       itemId: this.selectedRowComments['itemid'],
@@ -171,9 +147,7 @@ export class EditSingleItemComponent implements OnInit {
       .subscribe(result => {
         if (result) {
           this.getItems(data.itemId)
-          document.getElementById(commentID).hidden = false;
-          document.getElementById('text' + commentID).hidden = true;
-          document.getElementById('date').hidden = false;
+          this.commentEditingMode = false;
         };
       });
 
@@ -191,7 +165,6 @@ export class EditSingleItemComponent implements OnInit {
           this.getItems(data.itemId)
         }
       });
-
   }
 
 closeModel(event){  

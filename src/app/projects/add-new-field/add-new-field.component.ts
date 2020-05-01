@@ -61,4 +61,6 @@ export class AddNewFieldComponent implements OnInit {
       this.newItemPopup.hide()
   }
 
+  
+
 }

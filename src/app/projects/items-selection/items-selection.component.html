@@ -1,8 +1,8 @@
- <!-- <div bsModal #selectedPopup="bs-modal" class="modal fade stick-up" tabindex="" role="dialog" id="popupid" > -->
-  <div class="modal-dialog modal-sm selection-popup " id="popupid" hidden> 
+ <!-- <div bsModal #selectedPopup="bs-modal" class="modal fade stick-up" tabindex="" role="dialog"  > -->
+  <div class="modal-dialog modal-sm selection-popup" *ngIf=" itemSelectionView == true || itemSelectionViewI"> 
       <div class="modal-content-wrapper">
         <div class="modal-content">
-          <button type="button" class="close" (click)="closePopup()" aria-hidden="true"><i class="pg pg-close fs-14"></i>
+          <button type="button" class="close" (click)="hide()"  aria-hidden="true"><i class="pg pg-close fs-14"></i>
           </button>
           <div class="container-xs-height full-height">
             <div class="row-xs-height">

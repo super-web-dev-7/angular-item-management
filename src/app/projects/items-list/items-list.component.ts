@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, Directive, ViewChild, EventEmitter, AfterViewInit } from "@angular/core";
 import { ItemsService } from "./items.service";
 import { FieldService } from "../../fields/field.service";
 import { HttpClient } from "@angular/common/http";
@@ -6,14 +6,30 @@ import { ModalDirective, idLocale } from 'ngx-bootstrap';
 import { _ } from "ag-grid-community";
 import { json } from "d3";
 import { JsonPipe } from "@angular/common";
-
+import { AgGridComponent } from '../ag-grid/ag-grid.component';
+// @Directive({selector: 'child-directive'})
+import { AllCommunityModules, Module } from '@ag-grid-community/all-modules';
+import '@ag-grid-community/all-modules/dist/styles/ag-grid.css';
+import '@ag-grid-community/all-modules/dist/styles/ag-theme-alpine.css';
+import { FilterInputComponent } from '../filter-input/filter-input.component';
+import { DateEditorComponent } from '../date-editor/date-editor.component';
+import { EventEmitterService } from '../../event-emitter.service';
 
 @Component({
   selector: "app-items-list",
   templateUrl: "./items-list.component.html",
   styleUrls: ["./items-list.component.scss"]
 })
+
 export class ItemsListComponent implements OnInit {
+  @ViewChild('agGridComponent', { static: true }) agGridComponent: AgGridComponent;
+  // @ViewChild('agGridComponent', { static: true } ) agGridComponent: AgGridComponent ; 
+
+  @ViewChild('FilterInputComponent', { static: true }) FilterInputComponent: FilterInputComponent;
+
+  public modules: Module[] = AllCommunityModules;
+  private rowData;
+  private frameworkComponents;
   // public modules: any[] = AllModules;
   popupVisi
   index = []
@@ -77,218 +93,57 @@ export class ItemsListComponent implements OnInit {
   columnMoved: boolean;
   countCallingOfKeypress: number;
   dragEnterRowOrder: any;
+  parms;
+  @Input() itemSelectionView;
+  itemSelectionViewI;
   constructor(
     private itemsService: ItemsService,
-    private fieldService: FieldService
-  ) {
+    private fieldService: FieldService,
+    private eventEmitterService: EventEmitterService
 
+  ) {
+    this.frameworkComponents = { FilterInputComponent: FilterInputComponent, DateEditorComponent: DateEditorComponent };
   }
+
+
   onGridReady(event) {
     localStorage.removeItem('gridHeader')
     this.ongridEventData = event
     this.gridApi = event.api;
     this.gridRows = event.api.rowModel.rowsToDisplay;
     this.gridApi.setSuppressClipboardPaste(false);
-    this.onLoadCustonHtml();
+    // this.onLoadCustonHtml();
   }
   onLoadCustonHtml() {
-    document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-      var x = Math.floor((Math.random() * 99999) + 1);
-      if (element) {
-        element.setAttribute("style", "display: none");
-        element.setAttribute("id", 'row' + this.pageNo + x);
-      }
-
-    })
-    var ele = document.getElementsByClassName("ag-header-viewport")[0]
-    ele.addEventListener("click", event => {
-      var iconClass = event['toElement'].getAttribute('class')
-      var eventgrid = event['__agGridEventPath']
-      event['path'].forEach(e => {
-        if (e && e.getAttribute && e.getAttribute("col-id")) {
-          if (this.oldArrow) {
-            this.oldArrow.setAttribute("style", "display: none");
-          }
-          if (this.clickOnHeader == 0) {
-            var errow_up = document.createElement("SPAN")
-            if (errow_up) {
-              errow_up.setAttribute("id", e.getAttribute("col-id"));
-              errow_up.setAttribute("style", "display: block");
-            }
-            var errow_up_icon = document.createElement("I")
-            if (errow_up_icon) {
-              errow_up_icon.setAttribute("class", "fa fa-long-arrow-up");
-            }
-            var aa = e.appendChild(errow_up);
-            aa.appendChild(errow_up_icon);
-            this.oldArrow = errow_up
-            this.sortOrder = 'ASC';
-            this.headerField = e.getAttribute("col-id");
-            if (iconClass != 'fa fa-bars' && iconClass != 'filterinput') {
-              this.sortGridbyApi(this.sortOrder, this.headerField, event['__agGridEventPath'])
-            }
-          }
-          if (this.clickOnHeader == 1) {
-            var errow_up = document.createElement("SPAN")
-            errow_up.setAttribute("id", e.getAttribute("col-id"));
-            errow_up.setAttribute("style", "display: block");
-            var errow_up_icon = document.createElement("I")
-            errow_up_icon.setAttribute("class", "fa fa-long-arrow-down");
-            var aa = e.appendChild(errow_up);
-            aa.appendChild(errow_up_icon);
-            this.oldArrow = errow_up
-            this.sortOrder = 'DESC'
-            this.headerField = e.getAttribute("col-id");
-            if (iconClass != 'fa fa-bars' && iconClass != 'filterinput') {
-              this.sortGridbyApi(this.sortOrder, this.headerField, event['__agGridEventPath'])
-            }
-          }
-          if (this.clickOnHeader == 2) {
-            this.sortOrder = 'null';
-            this.headerField = 'null';
-            this.CustomeHeaderField = e.getAttribute("col-id");
-            if (iconClass != 'fa fa-bars' && iconClass != 'filterinput') {
-              this.sortGridbyApi(this.sortOrder, this.headerField, event['__agGridEventPath'])
-            }
-          }
-        }
-        this.clickOnHeader = this.clickOnHeader + 1;
-        if (this.clickOnHeader == 3) {
-          this.clickOnHeader = 0;
-
-        }
-      })
-    });
-
-    ele.addEventListener("mouseover", event => {
-      document.querySelectorAll(".ag-header-cell").forEach((element) => {
-        var id = element.getAttribute("col-id")
-        var filterIcon = document.createElement("SPAN")
-        var filteredIcon = document.createElement("SPAN")
-        filterIcon.setAttribute("style", "display: none");
-        filterIcon.setAttribute("id", 'serico' + element.getAttribute("col-id"));
-        filteredIcon.setAttribute("style", "display: none");
-        filteredIcon.setAttribute("id", 'filterd' + element.getAttribute("col-id"));
-        var filterIcon_icon = document.createElement("I")
-        var filteredIcon_icon = document.createElement("I")
-        if (filterIcon_icon) {
-          filterIcon_icon.setAttribute("class", "fa fa-bars");
-        }
-        if (filteredIcon_icon) {
-          filteredIcon_icon.setAttribute("class", "fa fa-filter");
-
-        }
-
-        var aa = element.appendChild(filterIcon);
-        var bb = element.appendChild(filteredIcon);
-        aa.appendChild(filterIcon_icon);
-        bb.appendChild(filteredIcon_icon);
-
-        var filterDiv = document.createElement("DIV")
-        filterDiv.setAttribute("class", "search_text_default");
-        filterDiv.setAttribute("id", 'serinp' + element.getAttribute("col-id"));
-        filterDiv.setAttribute("name", element.getAttribute("col-id"))
-        filterDiv.setAttribute("style", "display: none");
-        this.oldSearchId = 'serinp' + element.getAttribute("col-id");
-        var filterInputBox = document.createElement("INPUT");
-
-        filterInputBox.setAttribute("placeholder", 'search text....')
-        filterInputBox.setAttribute("class", "filterinput")
-
-        this.fields.forEach(row => {
-          if (row.techName == id) {
-            if (row.type == 1) {
-              filterInputBox.setAttribute("type", "number")
-            }
-          }
-        }); var filteredIcon_hr = document.createElement("HR")
-        var dd = element.appendChild(filterDiv);
-
-        dd.appendChild(filterInputBox);
-        dd.appendChild(filteredIcon_hr);
-      });
-
-      event['path'].forEach(e => {
-        if (e && e.getAttribute && e.getAttribute("col-id")) {
-          document.querySelectorAll(".ag-header-cell").forEach((element) => {
-            var data = document.getElementById('serico' + element.getAttribute("col-id"));
-            if (data) {
-              data.setAttribute("style", "display: none")
-            }
-          });
-          var filterIcon_icon = document.getElementById('serico' + e.getAttribute("col-id"));
-          if (filterIcon_icon) {
-            filterIcon_icon.setAttribute("style", "display: block");
-
-          }
-          if (filterIcon_icon) {
-            filterIcon_icon.addEventListener("click", event => {
-              event['path'].forEach(e => {
-                if (e && e.getAttribute && e.getAttribute("col-id")) {
-                  document.querySelectorAll(".ag-header-cell").forEach((element) => {
-                    var data = document.getElementById('serinp' + element.getAttribute("col-id"));
-                    if (data) {
-                      data.setAttribute("style", "display: none")
-                    }
-                  });
-                  var singleInput = document.getElementById('serinp' + e.getAttribute("col-id"))
-                  this.openedSearchedBoxId = 'serinp' + e.getAttribute("col-id");
-                  if (singleInput) {
-                    singleInput.setAttribute("style", "display: block")
-                  }
-                  singleInput.addEventListener("keyup", event => {
-                    var filrtedtext = document.getElementById('filterd' + e.getAttribute("col-id"))
-                    filrtedtext.setAttribute("style", "display: block")
-                  })
-                }
-              })
-            })
-          }
-
-        }
-      })
-    });
-
-
-    let timeout = null;
-    document.addEventListener("keyup", event => {
-      clearTimeout(timeout);
-      if (event['path'][1].getAttribute('class') == 'search_text_default') {
-        timeout = setTimeout(() => {
-          var techename = event['path'][1].getAttribute('name')
-          this.searchedValue = event.target['value']
-          this.filterGridbyApi(techename);
-        }, 1000);
-
-      }
-    })
-
-    var elim = document.getElementsByClassName("ag-row")[0]
-    elim.addEventListener("click", event => {
-      document.querySelectorAll(".ag-header-cell").forEach((element) => {
-        var data = document.getElementById('serinp' + element.getAttribute("col-id"));
-        data.setAttribute("style", "display: none")
-      });
-    })
-    var agHeader = document.getElementsByClassName("ag-header-select-all")[0]
-    agHeader.addEventListener("click", event => {
-      var hederEliment = event['toElement'].getAttribute('class')
-      if (hederEliment == 'ag-icon ag-icon-checkbox-unchecked') {
-        this.agheader = true;
-        this.agHeaderCheckbox = true;
-      }
-      if (hederEliment == 'ag-icon ag-icon-checkbox-checked') {
-        this.agheader = false;
-        this.agHeaderCheckbox = false;
-      }
-
-    })
+    this.agGridComponent.onCustomHtmlLoad();
   }
 
   ngOnInit() {
+    if (this.eventEmitterService.subsVar==undefined) {    
+      this.eventEmitterService.subsVar = this.eventEmitterService.    
+      invokeItemListComponentFunction.subscribe((data:any) => {   
+       
+        //  this.searchedText = data.searchText 
+         this.filterGridbyApi(data);
+      });    
+    }
     this.ongetItemsByProjectWithPagination(this.pageNo);
     this.countItemsByProject();
-
+    this.GetFields();
+    this.defaultColDef = {
+      width: 150,
+      resizeable: true,
+      editable: true,
+      sortable: true,
+      filter: true,
+      unSortIcon: true,
+    };
+    this.rowSelection = "multiple";
+    this.autoGroupColumnDef = {
+    };
+    localStorage.setItem('pdata', 'true')
+  }
+  GetFields(){
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
       fields.forEach(field => {
@@ -299,11 +154,11 @@ export class ItemsListComponent implements OnInit {
               field: field.techName,
               editable: true,
               resizable: true,
-              cellEditor: "datePicker",
-              colId: field.techName
+              cellEditor: 'DateEditorComponent',
+              colId: field.techName,
+              filter: 'FilterInputComponent',
+              menuTabs: ['filterMenuTab'],
             });
-            this.components = { datePicker: this.getDatePicker() };
-
           }
           if (field.type == 5) {
             if (field.optionsForSelect) {
@@ -314,6 +169,8 @@ export class ItemsListComponent implements OnInit {
                 resizable: true,
                 colId: field.techName,
                 cellEditor: "agSelectCellEditor",
+                filter: 'FilterInputComponent',
+                menuTabs: ['filterMenuTab'],
                 cellEditorParams: {
                   values: field.optionsForSelect
                 },
@@ -325,10 +182,11 @@ export class ItemsListComponent implements OnInit {
             this.itemCulomns.push({
               headerName: field.label,
               field: field.techName,
-              type: 'number',
               editable: true,
               resizable: true,
               colId: field.techName,
+              filter: 'FilterInputComponent',
+              menuTabs: ['filterMenuTab'],
               valueGetter: function (params) {
                 return params.data[field.techName];
               },
@@ -357,6 +215,8 @@ export class ItemsListComponent implements OnInit {
               editable: true,
               colId: field.techName,
               resizable: true,
+              filter: 'FilterInputComponent',
+              menuTabs: ['filterMenuTab'],
             });
           }
 
@@ -414,7 +274,6 @@ export class ItemsListComponent implements OnInit {
         }
       });
 
-
       this.columnLoaded = true;
       this.itemCulomns[0]["headerCheckboxSelection"] = true;
       this.itemCulomns[0]["checkboxSelection"] = true;
@@ -426,28 +285,7 @@ export class ItemsListComponent implements OnInit {
       }
 
     });
-
-
-    this.defaultColDef = {
-      width: 150,
-      resizeable: true,
-      editable: true,
-    };
-    this.rowSelection = "multiple";
-    this.autoGroupColumnDef = {
-
-    };
-
-    localStorage.setItem('pdata', 'true')
-
   }
-
-  itemsSelectionshow() {
-    var popupVisi1 = document.getElementById('popupid')
-    popupVisi1.hidden = false
-    this.popupVisi = popupVisi1.hidden
-  }
-
   getItems() {
     this.itemsService
       .countItemsByProject(this.projectId)
@@ -499,127 +337,44 @@ export class ItemsListComponent implements OnInit {
   }
 
   onSelectionChanged(event) {
-    	document.getElementById('popupid').hidden = false
-    
-    	var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
-    	if (idx > -1) {
-      		if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
-				if (event.node.selected == false) {
-				  this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
-				}
-			} else {
-				this.RowIndex[idx].rowIndex.push(event.rowIndex);
-			}
-		} else {
-		  this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
-		}
-
-    	this.gridRows = '';
-    	this.gridRows = event.api.rowModel.rowsToDisplay;
-
-		if (this.pageNo == 1) {
-		  localStorage.setItem('gridRows', this.gridRows);
-		}
-
-    	if (this.gridRows.findIndex(x => x.selected == true) > -1) {
-			  this.showAllCheckBox = true;
-			  var d = this.gridRows.filter(x => x.selected == true);
-			  this.selectedRows = d ? d.length : 0;
-			  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-				element.setAttribute("style", "display: block");
-			  })
-    	} else {
-			  if (this.notreffress == true) {
-					if (this.gridRows.findIndex(x => x.selected == false) > -1) {
-						  this.showAllCheckBox = true;
-						  var d = this.gridRows.filter(x => x.selected == false);
-						  this.selectedRows = d ? d.length : 0;
-						  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-							element.setAttribute("style", "display: block");
-						  })
-					}
-      		  } else {
-				  	this.selectedRows = this.SelectedRowData.length;				 
-					if (this.SelectedRowData.length < this.TotalItems) {
-						//this.selectedRows = 0;
-						//this.showAllCheckBox = false;
-						console.log('====++++++++++++++++inner if>', this.SelectedRowData)
-						if(this.RowIndex.length){
-					  		if(this.RowIndex.filter(value=> (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0){
-					  		}else{
-								 document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-									element.setAttribute("style", "display: none");
-								  })
-							}
-						}
-						
-					} else {
-						  document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-							element.setAttribute("style", "display: block");
-						  })
-					}
-      		  }
-        }
-
-		if (event.node.selected == true) {
-      var result = ''
-		   result = this.SelectedRowData.find(elim => elim.order === event.data.order );
-
-		  if (result == undefined && result != event.data.order) {
-        event.data['page'] = this.pageNo
-			this.SelectedRowData.push(event.data)
-			this.noOfSelectedRows = this.SelectedRowData.length
-		  }
-		}
-
-		if (event.node.selected == false) {
-      
-		  this.remove_array_element(this.SelectedRowData, event.data)
-
-		}
-
+    this.agGridComponent.SelectionChange(event);
+    if (event.node.selected == true) {
+      this.agGridComponent.add_array_element(event)
+    }
+    if (event.node.selected == false) {
+      this.agGridComponent.remove_array_element(this.SelectedRowData, event.data)
+    }
+    if (this.SelectedRowData.length > 0) {
+      this.itemSelectionView = true;
+      this.itemSelectionViewI = true;
+    }
+    if (this.SelectedRowData.length == 0) {
+      this.itemSelectionView = false;
+      this.itemSelectionViewI = false;
+    }
   }
-
   oncellMouseOver(event) {
-    	if (!this.showAllCheckBox && this.noOfSelectedRows == 0) {
-			  if (this.SelectedRowData.length == 0) {
-				document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-				  element.setAttribute("style", "display: none");
-				});
-			  }
-
-			document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
-			var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
-			if (data) {
-				data.setAttribute("style", "display: block");
-			}
-    	}else{
-			if(this.SelectedRowData.length < this.TotalItems){
-				if(this.RowIndex.length){
-					  if(this.RowIndex.filter(value=> (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0){
-					  }else{
-						   document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-								element.setAttribute("style", "display: none");
-						   });
-					  }
-				}
-				
-				document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
-				var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
-				if (data) {
-					data.setAttribute("style", "display: block");
-				}
-			}
-		}
-}
-
-
+    if (!this.showAllCheckBox && this.noOfSelectedRows == 0) {
+      if (this.SelectedRowData.length == 0) {
+        this.agGridComponent.hideSelectbox(event);
+      }
+      this.agGridComponent.showSelectbox(event);
+    } else {
+      if (this.SelectedRowData.length < this.TotalItems) {
+        if (this.RowIndex.length) {
+          if (this.RowIndex.filter(value => (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0) {
+          } else {
+            this.agGridComponent.hideSelectbox(event);
+          }
+        }
+        this.agGridComponent.showSelectbox(event);
+      }
+    }
+  }
   oncellMouseOut(event) {
     if (!this.showAllCheckBox) {
       if (this.SelectedRowData.length == 0) {
-        document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-          element.setAttribute("style", "display: none");
-        });
+        this.agGridComponent.hideSelectbox(event);
       }
     }
   }
@@ -628,34 +383,7 @@ export class ItemsListComponent implements OnInit {
       this.gridApi.copySelectedRowsToClipboard(false);
     }
   }
-
-  onrowSelected(event) {
-  }
-
-
-  remove_array_element(array, n) {
-
-    var  result =''
-    result = this.SelectedRowData.find(elim => elim._id === n._id);
-
-    var index = this.SelectedRowData.indexOf(n);
-
-    if (index > -1 && result['page'] == this.pageNo) {
-
-      this.SelectedRowData.splice(index, 1);
-    } else {
-      var indx = this.SelectedRowData.indexOf(n);
-       if(result['page'] == this.pageNo){
-        this.SelectedRowData.splice(0, 1);
-
-       }
-    }
-
-    return this.SelectedRowData;
-  }
-
   getLatestitem(e) {
-    // this.countItemsByProject();
     this.getItems();
     this.notreffress = true
     this.SelectedRowData = []
@@ -663,22 +391,16 @@ export class ItemsListComponent implements OnInit {
       if (e == 'delete' || e == 'duplicate' || e.ok == 1) {
         if (e == 'duplicate') {
           this.notreffress = false;
-
         }
         var truerows = this.gridRows.findIndex(x => x.selected == true);
-        //truerows.each(row => {
         this.gridRows[truerows].selected = false;
-        //});
         this.RowIndex = [];
-
       }
       if (this.gridRows.findIndex(x => x.selected == false) > -1) {
         this.showAllCheckBox = false;
         var d = this.gridRows.filter(x => x.selected == false);
         this.selectedRows = d ? d.length : 0;
-        document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-          element.setAttribute("style", "display: none");
-        })
+        this.agGridComponent.hideSelectbox(event);
       }
     }
 
@@ -688,28 +410,28 @@ export class ItemsListComponent implements OnInit {
     this.SelectedSingleRowData = event.data;
   }
 
-  onrowDragEnter(event){
+  onrowDragEnter(event) {
     this.dragEnterRowOrder = event.api.rowModel.rowsToDisplay[0].data.order;
   }
   onrowDragEnd(event) {
-    var data ;
+    var data;
     if (event.overIndex == 0) {
       data = {
         itemIds: [event.node.data._id],
-        orderToPlace:this.dragEnterRowOrder-1
+        orderToPlace: this.dragEnterRowOrder - 1
       }
-    }else{
+    } else {
       data = {
         itemIds: [event.node.data._id],
-        orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order
+        orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order
       }
     }
     this.itemsService
       .changeOrder(data)
       .subscribe((result: any) => {
         if (result) {
-          this.dragEnterRowOrder=null
-         this.ongetItemsByProjectWithPagination(this.pageNo);
+          this.dragEnterRowOrder = null
+          this.ongetItemsByProjectWithPagination(this.pageNo);
         }
       });
 
@@ -761,7 +483,6 @@ export class ItemsListComponent implements OnInit {
   }
 
   oncellDoubleClicked(event) {
-
     this.dbclicked = true;
     this.getShow.emit();
     localStorage.setItem('pdata', 'false')
@@ -803,81 +524,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   getfilelds(e) {
-    //////////////////  this code is not removable becouse it is refress the grid header please dont remove that./////////////
-    this.fieldService.getFields().subscribe((fields: any) => {
-      this.fields = fields
-      fields.forEach(field => {
-        if (field.type == 3) {
-          this.itemCulomns1.push({
-            headerName: field.label,
-            field: field.techName,
-            editable: true,
-            resizable: true,
-            cellEditor: "datePicker"
-          });
-          this.components = { datePicker: this.getDatePicker() };
-
-        }
-        if (field.type == 5) {
-          if (field.optionsForSelect) {
-            this.itemCulomns1.push({
-              headerName: field.label,
-              field: field.techName,
-              editable: true,
-              resizable: true,
-              cellEditor: "agSelectCellEditor",
-              cellEditorParams: {
-                values: field.optionsForSelect
-              }
-            });
-          }
-        }
-        else {
-          this.itemCulomns1.push({
-            headerName: field.label,
-            field: field.techName,
-            editable: true,
-            resizable: true
-          });
-        }
-        this.itemCulomns = this.itemCulomns1;
-        this.fieldslable.push(field.label)
-        this.fieldName.push(field.techName);
-        if (field.type == 0) {
-          this.fieldTypeWithNo.push({ type: "text", no: 0 })
-          this.fieldType.push("text");
-        } else if (field.type == 1) {
-          this.fieldTypeWithNo.push({ type: "number", no: 1 })
-          this.fieldType.push("number");
-        } else if (field.type == 2) {
-          this.fieldTypeWithNo.push({ type: "file", no: 2 })
-          this.fieldType.push("file");
-        } else if (field.type == 3) {
-          this.fieldTypeWithNo.push({ type: "date", no: 3 })
-          this.fieldType.push("date");
-        } else if (field.type == 4) {
-          this.fieldType.push("text");
-        } else if (field.type == 5) {
-          this.fieldTypeWithNo.push({ type: "select", no: 5 })
-          this.fieldType.push("select");
-        }
-        else {
-          this.fieldType.push("text");
-        }
-
-      });
-
-      this.columnLoaded = true;
-      this.itemCulomns[0]["headerCheckboxSelection"] = true;
-      this.itemCulomns[0]["checkboxSelection"] = true;
-      this.itemCulomns[0]["rowDrag"] = true;
-      for (let j = 1; j < this.itemCulomns.length; j++) {
-        this.itemCulomns[j]["headerCheckboxSelection"] = false;
-        this.itemCulomns[j]["checkboxSelection"] = false;
-        this.itemCulomns[j]["rowDrag"] = false;
-      }
-    });
-
+    this.GetFields();
     this.defaultColDef = {
       width: 150,
       sortable: true,
@@ -885,38 +532,37 @@ export class ItemsListComponent implements OnInit {
       resizeable: true,
       editable: true,
 
-
     };
     this.rowSelection = "multiple";
 
     this.ngOnInit()
   }
 
-  getDatePicker() {
-
-    function Datepicker() { }
-    Datepicker.prototype.init = function (params) {
-
-      this.eInput = document.createElement("input");
-      this.eInput.value = params.value;
-      this.eInput.setAttribute('type', 'date');
-    };
-    Datepicker.prototype.getGui = function () {
-      return this.eInput;
-    };
-    Datepicker.prototype.afterGuiAttached = function () {
-      this.eInput.focus();
-      this.eInput.select();
-    };
-    Datepicker.prototype.getValue = function () {
-      return this.eInput.value;
-    };
-    Datepicker.prototype.destroy = function () { };
-    Datepicker.prototype.isPopup = function () {
-      return false;
-    };
-    return Datepicker;
-  }
+  //  getDatePicker() {
+  //
+  //    function Datepicker() { }
+  //    Datepicker.prototype.init = function (params) {
+  //
+  //      this.eInput = document.createElement("input");
+  //      this.eInput.value = params.value;
+  //      this.eInput.setAttribute('type', 'date');
+  //    };
+  //    Datepicker.prototype.getGui = function () {
+  //      return this.eInput;
+  //    };
+  //    Datepicker.prototype.afterGuiAttached = function () {
+  //      this.eInput.focus();
+  //      this.eInput.select();
+  //    };
+  //    Datepicker.prototype.getValue = function () {
+  //      return this.eInput.value;
+  //    };
+  //    Datepicker.prototype.destroy = function () { };
+  //    Datepicker.prototype.isPopup = function () {
+  //      return false;
+  //    };
+  //    return Datepicker;
+  //  }
 
   moveToNext() {
 
@@ -948,77 +594,40 @@ export class ItemsListComponent implements OnInit {
     this.ItemTO = this.ItemTO + this.items.length
   }
 
-  onrowsAfterSort(event) {
-    var data = event.event.api.forEachNodeAfterFilterAndSort();
-  }
-
-  sortGridbyApi(sortOrder, headerField, agGridEventPath) {
-    headerField = headerField.replace(/_1/g, "");
-    document.querySelectorAll(".ag-header-cell").forEach((element) => {
-      var data4 = document.getElementById('serinp' + element.getAttribute("col-id"));
-      if (data4) {
-        data4.setAttribute("style", "display: none")
-
-      }
-    });
-
+  sortGridbyApi(values) {
+    // headerField = headerField.replace(/_1/g, "");
+    this.agGridComponent.hideFilterInput();
     var data
-    if (!this.searchedValue) {
-      data = {
-        filter: [
-          {
-            techName: "",
-            value: ""
+    data = {
+      filter: [
+        {
+          techName: "",
+          value: ""
 
-          }
-        ],
-        sort: {
-          techName: headerField,
-          direction: sortOrder
         }
+      ],
+      sort: {
+        techName: values[0].colId,
+        direction: values[0].sort
       }
     }
 
-    if (this.searchedValue) {
-
-
-      if (sortOrder == 'null' && headerField == 'null') {
-        sortOrder = '';
-        headerField = this.CustomeHeaderField;
-      }
-      data = {
-        filter: [
-          {
-            techName: headerField,
-            value: this.searchedValue
-
-          }
-        ],
-        sort: {
-          techName: headerField,
-          direction: sortOrder
-        }
-      }
-
-    }
-    if (!agGridEventPath) {
-      this.itemsService
-        .ongetItemsByProjectWithPagination(this.projectId, data, this.pageNo)
-        .subscribe((items: any) => {
+    this.itemsService
+      .ongetItemsByProjectWithPagination(this.projectId, data, this.pageNo)
+      .subscribe((items: any) => {
+        setTimeout(() => {
           this.items = items;
-          this.agHeaderCheckbox = false;
-        });
-    }
-    ``
+        }, 500);
+        this.agHeaderCheckbox = false;
+      });
   }
 
-  filterGridbyApi(techname) {
+  filterGridbyApi(vales) {
     var data = {
       filter: [
         {
-          techName: techname,
-          value: this.searchedValue
-
+          techName: vales.tachname,
+          value: vales.searchText
         }
       ],
       sort: {
@@ -1026,7 +635,6 @@ export class ItemsListComponent implements OnInit {
         direction: ""
       }
     }
-
     this.itemsService
       .ongetItemsByProjectWithPagination(this.projectId, data, this.pageNo)
       .subscribe((items: any) => {
@@ -1043,60 +651,22 @@ export class ItemsListComponent implements OnInit {
   }
 
   onrowDataChanged(event) {
-    this.columnMoved = false;
-    if (this.SelectedRowData.length == 0) {
-      document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
-        element.setAttribute("style", "display: none");
-      })
-    } else if(this.SelectedRowData.length < this.TotalItems) {
-      document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
-        element.setAttribute("style", "display: none");
-      })
-    } else {
-      	document.querySelectorAll(".ag-selection-checkbox").forEach((element, index) => {
-        	element.setAttribute("style", "display: block");
-      	})
-    }
-
-    this.gridRows = event.api.rowModel.rowsToDisplay;
-    if (this.RowIndex) {
-      this.datainarry = true
-      this.RowIndex.forEach((row, i) => {
-        if (row.page == this.pageNo) {
-          event.api.forEachNode(function (rowNode, index) {
-            var idx = index
-            for (let a = 0; a < row.rowIndex.length; a++) {
-              if (idx == row.rowIndex[a]) {
-                rowNode.setSelected(true);
-              }
-            }
-          });
-        }
-
-		if(this.SelectedRowData.length >= this.TotalItems){
-			if (this.agHeaderCheckbox == true && this.agheader == true) {				
-				event.api.selectAll();
-			}
-		}
-  
-      })
-    }
+    this.agGridComponent.RowDataChanges(event)
   }
 
   oncellClicked(e) {
-    document.querySelectorAll(".ag-header-cell").forEach((element) => {
-      var data = document.getElementById('serinp' + element.getAttribute("col-id"));
-      if (data) {
-        data.setAttribute("style", "display: none")
-
-      }
-    });
+    this.agGridComponent.hideFilterInput();
   }
 
   cleanCheckboxes(e) {
     this.gridRows.forEach((row, i) => {
       row.setSelected(false);
     })
+  }
 
+  onsortChanged(e) {
+    console.log(e.api.sortController.getSortModel())
+    var data = e.api.sortController.getSortModel()
+    this.sortGridbyApi(data)
   }
 }

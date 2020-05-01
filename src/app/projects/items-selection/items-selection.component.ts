@@ -40,6 +40,8 @@ export class ItemsSelectionComponent implements OnInit {
   copyDataLengthcount = 0
   afterPastPageNotReffress = false
   pastetype = ''
+  @Input() itemSelectionView ;
+  @Input() itemSelectionViewI;
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService
@@ -55,10 +57,14 @@ export class ItemsSelectionComponent implements OnInit {
   }
 
   show() {
+    this.itemSelectionView = true;
     this.selectedPopup.show();
     this.SelectedRowData
   }
-
+hide(){
+  this.itemSelectionView = false;
+  this.itemSelectionViewI  = false;
+}
   copyItems(val) {
     localStorage.setItem('pastetype', 'copy')
     this.copyData = this.SelectedRowData;
@@ -100,7 +106,7 @@ export class ItemsSelectionComponent implements OnInit {
                 .subscribe((items: any) => {
                   localStorage.removeItem('copydata')
                   this.getLatestitem.emit();
-                  document.getElementById('popupid').hidden = true
+                  // document.getElementById('popupid').hidden = true
                   this.copyData = []
                   this.copyDataLengthcount = 0
                   localStorage.setItem('notreffress', 'ture')
@@ -132,7 +138,7 @@ export class ItemsSelectionComponent implements OnInit {
                 .subscribe((items: any) => {
                   this.items = items;
                   this.getLatestitem.emit();
-                  document.getElementById('popupid').hidden = true
+                  // document.getElementById('popupid').hidden = true
                   this.copyData = []
                   this.copyDataLengthcount = 0
                   localStorage.setItem('notreffress', 'true')
@@ -161,13 +167,9 @@ export class ItemsSelectionComponent implements OnInit {
         if (result) {
               this.getLatestitem.emit('delete');            
               this.SelectedRowData = []
-              document.getElementById('popupid').hidden = true
+              // document.getElementById('popupid').hidden = true
         }
       });
-
-
-    // }
-
   }
 
   duplicateItems() {
@@ -187,7 +189,7 @@ export class ItemsSelectionComponent implements OnInit {
             this.itemsService
               .getItemsByProject(this.projectId)
               .subscribe((items: any) => {
-                document.getElementById('popupid').hidden = true
+                // document.getElementById('popupid').hidden = true
                 this.getLatestitem.emit('duplicate');
 
               });
@@ -197,9 +199,9 @@ export class ItemsSelectionComponent implements OnInit {
 
   }
 
-  closePopup() {
-    document.getElementById('popupid').hidden = true
-  }
+  // closePopup() {
+  //   document.getElementById('popupid').hidden = true
+  // }
 
   remove_array_element(array, n) {
     var index = array.indexOf(n);
@@ -210,7 +212,7 @@ export class ItemsSelectionComponent implements OnInit {
   }
 
   callgetLatestitem(e) {
-    this.closePopup()
+    // this.closePopup()
     this.getLatestitem.emit(e);
   }
 
