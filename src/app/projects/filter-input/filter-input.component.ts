@@ -23,6 +23,7 @@ export class FilterInputComponent implements OnInit {
   private params: IFilterParams;
   private valueGetter: (rowNode: RowNode) => any;
   public text: string = '';
+  FilterInputType: any;
   constructor( private eventEmitterService: EventEmitterService ) { }
 
   ngOnInit() {
@@ -33,10 +34,10 @@ export class FilterInputComponent implements OnInit {
   agInit(params: IFilterParams): void {
     this.params = params;
     this.valueGetter = params.valueGetter; 
+    this.FilterInputType=params.colDef.type
   }
 
   doesFilterPass(params: IDoesFilterPassParams): boolean {
-	  
     return this.text
       .toLowerCase()
       .split(' ')

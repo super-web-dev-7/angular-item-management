@@ -4,8 +4,6 @@ import { FieldService } from "../../fields/field.service";
 import { HttpClient } from "@angular/common/http";
 import { ModalDirective, idLocale } from 'ngx-bootstrap';
 import { _ } from "ag-grid-community";
-import { json } from "d3";
-import { JsonPipe } from "@angular/common";
 import { AgGridComponent } from '../ag-grid/ag-grid.component';
 // @Directive({selector: 'child-directive'})
 import { AllCommunityModules, Module } from '@ag-grid-community/all-modules';
@@ -14,6 +12,7 @@ import '@ag-grid-community/all-modules/dist/styles/ag-theme-alpine.css';
 import { FilterInputComponent } from '../filter-input/filter-input.component';
 import { DateEditorComponent } from '../date-editor/date-editor.component';
 import { EventEmitterService } from '../../event-emitter.service';
+import { text } from "d3";
 
 @Component({
   selector: "app-items-list",
@@ -121,8 +120,7 @@ export class ItemsListComponent implements OnInit {
   ngOnInit() {
     if (this.eventEmitterService.subsVar==undefined) {    
       this.eventEmitterService.subsVar = this.eventEmitterService.    
-      invokeItemListComponentFunction.subscribe((data:any) => {   
-       
+      invokeItemListComponentFunction.subscribe((data:any) => {         
         //  this.searchedText = data.searchText 
          this.filterGridbyApi(data);
       });    
@@ -144,6 +142,11 @@ export class ItemsListComponent implements OnInit {
     localStorage.setItem('pdata', 'true')
   }
   GetFields(){
+    this.fields =[]
+    this.itemCulomns=[]
+    this.fieldName=[]
+    this.fieldType=[]
+
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
       fields.forEach(field => {
@@ -154,6 +157,7 @@ export class ItemsListComponent implements OnInit {
               field: field.techName,
               editable: true,
               resizable: true,
+              type:'date',
               cellEditor: 'DateEditorComponent',
               colId: field.techName,
               filter: 'FilterInputComponent',
@@ -168,6 +172,7 @@ export class ItemsListComponent implements OnInit {
                 editable: true,
                 resizable: true,
                 colId: field.techName,
+                type:'select',
                 cellEditor: "agSelectCellEditor",
                 filter: 'FilterInputComponent',
                 menuTabs: ['filterMenuTab'],
@@ -185,6 +190,7 @@ export class ItemsListComponent implements OnInit {
               editable: true,
               resizable: true,
               colId: field.techName,
+              type:'number',
               filter: 'FilterInputComponent',
               menuTabs: ['filterMenuTab'],
               valueGetter: function (params) {
@@ -215,6 +221,7 @@ export class ItemsListComponent implements OnInit {
               editable: true,
               colId: field.techName,
               resizable: true,
+              type:'text',
               filter: 'FilterInputComponent',
               menuTabs: ['filterMenuTab'],
             });
@@ -596,7 +603,7 @@ export class ItemsListComponent implements OnInit {
 
   sortGridbyApi(values) {
     // headerField = headerField.replace(/_1/g, "");
-    this.agGridComponent.hideFilterInput();
+    // this.agGridComponent.hideFilterInput();
     var data
     data = {
       filter: [
@@ -653,11 +660,6 @@ export class ItemsListComponent implements OnInit {
   onrowDataChanged(event) {
     this.agGridComponent.RowDataChanges(event)
   }
-
-  oncellClicked(e) {
-    this.agGridComponent.hideFilterInput();
-  }
-
   cleanCheckboxes(e) {
     this.gridRows.forEach((row, i) => {
       row.setSelected(false);

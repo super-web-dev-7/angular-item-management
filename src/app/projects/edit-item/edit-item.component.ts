@@ -28,7 +28,12 @@ export class EditItemComponent implements OnInit {
   items;
   blankfill = ''
   constructor(private itemsService: ItemsService,private fieldService: FieldService
-    ) { }
+    ) {
+      // this.fieldService.getFields().subscribe((fields: any) => {
+			// 	console.log(fields);
+			// 	this.fields = fields
+			// })
+     }
 
   ngOnInit() {
     
@@ -94,7 +99,6 @@ export class EditItemComponent implements OnInit {
 			
 			this.newItemPopup.show();
 			this.fieldService.getFields().subscribe((fields: any) => {
-				console.log(fields);
 				this.fields = fields
 			})
 		}

@@ -53,15 +53,6 @@ export class AgGridComponent implements OnInit {
 
   ngOnInit() {
   }
-  hideFilterInput(){
-  document.querySelectorAll(".ag-header-cell").forEach((element) => {
-    var data4 = document.getElementById('serinp' + element.getAttribute("col-id"));
-    if (data4) {
-      data4.setAttribute("style", "display: none")
-
-    }
-  });
-}
   onCustomHtmlLoad() {
     document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
       var x = Math.floor((Math.random() * 99999) + 1);

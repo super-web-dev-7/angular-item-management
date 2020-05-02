@@ -16,8 +16,6 @@ export class AddNewFieldComponent implements OnInit {
   @Input() fieldTypeWithNo
   @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
   @Output() getfilelds: EventEmitter<any> = new EventEmitter();
-
-
   filteredType = [];
   level;
   SelectedfieldType;
