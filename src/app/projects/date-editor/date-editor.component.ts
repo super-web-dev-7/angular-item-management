@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-
-//import { ICellEditorAngularComp } from '@ag-grid-community/angular';
+import flatpickr from 'flatpickr';
 
 @Component({
   selector: 'app-loading-overlay',
@@ -45,20 +44,19 @@ export class DateEditorComponent {
   private date: Date;
   private params: any;
   private picker: any;
-
+  public datevalue;
   agInit(params: any): void {
     	this.params = params;
 	  	//console.log("Datepicker====>>", this.params);
   }
 
   ngAfterViewInit(): void {
-    // outputs `I am span`
     this.picker = flatpickr(this.flatpickrEl.nativeElement, {
-      onChange: this.onDateChanged.bind(this),
-      wrap: true,
+      	onChange: this.onDateChanged.bind(this),
+      	wrap: true
     });
-
-    this.picker.calendarContainer.classList.add('ag-custom-component-popup');
+	
+     this.picker.calendarContainer.classList.add('ag-custom-component-popup');
   }
 
   ngOnDestroy() {
@@ -68,10 +66,13 @@ export class DateEditorComponent {
   onDateChanged(selectedDates) {
     	var date = selectedDates[0] || null;
 	  	if(typeof date == undefined){
+			
 			this.date = this.params.value
+			this.datevalue = this.params.value
 	  	}else{
-			this.date = date.getFullYear()+'-'+ (date.getMonth()+1)+'-'+date.getDate();
-	  		this.params.value = this.date
+			
+			this.datevalue = date.getFullYear()+'-'+ (date.getMonth()+1)+'-'+date.getDate();		this.date = date;
+	  		
 		}	  	
   }
 
@@ -80,10 +81,11 @@ export class DateEditorComponent {
   }
 	
   getValue(): Date{ 
-	  if(typeof this.date === 'undefined'){
+	  if(typeof this.datevalue === 'undefined'){
 			this.date = this.params.value
+			this.datevalue = this.params.value
 	  }
-	  return this.date;
+	  return this.datevalue;
   }
   setDate(date: Date): void {
     this.date = date || null;
