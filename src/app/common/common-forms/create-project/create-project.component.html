@@ -16,13 +16,17 @@
             </fieldset>
             <fieldset class="form-group">
                 <label>Type</label>
-                <input formControlName="type" class="form-control" type="text">
+                <pg-select style="width: 100%;" formControlName="type" [PlaceHolder]="''" AllowClear
+                    ShowSearch>
+                    <pg-option *ngFor="let type of projectTypes" [Label]="type.name" [Value]="type">
+                    </pg-option>
+                </pg-select>
             </fieldset>
         </div>
     </div>
     <div class="app-modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal"
-        (click)="createProjectModal.hide()">Create</button>
+            (click)="createProjectModal.hide()">Create</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal"
             (click)="createProjectModal.hide()">Close</button>
     </div>

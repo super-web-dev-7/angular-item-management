@@ -14,7 +14,7 @@ import { GetProjectsAction } from '@app/store/actions/projects.actions';
 export class CorporateLayout extends RootLayout implements OnInit {
   menuLinks:any = [
     {
-      label:"Projects",
+      label:"Dashboard",
       details:"12 New Updates",
       routerLink:"/projects",
       iconType:"pg",
@@ -22,7 +22,25 @@ export class CorporateLayout extends RootLayout implements OnInit {
       thumbNailClass:"text-white"
     },
     {
+      label:"Projects",
+      details:"12 New Updates",
+      routerLink:"/projects",
+      iconType:"pg",
+      iconName:"home",
+      thumbNailClass:"text-white"
+    },
+  ];
+
+  setupLinks: any  = [
+    {
       label:"Types",
+      routerLink:"/project-types",
+      iconType:"pg",
+      iconName:"home",
+      thumbNailClass:"text-white"
+    },
+    {
+      label:"Users",
       routerLink:"/project-types",
       iconType:"pg",
       iconName:"home",

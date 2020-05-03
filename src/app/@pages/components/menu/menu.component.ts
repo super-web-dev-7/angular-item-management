@@ -38,6 +38,7 @@ import { CreateProjectComponent } from '@app/common/common-forms/create-project/
 })
 export class MenuComponent implements OnInit {
   menuItems = [];
+  setupItems = [];
   projectItems = [];
   currentItem = null;
   isPerfectScrollbarDisabled = false
@@ -70,6 +71,11 @@ export class MenuComponent implements OnInit {
   @Input()
   set Projects(value) {
     this.projectItems = value;
+  }
+
+  @Input()
+  set SetupItems(value) {
+    this.setupItems = value;
   }
   
   toggleNavigationSub(event,item) {

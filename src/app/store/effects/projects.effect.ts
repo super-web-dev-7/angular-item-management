@@ -18,7 +18,6 @@ export class ProjectsEffects {
       mergeMap(action =>
         this.http.get(`${environment.apiUrl}/project`).pipe(
           map((projects: IField[]) => {
-            console.log("Got projets");
             return ProjectActions.ProjectsLoadedAction({ payload: projects });
           }),
           catchError((error: Error) => {

@@ -42,11 +42,18 @@
     </li>
     <li class="m-t-20">
         <hr/>
+        <p class="p-l-15">Setup</p>
     </li>
-    <li class="m-t-20">
-        <p class="p-l-30">Recently used</p>
+    <li *ngFor="let project of setupItems" class="full-width-text">
+        <a [routerLink]="[project.routerLink]">
+            <span class="title">{{ project.label }}</span>
+        </a>
     </li>
-    <li *ngFor="let project of projectItems">
+    <li class="m-t-15">
+        <hr/>
+        <p class="p-l-20">Recently used</p>
+    </li>
+    <li *ngFor="let project of projectItems" class="full-width-text">
         <a [routerLink]="[project.routerLink]">
             <span class="title">{{ project.label }}</span>
         </a>
