@@ -50,7 +50,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.store.dispatch(ProjectTypeActions.GetFieldsAction());
+    this.store.dispatch(ProjectTypeActions.GetFieldsAction({payload: this.projectTypeId}));
   }
 
   projectType$: Observable<ProjectTypeState>;

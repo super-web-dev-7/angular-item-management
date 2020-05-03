@@ -16,7 +16,7 @@ export class ProjectTypeEffects {
     this.action$.pipe(
       ofType(ProjectTypeActions.GetFieldsAction),
       mergeMap(action =>
-        this.http.get(`${environment.apiUrl}/field`).pipe(
+        this.http.get(`${environment.apiUrl}/project-type/fields/projectTypeId/${action.payload}`).pipe(
           map((fields: IField[]) => {
             return ProjectTypeActions.FieldsLoadedAction({ payload: this.createFieldsMap(fields) });
           }),

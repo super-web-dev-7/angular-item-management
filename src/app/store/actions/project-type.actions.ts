@@ -27,7 +27,8 @@ export const UpdateFieldAction = createAction(
 );
 
 export const GetFieldsAction = createAction(
-    ActionTypes.GetFields
+    ActionTypes.GetFields,
+    props<{payload: string}>()
 );
 
 export const FieldsLoadedAction = createAction(
