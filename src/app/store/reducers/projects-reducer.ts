@@ -16,6 +16,20 @@ const reducer = createReducer(
       projects: payload
     };
   }),
+  on(projectTypes.BeginCreateProjectAction, state => state),
+  on(projectTypes.SuccessCreateProjectAction, (state: ProjectsState, { payload }) => {
+    return {
+      ...state,
+      projects: [...state.projects, payload]
+    };
+  }),
+  on(projectTypes.BeginDeleteProjectAction, state => state),
+  on(projectTypes.SuccessDeleteProjectAction, (state: ProjectsState, { payload }) => {
+    return {
+      ...state,
+      projects: state.projects.filter((project) => project._id != payload)
+    };
+  }),
 );
 
 export function ProjectsReducer(state: ProjectsState | undefined, action: Action) {

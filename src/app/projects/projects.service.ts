@@ -13,6 +13,10 @@ export class ProjectsService {
         return this.httpClient.get(environment.apiUrl + '/project');
     }
 
+    public archiveProject(projectId) {
+      return this.httpClient.delete(environment.apiUrl+"/project/"+projectId);
+    }
+    
     public getFieldsByProject(projectId) {
         return this.httpClient.get(`${environment.apiUrl}/project/fields/${projectId}`);
     }

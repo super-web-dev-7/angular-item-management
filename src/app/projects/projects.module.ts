@@ -25,6 +25,8 @@ import {AddNewFieldComponent} from './add-new-field/add-new-field.component';
 import {AgGridComponent} from './ag-grid/ag-grid.component';
 import { ModalsModule } from "@app/common/modal/modals.module";
 import { CommonFormsModule } from "@app/common/common-forms/common-forms.module";
+import { ProjectBoxActionsComponent } from './project-box-actions/project-box-actions.component';
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 // import { NumericEditorComponent } from './numeric-editor/numeric-editor.component';
 import {AgGridModule} from 'ag-grid-angular';
 import {FilterInputComponent} from './filter-input/filter-input.component';
@@ -40,6 +42,7 @@ import {SetColumnItemsComponent} from './set-column-items/set-column-items.compo
     imports: [
         CommonModule,
         SharedModule,
+    FontAwesomeModule,
         RouterModule.forChild(ProjectsRouts),
         CollapseModule.forRoot(),
         BsDropdownModule.forRoot(),
@@ -65,6 +68,7 @@ import {SetColumnItemsComponent} from './set-column-items/set-column-items.compo
         BottomItemSelectComponent,
         AddNewFieldComponent,
         AgGridComponent,
+    ProjectBoxActionsComponent,
         FilterInputComponent,
         DateEditorComponent,
         ShowHideCheckboxComponent,

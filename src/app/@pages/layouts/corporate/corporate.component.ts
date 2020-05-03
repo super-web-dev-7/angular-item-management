@@ -61,6 +61,7 @@ export class CorporateLayout extends RootLayout implements OnInit {
     this.store.select(getProjects)
     .subscribe(
       projects => {
+        this.projectItems = [];
         projects.forEach(project => {
           this.projectItems.push({
             label: project.name,

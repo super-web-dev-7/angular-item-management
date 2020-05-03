@@ -7,17 +7,18 @@ import { catchError, map, mergeMap, take } from 'rxjs/operators';
 import * as ProjectActions from '@store/actions/projects.actions';
 import { environment } from 'environments/environment';
 import { IField } from '@app/models/field.model';
+import { IProject } from '@app/models/project';
 
 @Injectable()
 export class ProjectsEffects {
   constructor(private http: HttpClient, private action$: Actions) { }
 
-  GetFields$: Observable<Action> = createEffect(() =>
+  GetProjects$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(ProjectActions.GetProjectsAction),
       mergeMap(action =>
         this.http.get(`${environment.apiUrl}/project`).pipe(
-          map((projects: IField[]) => {
+          map((projects: IProject[]) => {
             return ProjectActions.ProjectsLoadedAction({ payload: projects });
           }),
           catchError((error: Error) => {
@@ -28,4 +29,36 @@ export class ProjectsEffects {
       take(1)
     ),
   );
+
+  CreateProject$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(ProjectActions.BeginCreateProjectAction),
+      mergeMap(action =>
+        this.http.post(`${environment.apiUrl}/project`, action.payload).pipe(
+          map((project: IProject[]) => {
+            return ProjectActions.SuccessCreateProjectAction({ payload: project });
+          }),
+          catchError((error: Error) => {
+            return of(ProjectActions.ErrorProjectsAction(error));
+          })
+        )
+      )
+    ),
+  );
+
+  DeleteProject$: Observable<Action> = createEffect(() =>
+  this.action$.pipe(
+    ofType(ProjectActions.BeginDeleteProjectAction),
+    mergeMap(action =>
+      this.http.delete(`${environment.apiUrl}/project/${action.payload}`).pipe(
+        map((project: IProject) => {
+          return ProjectActions.SuccessDeleteProjectAction({ payload: project._id });
+        }),
+        catchError((error: Error) => {
+          return of(ProjectActions.ErrorProjectsAction(error));
+        })
+      )
+    )
+  ),
+);
 }

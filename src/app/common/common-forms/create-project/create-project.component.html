@@ -16,9 +16,9 @@
             </fieldset>
             <fieldset class="form-group">
                 <label>Type</label>
-                <pg-select style="width: 100%;" formControlName="type" [PlaceHolder]="''" AllowClear
+                <pg-select style="width: 100%;" formControlName="projectType" [PlaceHolder]="''" AllowClear
                     ShowSearch>
-                    <pg-option *ngFor="let type of projectTypes" [Label]="type.name" [Value]="type">
+                    <pg-option *ngFor="let type of projectTypes" [Label]="type.name" [Value]="type._id">
                     </pg-option>
                 </pg-select>
             </fieldset>
@@ -26,7 +26,7 @@
     </div>
     <div class="app-modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal"
-            (click)="createProjectModal.hide()">Create</button>
+            (click)="onCreate()">Create</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal"
             (click)="createProjectModal.hide()">Close</button>
     </div>

@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { ProjectTypesState } from '@app/store/states/project-types.state';
 import { getTypes } from '@app/store/reducers/project-types.reducer';
 import { GetProjectTypesAction } from '@app/store/actions/project-types.actions';
+import { BeginCreateProjectAction } from '@app/store/actions/projects.actions';
 
 @Component({
   selector: 'app-create-project',
@@ -54,8 +55,16 @@ export class CreateProjectComponent implements OnInit {
     return this.fb.group({
       name: [''],
       description: [''],
-      type: ['']
+      projectType: ['']
     });
+  }
+
+  onCreate() {
+    let projectToCreate = this.createProjectForm.value;
+    projectToCreate.status = 0;
+    this.createProjectModal.hide();
+    this.createProjectForm.reset();
+    this.store.dispatch(BeginCreateProjectAction({ payload: projectToCreate }));
   }
 
 }

@@ -15,8 +15,7 @@ import { CreateProjectComponent } from '@app/common/common-forms/create-project/
 export class ProjectsListComponent implements OnInit {
 
   projects: IProject[];
-  constructor(private projectsService: ProjectsService,
-    private store: Store<ProjectsState>) { }
+  constructor(private store: Store<ProjectsState>) { }
 
     @ViewChild("createProjectModal", {static: false})
     public createProjectModal: CreateProjectComponent;
