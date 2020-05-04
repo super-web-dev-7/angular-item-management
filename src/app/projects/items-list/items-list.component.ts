@@ -5,6 +5,8 @@ import { HttpClient } from "@angular/common/http";
 import { ModalDirective, idLocale } from 'ngx-bootstrap';
 import { _ } from "ag-grid-community";
 import { AgGridComponent } from '../ag-grid/ag-grid.component';
+import { ShowHideCheckboxComponent } from '../show-hide-checkbox/show-hide-checkbox.component';
+
 // @Directive({selector: 'child-directive'})
 import { AllCommunityModules, Module } from '@ag-grid-community/all-modules';
 import '@ag-grid-community/all-modules/dist/styles/ag-grid.css';
@@ -13,15 +15,15 @@ import { FilterInputComponent } from '../filter-input/filter-input.component';
 import { DateEditorComponent } from '../date-editor/date-editor.component';
 import { EventEmitterService } from '../../event-emitter.service';
 import { text } from "d3";
-
 @Component({
   selector: "app-items-list",
   templateUrl: "./items-list.component.html",
   styleUrls: ["./items-list.component.scss"]
 })
-
 export class ItemsListComponent implements OnInit {
   @ViewChild('agGridComponent', { static: true }) agGridComponent: AgGridComponent;
+  @ViewChild('showHideCheckboxComponent', { static: true }) showHideCheckboxComponent: ShowHideCheckboxComponent;
+
   // @ViewChild('agGridComponent', { static: true } ) agGridComponent: AgGridComponent ; 
 
   @ViewChild('FilterInputComponent', { static: true }) FilterInputComponent: FilterInputComponent;
@@ -104,7 +106,6 @@ export class ItemsListComponent implements OnInit {
     this.frameworkComponents = { FilterInputComponent: FilterInputComponent, DateEditorComponent: DateEditorComponent };
   }
 
-
   onGridReady(event) {
     localStorage.removeItem('gridHeader')
     this.ongridEventData = event
@@ -114,9 +115,8 @@ export class ItemsListComponent implements OnInit {
     // this.onLoadCustonHtml();
   }
   onLoadCustonHtml() {
-    this.agGridComponent.onCustomHtmlLoad();
+    this.showHideCheckboxComponent.onCustomHtmlLoad();
   }
-
   ngOnInit() {
     if (this.eventEmitterService.subsVar==undefined) {    
       this.eventEmitterService.subsVar = this.eventEmitterService.    
@@ -146,141 +146,9 @@ export class ItemsListComponent implements OnInit {
     this.itemCulomns=[]
     this.fieldName=[]
     this.fieldType=[]
-
     this.fieldService.getFields().subscribe((fields: any) => {
       this.fields = fields
-      fields.forEach(field => {
-        if (!localStorage.getItem('gridHeader')) {
-          if (field.type == 3) {
-            this.itemCulomns.push({
-              headerName: field.label,
-              field: field.techName,
-              editable: true,
-              resizable: true,
-              type:'date',
-              cellEditor: 'DateEditorComponent',
-              colId: field.techName,
-              filter: 'FilterInputComponent',
-              menuTabs: ['filterMenuTab'],
-            });
-          }
-          if (field.type == 5) {
-            if (field.optionsForSelect) {
-              this.itemCulomns.push({
-                headerName: field.label,
-                field: field.techName,
-                editable: true,
-                resizable: true,
-                colId: field.techName,
-                type:'select',
-                cellEditor: "agSelectCellEditor",
-                filter: 'FilterInputComponent',
-                menuTabs: ['filterMenuTab'],
-                cellEditorParams: {
-                  values: field.optionsForSelect
-                },
-              });
-            }
-
-          }
-          if (field.type == 1) {
-            this.itemCulomns.push({
-              headerName: field.label,
-              field: field.techName,
-              editable: true,
-              resizable: true,
-              colId: field.techName,
-              type:'number',
-              filter: 'FilterInputComponent',
-              menuTabs: ['filterMenuTab'],
-              valueGetter: function (params) {
-                return params.data[field.techName];
-              },
-              valueSetter: function (params) {
-
-                if (params.data[field.techName] !== params.newValue) {
-                  var data = parseInt(params.newValue)
-                  if (!data) {
-                    params.newValue = parseInt(params.oldValue);
-                  } else {
-                    params.data[field.techName] = parseInt(params.newValue);
-                    return true;
-                  }
-
-                  return true;
-                } else {
-                  return false;
-                }
-              }
-            });
-          }
-          if (field.type != 5 && field.type != 3 && field.type != 1) {
-            this.itemCulomns.push({
-              headerName: field.label,
-              field: field.techName,
-              editable: true,
-              colId: field.techName,
-              resizable: true,
-              type:'text',
-              filter: 'FilterInputComponent',
-              menuTabs: ['filterMenuTab'],
-            });
-          }
-
-          this.fieldslable.push(field.label)
-          this.fieldName.push(field.techName);
-          if (field.type == 0) {
-            this.fieldTypeWithNo.push({ type: "text", no: 0 })
-            this.fieldType.push("text");
-          } else if (field.type == 1) {
-            this.fieldTypeWithNo.push({ type: "number", no: 1 })
-            this.fieldType.push("number");
-          } else if (field.type == 2) {
-            this.fieldTypeWithNo.push({ type: "file", no: 2 })
-            this.fieldType.push("file");
-          } else if (field.type == 3) {
-            this.fieldTypeWithNo.push({ type: "date", no: 3 })
-            this.fieldType.push("date");
-          } else if (field.type == 4) {
-            this.fieldType.push("text");
-          } else if (field.type == 5) {
-            this.fieldTypeWithNo.push({ type: "select", no: 5 })
-            this.fieldType.push("select");
-          }
-          else {
-            this.fieldType.push("text");
-          }
-
-        }
-        if (localStorage.getItem('gridHeader')) {
-          this.fieldslable.push(field.label)
-          this.fieldName.push(field.techName);
-          if (field.type == 0) {
-            this.fieldTypeWithNo.push({ type: "text", no: 0 })
-            this.fieldType.push("text");
-          } else if (field.type == 1) {
-            this.fieldTypeWithNo.push({ type: "number", no: 1 })
-            this.fieldType.push("number");
-          } else if (field.type == 2) {
-            this.fieldTypeWithNo.push({ type: "file", no: 2 })
-            this.fieldType.push("file");
-          } else if (field.type == 3) {
-            this.fieldTypeWithNo.push({ type: "date", no: 3 })
-            this.fieldType.push("date");
-          } else if (field.type == 4) {
-            this.fieldType.push("text");
-          } else if (field.type == 5) {
-            this.fieldTypeWithNo.push({ type: "select", no: 5 })
-            this.fieldType.push("select");
-          }
-          else {
-            this.fieldType.push("text");
-          }
-          this.itemCulomns = []
-          this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
-        }
-      });
-
+      this.agGridComponent.setItemColumns(fields);
       this.columnLoaded = true;
       this.itemCulomns[0]["headerCheckboxSelection"] = true;
       this.itemCulomns[0]["checkboxSelection"] = true;
@@ -304,9 +172,7 @@ export class ItemsListComponent implements OnInit {
         }
         this.ongetItemsByProjectWithPagination(this.pageNo);
       });
-
   }
-
   countItemsByProject() {
     this.itemsService
       .countItemsByProject(this.projectId)
@@ -318,14 +184,12 @@ export class ItemsListComponent implements OnInit {
         }
       });
   }
-
   ongetItemsByProjectWithPagination(pageNo) {
     var data = {
       filter: [
         {
           techName: "",
           value: ""
-
         }
       ],
       sort: {
@@ -338,11 +202,8 @@ export class ItemsListComponent implements OnInit {
       .subscribe((items: any) => {
         this.items = items;
         this.countPaginetionValues();
-
       });
-
   }
-
   onSelectionChanged(event) {
     this.agGridComponent.SelectionChange(event);
     if (event.node.selected == true) {
@@ -363,25 +224,25 @@ export class ItemsListComponent implements OnInit {
   oncellMouseOver(event) {
     if (!this.showAllCheckBox && this.noOfSelectedRows == 0) {
       if (this.SelectedRowData.length == 0) {
-        this.agGridComponent.hideSelectbox(event);
+        this.showHideCheckboxComponent.hideSelectbox(event);
       }
-      this.agGridComponent.showSelectbox(event);
+      this.showHideCheckboxComponent.showSelectbox(event);
     } else {
       if (this.SelectedRowData.length < this.TotalItems) {
         if (this.RowIndex.length) {
           if (this.RowIndex.filter(value => (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0) {
           } else {
-            this.agGridComponent.hideSelectbox(event);
+            this.showHideCheckboxComponent.hideSelectbox(event);
           }
         }
-        this.agGridComponent.showSelectbox(event);
+        this.showHideCheckboxComponent.showSelectbox(event);
       }
     }
   }
   oncellMouseOut(event) {
     if (!this.showAllCheckBox) {
       if (this.SelectedRowData.length == 0) {
-        this.agGridComponent.hideSelectbox(event);
+        this.showHideCheckboxComponent.hideSelectbox(event);
       }
     }
   }
@@ -407,16 +268,13 @@ export class ItemsListComponent implements OnInit {
         this.showAllCheckBox = false;
         var d = this.gridRows.filter(x => x.selected == false);
         this.selectedRows = d ? d.length : 0;
-        this.agGridComponent.hideSelectbox(event);
+        this.showHideCheckboxComponent.hideSelectbox(event);
       }
     }
-
   }
-
   onSingleItemSelect(event) {
     this.SelectedSingleRowData = event.data;
   }
-
   onrowDragEnter(event) {
     this.dragEnterRowOrder = event.api.rowModel.rowsToDisplay[0].data.order;
   }
@@ -441,60 +299,15 @@ export class ItemsListComponent implements OnInit {
           this.ongetItemsByProjectWithPagination(this.pageNo);
         }
       });
-
   }
-
   oncellValueChanged(event) {
-    if (!event.newValue) {
-
-      // this.ongetItemsByProjectWithPagination(this.pageNo); 
-    } else {
-      this.dbclicked = false;
-      localStorage.setItem('pdata', 'true')
-      var data
-      Object.keys(event.data).forEach((key, index) => {
-        if (event.data[key] == event.newValue) {
-          if (event.colDef.cellEditor) {
-            let date = new Date(event.newValue);
-            data = {
-              _id: event.data._id,
-              projectId: event.data.projectId,
-            }
-            data[key] = date
-          } else {
-            data = {
-              _id: event.data._id,
-              projectId: event.data.projectId,
-            }
-            data[key] = event.newValue;
-          }
-
-        }
-      })
-      if (event.oldValue != event.newValue) {
-        if (data._id) {
-          this.itemsService
-            .editItemByProject(data)
-            .subscribe(result => {
-              if (result) {
-                //    this.ongetItemsByProjectWithPagination(this.pageNo); 
-                this.dbclicked = false;
-                localStorage.setItem('pdata', 'true')
-
-              }
-            });
-        }
-      }
-    }
-
+    this.agGridComponent.cellValueChanged(event);
   }
-
   oncellDoubleClicked(event) {
     this.dbclicked = true;
     this.getShow.emit();
     localStorage.setItem('pdata', 'false')
   }
-
   oncolumnMoved(event) {
     const found = this.itemCulomns.find(element => element.headerName == event.column.userProvidedColDef.headerName);
     if (found) {
@@ -502,11 +315,8 @@ export class ItemsListComponent implements OnInit {
       this.move(this.itemCulomns, index, event.toIndex)
       localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
       this.columnMoved = true;
-
     }
-
   }
-
   ondragStopped(event) {
     if (this.columnMoved) {
       this.ngOnInit()
@@ -526,10 +336,8 @@ export class ItemsListComponent implements OnInit {
       }
     }
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-
     return arr;
   }
-
   getfilelds(e) {
     this.GetFields();
     this.defaultColDef = {
@@ -538,72 +346,33 @@ export class ItemsListComponent implements OnInit {
       filter: true,
       resizeable: true,
       editable: true,
-
     };
     this.rowSelection = "multiple";
-
     this.ngOnInit()
   }
-
-  //  getDatePicker() {
-  //
-  //    function Datepicker() { }
-  //    Datepicker.prototype.init = function (params) {
-  //
-  //      this.eInput = document.createElement("input");
-  //      this.eInput.value = params.value;
-  //      this.eInput.setAttribute('type', 'date');
-  //    };
-  //    Datepicker.prototype.getGui = function () {
-  //      return this.eInput;
-  //    };
-  //    Datepicker.prototype.afterGuiAttached = function () {
-  //      this.eInput.focus();
-  //      this.eInput.select();
-  //    };
-  //    Datepicker.prototype.getValue = function () {
-  //      return this.eInput.value;
-  //    };
-  //    Datepicker.prototype.destroy = function () { };
-  //    Datepicker.prototype.isPopup = function () {
-  //      return false;
-  //    };
-  //    return Datepicker;
-  //  }
-
   moveToNext() {
-
     this.datainarry = false;
     if (this.pageNo < this.totalPage) {
       this.pageNo = this.pageNo + 1;
       this.ongetItemsByProjectWithPagination(this.pageNo)
     }
   }
-
   moveToPrivious() {
     this.datainarry = false;
-
     if (this.pageNo > 1) {
       this.pageNo = this.pageNo - 1;
       this.ongetItemsByProjectWithPagination(this.pageNo)
     }
   }
-
   moveToPageNo(pageNo) {
     this.pageNo = parseInt(pageNo);
     this.ongetItemsByProjectWithPagination(this.pageNo)
-
-
   }
-
   countPaginetionValues() {
     this.itemFrom = this.ItemTO + 1;
     this.ItemTO = this.ItemTO + this.items.length
   }
-
   sortGridbyApi(values) {
-    // headerField = headerField.replace(/_1/g, "");
-    // this.agGridComponent.hideFilterInput();
     var data
     data = {
       filter: [
@@ -656,7 +425,6 @@ export class ItemsListComponent implements OnInit {
 
       });
   }
-
   onrowDataChanged(event) {
     this.agGridComponent.RowDataChanges(event)
   }
@@ -665,7 +433,6 @@ export class ItemsListComponent implements OnInit {
       row.setSelected(false);
     })
   }
-
   onsortChanged(e) {
     console.log(e.api.sortController.getSortModel())
     var data = e.api.sortController.getSortModel()

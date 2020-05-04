@@ -28,6 +28,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { FilterInputComponent } from './filter-input/filter-input.component';
 import { DateEditorComponent } from './date-editor/date-editor.component';
 import { CheckboxRendererComponent } from './checkbox-renderer/checkbox-renderer.component';
+import { ShowHideCheckboxComponent } from './show-hide-checkbox/show-hide-checkbox.component';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { CheckboxRendererComponent } from './checkbox-renderer/checkbox-renderer
     AgGridComponent,
     FilterInputComponent,
     DateEditorComponent,
-    CheckboxRendererComponent
+    CheckboxRendererComponent,
+    ShowHideCheckboxComponent
     // NumericEditorComponent
   ]
 })

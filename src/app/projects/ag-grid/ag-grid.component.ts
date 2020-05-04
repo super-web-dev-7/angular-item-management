@@ -1,12 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { CheckboxRendererComponent } from '../checkbox-renderer/checkbox-renderer.component';
-
+import { Component, OnInit, Input,ViewChild } from '@angular/core';
+import { ShowHideCheckboxComponent } from '../show-hide-checkbox/show-hide-checkbox.component';
+import { ItemsService } from "../items-list/items.service";
+import { FieldService } from "../../fields/field.service";
 @Component({
   selector: 'app-ag-grid',
   templateUrl: './ag-grid.component.html',
   styleUrls: ['./ag-grid.component.scss']
 })
+
 export class AgGridComponent implements OnInit {
+  @ViewChild('showHideCheckboxComponent', { static: true }) showHideCheckboxComponent: ShowHideCheckboxComponent;
+
   test = 0;
   @Input() pageNo;
   @Input() clickOnHeader;
@@ -31,51 +35,150 @@ export class AgGridComponent implements OnInit {
   @Input() itemSelectionView;
   @Input() columnMoved;
   @Input()  datainarry;
-  constructor() { }
-
-  hideSelectbox(event) {
-    document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-      element.setAttribute("style", "display: none");
-    });
-  }
-  showSelectbox(event) {
-    document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
-    var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
-    if (data) {
-      data.setAttribute("style", "display: block");
-    }
-  }
-  showCheckboxWithouEvent() {
-    document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-      element.setAttribute("style", "display: block");
-    })
-  }
+  @Input()  dbclicked;
+  @Input()itemCulomns;
+  @Input() fieldName;
+  @Input() fieldType;
+  @Input() fieldslable;
+  @Input()  fieldTypeWithNo;
+  @Input()  columnLoaded;
+  constructor(
+    private itemsService: ItemsService,
+    private fieldService: FieldService,
+  ) { }
 
   ngOnInit() {
   }
-  onCustomHtmlLoad() {
-    document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-      var x = Math.floor((Math.random() * 99999) + 1);
-      if (element) {
-        element.setAttribute("style", "display: none");
-        element.setAttribute("id", 'row' + this.pageNo + x);
+  setItemColumns(fields){
+    fields.forEach(field => {
+      if (!localStorage.getItem('gridHeader')) {
+        if (field.type == 3) {
+          this.itemCulomns.push({
+            headerName: field.label,
+            field: field.techName,
+            editable: true,
+            resizable: true,
+            type:'date',
+            cellEditor: 'DateEditorComponent',
+            colId: field.techName,
+            filter: 'FilterInputComponent',
+            menuTabs: ['filterMenuTab'],
+          });
+        }
+        if (field.type == 5) {
+          if (field.optionsForSelect) {
+            this.itemCulomns.push({
+              headerName: field.label,
+              field: field.techName,
+              editable: true,
+              resizable: true,
+              colId: field.techName,
+              type:'select',
+              cellEditor: "agSelectCellEditor",
+              filter: 'FilterInputComponent',
+              menuTabs: ['filterMenuTab'],
+              cellEditorParams: {
+                values: field.optionsForSelect
+              },
+            });
+          }
+        }
+        if (field.type == 1) {
+          this.itemCulomns.push({
+            headerName: field.label,
+            field: field.techName,
+            editable: true,
+            resizable: true,
+            colId: field.techName,
+            type:'number',
+            filter: 'FilterInputComponent',
+            menuTabs: ['filterMenuTab'],
+            valueGetter: function (params) {
+              return params.data[field.techName];
+            },
+            valueSetter: function (params) {
+              if (params.data[field.techName] !== params.newValue) {
+                var data = parseInt(params.newValue)
+                if (!data) {
+                  params.newValue = parseInt(params.oldValue);
+                } else {
+                  params.data[field.techName] = parseInt(params.newValue);
+                  return true;
+                }
+
+                return true;
+              } else {
+                return false;
+              }
+            }
+          });
+        }
+        if (field.type != 5 && field.type != 3 && field.type != 1) {
+          this.itemCulomns.push({
+            headerName: field.label,
+            field: field.techName,
+            editable: true,
+            colId: field.techName,
+            resizable: true,
+            type:'text',
+            filter: 'FilterInputComponent',
+            menuTabs: ['filterMenuTab'],
+          });
+        }
+        this.fieldslable.push(field.label)
+        this.fieldName.push(field.techName);
+        if (field.type == 0) {
+          this.fieldTypeWithNo.push({ type: "text", no: 0 })
+          this.fieldType.push("text");
+        } else if (field.type == 1) {
+          this.fieldTypeWithNo.push({ type: "number", no: 1 })
+          this.fieldType.push("number");
+        } else if (field.type == 2) {
+          this.fieldTypeWithNo.push({ type: "file", no: 2 })
+          this.fieldType.push("file");
+        } else if (field.type == 3) {
+          this.fieldTypeWithNo.push({ type: "date", no: 3 })
+          this.fieldType.push("date");
+        } else if (field.type == 4) {
+          this.fieldType.push("text");
+        } else if (field.type == 5) {
+          this.fieldTypeWithNo.push({ type: "select", no: 5 })
+          this.fieldType.push("select");
+        }
+        else {
+          this.fieldType.push("text");
+        }
+
+      }
+      if (localStorage.getItem('gridHeader')) {
+        this.fieldslable.push(field.label)
+        this.fieldName.push(field.techName);
+        if (field.type == 0) {
+          this.fieldTypeWithNo.push({ type: "text", no: 0 })
+          this.fieldType.push("text");
+        } else if (field.type == 1) {
+          this.fieldTypeWithNo.push({ type: "number", no: 1 })
+          this.fieldType.push("number");
+        } else if (field.type == 2) {
+          this.fieldTypeWithNo.push({ type: "file", no: 2 })
+          this.fieldType.push("file");
+        } else if (field.type == 3) {
+          this.fieldTypeWithNo.push({ type: "date", no: 3 })
+          this.fieldType.push("date");
+        } else if (field.type == 4) {
+          this.fieldType.push("text");
+        } else if (field.type == 5) {
+          this.fieldTypeWithNo.push({ type: "select", no: 5 })
+          this.fieldType.push("select");
+        }
+        else {
+          this.fieldType.push("text");
+        }
+        this.itemCulomns = []
+        this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
       }
     });
-  
-    // var agHeader = document.getElementsByClassName("ag-header-select-all")[0]
-    // agHeader.addEventListener("click", event => {
-    //   var hederEliment = event['toElement'].getAttribute('class')
-    //   if (hederEliment == 'ag-icon ag-icon-checkbox-unchecked') {
-    //     this.agheader = true;
-    //     this.agHeaderCheckbox = true;
-    //   }
-    //   if (hederEliment == 'ag-icon ag-icon-checkbox-checked') {
-    //     this.agheader = false;
-    //     this.agHeaderCheckbox = false;
-    //   }
-    // })
   }
-
   SelectionChange(event) {
     // document.getElementById('popupid').hidden = false
     var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
@@ -99,7 +202,7 @@ export class AgGridComponent implements OnInit {
       this.showAllCheckBox = true;
       var d = this.gridRows.filter(x => x.selected == true);
       this.selectedRows = d ? d.length : 0;
-      this.showCheckboxWithouEvent();
+      this.showHideCheckboxComponent.showCheckboxWithouEvent();
     } else {
       if (this.notreffress == true) {
         if (this.gridRows.findIndex(x => x.selected == false) > -1) {
@@ -114,11 +217,11 @@ export class AgGridComponent implements OnInit {
           if (this.RowIndex.length) {
             if (this.RowIndex.filter(value => (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0) {
             } else {
-              this.hideSelectbox(event)
+              this.showHideCheckboxComponent.hideSelectbox(event)
             }
           }
         } else {
-          this.showCheckboxWithouEvent();
+          this.showHideCheckboxComponent.showCheckboxWithouEvent();
         }
       }
     }
@@ -154,11 +257,11 @@ export class AgGridComponent implements OnInit {
   RowDataChanges(event){
     this.columnMoved = false;
     if (this.SelectedRowData.length == 0) {
-      this.hideSelectbox(event);
+      this.showHideCheckboxComponent.hideSelectbox(event);
     } else if(this.SelectedRowData.length < this.TotalItems) {
-      this.hideSelectbox(event);
+      this.showHideCheckboxComponent.hideSelectbox(event);
     } else {
-        this.showSelectbox(event);
+        this.showHideCheckboxComponent.showSelectbox(event);
     }
     this.gridRows = event.api.rowModel.rowsToDisplay;
     if (this.RowIndex) {
@@ -182,4 +285,48 @@ export class AgGridComponent implements OnInit {
       })
     }
   }
+  cellValueChanged(event){
+    if (!event.newValue) {
+
+      // this.ongetItemsByProjectWithPagination(this.pageNo); 
+    } else {
+      this.dbclicked = false;
+      localStorage.setItem('pdata', 'true')
+      var data
+      Object.keys(event.data).forEach((key, index) => {
+        if (event.data[key] == event.newValue) {
+          if (event.colDef.cellEditor) {
+            let date = new Date(event.newValue);
+            data = {
+              _id: event.data._id,
+              projectId: event.data.projectId,
+            }
+            data[key] = date
+          } else {
+            data = {
+              _id: event.data._id,
+              projectId: event.data.projectId,
+            }
+            data[key] = event.newValue;
+          }
+
+        }
+      })
+      if (event.oldValue != event.newValue) {
+        if (data._id) {
+          this.itemsService
+            .editItemByProject(data)
+            .subscribe(result => {
+              if (result) {
+                //    this.ongetItemsByProjectWithPagination(this.pageNo); 
+                this.dbclicked = false;
+                localStorage.setItem('pdata', 'true')
+
+              }
+            });
+        }
+      }
+    }
+  }
 }
+

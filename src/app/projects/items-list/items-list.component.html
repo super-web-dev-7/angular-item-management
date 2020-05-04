@@ -13,8 +13,9 @@
 <button class="btn btn-brimary" (click)="addNewfield.show()">
   Add new field
 </button>
-<!-- <app-filter-input ></app-filter-input> -->
+<app-show-hide-checkbox #showHideCheckboxComponent [pageNo]="pageNo"></app-show-hide-checkbox>
 <app-item-details #itemDetails></app-item-details>
+<app-show-hide-checkbox ></app-show-hide-checkbox>
 <app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
   [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable" [itemSelectionView]="itemSelectionView"
   (getLatestitem)="getLatestitem($event)"
@@ -49,6 +50,13 @@
   [TotalItems]="TotalItems"
   [noOfSelectedRows]="noOfSelectedRows"
   [itemSelectionView]="itemSelectionView"
+  [dbclicked]="dbclicked"
+  [itemCulomns]="itemCulomns"
+  [fieldName]="fieldName"
+  [fieldType]="fieldType"
+  [fieldslable]="fieldslable"
+  [fieldTypeWithNo]="fieldTypeWithNo"
+  [columnLoaded]="columnLoaded"
   ></app-ag-grid>
 
 
@@ -58,7 +66,7 @@
   (columnClick)="onColumnClick($event)" (cellDoubleClicked)="oncellDoubleClicked($event,dbclicked)"
   (cellMouseOver)="oncellMouseOver($event)" (rowSelected)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
   (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"
-  [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)" (cellClicked)="oncellClicked($event)"
+  [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)"
   (columnMoved)="oncolumnMoved($event)" (columnValueChanged)="oncolumnValueChanged($event)" [components]="components"
   [modules]="modules" [sortingOrder]="sortingOrder" (getSort)="getSort($event)" (getSortModel)="ongetSortModel($event)"
   (rowsAfterSort)="onrowsAfterSort($event)" (dataStateChange)="dataStateChange($event)" (dragStopped)="ondragStopped($event)"
