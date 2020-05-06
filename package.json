@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@ag-grid-community/all-modules": "^23.0.2",
+    "@ag-grid-community/all-modules": "^23.1.0",
     "@ag-grid-community/angular": "^23.0.3",
     "@ag-grid-enterprise/all-modules": "^22.1.2",
     "@angular/animations": "~8.2.14",
@@ -30,6 +30,7 @@
     "@swimlane/ngx-datatable": "^16.0.3",
     "@swimlane/ngx-dnd": "^8.1.0",
     "@types/googlemaps": "^3.39.0",
+    "ag-grid": "^18.1.2",
     "ag-grid-angular": "^22.1.1",
     "ag-grid-community": "^22.1.1",
     "angular-tree-component": "^8.5.2",

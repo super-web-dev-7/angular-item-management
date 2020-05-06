@@ -29,10 +29,6 @@ export class EditItemComponent implements OnInit {
   blankfill = ''
   constructor(private itemsService: ItemsService,private fieldService: FieldService
     ) {
-      // this.fieldService.getFields().subscribe((fields: any) => {
-			// 	console.log(fields);
-			// 	this.fields = fields
-			// })
      }
 
   ngOnInit() {

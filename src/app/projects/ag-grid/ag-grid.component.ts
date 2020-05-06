@@ -1,55 +1,64 @@
-import { Component, OnInit, Input,ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ShowHideCheckboxComponent } from '../show-hide-checkbox/show-hide-checkbox.component';
+import { GridEventsComponent } from '../grid-events/grid-events.component';
 import { ItemsService } from "../items-list/items.service";
 import { FieldService } from "../../fields/field.service";
+import { EventEmitterService } from '../../event-emitter.service';
+import { FilterInputComponent } from '../filter-input/filter-input.component';
+import { DateEditorComponent } from '../date-editor/date-editor.component';
+import { RowColumnDragComponent } from '../row-column-drag/row-column-drag.component';
+import { CellEditComponent } from '../cell-edit/cell-edit.component';
 @Component({
   selector: 'app-ag-grid',
   templateUrl: './ag-grid.component.html',
   styleUrls: ['./ag-grid.component.scss']
 })
-
 export class AgGridComponent implements OnInit {
   @ViewChild('showHideCheckboxComponent', { static: true }) showHideCheckboxComponent: ShowHideCheckboxComponent;
-
-  test = 0;
-  @Input() pageNo;
-  @Input() clickOnHeader;
-  @Input() oldArrow;
-  @Input() sortOrder;
-  @Input() headerField;
-  @Input() CustomeHeaderField;
-  @Input() oldSearchId;
-  @Input() fields;
-  @Input() openedSearchedBoxId;
-  @Input() searchedValue;
-  @Input() agheader;
-  @Input() agHeaderCheckbox;
-  @Input() RowIndex;
-  @Input() gridRows;
-  @Input() showAllCheckBox;
-  @Input() selectedRows;
-  @Input() notreffress;
-  @Input() SelectedRowData;
-  @Input() TotalItems;
-  @Input() noOfSelectedRows;
-  @Input() itemSelectionView;
-  @Input() columnMoved;
-  @Input()  datainarry;
-  @Input()  dbclicked;
-  @Input()itemCulomns;
-  @Input() fieldName;
-  @Input() fieldType;
-  @Input() fieldslable;
-  @Input()  fieldTypeWithNo;
-  @Input()  columnLoaded;
+  @ViewChild('gridEventsComponent', { static: true }) gridEventsComponent: GridEventsComponent;
+  @ViewChild('FilterInputComponent', { static: true }) FilterInputComponent: FilterInputComponent;
+  @ViewChild('RowColumnDragComponent', { static: true }) RowColumnDragComponent: RowColumnDragComponent;
+  @ViewChild('cellEditComponent', { static: true }) cellEditComponent: CellEditComponent;
+  @Input() pageNo; @Input() oldArrow; @Input() sortOrder; @Input() headerField; @Input() CustomeHeaderField;
+  @Input() oldSearchId; @Input() fields; @Input() openedSearchedBoxId; @Input() searchedValue; @Input() agheader;
+  @Input() agHeaderCheckbox; @Input() RowIndex; @Input() gridRows; @Input() showAllCheckBox; @Input() selectedRows;
+  @Input() notreffress; @Input() SelectedRowData; @Input() TotalItems; @Input() noOfSelectedRows; @Input() itemSelectionView;
+  @Input() itemSelectionViewI; columnMoved; @Input() datainarry; @Input() celldbclicked; @Input() itemCulomns;
+  @Input() fieldName; @Input() fieldType; @Input() fieldslable; @Input() fieldTypeWithNo; @Input() columnLoaded; @Input() projectId;
+  ongridEventData; gridApi; @Input() items
+  @Output() getShow: EventEmitter<any> = new EventEmitter();
+  dragEnterRowOrder: any;
+  private frameworkComponents;
+  defaultColDef; rowSelection = "";
+  @Output("GetFields") GetFields: EventEmitter<any> = new EventEmitter();
+  @Output("getItems") getItems: EventEmitter<any> = new EventEmitter();
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService,
-  ) { }
+    private eventEmitterService: EventEmitterService
+  ) { this.frameworkComponents = { FilterInputComponent: FilterInputComponent, DateEditorComponent: DateEditorComponent }; }
 
   ngOnInit() {
+    this.defaultColDef = {
+      width: 150,
+      resizeable: true,
+      editable: true,
+      sortable: true,
+      filter: true,
+      unSortIcon: true,
+    };
+    this.rowSelection = "multiple";
   }
-  setItemColumns(fields){
+
+  onGridReady(event) {
+    localStorage.removeItem('gridHeader')
+    this.ongridEventData = event
+    this.gridApi = event.api;
+    this.gridRows = event.api.rowModel.rowsToDisplay;
+    this.gridApi.setSuppressClipboardPaste(false);
+  }
+  setItemColumns(fields) {
+    this.fields = fields
     fields.forEach(field => {
       if (!localStorage.getItem('gridHeader')) {
         if (field.type == 3) {
@@ -58,11 +67,16 @@ export class AgGridComponent implements OnInit {
             field: field.techName,
             editable: true,
             resizable: true,
-            type:'date',
+            type: 'date',
             cellEditor: 'DateEditorComponent',
             colId: field.techName,
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
+            valueGetter: function (params) {
+              var dateobj = new Date(params.data[field.techName]);
+              dateobj.toString()
+              return dateobj;
+            },
           });
         }
         if (field.type == 5) {
@@ -73,7 +87,7 @@ export class AgGridComponent implements OnInit {
               editable: true,
               resizable: true,
               colId: field.techName,
-              type:'select',
+              type: 'select',
               cellEditor: "agSelectCellEditor",
               filter: 'FilterInputComponent',
               menuTabs: ['filterMenuTab'],
@@ -90,7 +104,7 @@ export class AgGridComponent implements OnInit {
             editable: true,
             resizable: true,
             colId: field.techName,
-            type:'number',
+            type: 'number',
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
             valueGetter: function (params) {
@@ -105,7 +119,6 @@ export class AgGridComponent implements OnInit {
                   params.data[field.techName] = parseInt(params.newValue);
                   return true;
                 }
-
                 return true;
               } else {
                 return false;
@@ -120,7 +133,7 @@ export class AgGridComponent implements OnInit {
             editable: true,
             colId: field.techName,
             resizable: true,
-            type:'text',
+            type: 'text',
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
           });
@@ -178,155 +191,117 @@ export class AgGridComponent implements OnInit {
         this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
       }
     });
+    this.columnLoaded = true;
+    this.itemCulomns[0]["headerCheckboxSelection"] = true;
+    this.itemCulomns[0]["checkboxSelection"] = true;
+    this.itemCulomns[0]["rowDrag"] = true;
+    for (let j = 1; j < this.itemCulomns.length; j++) {
+      this.itemCulomns[j]["headerCheckboxSelection"] = false;
+      this.itemCulomns[j]["checkboxSelection"] = false;
+      this.itemCulomns[j]["rowDrag"] = false;
+    }
   }
-  SelectionChange(event) {
-    // document.getElementById('popupid').hidden = false
-    var idx = this.RowIndex.findIndex(x => x.page == this.pageNo);
-    if (idx > -1) {
-      if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
-        if (event.node.selected == false) {
-          this.RowIndex[idx].rowIndex.splice(this.RowIndex[idx].rowIndex.indexOf(event.rowIndex), 1);
+  getLatestitem(e) {
+    this.getItems.emit();
+    this.notreffress = true
+    this.SelectedRowData = []
+    if (this.notreffress == true) {
+      if (e == 'delete' || e == 'duplicate' || e.ok == 1) {
+        if (e == 'duplicate') {
+          this.notreffress = false;
         }
-      } else {
-        this.RowIndex[idx].rowIndex.push(event.rowIndex);
+        var truerows = this.gridRows.findIndex(x => x.selected == true);
+        this.gridRows[truerows].selected = false;
+        this.RowIndex = [];
       }
-    } else {
-      this.RowIndex.push({ 'page': this.pageNo, 'rowIndex': [event.rowIndex], 'rowID': event.data._id })
-    }
-    this.gridRows = '';
-    this.gridRows = event.api.rowModel.rowsToDisplay;
-    if (this.pageNo == 1) {
-      localStorage.setItem('gridRows', this.gridRows);
-    }
-    if (this.gridRows.findIndex(x => x.selected == true) > -1) {
-      this.showAllCheckBox = true;
-      var d = this.gridRows.filter(x => x.selected == true);
-      this.selectedRows = d ? d.length : 0;
-      this.showHideCheckboxComponent.showCheckboxWithouEvent();
-    } else {
-      if (this.notreffress == true) {
-        if (this.gridRows.findIndex(x => x.selected == false) > -1) {
-          this.showAllCheckBox = true;
-          var d = this.gridRows.filter(x => x.selected == false);
-          this.selectedRows = d ? d.length : 0;
-
-        }
-      } else {
-        this.selectedRows = this.SelectedRowData.length;
-        if (this.SelectedRowData.length < this.TotalItems) {
-          if (this.RowIndex.length) {
-            if (this.RowIndex.filter(value => (value.page == this.pageNo && value.rowIndex.length > 0)).length > 0) {
-            } else {
-              this.showHideCheckboxComponent.hideSelectbox(event)
-            }
-          }
-        } else {
-          this.showHideCheckboxComponent.showCheckboxWithouEvent();
-        }
+      if (this.gridRows.findIndex(x => x.selected == false) > -1) {
+        this.showAllCheckBox = false;
+        var d = this.gridRows.filter(x => x.selected == false);
+        this.selectedRows = d ? d.length : 0;
+        this.showHideCheckboxComponent.hideSelectbox(event);
       }
     }
-
   }
 
-  add_array_element(event){
-    var result = ''
-    result = this.SelectedRowData.find(elim => elim.order === event.data.order );
-   if (result == undefined && result != event.data.order) {
-     event.data['page'] = this.pageNo
-   this.SelectedRowData.push(event.data)
-
-   this.noOfSelectedRows = this.SelectedRowData.length
-
-   }
-  }
-
-  remove_array_element(array, n) {
-    var  result =''
-    result = this.SelectedRowData.find(elim => elim._id === n._id);
-    var index = this.SelectedRowData.indexOf(n);
-    if (index > -1 && result['page'] == this.pageNo) {
-      this.SelectedRowData.splice(index, 1);
-    } else {
-      var indx = this.SelectedRowData.indexOf(n);
-       if(result['page'] == this.pageNo){
-        this.SelectedRowData.splice(0, 1);
-       }
-    }
-    return this.SelectedRowData;
-  }
-  RowDataChanges(event){
-    this.columnMoved = false;
-    if (this.SelectedRowData.length == 0) {
-      this.showHideCheckboxComponent.hideSelectbox(event);
-    } else if(this.SelectedRowData.length < this.TotalItems) {
-      this.showHideCheckboxComponent.hideSelectbox(event);
-    } else {
-        this.showHideCheckboxComponent.showSelectbox(event);
-    }
-    this.gridRows = event.api.rowModel.rowsToDisplay;
-    if (this.RowIndex) {
-      this.datainarry = true
-      this.RowIndex.forEach((row, i) => {
-        if (row.page == this.pageNo) {
-          event.api.forEachNode(function (rowNode, index) {
-            var idx = index
-            for (let a = 0; a < row.rowIndex.length; a++) {
-              if (idx == row.rowIndex[a]) {
-                rowNode.setSelected(true);
-              }
-            }
-          });
-        }
-		if(this.SelectedRowData.length >= this.TotalItems){
-			if (this.agHeaderCheckbox == true && this.agheader == true) {				
-				event.api.selectAll();
-			}
-		}
-      })
+  action(event) {
+    if (event == "copy") {
+      this.gridApi.copySelectedRowsToClipboard(false);
     }
   }
-  cellValueChanged(event){
-    if (!event.newValue) {
-
-      // this.ongetItemsByProjectWithPagination(this.pageNo); 
-    } else {
-      this.dbclicked = false;
-      localStorage.setItem('pdata', 'true')
-      var data
-      Object.keys(event.data).forEach((key, index) => {
-        if (event.data[key] == event.newValue) {
-          if (event.colDef.cellEditor) {
-            let date = new Date(event.newValue);
-            data = {
-              _id: event.data._id,
-              projectId: event.data.projectId,
-            }
-            data[key] = date
-          } else {
-            data = {
-              _id: event.data._id,
-              projectId: event.data.projectId,
-            }
-            data[key] = event.newValue;
-          }
-
-        }
-      })
-      if (event.oldValue != event.newValue) {
-        if (data._id) {
-          this.itemsService
-            .editItemByProject(data)
-            .subscribe(result => {
-              if (result) {
-                //    this.ongetItemsByProjectWithPagination(this.pageNo); 
-                this.dbclicked = false;
-                localStorage.setItem('pdata', 'true')
-
-              }
-            });
-        }
+  oncellMouseOver(event) {
+    this.gridEventsComponent.oncellMouseOver(event)
+  }
+  oncellMouseOut(event) {
+    if (!this.showAllCheckBox) {
+      if (this.SelectedRowData.length == 0) {
+        this.showHideCheckboxComponent.hideSelectbox(event);
       }
     }
+  }
+  onrowDragEnter(event) {
+    this.dragEnterRowOrder = event.api.rowModel.rowsToDisplay[0].data.order;
+  }
+  onSelectionChanged(event) {
+    this.gridEventsComponent.onSelectionChanged(event);
+    this.RowIndex = this.gridEventsComponent.RowIndex
+    this.gridRows = this.gridEventsComponent.gridRows
+    this.showAllCheckBox = this.gridEventsComponent.showAllCheckBox
+    this.selectedRows = this.gridEventsComponent.selectedRows
+    this.notreffress = this.gridEventsComponent.notreffress
+    this.itemSelectionView = this.gridEventsComponent.itemSelectionView
+    this.itemSelectionViewI = this.gridEventsComponent.itemSelectionViewI
+    this.SelectedRowData = this.gridEventsComponent.SelectedRowData
+    this.noOfSelectedRows = this.gridEventsComponent.noOfSelectedRows
+  }
+  getfilelds(e) {
+    this.GetFields.emit();
+    this.defaultColDef = { width: 150, sortable: true, filter: true, resizeable: true, editable: true, };
+    this.rowSelection = "multiple";
+    this.ngOnInit()
+  }
+  oncellDoubleClicked(event) {
+    this.celldbclicked = true;
+    this.getShow.emit();
+    localStorage.setItem('pdata', 'false')
+  }
+  onrowDragEnd(event) {
+    var data;
+    if (event.overIndex == 0) {
+      data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder - 1 }
+    } else {
+      data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order }
+    }
+    this.itemsService.changeOrder(data).subscribe((result: any) => {
+      if (result) {
+        this.dragEnterRowOrder = null
+        this.eventEmitterService.onPageChange(this.pageNo);
+      }
+    });
+  }
+
+  ondragStopped(event) {
+    this.setItemColumns(this.fields)
+  }
+  oncolumnMoved(event) {
+    this.RowColumnDragComponent.columnMove(event);
+    this.itemCulomns = this.RowColumnDragComponent.itemCulomns
+    this.columnMoved = this.RowColumnDragComponent.columnMoved
+  }
+  onrowDataChanged(event) {
+    this.gridEventsComponent.onrowDataChanged(event);
+    this.SelectedRowData = this.gridEventsComponent.SelectedRowData
+    this.gridRows = this.gridEventsComponent.gridRows
+    this.RowIndex = this.gridEventsComponent.RowIndex
+    this.datainarry = this.gridEventsComponent.datainarry
+    this.columnMoved = this.gridEventsComponent.columnMoved
+    this.TotalItems =  this.gridEventsComponent.TotalItems
+  }
+  onsortChanged(e) {
+    var data = e.api.sortController.getSortModel()
+    // this.sortGridbyApi(data)
+  }
+  oncellValueChanged(event) {
+    this.cellEditComponent.oncellValueChanged(event)
+    this.celldbclicked = this.cellEditComponent.celldbclicked
   }
 }
-

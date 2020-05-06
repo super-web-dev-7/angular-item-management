@@ -3,9 +3,11 @@
     "",
     "\\app",
     "\\app\\projects",
+    "\\app\\projects\\ag-grid",
     "\\app\\projects\\filter-input",
-    "\\app\\projects\\items-list"
+    "\\app\\projects\\items-list",
+    "\\environments"
   ],
-  "SelectedNode": "\\app\\projects\\items-list\\items-list.component.ts",
+  "SelectedNode": "\\tsconfig.app.json",
   "PreviewInSolutionExplorer": false
 }

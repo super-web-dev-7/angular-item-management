@@ -15,7 +15,7 @@ export class EditSingleItemComponent implements OnInit {
   @Input() fieldType;
   @Input() fieldName;
   // @Input() SelectedSingleRowData;
-  @Input() dbclicked;
+  @Input() celldbclicked;
   @Input() fields;
   @Input() fieldslable;
   @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
@@ -56,14 +56,14 @@ export class EditSingleItemComponent implements OnInit {
     this.newItemPopup.config.backdrop = false
     this.newItemPopup.config.keyboard = true
     // this.git getItems(event.data._id)
-    if (this.dbclicked == true) {
+    if (this.celldbclicked == true) {
      // this.newItemPopup.hide();
     } else {
       var popup = this.newItemPopup
       this.SelectedSingleRowData = event.data;
       if (event.type == "rowClicked") {
-        if (this.dbclicked == false || this.dbclicked == undefined) {
-          var db = this.dbclicked
+        if (this.celldbclicked == false || this.celldbclicked == undefined) {
+          var db = this.celldbclicked
           setTimeout(function () {
             if (localStorage.getItem('pdata') == 'true') {
               popup.show()

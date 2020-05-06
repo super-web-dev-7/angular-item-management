@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgGridCheckboxComponent } from './ag-grid-checkbox.component';
+import { GridEventsComponent } from './grid-events.component';
 
-describe('AgGridCheckboxComponent', () => {
-  let component: AgGridCheckboxComponent;
-  let fixture: ComponentFixture<AgGridCheckboxComponent>;
+describe('GridEventsComponent', () => {
+  let component: GridEventsComponent;
+  let fixture: ComponentFixture<GridEventsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AgGridCheckboxComponent ]
+      declarations: [ GridEventsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgGridCheckboxComponent);
+    fixture = TestBed.createComponent(GridEventsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

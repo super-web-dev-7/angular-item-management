@@ -1,0 +1,15 @@
+<div class="cz_pagination">
+    <!-- <span class="cz_grid_count_span "> {{this.itemFrom}} to {{this.ItemTO}} of {{this.TotalItems}} </span> -->
+    <span class="cz_grid_next_privious_span">
+      <span class="backward-list">
+        <i class="fa fa-angle-double-left" aria-hidden="true" ></i>
+        <i class="fa fa-angle-left" aria-hidden="true" (click)="moveToPrivious()"></i>
+      </span>
+      <span *ngIf="totalPage > 1">Page {{this.pageNo}} of {{this.totalPage}}</span>
+      <span *ngIf="totalPage == 1">Page {{this.pageNo}} of {{this.totalPage}}</span>
+      <span class="forward-list">
+        <i class="fa fa-angle-right" aria-hidden="true"  (click)="moveToNext()" ></i>
+        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+      </span>
+    </span>
+  </div>

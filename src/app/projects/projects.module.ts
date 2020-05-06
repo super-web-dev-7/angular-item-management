@@ -27,8 +27,12 @@ import { AgGridComponent } from './ag-grid/ag-grid.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { FilterInputComponent } from './filter-input/filter-input.component';
 import { DateEditorComponent } from './date-editor/date-editor.component';
-import { CheckboxRendererComponent } from './checkbox-renderer/checkbox-renderer.component';
 import { ShowHideCheckboxComponent } from './show-hide-checkbox/show-hide-checkbox.component';
+import { RowColumnDragComponent } from './row-column-drag/row-column-drag.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { GridEventsComponent } from './grid-events/grid-events.component';
+import { CellEditComponent } from './cell-edit/cell-edit.component';
+import { SetColumnItemsComponent } from './set-column-items/set-column-items.component';
 
 @NgModule({
   imports: [
@@ -40,7 +44,7 @@ import { ShowHideCheckboxComponent } from './show-hide-checkbox/show-hide-checkb
     ModalModule.forRoot(),
     TabsModule.forRoot(),
     pgTabsModule,
-    AgGridModule.withComponents([FilterInputComponent, DateEditorComponent, CheckboxRendererComponent]),
+    AgGridModule.withComponents([FilterInputComponent, DateEditorComponent]),
     FormsModule
   ],
   providers: [],
@@ -59,8 +63,12 @@ import { ShowHideCheckboxComponent } from './show-hide-checkbox/show-hide-checkb
     AgGridComponent,
     FilterInputComponent,
     DateEditorComponent,
-    CheckboxRendererComponent,
-    ShowHideCheckboxComponent
+    ShowHideCheckboxComponent,
+    RowColumnDragComponent,
+    PaginationComponent,
+    GridEventsComponent,
+    CellEditComponent,
+    SetColumnItemsComponent,
     // NumericEditorComponent
   ]
 })

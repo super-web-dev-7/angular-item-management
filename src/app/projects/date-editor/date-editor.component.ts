@@ -47,7 +47,6 @@ export class DateEditorComponent {
   public datevalue;
   agInit(params: any): void {
     	this.params = params;
-	  	//console.log("Datepicker====>>", this.params);
   }
 
   ngAfterViewInit(): void {

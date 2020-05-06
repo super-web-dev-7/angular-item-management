@@ -1,0 +1,33 @@
+.cz_pagination {
+    width: 100%;
+    float: left;
+    padding: 10px;
+    background: #f0f0f0;
+    margin-top: 10px;
+}
+
+span.cz_grid_count_span {
+    font-size: 14px;
+    cursor: pointer;
+
+}
+
+span.cz_grid_next_privious_span {
+    font-size: 14px;
+    cursor: pointer;
+
+}
+
+span.backward-list i {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+span.forward-list i {
+    margin-left: 10px;
+    cursor: pointer;
+
+}
+i.fa.fa-bars {
+    cursor: pointer;
+}

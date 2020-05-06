@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckboxRendererComponent } from './checkbox-renderer.component';
+import { RowColumnDragComponent } from './row-column-drag.component';
 
-describe('CheckboxRendererComponent', () => {
-  let component: CheckboxRendererComponent;
-  let fixture: ComponentFixture<CheckboxRendererComponent>;
+describe('RowColumnDragComponent', () => {
+  let component: RowColumnDragComponent;
+  let fixture: ComponentFixture<RowColumnDragComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CheckboxRendererComponent ]
+      declarations: [ RowColumnDragComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CheckboxRendererComponent);
+    fixture = TestBed.createComponent(RowColumnDragComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

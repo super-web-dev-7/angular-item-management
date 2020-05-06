@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angu
 import { ModalDirective } from 'ngx-bootstrap';
 import { ItemsService } from "../items-list/items.service";
 import { FieldService } from "../../fields/field.service";
+import { EventEmitterService } from '../../event-emitter.service';    
+
 import { iif } from 'rxjs';
 import { retry } from 'rxjs/operators';
 @Component({
@@ -44,7 +46,9 @@ export class ItemsSelectionComponent implements OnInit {
   @Input() itemSelectionViewI;
   constructor(
     private itemsService: ItemsService,
-    private fieldService: FieldService
+    private fieldService: FieldService,
+    private eventEmitterService: EventEmitterService
+
   ) {
 
   }
@@ -106,6 +110,7 @@ hide(){
                 .subscribe((items: any) => {
                   localStorage.removeItem('copydata')
                   this.getLatestitem.emit();
+                  this.eventEmitterService.onPageChange('');
                   // document.getElementById('popupid').hidden = true
                   this.copyData = []
                   this.copyDataLengthcount = 0
@@ -138,6 +143,8 @@ hide(){
                 .subscribe((items: any) => {
                   this.items = items;
                   this.getLatestitem.emit();
+                  this.eventEmitterService.onPageChange('');
+
                   // document.getElementById('popupid').hidden = true
                   this.copyData = []
                   this.copyDataLengthcount = 0
@@ -165,14 +172,18 @@ hide(){
       .deleteItemsByid(data1)
       .subscribe((result) => {
         if (result) {
-              this.getLatestitem.emit('delete');            
+              this.getLatestitem.emit('delete');  
+              this.eventEmitterService.onPageChange('delete');
+          
               this.SelectedRowData = []
               // document.getElementById('popupid').hidden = true
         }
       });
   }
 
+
   duplicateItems() {
+   
     var data = {
       itemIds: [],
       projectId: {}
@@ -190,7 +201,9 @@ hide(){
               .getItemsByProject(this.projectId)
               .subscribe((items: any) => {
                 // document.getElementById('popupid').hidden = true
-                this.getLatestitem.emit('duplicate');
+                 this.getLatestitem.emit('duplicate');
+                this.eventEmitterService.onPageChange('duplicate');
+
 
               });
           }
@@ -214,6 +227,8 @@ hide(){
   callgetLatestitem(e) {
     // this.closePopup()
     this.getLatestitem.emit(e);
+    this.eventEmitterService.onPageChange(e);
+
   }
 
 }
