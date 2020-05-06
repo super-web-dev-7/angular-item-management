@@ -27,7 +27,7 @@ export class CellEditComponent implements OnInit {
       var data
       Object.keys(event.data).forEach((key, index) => {
         if (event.data[key] == event.newValue) {
-          if (event.colDef.cellEditor) {
+          if (event.column.colDef.type.type == 'date') {
             let date = new Date(event.newValue).getTime();
             data = { _id: event.data._id, projectId: event.data.projectId }
             data[key] = date
