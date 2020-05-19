@@ -33,13 +33,11 @@ export class CellEditComponent implements OnInit {
         NewDate =  event.newValue.getDate()
         Eventdate =  date.getDate()
        }
-
         // console.log(date.getDate(),event.newValue.getDate())
         if (event.data[key] == event.newValue || Eventdate ==  NewDate ) {
-          if (event.column.colDef.type == 'date') {
-            let date = new Date(event.newValue).getTime();
+          if (event.column.colDef['groupId'] == 'date') {
             data = { _id: event.data._id, projectId: event.data.projectId }
-            data[key] = date
+            data[key] = event.newValue.getTime();
           } else {
             data = {_id: event.data._id,projectId: event.data.projectId }
             data[key] = event.newValue;
@@ -50,7 +48,7 @@ export class CellEditComponent implements OnInit {
         if (data._id) {
           this.itemsService.editItemByProject(data).subscribe(result => {
               if (result) {
-                this.eventEmitterService.onPageChange(this.pageNo);
+                // this.eventEmitterService.onPageChange(this.pageNo);
                 this.celldbclicked = false;
                 localStorage.setItem('pdata', 'true')
               }

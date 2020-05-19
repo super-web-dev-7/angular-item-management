@@ -272,7 +272,7 @@ export class AgGridComponent implements OnInit {
   onrowDragEnd(event) {
     var data;
     if (event.overIndex == 0) {
-      data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder  }
+      data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder -1 }
     } else {
       data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex].data.order }
     }
