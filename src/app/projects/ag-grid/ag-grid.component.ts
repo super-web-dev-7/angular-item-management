@@ -304,19 +304,8 @@ export class AgGridComponent implements OnInit {
   }
   onsortChanged(e) {
     var data = e.api.sortController.getSortModel()
-    this.sortGridbyApi(data)
   }
-  sortGridbyApi(values) {
-    var data
-    data = { filter: [{techName: "", value: "" }],
-      sort: {techName: values[0].colId,direction: values[0].sort}}
-    this.itemsService.ongetItemsByProjectWithPagination(this.projectId, data, this.pageNo).subscribe((items: any) => {
-        setTimeout(() => {
-          this.items = items;
-        }, 500);
-        this.agHeaderCheckbox = false;
-    });
-  }
+
   oncellValueChanged(event) {
     this.cellEditComponent.oncellValueChanged(event)
     this.celldbclicked = this.cellEditComponent.celldbclicked
