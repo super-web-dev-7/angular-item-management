@@ -26,8 +26,17 @@ export class CellEditComponent implements OnInit {
       localStorage.setItem('pdata', 'true')
       var data
       Object.keys(event.data).forEach((key, index) => {
-        if (event.data[key] == event.newValue) {
-          if (event.column.colDef.type.type == 'date') {
+        var date = new Date(event.data[key])
+       var  NewDate
+       var  Eventdate
+       if(NewDate && Eventdate){
+        NewDate =  event.newValue.getDate()
+        Eventdate =  date.getDate()
+       }
+
+        // console.log(date.getDate(),event.newValue.getDate())
+        if (event.data[key] == event.newValue || Eventdate ==  NewDate ) {
+          if (event.column.colDef.type == 'date') {
             let date = new Date(event.newValue).getTime();
             data = { _id: event.data._id, projectId: event.data.projectId }
             data[key] = date

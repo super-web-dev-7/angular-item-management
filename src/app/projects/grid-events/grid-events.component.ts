@@ -116,6 +116,7 @@ export class GridEventsComponent implements OnInit {
     if (this.SelectedRowData.length == 0) {
       this.itemSelectionView = false;
       this.itemSelectionViewI = false;
+      this.showAllCheckBox = false;
 
     }
   }

@@ -46,6 +46,12 @@ export class ItemsListComponent implements OnInit {
          this.agGridComponent.getLatestitem(data);
       });    
     }
+    if (this.eventEmitterService.subsVar==undefined) {    
+      this.eventEmitterService.subsVar = this.eventEmitterService.    
+      getItemsOfList.subscribe((data:any) => {  
+        this.ongetItemsByProjectWithPagination(this.pageNo);
+      });    
+    }
     this.ongetItemsByProjectWithPagination(this.pageNo);
     this.countItemsByProject();
     this.GetFields();    
@@ -88,6 +94,7 @@ export class ItemsListComponent implements OnInit {
     });
   }
   ongetItemsByProjectWithPagination(pageNo) {
+    console.log('dfshbfbdkjfbkdsbf')
     var data = {filter: [{ techName: "", value: "" }],sort: {techName: "", direction: ""}}
     this.itemsService.ongetItemsByProjectWithPagination(this.projectId, data, pageNo).subscribe((items: any) => {
          this.items = items;

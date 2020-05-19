@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, Output } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap";
 import { ItemsService } from "../items-list/items.service";
 import { EventEmitter } from "@angular/core";
+import { EventEmitterService } from '../../event-emitter.service';    
 
 @Component({
   selector: "app-new-item",
@@ -11,6 +12,7 @@ import { EventEmitter } from "@angular/core";
 export class NewItemComponent implements OnInit {
   @ViewChild("newItemPopup", { static: true }) newItemPopup: ModalDirective;
   @Input() projectId;
+  @Input() pageNo;
   @Input() fieldType;
   @Input() fieldName;
   @Input() fields;
@@ -21,17 +23,11 @@ export class NewItemComponent implements OnInit {
   [key: string]: any;
   data = {};
 
-  constructor(private itemsService: ItemsService) { }
+  constructor(private itemsService: ItemsService, private eventEmitterService: EventEmitterService) { }
 
   ngOnInit() { }
 
   show() {
-    this.fieldName.forEach(item => {
-      this[item] = "";
-    });
-    document.querySelectorAll(".newItemFields").forEach((element, index) => {
-      // element.value = '';
-    })
     this.newItemPopup.show();
   }
 
@@ -52,8 +48,15 @@ export class NewItemComponent implements OnInit {
     this.itemsService
       .newItemByProject(this.projectId, this.data)
       .subscribe(result => {
-        this.getLatestitem.emit(result);
-      });
+        this.eventEmitterService.onPageChange(this.pageNo); 
+            });
+    this.resetPopValues();
     this.newItemPopup.hide();
+
   }
+  resetPopValues(){
+		this.fieldName.forEach(item => {
+		  this[item] = "";
+		});
+	}
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input, ɵConsole, Output, EventEmitter } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap";
 import { ItemsService } from "../items-list/items.service";
+import { EventEmitterService } from '../../event-emitter.service';    
 
 @Component({
   selector: 'app-edit-single-item',
@@ -12,6 +13,7 @@ import { ItemsService } from "../items-list/items.service";
 export class EditSingleItemComponent implements OnInit {
   @ViewChild("newItemPopup", { static: false }) newItemPopup: ModalDirective;
   @Input() projectId;
+  @Input() pageNo;
   @Input() fieldType;
   @Input() fieldName;
   // @Input() SelectedSingleRowData;
@@ -31,7 +33,8 @@ export class EditSingleItemComponent implements OnInit {
   reverse = false;
   commentEditingMode = false;
   EditableCommentId;
-  constructor(private itemsService: ItemsService, ) { }
+  constructor(private itemsService: ItemsService, private eventEmitterService: EventEmitterService
+    ) { }
 
   ngOnInit() {
     var i, tabcontent, tablinks;
@@ -107,9 +110,9 @@ export class EditSingleItemComponent implements OnInit {
     this.itemsService
       .editItemByProject(this.data)
       .subscribe(result => {
-        this.getLatestitem.emit();
+        this.eventEmitterService.onPageChange(this.pageNo); 
       });
-    // this.newItemPopup.hide()
+    this.newItemPopup.hide()
 
   }
 

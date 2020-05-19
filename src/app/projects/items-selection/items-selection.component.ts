@@ -13,7 +13,7 @@ import { retry } from 'rxjs/operators';
 })
 export class ItemsSelectionComponent implements OnInit {
   @ViewChild('selectedPopup', { static: true }) selectedPopup: ModalDirective;
-
+  @Input() pageNo;
   @Input() projectId;
   @Input() fieldType;
   @Input() fieldName;
@@ -173,7 +173,7 @@ hide(){
       .subscribe((result) => {
         if (result) {
               this.getLatestitem.emit('delete');  
-              this.eventEmitterService.onPageChange('delete');
+              this.eventEmitterService.onPageChange(this.pageNo);
           
               this.SelectedRowData = []
               // document.getElementById('popupid').hidden = true
@@ -200,22 +200,14 @@ hide(){
             this.itemsService
               .getItemsByProject(this.projectId)
               .subscribe((items: any) => {
-                // document.getElementById('popupid').hidden = true
                  this.getLatestitem.emit('duplicate');
-                this.eventEmitterService.onPageChange('duplicate');
-
-
+                this.eventEmitterService.onPageChange(this.pageNo);
               });
           }
         });
     }
 
   }
-
-  // closePopup() {
-  //   document.getElementById('popupid').hidden = true
-  // }
-
   remove_array_element(array, n) {
     var index = array.indexOf(n);
     if (index > -1) {

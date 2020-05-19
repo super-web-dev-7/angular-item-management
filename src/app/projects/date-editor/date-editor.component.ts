@@ -10,9 +10,7 @@ import flatpickr from 'flatpickr';
       role="presentation"
     >
       <input type="text" #eInput data-input style="width: 100%;" />
-      <a class="input-button" title="clear" data-clear>
-        <i class="fa fa-times"></i>
-      </a>
+
     </div>
   `,
   styles: [
@@ -91,7 +89,7 @@ export class DateEditorComponent {
     this.picker.setDate(date);
   }
 
-  setInputPlaceholder(placeholder: string): void {
-    this.eInput.nativeElement.setAttribute('placeholder', placeholder);
-  }
+  // setInputPlaceholder(placeholder: string): void {
+  //   this.eInput.nativeElement.setAttribute('placeholder', placeholder);
+  // }
 }

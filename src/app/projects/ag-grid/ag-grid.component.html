@@ -26,12 +26,13 @@
 <app-item-details #itemDetails></app-item-details>
 <app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
   [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
-  [itemSelectionView]="itemSelectionView" 
+  [itemSelectionView]="itemSelectionView"  [pageNo]="pageNo"
   [itemSelectionViewI]="itemSelectionViewI" (getLatestitem)="getLatestitem($event)"></app-items-selection>
-<app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [fieldName]="fieldName"
+<app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [pageNo]="pageNo" [fieldName]="fieldName"
   [projectId]="projectId" [fields]="fields"></app-new-item>
 
-<app-edit-single-item #editSingleItem [fieldslable]="fieldslable" [fields]="fields" [fieldType]="fieldType"
+<app-edit-single-item #editSingleItem [fieldslable]="fieldslable" [fields]="fields"   [pageNo]="pageNo"
+[fieldType]="fieldType"
   [fieldName]="fieldName" [projectId]="projectId" [celldbclicked]="celldbclicked"
 >
 </app-edit-single-item>
@@ -41,7 +42,7 @@
 <ag-grid-angular #agGrid id="agGrid" style="width: 100%;" *ngIf="items && items.length > 0 && columnLoaded"
 
     class="ag-theme-material" [domLayout]="'autoHeight'" [rowData]="items" [columnDefs]="itemCulomns"
-    [rowSelection]="rowSelection" [rowDragManaged]="true" [defaultColDef]="defaultColDef"
+    [rowSelection]="rowSelection"  [defaultColDef]="defaultColDef" [animateRows]="true" 
     (columnClick)="onColumnClick($event)" (cellDoubleClicked)="oncellDoubleClicked($event,celldbclicked)"
     (cellMouseOver)="oncellMouseOver($event)" (rowSelected)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
     (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"

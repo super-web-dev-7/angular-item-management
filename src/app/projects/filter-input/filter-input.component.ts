@@ -34,11 +34,12 @@ export class FilterInputComponent implements OnInit {
   agInit(params: IFilterParams): void {
     this.params = params;
     this.valueGetter = params.valueGetter; 
-    this.FilterInputType=params.colDef.type
+    this.FilterInputType=params.colDef['groupId']
   }
 
   doesFilterPass(params: IDoesFilterPassParams): boolean {
-    return this.text
+    if(params.node['rowModel'].rowsToDisplay.length > 0){
+      return this.text
       .toLowerCase()
       .split(' ')
       .every(filterWord => {
@@ -49,44 +50,12 @@ export class FilterInputComponent implements OnInit {
             .indexOf(filterWord) >= 0
         );
       });
+    }
   }
    isFilterActive(): boolean {
      return this.text !== null && this.text !== undefined && this.text !== '';
    }
 
-
-  // doesFilterPass(params: IDoesFilterPassParams): boolean {
-  //   return this.text
-  //     .toLowerCase()
-  //     .split(' ')
-  //     .every(filterWord => {
-  //       return (
-  //         this.valueGetter(params.node)
-  //           .toString()
-  //           .toLowerCase()
-  //           .indexOf(filterWord) >= 0
-  //       );
-  //     });
-  // }
-
-  // getModel(): any {
-  //   return { value: this.text };
-  // }
-
-  // setModel(model: any): void {
-  //   this.text = model ? model.value : '';
-  // }
-
-  // ngAfterViewInit(params: IAfterGuiAttachedParams): void {
-  //   window.setTimeout(() => {
-  //     this.input.element.nativeElement.focus();
-  //   });
-  // }
-
-  // noinspection JSMethodCanBeStatic
-  // componentMethod(message: string): void {
-  //   alert(`Alert from PartialMatchFilterComponent ${message}`);
-  // }
 
   onChange(newValue): void {
     if (this.text !== newValue) {
