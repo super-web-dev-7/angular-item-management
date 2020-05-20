@@ -236,10 +236,15 @@ export class AgGridComponent implements OnInit {
     this.gridEventsComponent.oncellMouseOver(event)
   }
   oncellMouseOut(event) {
+    var found = this.SelectedRowData.find(element  => element.page  ==  this.pageNo);
     if (!this.showAllCheckBox) {
-      if (this.SelectedRowData.length == 0) {
+      if (this.SelectedRowData.length == 0 ) {
         this.showHideCheckboxComponent.hideSelectbox(event);
-      }
+      }    
+    }
+    if(!found){
+      this.showHideCheckboxComponent.hideSelectbox(event);
+
     }
   }
   onrowDragEnter(event) {

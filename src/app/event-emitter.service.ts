@@ -27,7 +27,6 @@ export class EventEmitterService {
   } 
   
   onshortRow(data){
-    console.log('i am here ====+++++++>',data)
     this.onshortRowdata.emit(data);    
   }
   // GetItemsOfLists(data){

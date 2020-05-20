@@ -45,9 +45,9 @@ export class FilterInputComponent implements OnInit {
       .every(filterWord => {
         return (
           this.valueGetter(params.node)
-            .toString()
-            .toLowerCase()
-            .indexOf(filterWord) >= 0
+            // .toString()
+            // .toLowerCase()
+            // .indexOf(filterWord) >= 0
         );
       });
     }
@@ -60,12 +60,15 @@ export class FilterInputComponent implements OnInit {
   onChange(newValue): void {
     if (this.text !== newValue) {
       this.text = newValue;
+      // if(this.FilterInputType == 'number'){
+      //   this.text  parseInt(this.text)
+      // }
       var data = {
         searchText:this.text,
         tachname:this.params.colDef.field
       }
       this.eventEmitterService.onfilterRow(data);  
-      this.params.filterChangedCallback();
+      // this.params.filterChangedCallback();
 
     }
 
