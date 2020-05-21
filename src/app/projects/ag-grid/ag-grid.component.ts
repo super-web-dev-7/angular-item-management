@@ -32,6 +32,7 @@ export class AgGridComponent implements OnInit {
   defaultColDef; rowSelection = "";
   @Output("GetFields") GetFields: EventEmitter<any> = new EventEmitter();
   @Output("getItems") getItems: EventEmitter<any> = new EventEmitter();
+  shorted = false;
   constructor(
     private itemsService: ItemsService,
     private fieldService: FieldService,
@@ -75,6 +76,8 @@ export class AgGridComponent implements OnInit {
             valueGetter: function (params) {
               if(params.data[field.techName] != undefined){
                 var dateobj = new Date(params.data[field.techName]);
+                dateobj.getDate()
+                // var date = dateobj.getFullYear()+'-'+dateobj.getMonth()+'-'+ dateobj.getDate();
                 dateobj.toString()
                 return dateobj;
               }
@@ -111,6 +114,7 @@ export class AgGridComponent implements OnInit {
             groupId:"number",
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
+            sortingOrder: ['asc', 'desc',null],
             valueGetter: function (params) {
               return params.data[field.techName];
             },
@@ -308,7 +312,26 @@ export class AgGridComponent implements OnInit {
     this.TotalItems =  this.gridEventsComponent.TotalItems
   }
   onsortChanged(e) {
-    var data = e.api.sortController.getSortModel()
+    // console.log('e=>',e.api.sortController)
+    var   data
+    var data1 = e.api.sortController.getSortModel()
+    if(data1[0]){
+      data = { filter: [{techName: "", value: "" }],
+      sort: {techName: data1[0].colId,direction: data1[0].sort}}
+
+    }else{
+      this.eventEmitterService.onPageChange(this.pageNo);
+
+    }
+    this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+      setTimeout(() => {
+        e.api.setRowData(items);
+     this.items = items;
+      }, 500);
+      this.agHeaderCheckbox = false;
+  });
+      
+
   }
 
   oncellValueChanged(event) {

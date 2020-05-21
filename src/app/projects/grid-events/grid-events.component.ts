@@ -25,7 +25,7 @@ export class GridEventsComponent implements OnInit {
  @Input()showAllCheckBox;
  @Input()agGridComponent;
  @Input() noOfSelectedRows;
-// @Input() itemsService;
+@Input() shorted;
  @Input() celldbclicked;
   @Input() selectedRows;
   @Input() notreffress;
