@@ -9,7 +9,7 @@ import flatpickr from 'flatpickr';
       class="ag-input-wrapper custom-date-filter"
       role="presentation"
     >
-      <input type="text" #eInput data-input style="width: 100%;" />
+      <input type="text" #eInput data-input  [(ngModel)]="dateInputValue"  style="width: 100%;" />
 
     </div>
   `,
@@ -43,8 +43,10 @@ export class DateEditorComponent {
   private params: any;
   private picker: any;
   public datevalue;
+  dateInputValue
   agInit(params: any): void {
-    	this.params = params;
+      this.params = params;
+      this.dateInputValue =params.value
   }
 
   ngAfterViewInit(): void {

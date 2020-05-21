@@ -44,9 +44,9 @@ export class NewItemComponent implements OnInit {
         this.data[item] = this[item];
       }
     });
-    this.data["projectId"] = this.projectId;
+    this.data["projectId"] = localStorage.getItem('ProjectId');
     this.itemsService
-      .newItemByProject(this.projectId, this.data)
+      .newItemByProject(localStorage.getItem('ProjectId'), this.data)
       .subscribe(result => {
         this.eventEmitterService.onPageChange(this.pageNo); 
             });

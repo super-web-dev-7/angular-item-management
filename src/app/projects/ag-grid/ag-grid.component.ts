@@ -45,7 +45,7 @@ export class AgGridComponent implements OnInit {
       editable: true,
       sortable: true,
       filter: true,
-     rowDragManaged:true,
+    
     };
     this.rowSelection = "multiple";
   }
