@@ -46,7 +46,7 @@ export class AgGridComponent implements OnInit {
       editable: true,
       sortable: true,
       filter: true,
-    
+
     };
     this.rowSelection = "multiple";
   }
@@ -68,13 +68,14 @@ export class AgGridComponent implements OnInit {
             field: field.techName,
             editable: true,
             resizable: true,
-            groupId:"date",
+            groupId: "date",
+            sortingOrder: ['asc', 'desc', null],
             cellEditor: 'DateEditorComponent',
             colId: field.techName,
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
             valueGetter: function (params) {
-              if(params.data[field.techName] != undefined){
+              if (params.data[field.techName] != undefined) {
                 var dateobj = new Date(params.data[field.techName]);
                 dateobj.getDate()
                 // var date = dateobj.getFullYear()+'-'+dateobj.getMonth()+'-'+ dateobj.getDate();
@@ -94,7 +95,8 @@ export class AgGridComponent implements OnInit {
               editable: true,
               resizable: true,
               colId: field.techName,
-              groupId:"select",
+              groupId: "select",
+              sortingOrder: ['asc', 'desc', null],
               cellEditor: "agSelectCellEditor",
               filter: 'FilterInputComponent',
               menuTabs: ['filterMenuTab'],
@@ -111,10 +113,10 @@ export class AgGridComponent implements OnInit {
             editable: true,
             resizable: true,
             colId: field.techName,
-            groupId:"number",
+            groupId: "number",
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
-            sortingOrder: ['asc', 'desc',null],
+            sortingOrder: ['asc', 'desc', null],
             valueGetter: function (params) {
               return params.data[field.techName];
             },
@@ -141,9 +143,10 @@ export class AgGridComponent implements OnInit {
             editable: true,
             colId: field.techName,
             resizable: true,
-            groupId:"text",
+            groupId: "text",
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
+            sortingOrder: ['asc', 'desc', null],
           });
         }
         this.fieldslable.push(field.label)
@@ -240,13 +243,13 @@ export class AgGridComponent implements OnInit {
     this.gridEventsComponent.oncellMouseOver(event)
   }
   oncellMouseOut(event) {
-    var found = this.SelectedRowData.find(element  => element.page  ==  this.pageNo);
+    var found = this.SelectedRowData.find(element => element.page == this.pageNo);
     if (!this.showAllCheckBox) {
-      if (this.SelectedRowData.length == 0 ) {
+      if (this.SelectedRowData.length == 0) {
         this.showHideCheckboxComponent.hideSelectbox(event);
-      }    
+      }
     }
-    if(!found){
+    if (!found) {
       this.showHideCheckboxComponent.hideSelectbox(event);
 
     }
@@ -268,8 +271,10 @@ export class AgGridComponent implements OnInit {
   }
   getfilelds(e) {
     this.GetFields.emit();
-    this.defaultColDef = { width: 150, sortable: true, filter: true, rowDragManaged:true,
-    resizeable: true, editable: true, };
+    this.defaultColDef = {
+      width: 150, sortable: true, filter: true, rowDragManaged: true,
+      resizeable: true, editable: true,
+    };
     this.rowSelection = "multiple";
     this.ngOnInit()
   }
@@ -280,16 +285,26 @@ export class AgGridComponent implements OnInit {
   }
   onrowDragEnd(event) {
     var data;
-    if (event.overIndex == 0) {
-      data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder -1 }
-    } else {
-      data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex].data.order }
-    }
-    // console.log('=======data=====++++++++++++data+++>',data)
+
+      if(event.overIndex < event.node.childIndex && event.api.rowModel.rowsToDisplay[event.overIndex -1]){
+        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order }
+      }
+     if (event.overIndex == 0) {
+        data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder - 1 }
+      }
+       else {    
+        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex].data.order }
+      }
     this.itemsService.changeOrder(data).subscribe((result: any) => {
       if (result) {
         this.dragEnterRowOrder = null
-        this.eventEmitterService.onPageChange(this.pageNo);
+        data = {filter: [{ techName: "", value: "" }],sort: { techName:"", direction:"" } }
+        this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+          setTimeout(() => {
+            this.items = items;
+          }, 500);
+          this.agHeaderCheckbox = false;
+        });
       }
     });
   }
@@ -297,6 +312,7 @@ export class AgGridComponent implements OnInit {
   ondragStopped(event) {
     this.setItemColumns(this.fields)
   }
+
   oncolumnMoved(event) {
     this.RowColumnDragComponent.columnMove(event);
     this.itemCulomns = this.RowColumnDragComponent.itemCulomns
@@ -309,31 +325,34 @@ export class AgGridComponent implements OnInit {
     this.RowIndex = this.gridEventsComponent.RowIndex
     this.datainarry = this.gridEventsComponent.datainarry
     this.columnMoved = this.gridEventsComponent.columnMoved
-    this.TotalItems =  this.gridEventsComponent.TotalItems
+    this.TotalItems = this.gridEventsComponent.TotalItems
+    this.selectedRows = this.gridEventsComponent.selectedRows
   }
   onsortChanged(e) {
-    // console.log('e=>',e.api.sortController)
-    var   data
+    var data
     var data1 = e.api.sortController.getSortModel()
-    if(data1[0]){
-      data = { filter: [{techName: "", value: "" }],
-      sort: {techName: data1[0].colId,direction: data1[0].sort}}
-
-    }else{
-      this.eventEmitterService.onPageChange(this.pageNo);
-
+    if (data1[0]) {
+      this.shorted =true
+      this.gridApi.setSuppressRowDrag(true);
+      data = {
+        filter: [{ techName: "", value: "" }],
+        sort: { techName: data1[0].colId, direction: data1[0].sort }
+      }
+      this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+        setTimeout(() => {
+          this.items = items;
+        }, 500);
+        this.agHeaderCheckbox = false;
+      });
+    } else {
+      this.shorted =false;
+      this.gridApi.setSuppressRowDrag(false);
+      data = { filter: [{ techName: "", value: "" }], sort: { techName: "", direction: "" } }
+      this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+        this.items = items
+      });
     }
-    this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-      setTimeout(() => {
-        e.api.setRowData(items);
-     this.items = items;
-      }, 500);
-      this.agHeaderCheckbox = false;
-  });
-      
-
   }
-
   oncellValueChanged(event) {
     this.cellEditComponent.oncellValueChanged(event)
     this.celldbclicked = this.cellEditComponent.celldbclicked

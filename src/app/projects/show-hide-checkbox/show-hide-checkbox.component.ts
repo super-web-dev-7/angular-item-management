@@ -18,10 +18,6 @@ export class ShowHideCheckboxComponent implements OnInit {
     });
   }
   showSelectbox(event) {
-// console.log(' event.node.id==++++>', event.node.id)
-// console.log(' event.rowIndex==++++>', event.rowIndex)
-// console.log(' event.rowIndex==++++>', event)
-
     if(event.node.id != event.rowIndex.toString() ){
       event.node.id =  event.rowIndex.toString();
     }
