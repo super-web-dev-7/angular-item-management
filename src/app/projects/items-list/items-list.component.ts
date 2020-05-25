@@ -132,11 +132,13 @@ export class ItemsListComponent implements OnInit {
       if(localStorage.getItem('filterInputType')== 'date'){
         var timeStamp = new Date (vales.searchText);
         var NewtimeStamp = timeStamp.getTime();
-       data = { filter: [{ techName: vales.tachname, value: NewtimeStamp.toString() }],
+        data = { filter: [{ techName: vales.tachname, value: NewtimeStamp.toString() }],
         sort: { techName: "", direction: "" }}
       }
     this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-        if (items.length > 0) { this.items = items;}
+        if (items.length > 0) { 
+          this.items = items;
+        }
         else {
           this.items = [{ _id: localStorage.getItem('ProjectId'), [vales.tachname]: 'No Data Found !!' }]
         }

@@ -75,7 +75,7 @@ export class AgGridComponent implements OnInit {
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
             valueGetter: function (params) {
-              if (params.data[field.techName] != undefined) {
+              if (params.data[field.techName] != undefined && params.data[field.techName] != 'No Data Found !!') {
                 var dateobj = new Date(params.data[field.techName]);
                 dateobj.getDate()
                 // var date = dateobj.getFullYear()+'-'+dateobj.getMonth()+'-'+ dateobj.getDate();

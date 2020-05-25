@@ -3,6 +3,7 @@ import { ModalDirective } from "ngx-bootstrap";
 import { ItemsService } from "../items-list/items.service";
 import { EventEmitter } from "@angular/core";
 import { EventEmitterService } from '../../event-emitter.service';    
+import { D } from "@angular/cdk/keycodes";
 
 @Component({
   selector: "app-new-item",
@@ -39,9 +40,14 @@ export class NewItemComponent implements OnInit {
   }
 
   onAddItem() {
-    this.fieldName.forEach(item => {
-      if (this[item]) {
-        this.data[item] = this[item];
+    this.fields.forEach(item => {
+      if (this[item.techName]) {
+        if(item.type ==3){
+          var date = new Date(this[item.techName])
+          this.data[item.techName] = date.getTime().toString();
+        }else{
+          this.data[item.techName] = this[item.techName];
+        }
       }
     });
     this.data["projectId"] = localStorage.getItem('ProjectId');
