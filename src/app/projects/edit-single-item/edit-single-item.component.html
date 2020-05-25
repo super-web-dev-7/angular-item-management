@@ -20,7 +20,7 @@ id="edit-single-model"
 <pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true" >
   <pg-tab >
       <ng-template #TabHeading>
-        Edit Row Deatil
+        Edit Row Detail
       </ng-template>
       <div id="TabEdit" class="tabcontent">
         <div class="container-xs-height full-height">
@@ -41,8 +41,16 @@ id="edit-single-model"
                     </select>
                   </div>
                   <div *ngIf="itemType !== 'select'">
-                  <input *ngIf="itemType !== 'file'"
+                  <input *ngIf="(itemType !== 'file') && (itemType !== 'date')"
                     [value]="SelectedSingleRowData[fieldName[itemId]] == undefined ? '' : SelectedSingleRowData[fieldName[itemId]]"
+                    [id]="fieldName[itemId]"               
+                    [type]="itemType"
+                    class="form-control"
+                    [name]="fieldName[itemId]"
+                    (input)="onFieldValuek($event)"
+                  />
+				  <input *ngIf="itemType == 'date'"
+                    [value]="SelectedSingleRowData[fieldName[itemId]] == undefined ? '' : SelectedSingleRowData[fieldName[itemId]]  | date: 'yyyy-MM-dd'"
                     [id]="fieldName[itemId]"               
                     [type]="itemType"
                     class="form-control"
