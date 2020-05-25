@@ -122,25 +122,27 @@ export class ItemsListComponent implements OnInit {
         this.agHeaderCheckbox = false;
     });
   }
-  filterGridbyApi(vales) {
-    var data = { filter: [{ techName: vales.tachname, value: vales.searchText }],
+  filterGridbyApi(values) {
+    var data = { filter: [{ techName: values.tachname, value: values.searchText }],
       sort: { techName: "", direction: "" }}
-      if(vales.searchText ==''){
+      if(values.searchText ==''){
        data = { filter: [{ techName: "", value: ""}],
         sort: { techName: "", direction: "" }}
       }
-      if(localStorage.getItem('filterInputType')== 'date'){
-        var timeStamp = new Date (vales.searchText);
+      if(localStorage.getItem('filterInputType')== 'date' && values.searchText){
+        var timeStamp = new Date (values.searchText);
         var NewtimeStamp = timeStamp.getTime();
-        data = { filter: [{ techName: vales.tachname, value: NewtimeStamp.toString() }],
+        var NewtimeStamp1 = NewtimeStamp.toString()
+        data = { filter: [{ techName: values.tachname, value: NewtimeStamp1 }],
         sort: { techName: "", direction: "" }}
       }
+
     this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
         if (items.length > 0) { 
           this.items = items;
         }
         else {
-          this.items = [{ _id: localStorage.getItem('ProjectId'), [vales.tachname]: 'No Data Found !!' }]
+          this.items = [{ _id: localStorage.getItem('ProjectId'), [values.tachname]: 'No Data Found !!' }]
         }
      });
   }
