@@ -30,10 +30,9 @@ export class CellEditComponent implements OnInit {
         var  NewDate
         var  Eventdate
         if (event.column.colDef['groupId'] == 'date') {
-          console.log('event.data[key]=++>', event.data[key])
            date = new Date(event.data[key])
            NewDate =  event.newValue.getTime()
-           Eventdate =  date.getTime()
+           Eventdate =  date.getTime()  
         }
         if (event.data[key] == event.newValue  ) {
             data = {_id: event.data._id,projectId: event.data.projectId }
@@ -41,10 +40,8 @@ export class CellEditComponent implements OnInit {
           }
         if(NewDate == Eventdate && event.column.colDef['groupId'] == 'date'){
           if (event.column.colDef['groupId'] == 'date')  {
-                var date1 = event.newValue.getFullYear()+'-'+event.newValue.getMonth()+'-'+ event.newValue.getDate();
-                var timeStamp = new date(date1)
             data = { _id: event.data._id, projectId: event.data.projectId }
-            data[key] = timeStamp.getTime();
+            data[key] = event.newValue.getTime().toString();
           } 
         }
         
