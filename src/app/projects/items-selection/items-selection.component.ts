@@ -198,7 +198,7 @@ hide(){
         .subscribe((result: any) => {
           if (result) {
             this.itemsService
-              .getItemsByProject(this.projectId)
+              .getItemsByProject(localStorage.getItem('ProjectId'))
               .subscribe((items: any) => {
                  this.getLatestitem.emit('duplicate');
                 this.eventEmitterService.onPageChange(this.pageNo);
