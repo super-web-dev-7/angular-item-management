@@ -38,7 +38,6 @@ export class ItemsListComponent implements OnInit {
     this.showHideCheckboxComponent.onCustomHtmlLoad();
   }
   ngOnInit() {
-
         if (this.eventEmitterService.subsVar==undefined) {    
       this.eventEmitterService.subsVar = this.eventEmitterService.    
       invokeItemListComponentFunction.subscribe((data:any) => {         
@@ -124,13 +123,22 @@ export class ItemsListComponent implements OnInit {
     });
   }
   filterGridbyApi(vales) {
-
     var data = { filter: [{ techName: vales.tachname, value: vales.searchText }],
       sort: { techName: "", direction: "" }}
+      if(vales.searchText ==''){
+       data = { filter: [{ techName: "", value: ""}],
+        sort: { techName: "", direction: "" }}
+      }
+      if(localStorage.getItem('filterInputType')== 'date'){
+        var timeStamp = new Date (vales.searchText);
+        var NewtimeStamp = timeStamp.getTime();
+       data = { filter: [{ techName: vales.tachname, value: NewtimeStamp.toString() }],
+        sort: { techName: "", direction: "" }}
+      }
     this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
         if (items.length > 0) { this.items = items;}
         else {
-          this.items = [{ _id: '5e4e36fdd4c40b0cf12378f0', DATE0: 'No Data Found !!' }]
+          this.items = [{ _id: localStorage.getItem('ProjectId'), [vales.tachname]: 'No Data Found !!' }]
         }
      });
   }

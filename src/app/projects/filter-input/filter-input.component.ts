@@ -35,6 +35,7 @@ export class FilterInputComponent implements OnInit {
     this.params = params;
     this.valueGetter = params.valueGetter; 
     this.FilterInputType=params.colDef['groupId']
+    localStorage.setItem('filterInputType',this.FilterInputType)
   }
 
   doesFilterPass(params: IDoesFilterPassParams): boolean {

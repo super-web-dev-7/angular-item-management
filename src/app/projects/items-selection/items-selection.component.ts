@@ -173,8 +173,7 @@ hide(){
       .subscribe((result) => {
         if (result) {
               this.getLatestitem.emit('delete');  
-              this.eventEmitterService.onPageChange(this.pageNo);
-          
+              this.eventEmitterService.onPageChange(this.pageNo);         
               this.SelectedRowData = []
               // document.getElementById('popupid').hidden = true
         }
@@ -182,8 +181,7 @@ hide(){
   }
 
 
-  duplicateItems() {
-   
+  duplicateItems() {   
     var data = {
       itemIds: [],
       projectId: {}
