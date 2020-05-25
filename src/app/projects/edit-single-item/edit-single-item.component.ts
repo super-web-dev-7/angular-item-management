@@ -55,6 +55,7 @@ export class EditSingleItemComponent implements OnInit {
       });
   }
   show(event) {
+	  
     this.newItemPopup.config.ignoreBackdropClick = true
     this.newItemPopup.config.backdrop = false
     this.newItemPopup.config.keyboard = true
