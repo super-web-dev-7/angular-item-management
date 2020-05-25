@@ -32,7 +32,7 @@ export class CellEditComponent implements OnInit {
         if (event.column.colDef['groupId'] == 'date') {
            date = new Date(event.data[key])
            NewDate =  event.newValue.getTime()
-           Eventdate =  date.getTime()  
+           Eventdate =  date.getTime()
         }
         if (event.data[key] == event.newValue  ) {
             data = {_id: event.data._id,projectId: event.data.projectId }
@@ -41,7 +41,7 @@ export class CellEditComponent implements OnInit {
         if(NewDate == Eventdate && event.column.colDef['groupId'] == 'date'){
           if (event.column.colDef['groupId'] == 'date')  {
             data = { _id: event.data._id, projectId: event.data.projectId }
-            data[key] = event.newValue.getTime().toString();
+            data[key] = event.newValue.getTime();
           } 
         }
         
