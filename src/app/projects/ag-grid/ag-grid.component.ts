@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, APP_ID } from '@angular/core';
 import { ShowHideCheckboxComponent } from '../show-hide-checkbox/show-hide-checkbox.component';
 import { GridEventsComponent } from '../grid-events/grid-events.component';
 import { ItemsService } from "../items-list/items.service";
@@ -8,6 +8,7 @@ import { FilterInputComponent } from '../filter-input/filter-input.component';
 import { DateEditorComponent } from '../date-editor/date-editor.component';
 import { RowColumnDragComponent } from '../row-column-drag/row-column-drag.component';
 import { CellEditComponent } from '../cell-edit/cell-edit.component';
+import { EVENT_MANAGER_PLUGINS } from '@angular/platform-browser';
 @Component({
   selector: 'app-ag-grid',
   templateUrl: './ag-grid.component.html',
@@ -286,23 +287,27 @@ export class AgGridComponent implements OnInit {
   onrowDragEnd(event) {
     var data;
 
-      if(event.overIndex < event.node.childIndex && event.api.rowModel.rowsToDisplay[event.overIndex -1]){
-        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order }
-      }
+      // if(event.overIndex < event.node.childIndex && event.api.rowModel.rowsToDisplay[event.overIndex -1]){
+      //   data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order }
+      // }
      if (event.overIndex == 0) {
         data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder - 1 }
       }
        else {    
-        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex].data.order }
+        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order}
       }
     this.itemsService.changeOrder(data).subscribe((result: any) => {
       if (result) {
         this.dragEnterRowOrder = null
         data = {filter: [{ techName: "", value: "" }],sort: { techName:"", direction:"" } }
+        // this.gridApi.setSuppressRowDrag(false);
+
         this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
           setTimeout(() => {
             this.items = items;
-          }, 500);
+            // event.api.setRowData(items);
+            // event.api.refreshClientSideRowModel();
+                    }, 500);
           this.agHeaderCheckbox = false;
         });
       }

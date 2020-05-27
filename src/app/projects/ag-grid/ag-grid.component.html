@@ -42,7 +42,7 @@
 <ag-grid-angular #agGrid id="agGrid" style="width: 100%;" *ngIf="items && items.length > 0 && columnLoaded"
 
     class="ag-theme-material" [domLayout]="'autoHeight'" [rowData]="items" [columnDefs]="itemCulomns"
-    [rowSelection]="rowSelection"  [defaultColDef]="defaultColDef"   [rowDragManaged]="false"
+    [rowSelection]="rowSelection"  [defaultColDef]="defaultColDef"   [rowDragManaged]="true"
     (columnClick)="onColumnClick($event)" (cellDoubleClicked)="oncellDoubleClicked($event,celldbclicked)"
     (cellMouseOver)="oncellMouseOver($event)" (rowSelected)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
     (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"  (rowDragEnter)="onrowDragEnter($event)"
