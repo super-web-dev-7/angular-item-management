@@ -101,9 +101,14 @@ export class EditSingleItemComponent implements OnInit {
   }
 
   onEditItem() {
-    this.fieldName.forEach(item => {
-      if (this[item]) {
-        this.data[item] = this[item];
+    this.fields.forEach(fields => {
+      if(fields.type == 3){
+       var date = new Date(this[fields.techName]) 
+       var dateTimeStamp = date.getTime()
+       this[fields.techName] = dateTimeStamp;
+        }
+      if (this[fields.techName]) {
+        this.data[fields.techName] = this[fields.techName];
       }
     });
     this.data["_id"] = this.SelectedSingleRowData['_id']

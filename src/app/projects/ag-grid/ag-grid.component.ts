@@ -357,4 +357,5 @@ export class AgGridComponent implements OnInit {
     this.cellEditComponent.oncellValueChanged(event)
     this.celldbclicked = this.cellEditComponent.celldbclicked
   }
+  // onrowDragEnter(event){console.log("event=====+++++>", event)}
 }
