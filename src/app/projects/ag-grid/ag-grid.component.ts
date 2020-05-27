@@ -14,10 +14,7 @@ import { EVENT_MANAGER_PLUGINS } from '@angular/platform-browser';
   templateUrl: './ag-grid.component.html',
   styleUrls: ['./ag-grid.component.scss']
 })
-
 export class AgGridComponent implements OnInit {
-    // params for refresh cells
-
   @ViewChild('showHideCheckboxComponent', { static: true }) showHideCheckboxComponent: ShowHideCheckboxComponent;
   @ViewChild('gridEventsComponent', { static: true }) gridEventsComponent: GridEventsComponent;
   @ViewChild('FilterInputComponent', { static: true }) FilterInputComponent: FilterInputComponent;
@@ -63,11 +60,11 @@ export class AgGridComponent implements OnInit {
     this.gridApi.setSuppressClipboardPaste(false);
   }
   setItemColumns(fields) {
-	
+
     this.fields = fields
     fields.forEach(field => {
       if (!localStorage.getItem('gridHeader')) {
-		  
+
         if (field.type == 3) {
           this.itemCulomns.push({
             headerName: field.label,
@@ -81,7 +78,7 @@ export class AgGridComponent implements OnInit {
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
             valueGetter: function (params) {
-				
+
               if (params.data[field.techName] != undefined && params.data[field.techName] != 'No Data Found !!') {
                 var dateobj = new Date(params.data[field.techName]);
                 dateobj.getDate()
@@ -205,42 +202,42 @@ export class AgGridComponent implements OnInit {
         else {
           this.fieldType.push("text");
         }
-		let get_storage_items = JSON.parse(localStorage.getItem('gridHeader'))
+        let get_storage_items = JSON.parse(localStorage.getItem('gridHeader'))
         this.itemCulomns = []
-		get_storage_items.forEach(function (arrayItem) {
-				if(arrayItem.groupId == 'date'){
-					arrayItem.valueGetter =  function (params) {
-					  if (params.data[arrayItem.field] != undefined && params.data[arrayItem.field] != 'No Data Found !!') {
-						var dateobj = new Date(params.data[arrayItem.field]);
-						dateobj.getDate()
-						dateobj.toString()
-						return dateobj;
-					  }
-					  return dateobj;
-					}
-				}
-				if(arrayItem.groupId == 'number'){
-			   		 arrayItem.valueGetter = function (params) {
-						  return params.data[arrayItem.field];
-					 }
-					 arrayItem.valueSetter = function (params) {
-						  if (params.data[arrayItem.field] !== params.newValue) {
-							var data = parseInt(params.newValue)
-							if (!data) {
-							  params.newValue = parseInt(params.oldValue);
-							} else {
-							  params.data[arrayItem.field] = parseInt(params.newValue);
-							  return true;
-							}
-							return true;
-						  } else {
-							return false;
-						  }
-					 }
-			   	}
-				
-		  });
-		  this.itemCulomns = get_storage_items;
+        get_storage_items.forEach(function (arrayItem) {
+          if (arrayItem.groupId == 'date') {
+            arrayItem.valueGetter = function (params) {
+              if (params.data[arrayItem.field] != undefined && params.data[arrayItem.field] != 'No Data Found !!') {
+                var dateobj = new Date(params.data[arrayItem.field]);
+                dateobj.getDate()
+                dateobj.toString()
+                return dateobj;
+              }
+              return dateobj;
+            }
+          }
+          if (arrayItem.groupId == 'number') {
+            arrayItem.valueGetter = function (params) {
+              return params.data[arrayItem.field];
+            }
+            arrayItem.valueSetter = function (params) {
+              if (params.data[arrayItem.field] !== params.newValue) {
+                var data = parseInt(params.newValue)
+                if (!data) {
+                  params.newValue = parseInt(params.oldValue);
+                } else {
+                  params.data[arrayItem.field] = parseInt(params.newValue);
+                  return true;
+                }
+                return true;
+              } else {
+                return false;
+              }
+            }
+          }
+
+        });
+        this.itemCulomns = get_storage_items;
       }
     });
     this.columnLoaded = true;
@@ -326,20 +323,16 @@ export class AgGridComponent implements OnInit {
   }
   onrowDragEnd(event) {
     var data;
-
-      // if(event.overIndex < event.node.childIndex && event.api.rowModel.rowsToDisplay[event.overIndex -1]){
-      //   data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order }
-      // }
-     if (event.overIndex == 0) {
-        data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder - 1 }
-      }
-       else {    
-        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order}
-      }
+    if (event.overIndex == 0) {
+      data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder - 1 }
+    }
+    else {
+      data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order }
+    }
     this.itemsService.changeOrder(data).subscribe((result: any) => {
       if (result) {
         this.dragEnterRowOrder = null
-        data = {filter: [{ techName: "", value: "" }],sort: { techName:"", direction:"" } }
+        data = { filter: [{ techName: "", value: "" }], sort: { techName: "", direction: "" } }
         this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
           setTimeout(() => {
             this.items = items;
@@ -347,7 +340,7 @@ export class AgGridComponent implements OnInit {
             event.api.refreshRows();
 
             event.api.refreshCells();
-                    }, 500);
+          }, 500);
           this.agHeaderCheckbox = false;
         });
       }
@@ -376,7 +369,7 @@ export class AgGridComponent implements OnInit {
     var data
     var data1 = e.api.sortController.getSortModel()
     if (data1[0]) {
-      this.shorted =true
+      this.shorted = true
       this.gridApi.setSuppressRowDrag(true);
       data = {
         filter: [{ techName: "", value: "" }],
@@ -389,7 +382,7 @@ export class AgGridComponent implements OnInit {
         this.agHeaderCheckbox = false;
       });
     } else {
-      this.shorted =false;
+      this.shorted = false;
       this.gridApi.setSuppressRowDrag(false);
       data = { filter: [{ techName: "", value: "" }], sort: { techName: "", direction: "" } }
       this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
@@ -401,5 +394,4 @@ export class AgGridComponent implements OnInit {
     this.cellEditComponent.oncellValueChanged(event)
     this.celldbclicked = this.cellEditComponent.celldbclicked
   }
-  // onrowDragEnter(event){console.log("event=====+++++>", event)}
 }

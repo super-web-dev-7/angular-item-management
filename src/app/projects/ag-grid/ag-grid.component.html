@@ -46,7 +46,7 @@
     (columnClick)="onColumnClick($event)" (cellDoubleClicked)="oncellDoubleClicked($event,celldbclicked)"
     (cellMouseOver)="oncellMouseOver($event)" (rowSelected)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
     (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"  (rowDragEnter)="onrowDragEnter($event)"
-    [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)"
+    [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)" 
     (columnMoved)="oncolumnMoved($event)" (columnValueChanged)="oncolumnValueChanged($event)" [components]="components"
     [modules]="modules" [sortingOrder]="sortingOrder" (getSort)="getSort($event)" (getSortModel)="ongetSortModel($event)"
     (rowsAfterSort)="onrowsAfterSort($event)" (dataStateChange)="dataStateChange($event)" 
