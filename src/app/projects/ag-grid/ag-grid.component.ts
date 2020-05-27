@@ -202,44 +202,10 @@ export class AgGridComponent implements OnInit {
         else {
           this.fieldType.push("text");
         }
-
+        this.itemCulomns = []
+        this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
       }
     });
-    if(localStorage.getItem('gridHeader')){
-      this.itemCulomns = []
-      this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
-      this.itemCulomns.forEach(Culomns => {  
-        if(Culomns.groupId == 'date'){
-          // console.log('Culomns=++++>', Culomns.)
-        //   var obj ={
-        //     headerName: Culomns.headerName,
-        //     field: Culomns.field,
-        //     editable: true,
-        //     resizable: true,
-        //     groupId: "date",
-        //     sortingOrder: ['asc', 'desc', null],
-        //     cellEditor: 'DateEditorComponent',
-        //     colId: Culomns.colId,
-        //     filter: 'FilterInputComponent',
-        //     menuTabs: ['filterMenuTab'],
-        //     valueGetter: function (params) {
-        //       console.log('Culomns.params=>', params)
-        //       if (params.data[Culomns.field] != undefined && params.data[Culomns.field] != 'No Data Found !!') {
-        //         var dateobj = new Date(params.data[Culomns.field]);
-        //         dateobj.getDate()
-        //         // var date = dateobj.getFullYear()+'-'+dateobj.getMonth()+'-'+ dateobj.getDate();
-        //         dateobj.toString()
-        //         return dateobj;
-        //       }
-        //       return dateobj;
-        //     },
-        //   }
-        //   // this.itemCulomns.push({   })
-          
-         }
-      })
-
-        }
     this.columnLoaded = true;
     this.itemCulomns[0]["headerCheckboxSelection"] = true;
     this.itemCulomns[0]["checkboxSelection"] = true;
@@ -358,7 +324,6 @@ export class AgGridComponent implements OnInit {
     this.RowColumnDragComponent.columnMove(event);
     this.itemCulomns = this.RowColumnDragComponent.itemCulomns
     this.columnMoved = this.RowColumnDragComponent.columnMoved
-    // this.fields = this.RowColumnDragComponent.fields
   }
   onrowDataChanged(event) {
     this.gridEventsComponent.onrowDataChanged(event);
@@ -369,7 +334,6 @@ export class AgGridComponent implements OnInit {
     this.columnMoved = this.gridEventsComponent.columnMoved
     this.TotalItems = this.gridEventsComponent.TotalItems
     this.selectedRows = this.gridEventsComponent.selectedRows
-    console.log('event=+++>', event)
   }
   onsortChanged(e) {
     var data
