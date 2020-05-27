@@ -63,9 +63,11 @@ export class AgGridComponent implements OnInit {
     this.gridApi.setSuppressClipboardPaste(false);
   }
   setItemColumns(fields) {
+	
     this.fields = fields
     fields.forEach(field => {
       if (!localStorage.getItem('gridHeader')) {
+		  
         if (field.type == 3) {
           this.itemCulomns.push({
             headerName: field.label,
@@ -79,6 +81,7 @@ export class AgGridComponent implements OnInit {
             filter: 'FilterInputComponent',
             menuTabs: ['filterMenuTab'],
             valueGetter: function (params) {
+				
               if (params.data[field.techName] != undefined && params.data[field.techName] != 'No Data Found !!') {
                 var dateobj = new Date(params.data[field.techName]);
                 dateobj.getDate()
@@ -202,8 +205,42 @@ export class AgGridComponent implements OnInit {
         else {
           this.fieldType.push("text");
         }
+		let get_storage_items = JSON.parse(localStorage.getItem('gridHeader'))
         this.itemCulomns = []
-        this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'))
+		get_storage_items.forEach(function (arrayItem) {
+				if(arrayItem.groupId == 'date'){
+					arrayItem.valueGetter =  function (params) {
+					  if (params.data[arrayItem.field] != undefined && params.data[arrayItem.field] != 'No Data Found !!') {
+						var dateobj = new Date(params.data[arrayItem.field]);
+						dateobj.getDate()
+						dateobj.toString()
+						return dateobj;
+					  }
+					  return dateobj;
+					}
+				}
+				if(arrayItem.groupId == 'number'){
+			   		 arrayItem.valueGetter = function (params) {
+						  return params.data[arrayItem.field];
+					 }
+					 arrayItem.valueSetter = function (params) {
+						  if (params.data[arrayItem.field] !== params.newValue) {
+							var data = parseInt(params.newValue)
+							if (!data) {
+							  params.newValue = parseInt(params.oldValue);
+							} else {
+							  params.data[arrayItem.field] = parseInt(params.newValue);
+							  return true;
+							}
+							return true;
+						  } else {
+							return false;
+						  }
+					 }
+			   	}
+				
+		  });
+		  this.itemCulomns = get_storage_items;
       }
     });
     this.columnLoaded = true;
