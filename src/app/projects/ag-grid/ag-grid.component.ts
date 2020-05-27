@@ -14,7 +14,10 @@ import { EVENT_MANAGER_PLUGINS } from '@angular/platform-browser';
   templateUrl: './ag-grid.component.html',
   styleUrls: ['./ag-grid.component.scss']
 })
+
 export class AgGridComponent implements OnInit {
+    // params for refresh cells
+
   @ViewChild('showHideCheckboxComponent', { static: true }) showHideCheckboxComponent: ShowHideCheckboxComponent;
   @ViewChild('gridEventsComponent', { static: true }) gridEventsComponent: GridEventsComponent;
   @ViewChild('FilterInputComponent', { static: true }) FilterInputComponent: FilterInputComponent;
@@ -300,20 +303,19 @@ export class AgGridComponent implements OnInit {
       if (result) {
         this.dragEnterRowOrder = null
         data = {filter: [{ techName: "", value: "" }],sort: { techName:"", direction:"" } }
-        // this.gridApi.setSuppressRowDrag(false);
-
         this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
           setTimeout(() => {
             this.items = items;
-            // event.api.setRowData(items);
-            // event.api.refreshClientSideRowModel();
+            event.api.setRowData(items);
+            event.api.refreshRows();
+
+            event.api.refreshCells();
                     }, 500);
           this.agHeaderCheckbox = false;
         });
       }
     });
   }
-
   ondragStopped(event) {
     this.setItemColumns(this.fields)
   }
