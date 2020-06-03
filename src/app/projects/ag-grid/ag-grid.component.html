@@ -48,8 +48,7 @@
     (rowClicked)="editSingleItem.show($event)" (rowDragEnd)="onrowDragEnd($event)"  (rowDragEnter)="onrowDragEnter($event)"
     [suppressRowClickSelection]="true" (cellValueChanged)="oncellValueChanged($event)"
     (columnMoved)="oncolumnMoved($event)" (columnValueChanged)="oncolumnValueChanged($event)" [components]="components"
-    [modules]="modules" [sortingOrder]="sortingOrder" (getSort)="getSort($event)" (getSortModel)="ongetSortModel($event)"
-    (rowsAfterSort)="onrowsAfterSort($event)" (dataStateChange)="dataStateChange($event)" 
+    [sortingOrder]="sortingOrder" 
     (rowDataChanged)="onrowDataChanged($event)" (cellMouseOut)="oncellMouseOut($event)" 
     [frameworkComponents]="frameworkComponents" (sortChanged)="onsortChanged($event)" (GetFields)="GetFields()" (getItems)="getItems()"> 
   

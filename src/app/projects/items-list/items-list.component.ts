@@ -59,7 +59,7 @@ export class ItemsListComponent implements OnInit {
     this.ongetItemsByProjectWithPagination(this.pageNo);
     this.countItemsByProject();
     this.GetFields();    
-    this.autoGroupColumnDef = {};
+    // this.autoGroupColumnDef = {};
     localStorage.setItem('pdata', 'true')
   }
   GetFields(){

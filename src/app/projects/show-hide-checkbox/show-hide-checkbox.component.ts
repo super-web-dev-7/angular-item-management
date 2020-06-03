@@ -19,14 +19,18 @@ export class ShowHideCheckboxComponent implements OnInit {
   }
   showSelectbox(event) {
     if(event.node.id != event.rowIndex.toString() ){
-      event.node.id =  event.rowIndex.toString();
-    }
+      document.querySelectorAll(".ag-selection-checkbox")[ event.rowIndex.toString()]
+      var data = document.querySelectorAll(".ag-selection-checkbox")[ event.rowIndex.toString()];
+      if (data) {
+        data.setAttribute("style", "display: block");
+      }
+    }else{
       document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
       var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
       if (data) {
         data.setAttribute("style", "display: block");
       }
-
+    }
   }
   showCheckboxWithouEvent() {
     document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {

@@ -300,12 +300,8 @@ export class AgGridComponent implements OnInit {
         this.dragEnterRowOrder = null
         data = {filter: [{ techName: "", value: "" }],sort: { techName:"", direction:"" } }
         this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-          // event.api.setRowData(items)
           setTimeout(() => {
             this.items = items;
-  
-            // immutableStore  = items;
-            // 
           }, 500);
           this.agHeaderCheckbox = false;
         });
