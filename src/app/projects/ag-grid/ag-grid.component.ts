@@ -268,6 +268,7 @@ export class AgGridComponent implements OnInit {
     this.itemSelectionViewI = this.gridEventsComponent.itemSelectionViewI
     this.SelectedRowData = this.gridEventsComponent.SelectedRowData
     this.noOfSelectedRows = this.gridEventsComponent.noOfSelectedRows
+    event.api.setRowData(this.items)
   }
   getfilelds(e) {
     this.GetFields.emit();
@@ -286,22 +287,26 @@ export class AgGridComponent implements OnInit {
   onrowDragEnd(event) {
     var data;
 
-      if(event.overIndex < event.node.childIndex && event.api.rowModel.rowsToDisplay[event.overIndex -1]){
-        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order }
-      }
+      // if(event.overIndex < event.node.childIndex && event.api.rowModel.rowsToDisplay[event.overIndex ]){
+      //   data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order }
+      // }
      if (event.overIndex == 0) {
         data = { itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder - 1 }
       }
        else {    
-        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex].data.order }
+        data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order }
       }
     this.itemsService.changeOrder(data).subscribe((result: any) => {
       if (result) {
         this.dragEnterRowOrder = null
         data = {filter: [{ techName: "", value: "" }],sort: { techName:"", direction:"" } }
         this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+          // event.api.setRowData(items)
           setTimeout(() => {
             this.items = items;
+  
+            // immutableStore  = items;
+            // 
           }, 500);
           this.agHeaderCheckbox = false;
         });
@@ -310,7 +315,7 @@ export class AgGridComponent implements OnInit {
   }
 
   ondragStopped(event) {
-    this.setItemColumns(this.fields)
+    // this.setItemColumns(this.fields)
   }
 
   oncolumnMoved(event) {
