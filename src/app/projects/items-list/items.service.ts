@@ -13,6 +13,7 @@ export class ItemsService {
   // };
 
   public getItemsByProject(projectId) {
+    projectId = localStorage.getItem('ProjectId')
     return this.httpClient.get(
       `${environment.apiUrl}/item/project/${projectId}`
     );
@@ -27,10 +28,12 @@ export class ItemsService {
     });
   }
   public Paste(data,type) {
+    data['projectId']=localStorage.getItem('ProjectId')
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     };
     if( localStorage.getItem('pastetype') == 'copy'){
+
       return this.httpClient.post<any>(`${environment.apiUrl}/item/duplicate`, data, {
         headers
       });
@@ -40,6 +43,7 @@ export class ItemsService {
         headers
       });
     }
+    // localStorage.removeItem('copydata')
   }
 
   public editMassItemByProject(data) {
@@ -122,6 +126,7 @@ export class ItemsService {
     return this.httpClient.post<any>(`${environment.apiUrl}/item/delete-comment`, data);
   }
   public ongetItemsByProjectWithPagination(projectId,data,pageNO) {
+    // console.log('localStorage.getItem'
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     };
