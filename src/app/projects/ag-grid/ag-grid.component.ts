@@ -268,7 +268,6 @@ export class AgGridComponent implements OnInit {
     this.itemSelectionViewI = this.gridEventsComponent.itemSelectionViewI
     this.SelectedRowData = this.gridEventsComponent.SelectedRowData
     this.noOfSelectedRows = this.gridEventsComponent.noOfSelectedRows
-    event.api.setRowData(this.items)
   }
   getfilelds(e) {
     this.GetFields.emit();
