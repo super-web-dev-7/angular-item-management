@@ -35,8 +35,8 @@ id="edit-single-model"
                   <div *ngIf="itemType == 'select' &&  fields[itemId]">
                     <select id="select" (change)="onChangeSelectValue($event)"  class="form-control" [value]="SelectedSingleRowData[fieldName[itemId]]"
                     [name]="fieldName[itemId]" >
-                      <option *ngFor="let field of fields[itemId].optionsForSelect">
-                        {{field}}
+                      <option *ngFor="let field of fields[itemId].options.optionsForSelect">
+                        {{field.value}}
                       </option>                   
                     </select>
                   </div>

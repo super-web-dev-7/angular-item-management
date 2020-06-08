@@ -88,7 +88,7 @@ export class AgGridComponent implements OnInit {
           });
         }
         if (field.type == 5) {
-          if (field.optionsForSelect) {
+          if (field.options && field.options.optionsForSelect) {
             this.itemCulomns.push({
               headerName: field.label,
               field: field.techName,
@@ -101,7 +101,7 @@ export class AgGridComponent implements OnInit {
               filter: 'FilterInputComponent',
               menuTabs: ['filterMenuTab'],
               cellEditorParams: {
-                values: field.optionsForSelect
+                values: field.options.optionsForSelect.map((option) => option.value)
               },
             });
           }

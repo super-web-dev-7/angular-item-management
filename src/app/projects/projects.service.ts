@@ -12,4 +12,8 @@ import { environment } from '../../environments/environment';
       return this.httpClient.get(environment.apiUrl+"/project");
     }
 
+    public getFieldsByProject(projectId) {
+      return this.httpClient.get(`${environment.apiUrl}/project/fields/${projectId}`);
+    }
+
   }

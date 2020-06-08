@@ -1,3 +1,3 @@
 <div class="container-fluid padding-25 sm-padding-10 sm-gutter">
-    <app-project-box  *ngFor="let project of projects" [name]="project.name" [description]="project.description" [id]="project._id"></app-project-box>
+    <app-project-box  *ngFor="let project of projects" [type]="project.projectType" [name]="project.name" [description]="project.description" [id]="project._id"></app-project-box>
 </div>

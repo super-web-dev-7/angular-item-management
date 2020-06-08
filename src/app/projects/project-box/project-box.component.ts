@@ -20,7 +20,6 @@ export class ProjectBoxComponent implements OnInit {
 
   openProject() {
     this.router.navigate(['/projects', this.id]);
-    localStorage.setItem('ProjectId', this.id)
   }
 
 }

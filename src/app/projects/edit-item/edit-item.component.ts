@@ -4,6 +4,7 @@ import { ModalDirective } from "ngx-bootstrap";
 import { ItemsService } from "../items-list/items.service";
 import { EventEmitter } from "@angular/core";
 import { FieldService } from "../../fields/field.service";
+import { ProjectsService } from "../projects.service";
 
 @Component({
   selector: "app-edit-item",
@@ -27,7 +28,7 @@ export class EditItemComponent implements OnInit {
   data = {};
   items;
   blankfill = ''
-  constructor(private itemsService: ItemsService,private fieldService: FieldService
+  constructor(private itemsService: ItemsService,private projectsService: ProjectsService
     ) {
      }
 
@@ -92,13 +93,13 @@ export class EditItemComponent implements OnInit {
 		if(value == 'hide'){
 			
 			this.newItemPopup.hide();
-			this.fieldService.getFields().subscribe((fields: any) => {
+			this.projectsService.getFieldsByProject(this.projectId).subscribe((fields: any) => {
 				this.fields = ''
 			})
 		}else{
 			
 			this.newItemPopup.show();
-			this.fieldService.getFields().subscribe((fields: any) => {
+			this.projectsService.getFieldsByProject(this.projectId).subscribe((fields: any) => {
 				this.fields = fields
 			})
 		}
