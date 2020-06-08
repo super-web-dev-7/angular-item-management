@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, SimpleChange } from '@angular/core';
 import { FieldType } from '../../models/FieldType';
-import { faFunction, IconDefinition, faText, faHashtag, faImages, faCalendarDay, faThList } from '@fortawesome/pro-duotone-svg-icons';
+import { faFunction, IconDefinition, faText, faHashtag, faImages, faCalendarDay, faThList, faLineHeight } from '@fortawesome/pro-duotone-svg-icons';
 
 @Component({
   selector: 'app-field-type',
@@ -64,6 +64,11 @@ export class FieldTypeComponent implements OnInit {
         this.typeText = "Selection List";
         this.typeIcon = faThList;
         this.typeClass = "dropdown";
+        break;
+      case FieldType.TEXTAREA:
+        this.typeText = "Long Text";
+        this.typeIcon = faLineHeight;
+        this.typeClass = "textarea";
         break;
     }
   }

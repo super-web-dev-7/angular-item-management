@@ -29,7 +29,8 @@ export class NumberFormComponent implements OnInit {
   initNumberForm() {
     return this.fb.group({
       minValue: [''],
-      maxValue: ['']
+      maxValue: [''],
+      allowDecimal: [''],
     });
   }
 

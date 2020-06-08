@@ -27,7 +27,10 @@ export class DropdownFormComponent implements OnInit {
 
   initDropdownForm() {
     return this.fb.group({
-      optionsForSelect: ['']
+      optionsForSelect: [''],
+      filterable: [''],
+      multipleSelect: [''],
+      insertUnknown: [''],
     });
   }
 

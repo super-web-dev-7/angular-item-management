@@ -55,7 +55,7 @@ export class MultiselectEditorComponent implements OnInit, ControlValueAccessor 
   writeValue(obj: any): void {
     let optionsToSet = [];
     if (obj && Array.isArray(obj)) {
-      optionsToSet = obj;
+      optionsToSet = [...obj];
     }
     this.options = optionsToSet;
   }
@@ -103,6 +103,8 @@ export class MultiselectEditorComponent implements OnInit, ControlValueAccessor 
   afterAddNewOption() {
     if (this.validateNewOption()) {
       this.newOptionError = {empty: false, duplicated: false};
+      console.log(this.newOption);
+      console.log(this.options);
       this.options.unshift({ ...this.newOption });
       this.newOption = null;
       this.onOptionsChanged();

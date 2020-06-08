@@ -65,7 +65,8 @@ export class FieldFormComponent implements OnInit, OnDestroy {
       _id: [''],
       label: [''],
       type: [''],
-      isRequired: ['']
+      isRequired: [''],
+      readonly: [''],
     });
   }
 

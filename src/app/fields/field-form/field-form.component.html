@@ -18,9 +18,17 @@
                                     [isChecked]="fieldsForm.get('isRequired')">
                                 </app-switch-editor>
                             </fieldset>
+                            <fieldset class="form-group">
+                                <app-switch-editor formControlName="readonly" label="Readonly"
+                                    [isChecked]="fieldsForm.get('readonly')">
+                                </app-switch-editor>
+                            </fieldset>
                             <app-dropdown-form *ngSwitchCase="getFieldType().DROPDOWN" [fieldForm]="fieldsForm"
                                 [field]="field"></app-dropdown-form>
                             <app-text-form *ngSwitchCase="getFieldType().TEXT" [fieldForm]="fieldsForm" [field]="field">
+                            </app-text-form>
+                            <app-text-form *ngSwitchCase="getFieldType().TEXTAREA" [fieldForm]="fieldsForm"
+                                [field]="field">
                             </app-text-form>
                             <app-date-form *ngSwitchCase="getFieldType().DATE" [fieldForm]="fieldsForm" [field]="field">
                             </app-date-form>
