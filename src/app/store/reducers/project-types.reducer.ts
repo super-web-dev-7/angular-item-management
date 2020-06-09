@@ -15,6 +15,13 @@ const reducer = createReducer(
       types: payload
     };
   }),
+  on(ProjectTypesActions.BeginCreateProjectTypeAction, state => state),
+  on(ProjectTypesActions.SuccessCreateProjectTypeAction, (state: ProjectTypesState, { payload }) => {
+    return {
+      ...state,
+      types: [...state.types, payload]
+    };
+  }),
 );
 
 export function ProjectTypesReducer(state: ProjectTypesState | undefined, action: Action) {

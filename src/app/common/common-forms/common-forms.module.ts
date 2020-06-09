@@ -4,6 +4,7 @@ import { CreateProjectComponent } from './create-project/create-project.componen
 import { ModalsModule } from '../modal/modals.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { pgSelectModule } from '@app/@pages/components/select/select.module';
+import { CreateProjectTypeComponent } from './create-project-type/create-project-type.component';
 
 @NgModule({
   imports:[CommonModule,
@@ -11,9 +12,9 @@ import { pgSelectModule } from '@app/@pages/components/select/select.module';
            FormsModule,
            ReactiveFormsModule,
            pgSelectModule],
-  declarations: [CreateProjectComponent
+  declarations: [CreateProjectComponent, CreateProjectTypeComponent
   ],
-  exports: [CreateProjectComponent]
+  exports: [CreateProjectComponent, CreateProjectTypeComponent]
 })
 export class CommonFormsModule {
 }

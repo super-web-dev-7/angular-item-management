@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProjectTypeService } from '../project-type.service';
 import { ProjectTypesState } from '@app/store/states/project-types.state';
 import { Store } from '@ngrx/store';
 import { getTypes } from '@app/store/reducers/project-types.reducer';
 import * as  ProjectTypesActions from '@app/store/actions/project-types.actions';
+import { CreateProjectTypeComponent } from '@app/common/common-forms/create-project-type/create-project-type.component';
 
 
 @Component({
@@ -15,6 +16,9 @@ export class ProjectTypesListComponent implements OnInit {
 
   public projectTypes;
 
+  @ViewChild("createProjectTypeModal", {static: false})
+  public createProjectTypeModal: CreateProjectTypeComponent;
+  
   constructor(private store: Store<ProjectTypesState>) {
 
   }
@@ -28,6 +32,11 @@ export class ProjectTypesListComponent implements OnInit {
       );
 
     this.store.dispatch(ProjectTypesActions.GetProjectTypesAction());
+  }
+
+  openCreateProjectType() {
+    console.log(this.createProjectTypeModal);
+    this.createProjectTypeModal.show();
   }
 
 }

@@ -7,12 +7,13 @@ import { catchError, map, mergeMap, take } from 'rxjs/operators';
 import * as ProjectTypesActions from '@store/actions/project-types.actions';
 import { environment } from 'environments/environment';
 import { IField } from '@app/models/field.model';
+import { IProjectType } from '@app/models/project-type.model';
 
 @Injectable()
 export class ProjectTypesEffects {
   constructor(private http: HttpClient, private action$: Actions) {}
 
-  GetFields$: Observable<Action> = createEffect(() =>
+  GetProjectTypes$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(ProjectTypesActions.GetProjectTypesAction),
       mergeMap(action =>
@@ -28,5 +29,20 @@ export class ProjectTypesEffects {
       take(1)
     )
   );
+  CreateProject$: Observable<Action> = createEffect(() =>
+  this.action$.pipe(
+    ofType(ProjectTypesActions.BeginCreateProjectTypeAction),
+    mergeMap(action =>
+      this.http.post(`${environment.apiUrl}/project-type`, action.payload).pipe(
+        map((projectType: IProjectType[]) => {
+          return ProjectTypesActions.SuccessCreateProjectTypeAction({ payload: projectType });
+        }),
+        catchError((error: Error) => {
+          return of(ProjectTypesActions.ErrorProjectTypesAction(error));
+        })
+      )
+    )
+  ),
+);
 }
 

@@ -1,3 +1,9 @@
 <div class="container-fluid padding-25 sm-padding-10 sm-gutter">
+  <div class="p-t-20 p-b-20">
+    <button class="btn btn-primary" (click)="openCreateProjectType()">+ New Type</button>
+  </div>
+
   <app-project-type-box *ngFor="let projectType of projectTypes" [id]="projectType._id" [name]="projectType.name"></app-project-type-box>
 </div>
+
+<app-create-project-type #createProjectTypeModal></app-create-project-type>
