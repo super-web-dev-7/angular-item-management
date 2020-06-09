@@ -242,11 +242,18 @@ export class AgGridComponent implements OnInit {
             }
         });
         this.columnLoaded = true;
-        this.itemColumns.unshift({});
+        this.itemColumns.unshift({
+            editable: false,
+            resizable: false,
+            lockPosition: true,
+            sortingOrder: [null],
+            cellClass: 'locked-col',
+            suppressMenu: true
+        });
 
         this.itemColumns[0]['headerCheckboxSelection'] = true;
         this.itemColumns[0]['checkboxSelection'] = true;
-        this.itemColumns[0]['rowDrag'] = true;
+        this.itemColumns[0]['rowDrag'] = false;
         this.itemColumns[0]['valueGetter'] = '\'\'';
         this.itemColumns[0]['lockPosition'] = true;
 
@@ -366,6 +373,10 @@ export class AgGridComponent implements OnInit {
     }
 
     oncolumnMoved(event) {
+        console.log(event)
+        if (event.toIndex === 0) {
+            return;
+        }
         this.RowColumnDragComponent.columnMove(event);
         this.itemColumns = this.RowColumnDragComponent.itemColumns;
         this.columnMoved = this.RowColumnDragComponent.columnMoved;
