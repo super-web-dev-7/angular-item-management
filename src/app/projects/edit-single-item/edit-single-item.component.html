@@ -1,123 +1,133 @@
 <div
-bsModal
-#newItemPopup="bs-modal"
-class="modal fade slide-right cz-edit"
-tabindex="-1"
-role="dialog"
-id="edit-single-model"
+        bsModal
+        #newItemPopup="bs-modal"
+        class="modal fade slide-right cz-edit"
+        tabindex="-1"
+        role="dialog"
+        id="edit-single-model"
 >
-<div class="modal-dialog">
-  <div class="modal-content-wrapper">
-    <div class="modal-content">
-      <button
-        type="button"
-        class="close"
-        (click)="closeModel($event)"
-        aria-hidden="true"
-      >
-        <i class="pg pg-close fs-14"></i>
-      </button>
-<pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true" >
-  <pg-tab >
-      <ng-template #TabHeading>
-        Edit Row Detail
-      </ng-template>
-      <div id="TabEdit" class="tabcontent">
-        <div class="container-xs-height full-height">
-          <div class="row-xs-height">
-            <div class="modal-body col-xs-height col-middle text-center p-up">
-              <div
-                class="form-group row"
-                *ngFor="let itemType of fieldType; index as itemId"
-              >
-                <label for="textfield7" class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
-                <div class="col-sm-8">
-                  <div *ngIf="itemType == 'select' &&  fields[itemId]">
-                    <select id="select" (change)="onChangeSelectValue($event)"  class="form-control" [value]="SelectedSingleRowData[fieldName[itemId]]"
-                    [name]="fieldName[itemId]" >
-                      <option *ngFor="let field of fields[itemId].options.optionsForSelect">
-                        {{field.value}}
-                      </option>                   
-                    </select>
-                  </div>
-                  <div *ngIf="itemType !== 'select'">
-                  <input *ngIf="(itemType !== 'file') && (itemType !== 'date')"
-                    [value]="SelectedSingleRowData[fieldName[itemId]] == undefined ? '' : SelectedSingleRowData[fieldName[itemId]]"
-                    [id]="fieldName[itemId]"               
-                    [type]="itemType"
-                    class="form-control"
-                    [name]="fieldName[itemId]"
-                    (input)="onFieldValuek($event)"
-                  />
-				  <input *ngIf="itemType == 'date'"
-                    [value]="SelectedSingleRowData[fieldName[itemId]] == undefined ? '' : SelectedSingleRowData[fieldName[itemId]]  | date: 'yyyy-MM-dd'"
-                    [id]="fieldName[itemId]"               
-                    [type]="itemType"
-                    class="form-control"
-                    [name]="fieldName[itemId]"
-                    (input)="onFieldValuek($event)"
-                  />
-                <input *ngIf="itemType == 'file'"
-                [id]="fieldName[itemId]"               
-                [type]="itemType"
-                class="form-control"
-                [name]="fieldName[itemId]"
-                (input)="onFieldValuek($event)"
-              />
-                </div>
-                </div>
-              </div>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                (click)="onEditItem()"
-              >
-                Edit Item
-              </button>
-            </div>
-  
-          </div>
-        </div>
-      </div>
-  </pg-tab>
-  <pg-tab>
-      <ng-template #TabHeading>
-          Comments
-      </ng-template>
-      <div id="TabComment" class="tabcontent">
-        <div class="container-xs-height full-height">
-          <div class="row-xs-height">
-            <div class="modal-body col-xs-height col-middle text-center">
-              <div class="recent-comment">
-                <ul>
-                  <li *ngFor="let comments of selectedRowComments; index as i" >
-                    <p class="cz-p-text-style"*ngIf="!commentEditingMode">{{comments.content}}</p>
-                     <textarea id="{{comments._id}}" *ngIf="commentEditingMode && EditableCommentId == comments._id " rows="4" cols="50"  (mouseleave)="mouseOutFromTaxtArea($event, comments._id,comments.content)" >{{comments.content}}</textarea>
-                    <span class="comment-date" id="date"> {{ comments.createdTime | date:'medium' }} </span>
-                    <div class="coment-action">
-                    <span class="comment-delete-btn"><button (click)="deleteComment(comments._id)">Delete</button></span>
-                    <span class="comment-edit-btn"><button (click)="editComment(comments._id)">Edit</button></span>
-                  </div>
-                  </li>
-                </ul>
-                <textarea  rows="4" cols="50" id="comment" [(ngModel)]='comment' name="comment" ></textarea>
+    <div class="modal-dialog">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
                 <button
-                  type="submit"
-                  class="btn btn-primary"
-                  (click)="addComment()"          
+                        type="button"
+                        class="close"
+                        (click)="closeModel($event)"
+                        aria-hidden="true"
                 >
-                 Add Comment
+                    <i class="pg pg-close fs-14"></i>
                 </button>
-              </div>      
+                <pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true">
+                    <pg-tab>
+                        <ng-template #TabHeading>
+                            Edit Row Detail
+                        </ng-template>
+                        <div id="TabEdit" class="tabcontent">
+                            <div class="container-xs-height full-height">
+                                <div class="row-xs-height">
+                                    <div class="modal-body col-xs-height col-middle text-center p-up">
+                                        <div class="form-group row"
+                                                *ngFor="let itemType of fieldType; index as itemId">
+
+                                            <label for="textfield7"
+                                                   class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
+                                            <div class="col-sm-8">
+                                                <div *ngIf="itemType === 'select' &&  fields[itemId]">
+                                                    <select id="select" (change)="onChangeSelectValue($event)"
+                                                            class="form-control"
+                                                            [value]="SelectedSingleRowData[fieldName[itemId]]"
+                                                            [name]="fieldName[itemId]">
+                                                        <option *ngFor="let field of fields[itemId].options.optionsForSelect">
+                                                            {{field.value}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div *ngIf="itemType !== 'select'">
+                                                    <input *ngIf="(itemType !== 'file') && (itemType !== 'date')"
+                                                           [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? '' : SelectedSingleRowData[fieldName[itemId]]"
+                                                           [id]="fieldName[itemId]"
+                                                           [type]="itemType"
+                                                           class="form-control"
+                                                           [name]="fieldName[itemId]"
+                                                           (input)="onFieldValuek($event)"
+                                                    />
+                                                    <input *ngIf="itemType === 'date'"
+                                                           [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? '' : SelectedSingleRowData[fieldName[itemId]]  | date: 'yyyy-MM-dd'"
+                                                           [id]="fieldName[itemId]"
+                                                           [type]="itemType"
+                                                           class="form-control"
+                                                           [name]="fieldName[itemId]"
+                                                           (input)="onFieldValuek($event)"
+                                                    />
+                                                    <input *ngIf="itemType === 'file'"
+                                                           [id]="fieldName[itemId]"
+                                                           [type]="itemType"
+                                                           class="form-control"
+                                                           [name]="fieldName[itemId]"
+                                                           (input)="onFieldValuek($event)"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button
+                                                type="submit"
+                                                class="btn btn-primary"
+                                                (click)="onEditItem()"
+                                        >
+                                            Edit Item
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </pg-tab>
+                    <pg-tab>
+                        <ng-template #TabHeading>
+                            Comments
+                        </ng-template>
+                        <div id="TabComment" class="tabcontent">
+                            <div class="container-xs-height full-height">
+                                <div class="row-xs-height">
+                                    <div class="modal-body col-xs-height col-middle text-center">
+                                        <div class="recent-comment">
+                                            <ul>
+                                                <li *ngFor="let comments of selectedRowComments; index as i">
+                                                    <p class="cz-p-text-style"
+                                                       *ngIf="!commentEditingMode">{{comments.content}}</p>
+                                                    <textarea id="{{comments._id}}"
+                                                              *ngIf="commentEditingMode && EditableCommentId === comments._id "
+                                                              rows="4" cols="50"
+                                                              (mouseleave)="mouseOutFromTaxtArea($event, comments._id,comments.content)">{{comments.content}}</textarea>
+                                                    <span class="comment-date"
+                                                          id="date"> {{ comments.createdTime | date:'medium' }} </span>
+                                                    <div class="coment-action">
+                                                        <span class="comment-delete-btn"><button
+                                                                (click)="deleteComment(comments._id)">Delete</button></span>
+                                                        <span class="comment-edit-btn"><button
+                                                                (click)="editComment(comments._id)">Edit</button></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <textarea rows="4" cols="50" id="comment" [(ngModel)]='comment'
+                                                      name="comment"></textarea>
+                                            <button
+                                                    type="submit"
+                                                    class="btn btn-primary"
+                                                    (click)="addComment()"
+                                            >
+                                                Add Comment
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </pg-tab>
+                </pg-tabset>
+
+
             </div>
-          </div>
         </div>
-      </div>
-  </pg-tab>
-</pg-tabset>
-
-
-</div>
-</div>
-</div>
+    </div>
 </div>

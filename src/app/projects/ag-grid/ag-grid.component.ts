@@ -89,8 +89,8 @@ export class AgGridComponent implements OnInit {
     }
 
     onGridReady(event) {
-        console.log(this.items)
-        console.log(this.itemColumns)
+        console.log(this.items);
+        console.log(this.itemColumns);
         localStorage.removeItem('gridHeader');
         this.ongridEventData = event;
         this.gridApi = event.api;
@@ -248,6 +248,7 @@ export class AgGridComponent implements OnInit {
         this.itemColumns[0]['checkboxSelection'] = true;
         this.itemColumns[0]['rowDrag'] = true;
         this.itemColumns[0]['valueGetter'] = '\'\'';
+        this.itemColumns[0]['lockPosition'] = true;
 
         for (let j = 1; j < this.itemColumns.length; j++) {
             this.itemColumns[j]['headerCheckboxSelection'] = false;
