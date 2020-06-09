@@ -42,7 +42,8 @@
               "src/assets/plugins/modernizr.custom.js",
               "src/assets/plugins/codrops-stepsform/js/classie.js",
               "src/assets/plugins/codrops-stepsform/js/stepsForm.js",
-              "src/assets/plugins/skycons/skycons.js"
+              "src/assets/plugins/skycons/skycons.js",
+              "node_modules/zone.js/dist/zone.js"
             ]
           },
           "configurations": {
