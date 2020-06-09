@@ -23,7 +23,7 @@ export class ItemsSelectionComponent implements OnInit {
   @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
   @Output() cleanCheckboxes: EventEmitter<any> = new EventEmitter();
   copyData = []
-  itemCulomns = [];
+  itemColumns = [];
   itemFields;
   items;
   defaultColDef;

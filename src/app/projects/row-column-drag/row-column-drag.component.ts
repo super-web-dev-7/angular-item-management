@@ -7,7 +7,7 @@ import { FieldService } from "../../fields/field.service";
   styleUrls: ['./row-column-drag.component.scss']
 })
 export class RowColumnDragComponent implements OnInit {
- @Input() itemCulomns;
+ @Input() itemColumns;
  @Input() columnMoved;
 
   constructor(
@@ -18,11 +18,11 @@ export class RowColumnDragComponent implements OnInit {
   ngOnInit() {
   }
   columnMove(event) {
-    const found = this.itemCulomns.find(element => element.headerName == event.column.userProvidedColDef.headerName);
+    const found = this.itemColumns.find(element => element.headerName == event.column.userProvidedColDef.headerName);
     if (found) {
-      const index = this.itemCulomns.indexOf(found);
-      this.addAndRemovecolumn(this.itemCulomns, index, event.toIndex)
-      localStorage.setItem('gridHeader', JSON.stringify(this.itemCulomns))
+      const index = this.itemColumns.indexOf(found);
+      this.addAndRemovecolumn(this.itemColumns, index, event.toIndex)
+      localStorage.setItem('gridHeader', JSON.stringify(this.itemColumns))
       this.columnMoved = true;
       
     }

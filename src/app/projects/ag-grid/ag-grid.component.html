@@ -21,7 +21,7 @@
                  [itemSelectionViewI]="itemSelectionViewI" [itemSelectionView]="itemSelectionView"
                  [agGridComponent]="agGridComponent"
                  [celldbclicked]="celldbclicked"></app-grid-events>
-<app-row-column-drag #RowColumnDragComponent [itemCulomns]="itemCulomns" [columnMoved]="columnMoved">
+<app-row-column-drag #RowColumnDragComponent [itemColumns]="itemColumns" [columnMoved]="columnMoved">
 </app-row-column-drag>
 <app-show-hide-checkbox #showHideCheckboxComponent [pageNo]="pageNo"></app-show-hide-checkbox>
 <app-item-details #itemDetails></app-item-details>
@@ -50,7 +50,7 @@
                  [domLayout]="'autoHeight'"
                  [rowData]="items"
                  [rowStyle]="rowStyle"
-                 [columnDefs]="itemCulomns"
+                 [columnDefs]="itemColumns"
                  [rowSelection]="rowSelection"
                  [defaultColDef]="defaultColDef"
                  [rowDragManaged]="true"

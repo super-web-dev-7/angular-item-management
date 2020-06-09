@@ -45,7 +45,7 @@ export class AgGridComponent implements OnInit {
     columnMoved;
     @Input() datainarry;
     @Input() celldbclicked;
-    @Input() itemCulomns;
+    @Input() itemColumns;
     @Input() fieldName;
     @Input() fieldType;
     @Input() fieldslable;
@@ -89,6 +89,8 @@ export class AgGridComponent implements OnInit {
     }
 
     onGridReady(event) {
+        console.log(this.items)
+        console.log(this.itemColumns)
         localStorage.removeItem('gridHeader');
         this.ongridEventData = event;
         this.gridApi = event.api;
@@ -101,7 +103,7 @@ export class AgGridComponent implements OnInit {
         fields.forEach(field => {
             if (!localStorage.getItem('gridHeader')) {
                 if (field.type === 3) {
-                    this.itemCulomns.push({
+                    this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
                         editable: true,
@@ -127,7 +129,7 @@ export class AgGridComponent implements OnInit {
                 }
                 if (field.type === 5) {
                     if (field.options && field.options.optionsForSelect) {
-                        this.itemCulomns.push({
+                        this.itemColumns.push({
                             headerName: field.label,
                             field: field.techName,
                             editable: true,
@@ -145,7 +147,7 @@ export class AgGridComponent implements OnInit {
                     }
                 }
                 if (field.type === 1) {
-                    this.itemCulomns.push({
+                    this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
                         editable: true,
@@ -175,7 +177,7 @@ export class AgGridComponent implements OnInit {
                     });
                 }
                 if (field.type !== 5 && field.type !== 3 && field.type !== 1) {
-                    this.itemCulomns.push({
+                    this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
                         editable: true,
@@ -187,6 +189,7 @@ export class AgGridComponent implements OnInit {
                         sortingOrder: ['asc', 'desc', null],
                     });
                 }
+
                 this.fieldslable.push(field.label);
                 this.fieldName.push(field.techName);
                 if (field.type === 0) {
@@ -234,18 +237,22 @@ export class AgGridComponent implements OnInit {
                 } else {
                     this.fieldType.push('text');
                 }
-                this.itemCulomns = [];
-                this.itemCulomns = JSON.parse(localStorage.getItem('gridHeader'));
+                this.itemColumns = [];
+                this.itemColumns = JSON.parse(localStorage.getItem('gridHeader'));
             }
         });
         this.columnLoaded = true;
-        this.itemCulomns[0]['headerCheckboxSelection'] = true;
-        this.itemCulomns[0]['checkboxSelection'] = true;
-        this.itemCulomns[0]['rowDrag'] = true;
-        for (let j = 1; j < this.itemCulomns.length; j++) {
-            this.itemCulomns[j]['headerCheckboxSelection'] = false;
-            this.itemCulomns[j]['checkboxSelection'] = false;
-            this.itemCulomns[j]['rowDrag'] = false;
+        this.itemColumns.unshift({});
+
+        this.itemColumns[0]['headerCheckboxSelection'] = true;
+        this.itemColumns[0]['checkboxSelection'] = true;
+        this.itemColumns[0]['rowDrag'] = true;
+        this.itemColumns[0]['valueGetter'] = '\'\'';
+
+        for (let j = 1; j < this.itemColumns.length; j++) {
+            this.itemColumns[j]['headerCheckboxSelection'] = false;
+            this.itemColumns[j]['checkboxSelection'] = false;
+            this.itemColumns[j]['rowDrag'] = false;
         }
     }
 
@@ -359,7 +366,7 @@ export class AgGridComponent implements OnInit {
 
     oncolumnMoved(event) {
         this.RowColumnDragComponent.columnMove(event);
-        this.itemCulomns = this.RowColumnDragComponent.itemCulomns;
+        this.itemColumns = this.RowColumnDragComponent.itemColumns;
         this.columnMoved = this.RowColumnDragComponent.columnMoved;
     }
 
