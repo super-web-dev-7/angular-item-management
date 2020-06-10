@@ -96,7 +96,6 @@ export class AppHammerConfig extends HammerGestureConfig {
         RootLayout,
         BlankCorporateComponent,
         pgCardSocial,
-        ModalComponent,
     ],
     imports: [
         BrowserModule,
