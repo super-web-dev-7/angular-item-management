@@ -64,6 +64,11 @@ export class AgGridComponent implements OnInit {
     @Output('getItems') getItems: EventEmitter<any> = new EventEmitter();
     shorted = false;
     rowStyle: any;
+    rowClassRules: any;
+    selectedRow: any = -1;
+    gridOption: any = {
+        rowClass: ''
+    };
 
     constructor(
         private itemsService: ItemsService,
@@ -79,13 +84,14 @@ export class AgGridComponent implements OnInit {
             resizeable: true,
             editable: true,
             sortable: true,
-            filter: true,
-
+            filter: true
         };
         this.rowSelection = 'multiple';
         this.rowStyle = {
             cursor: 'pointer'
         };
+        console.log('aaaaaaaaaaaa')
+        // this.gridOption.rowClass = 'selected-row-background';
     }
 
     onGridReady(event) {
@@ -292,11 +298,11 @@ export class AgGridComponent implements OnInit {
         }
     }
 
-    oncellMouseOver(event) {
+    onCellMouseOver(event) {
         this.gridEventsComponent.oncellMouseOver(event);
     }
 
-    oncellMouseOut(event) {
+    onCellMouseOut(event) {
         const found = this.SelectedRowData.find(element => element.page === this.pageNo);
         if (!this.showAllCheckBox) {
             if (this.SelectedRowData.length === 0) {
@@ -324,6 +330,19 @@ export class AgGridComponent implements OnInit {
         this.itemSelectionViewI = this.gridEventsComponent.itemSelectionViewI;
         this.SelectedRowData = this.gridEventsComponent.SelectedRowData;
         this.noOfSelectedRows = this.gridEventsComponent.noOfSelectedRows;
+    }
+
+    onCellClicked(event) {
+
+        // tslint:disable-next-line:max-line-length
+        const selectedElement = document.querySelector('.ag-body-viewport div[role="rowgroup"] div[role="row"][row-index="' + this.selectedRow + '"]');
+
+        if (selectedElement) {
+            selectedElement.setAttribute('selected', 'false');
+        }
+
+        event.source.eBodyRow.setAttribute('selected', 'true');
+        this.selectedRow = event.rowIndex;
     }
 
     getfilelds(e) {

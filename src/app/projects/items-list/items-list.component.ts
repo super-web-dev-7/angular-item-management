@@ -109,7 +109,6 @@ export class ItemsListComponent implements OnInit {
         this.fieldType = [];
         this.projectService.getFieldsByProject(this.projectId).subscribe((fields: any) => {
             this.fields = fields;
-            console.log('fields >>>>. ', fields)
             this.agGridComponent.setItemColumns(fields);
             this.columnLoaded = this.agGridComponent.columnLoaded;
             this.itemColumns = this.agGridComponent.itemColumns;

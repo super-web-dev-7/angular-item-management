@@ -1,51 +1,56 @@
-import { Component, OnInit, ViewChild ,Input} from '@angular/core';
+import {Component, OnInit, ViewChild, Input} from '@angular/core';
+
 @Component({
-  selector: 'app-show-hide-checkbox',
-  templateUrl: './show-hide-checkbox.component.html',
-  styleUrls: ['./show-hide-checkbox.component.scss']
+    selector: 'app-show-hide-checkbox',
+    templateUrl: './show-hide-checkbox.component.html',
+    styleUrls: ['./show-hide-checkbox.component.scss']
 })
 export class ShowHideCheckboxComponent implements OnInit {
- @Input() pageNo;
- @Input() shorted
- 
-  constructor() { }
+    @Input() pageNo;
+    @Input() shorted;
 
-  ngOnInit() {
-  }
-  hideSelectbox(event) {
-    document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-      element.setAttribute("style", "display: none");
-    });
-  }
-  showSelectbox(event) {
-    if(event.node.id != event.rowIndex.toString() ){
-      document.querySelectorAll(".ag-selection-checkbox")[ event.rowIndex.toString()]
-      var data = document.querySelectorAll(".ag-selection-checkbox")[ event.rowIndex.toString()];
-      if (data) {
-        data.setAttribute("style", "display: block");
-      }
-    }else{
-      document.querySelectorAll(".ag-selection-checkbox")[event.node.id]
-      var data = document.querySelectorAll(".ag-selection-checkbox")[event.node.id];
-      if (data) {
-        data.setAttribute("style", "display: block");
-      }
+    constructor() {
     }
-  }
-  showCheckboxWithouEvent() {
-    document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-      element.setAttribute("style", "display: block");
-    })
-  }
+
+    ngOnInit() {
+    }
+
+    hideSelectbox(event) {
+        document.querySelectorAll('.ag-selection-checkbox').forEach((element) => {
+            element.setAttribute('style', 'display: none');
+        });
+    }
+
+    showSelectbox(event) {
+        if (event.node.id != event.rowIndex.toString()) {
+            // document.querySelectorAll('.ag-selection-checkbox')[event.rowIndex.toString()];
+            let data = document.querySelectorAll('.ag-selection-checkbox')[event.rowIndex.toString()];
+            if (data) {
+                data.setAttribute('style', 'display: block');
+            }
+        } else {
+            document.querySelectorAll('.ag-selection-checkbox')[event.node.id];
+            var data = document.querySelectorAll('.ag-selection-checkbox')[event.node.id];
+            if (data) {
+                data.setAttribute('style', 'display: block');
+            }
+        }
+    }
+
+    showCheckboxWithouEvent() {
+        document.querySelectorAll('.ag-selection-checkbox').forEach((element) => {
+            element.setAttribute('style', 'display: block');
+        });
+    }
 
 
-  onCustomHtmlLoad() {
-    document.querySelectorAll(".ag-selection-checkbox").forEach((element) => {
-      var x = Math.floor((Math.random() * 99999) + 1);
-      if (element) {
-        element.setAttribute("style", "display: none");
-        element.setAttribute("id", 'row' + this.pageNo + x);
-      }
-    });
-}
+    onCustomHtmlLoad() {
+        document.querySelectorAll('.ag-selection-checkbox').forEach((element) => {
+            var x = Math.floor((Math.random() * 99999) + 1);
+            if (element) {
+                element.setAttribute('style', 'display: none');
+                element.setAttribute('id', 'row' + this.pageNo + x);
+            }
+        });
+    }
 }
