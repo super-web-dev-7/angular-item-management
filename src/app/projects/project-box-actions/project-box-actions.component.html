@@ -1,0 +1,12 @@
+<ul>
+    <li>
+        <button (click)="onPin();$event.stopPropagation()">
+            <fa-icon [icon]="pinIcon" class="pinIcon"></fa-icon>
+        </button>
+    </li>
+    <li>
+        <button (click)="onDelete();$event.stopPropagation()">
+            <fa-icon [icon]="deleteIcon" class="deleteIcon"></fa-icon>
+        </button>
+    </li>
+</ul>

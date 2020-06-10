@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="toolbar">
+            <div class="btn-group">
+                <button type="button" (click)="createField()" class="btn btn-outline-secondary"><i
+                        class="fa fa-plus"></i>
+                    Add Field</button>
+            </div>
+            <!-- <div class="input-group search-group">
+                <input type="search" [(ngModel)]="filterQuery" class="form-control">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                </div>
+            </div> -->
+        </div>
+        <app-fields-list *ngIf="fields" #fieldsList [fields]="fields" [filter]="filterQuery" [onSelectField]="onSelectField"></app-fields-list>
+        <app-field-form (fieldChanged)="updateFieldInList($event)" #fieldForm></app-field-form>
+        <app-add-field #addFieldModal [projectTypeFields]="fields"></app-add-field>
+    </div>
+</div>

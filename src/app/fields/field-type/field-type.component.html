@@ -1,0 +1,9 @@
+<div class="field-type-box {{boxClass}} {{typeClass}}" [ngClass]="{'small': !isLarge,  'large': isLarge}">
+    <fa-icon [icon]="typeIcon" class="icon"></fa-icon>
+</div>
+<div class="field-type-description" *ngIf="isLarge">
+    <h5 class="m-t-0">{{typeText}}</h5>
+    <p>
+        {{typeDescription}}
+    </p>
+</div>

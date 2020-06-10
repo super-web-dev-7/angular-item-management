@@ -1,0 +1,21 @@
+<div [formGroup]="dropdownForm">
+    <fieldset class="form-group">
+        <app-switch-editor formControlName="filterable" label="Filter box"
+            [isChecked]="dropdownForm.get('filterable')">
+        </app-switch-editor>
+    </fieldset>
+    <fieldset class="form-group">
+        <app-switch-editor formControlName="insertUnknown" label="Allow insert unknown"
+            [isChecked]="dropdownForm.get('insertUnknown')">
+        </app-switch-editor>
+    </fieldset>
+    <fieldset class="form-group">
+        <app-switch-editor formControlName="multipleSelect" label="Multiple selection"
+            [isChecked]="dropdownForm.get('multipleSelect')">
+        </app-switch-editor>
+    </fieldset>
+    <fieldset class="form-group">
+        <app-multiselect-editor formControlName="optionsForSelect">
+        </app-multiselect-editor>
+    </fieldset>
+</div>

@@ -1,0 +1,8 @@
+<app-fields-list #fieldsList *ngIf="fields" [fields]="fields" [rowsPerPage]="20" [filter]="filterQuery"
+    [multiSelect]="true">
+</app-fields-list>
+<div class="col-sm-12 confirm-btn">
+    <div class="btn-group mt-10">
+        <button type="button" class="btn btn-primary btn-sm" (click)="addFields()">Continue</button>
+    </div>
+</div>

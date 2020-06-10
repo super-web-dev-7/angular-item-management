@@ -28,6 +28,7 @@ import { MenuIconComponent } from './menu/menu-icon.component';
 import { ListItemComponent} from './list-view/list-item/list-item.component';
 import { ListViewContainerComponent } from './list-view/list-view-container/list-view-container.component';
 import { pgRetinaDirective } from './retina/retina.directive';
+import { CommonFormsModule } from '@app/common/common-forms/common-forms.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -39,7 +40,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ObserversModule,
     TypeaheadModule.forRoot(),
     PerfectScrollbarModule,
-    RouterModule
+    RouterModule,
+    CommonFormsModule
   ],
   declarations: [
   SecondarySidebarComponent,

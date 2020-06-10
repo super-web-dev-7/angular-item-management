@@ -1,0 +1,34 @@
+<app-modal #createFieldModal [hideFooter]="true" [onCancel]="onCancel" [size]="size">
+  <div class="app-modal-header">
+    <h5>Add Field</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="close()"><span
+        aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="app-modal-body">
+    <div class="row" *ngIf="!shouldCreateNewField && !shouldAddExistingField">
+      <div class="col-sm-6">
+        <div class="bg-primary add-field-option" (click)="onSelectNewFieldOption()">
+          <h2 class="text-white">New Field</h2>
+          <span class="text-white">Create a new Field</span>
+          <i class="fas fa-plus f-70 text-white"></i>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="bg-primary add-field-option" (click)="onSelectExistingFieldOption()">
+          <h2 class="text-white">Existing field</h2>
+          <span class="text-white">Add Exiting Field from other project type</span>
+          <fa-icon [icon]="existingFieldIcon" size="5x" class="icon"></fa-icon>
+          <i class="fa fa-link f-70 text-white"></i>
+        </div>
+      </div>
+    </div>
+
+    <app-create-field (createdFieldOutput)="afterFieldCreated($event)" *ngIf="shouldCreateNewField"></app-create-field>
+    <app-existing-field-select (selectedFieldsOutput)="afterFieldCreated($event)" [projectTypeFields]="projectTypeFields" *ngIf="shouldAddExistingField"></app-existing-field-select>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="createFieldModal.hide()">Cancel</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+      (click)="createFieldModal.hide()">Cancel</button>
+  </div>
+</app-modal>

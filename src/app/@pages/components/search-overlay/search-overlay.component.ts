@@ -48,34 +48,6 @@ export class SearchOverlayComponent implements OnDestroy {
   @ViewChild('searchField', { static: true })
   searchField: any;
 
-  @HostListener('document:keypress', ['$event']) onKeydownHandler(e) {
-    var nodeName = e.target.nodeName;
-    //Ignore When focus on input, textarea & contenteditable
-    if (nodeName == 'INPUT' || nodeName == 'TEXTAREA' || e.target.contentEditable == "true") {
-        return;
-    }
-    //Ignore Escape
-  	if (this.isVisible && e.keyCode == 27) {
-  		this.isVisible = false;
-  		this.value = "";
-  	}
-    //Ignore Keyes
-    if (e.which !== 0 && e.charCode !== 0 && !e.ctrlKey && !e.metaKey && !e.altKey && e.keyCode != 27) {
-    	this.isVisible = true;
-    	if(!this.value)
-        	this.value = String.fromCharCode(e.keyCode | e.charCode);
-          
-      this.searchField.nativeElement.focus();
-    }
-  }
-
-  searchKeyPress(event){
-    if (this.isVisible && event.keyCode == 27) {
-      this.isVisible = false;
-      this.value = "";
-    }
-  }
-
   fadeInComplete(){
   }
 }

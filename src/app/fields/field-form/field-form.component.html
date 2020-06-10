@@ -1,0 +1,59 @@
+<app-modal #fieldFormModal [position]="position" [size]="size">
+    <div class="app-modal-header" *ngIf="field">
+        <h5 class="modal-title">
+            <app-field-type [type]="field.type"></app-field-type><span>{{field.label}}</span>
+        </h5>
+    </div>
+    <div class="app-modal-body" *ngIf="field">
+        <pg-tabset tabAnimation="slide-left" Type="fillup" ShowPagination="true">
+            <pg-tab>
+                <ng-template #TabHeading>
+                    Details
+                </ng-template>
+                <div class="row column-seperation">
+                    <div class="col-lg-12">
+                        <form [formGroup]="fieldsForm" [ngSwitch]="field.type">
+                            <fieldset class="form-group">
+                                <app-switch-editor formControlName="isRequired" label="Mandatory"
+                                    [isChecked]="fieldsForm.get('isRequired')">
+                                </app-switch-editor>
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <app-switch-editor formControlName="readonly" label="Readonly"
+                                    [isChecked]="fieldsForm.get('readonly')">
+                                </app-switch-editor>
+                            </fieldset>
+                            <app-dropdown-form *ngSwitchCase="getFieldType().DROPDOWN" [fieldForm]="fieldsForm"
+                                [field]="field"></app-dropdown-form>
+                            <app-text-form *ngSwitchCase="getFieldType().TEXT" [fieldForm]="fieldsForm" [field]="field">
+                            </app-text-form>
+                            <app-text-form *ngSwitchCase="getFieldType().TEXTAREA" [fieldForm]="fieldsForm"
+                                [field]="field">
+                            </app-text-form>
+                            <app-date-form *ngSwitchCase="getFieldType().DATE" [fieldForm]="fieldsForm" [field]="field">
+                            </app-date-form>
+                            <app-number-form *ngSwitchCase="getFieldType().NUMBER" [fieldForm]="fieldsForm"
+                                [field]="field"></app-number-form>
+                            <app-expression-form *ngSwitchCase="getFieldType().EXPRESSION" [fieldForm]="fieldsForm"
+                                [field]="field"></app-expression-form>
+                        </form>
+                    </div>
+                </div>
+            </pg-tab>
+            <pg-tab>
+                <ng-template #TabHeading>
+                    Affected Fields
+                </ng-template>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <app-affected-fields [field]="field"></app-affected-fields>
+                    </div>
+                </div>
+            </pg-tab>
+        </pg-tabset>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="fieldFormModal.hide()">Close</button>
+    </div>
+</app-modal>

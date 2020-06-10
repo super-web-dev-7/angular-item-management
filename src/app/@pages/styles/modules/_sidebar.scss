@@ -72,7 +72,7 @@ body{
         transition: transform 400ms cubic-bezier($menu-bezier);
 -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000px;
-    a,button {
+    a {
         color:$color-menu-light;
         &:hover,&:active{
             color:$color-menu-link-hover;
@@ -93,6 +93,10 @@ body{
                 background: transparent;
             }
         }
+    }
+    hr {
+        border-color: $color-menu-seperator;
+        margin: 0 20px 10px 20px;
     }
     .scroll-element{
         visibility: hidden;
@@ -189,6 +193,16 @@ body{
                     overflow: hidden;
                     text-overflow: ellipsis;
                     width: 65%;
+                }
+            }
+            li.full-width-text {
+                & > a {
+                    width: 100%;
+                    padding-right: 20px;
+
+                    span {
+                        width: 100%;
+                    }
                 }
             }
             & > li {

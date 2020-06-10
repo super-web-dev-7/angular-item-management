@@ -1,0 +1,10 @@
+<div class="form-group ">
+    <pg-select style="width: 100%;" [(ngModel)]="selectedOption" (ngModelChange)="onSelected($event)" [PlaceHolder]="'Select Option'" AllowClear ShowSearch>
+        <pg-option
+        *ngFor="let option of options"
+        [Label]="option.label"
+        [Value]="option.value"
+        [Disabled]="option.disabled">
+      </pg-option>
+      </pg-select>
+  </div>

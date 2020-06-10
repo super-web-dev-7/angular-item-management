@@ -1,0 +1,16 @@
+.add-field-option {
+  opacity: 0.8;
+  .icon {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    opacity: 0.4;
+  }
+
+  cursor: pointer;
+  padding: 30px 25px;
+  margin: 10px;
+  &:hover {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,24 @@
+<div bsModal #popup="bs-modal" class="modal fade {{positionClass}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" [ngClass]="{
+      'modal-sm': modalSizeEnum.SMALL == size,
+      'modal-lg': modalSizeEnum.LARGE == size,
+      'modal-xl': modalSizeEnum.XLARGE == size
+    }">
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <pg-progress *ngIf="isLoading" type="bar" color="primary" indeterminate="true" thick="true"></pg-progress>
+          <button type="button" class="close" (click)="hide()" aria-hidden="true"><i class="pg pg-close fs-14"></i>
+          </button>
+          <div *ngIf="!hideHeader" class="modal-header">
+            <ng-content select=".app-modal-header"></ng-content>
+          </div>
+          <div class="modal-body">
+            <ng-content select=".app-modal-body"></ng-content>
+          </div>
+          <div *ngIf="!hideFooter" class="modal-footer">
+            <ng-content select=".app-modal-footer"></ng-content>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

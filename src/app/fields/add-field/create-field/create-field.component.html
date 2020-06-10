@@ -1,0 +1,24 @@
+    <form [formGroup]="createFieldForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <fieldset class="form-group">
+                <label>Field Name</label>
+                <input formControlName="label" class="form-control" type="text">
+              </fieldset>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              Please select the field type
+            </div>
+            <div class="col-sm-12">
+              <app-field-type-chooser formControlName="type"></app-field-type-chooser>
+            </div>
+            <div class="col-sm-12 centered-content mt-10">
+              <div class="btn-group mt-10">
+                <button type="button" class="btn btn-primary btn-sm" [disabled]="!isFormValid()"
+                  (click)="createField()">Create</button>
+              </div>
+            </div>
+          </div>
+    </form>

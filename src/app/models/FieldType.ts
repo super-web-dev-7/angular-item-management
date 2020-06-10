@@ -1,0 +1,3 @@
+export enum FieldType {
+    TEXT = 0, NUMBER, PICTURE, DATE, EXPRESSION, DROPDOWN, TEXTAREA
+}

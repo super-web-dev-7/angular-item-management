@@ -51,6 +51,7 @@ $menu :blend-hardlight($menu-mix-temp,#fff) ;
 $color-menu-light :$menu ;
 //Menu Font Color
 $color-menu-link-hover:#fff ;
+$color-menu-seperator: mix($color-menu, #fff, 80%);
 
 // Body
 // --------------------------------------------------
