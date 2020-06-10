@@ -368,9 +368,9 @@ export class AgGridComponent implements OnInit {
         //   data = { itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex -1].data.order }
         // }
         if (event.overIndex === 0) {
-            data = {itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder - 1};
+            data = {itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder};
         } else {
-            data = {itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order};
+            data = {itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order + 1};
         }
         this.itemsService.changeOrder(data).subscribe((result: any) => {
             if (result) {
