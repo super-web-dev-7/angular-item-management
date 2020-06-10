@@ -184,6 +184,10 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     closeModel(event) {
+        const selectedElement = document.querySelector('.ag-body-viewport div[role="rowgroup"] div[role="row"][selected="true"]');
+        if (selectedElement) {
+            selectedElement.setAttribute('selected', 'false');
+        }
         this.newItemPopup.hide();
     }
 }
