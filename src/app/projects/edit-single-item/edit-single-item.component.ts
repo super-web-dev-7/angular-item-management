@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Input, ɵConsole, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {ItemsService} from '../items-list/items.service';
 import {EventEmitterService} from '../../event-emitter.service';
@@ -9,35 +9,30 @@ import {EventEmitterService} from '../../event-emitter.service';
     styleUrls: ['./edit-single-item.component.scss']
 })
 
-
 export class EditSingleItemComponent implements OnInit {
     @ViewChild('newItemPopup', {static: false}) newItemPopup: ModalDirective;
     @Input() projectId;
     @Input() pageNo;
     @Input() fieldType;
     @Input() fieldName;
-    // @Input() SelectedSingleRowData;
     @Input() celldbclicked;
     @Input() fields;
     @Input() fieldslable;
     @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
 
     [key: string]: any;
-
     data = {};
     items;
-    data1 = {};
     comment;
     SelectedSingleRowData = [];
     selectedRowComments = [];
-    fieldWithData = [];
     reverse = false;
     commentEditingMode = false;
     EditableCommentId;
+    isDisable_Submit = false;
 
     constructor(private itemsService: ItemsService, private eventEmitterService: EventEmitterService
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         let tabcontent;
@@ -45,7 +40,6 @@ export class EditSingleItemComponent implements OnInit {
         if (tabcontent) {
             tabcontent.style.display = 'none';
         }
-
     }
 
     getItems(itemId) {
@@ -59,16 +53,33 @@ export class EditSingleItemComponent implements OnInit {
             });
     }
 
+    submitValidation() {
+        for (const field of this.fields) {
+            if (field.isRequired) {
+                if (this.SelectedSingleRowData[field.techName] === null
+                    || this.SelectedSingleRowData[field.techName] === undefined
+                    || this.SelectedSingleRowData[field.techName] === ''
+                ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     show(event) {
+        this.SelectedSingleRowData = [];
         this.newItemPopup.config.ignoreBackdropClick = true;
         this.newItemPopup.config.backdrop = false;
         this.newItemPopup.config.keyboard = true;
-        // this.git getItems(event.data._id)
+
         if (this.celldbclicked === true) {
             // this.newItemPopup.hide();
         } else {
             const popup = this.newItemPopup;
-            this.SelectedSingleRowData = event.data;
+            this.SelectedSingleRowData = {...event.data};
+            this.isDisable_Submit = this.submitValidation();
+
             if (event.type === 'rowClicked') {
                 if (this.celldbclicked === false || this.celldbclicked === undefined) {
                     const db = this.celldbclicked;
@@ -87,30 +98,30 @@ export class EditSingleItemComponent implements OnInit {
                 if (this.reverse === false) {
                     this.selectedRowComments.reverse();
                     this.reverse = true;
-
                 }
             }
+
             this.fieldName.forEach(item => {
                 this.data[item] = '';
             });
         }
-
     }
 
     onChangeSelectValue(event: any) {
         this[event.target.name] = (<HTMLInputElement>event.target).value;
+        this.SelectedSingleRowData[event.target.name] = (<HTMLInputElement>event.target).value;
+        this.isDisable_Submit = this.submitValidation();
     }
 
-    onFieldValuek(event: any) {
-        this[event.target.name] = (<HTMLInputElement>event.target).value;
-    }
-
-    onEditItem() {
+    onEditItem(event) {
+        event.preventDefault();
+        if (event.target.className.includes('disabled') === true) {
+            return;
+        }
         this.fields.forEach(fields => {
             if (fields.type === 3) {
                 const date = new Date(this[fields.techName]);
-                const dateTimeStamp = date.getTime();
-                this[fields.techName] = dateTimeStamp;
+                this[fields.techName] = date.getTime();
             }
             if (this[fields.techName]) {
                 this.data[fields.techName] = this[fields.techName];
@@ -123,8 +134,9 @@ export class EditSingleItemComponent implements OnInit {
             .subscribe(result => {
                 this.eventEmitterService.onPageChange(this.pageNo);
             });
-        this.newItemPopup.hide();
 
+        this.SelectedSingleRowData = [];
+        this.newItemPopup.hide();
     }
 
     addComment() {
@@ -166,7 +178,6 @@ export class EditSingleItemComponent implements OnInit {
                 }
 
             });
-
     }
 
     deleteComment(commentID) {
@@ -191,5 +202,3 @@ export class EditSingleItemComponent implements OnInit {
         this.newItemPopup.hide();
     }
 }
-
-

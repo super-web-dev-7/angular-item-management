@@ -90,13 +90,9 @@ export class AgGridComponent implements OnInit {
         this.rowStyle = {
             cursor: 'pointer'
         };
-        console.log('aaaaaaaaaaaa')
-        // this.gridOption.rowClass = 'selected-row-background';
     }
 
     onGridReady(event) {
-        console.log(this.items);
-        console.log(this.itemColumns);
         localStorage.removeItem('gridHeader');
         this.ongridEventData = event;
         this.gridApi = event.api;
@@ -112,7 +108,7 @@ export class AgGridComponent implements OnInit {
                     this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
-                        editable: true,
+                        editable: !field.readonly,
                         resizable: true,
                         groupId: 'date',
                         sortingOrder: ['asc', 'desc', null],
@@ -138,7 +134,7 @@ export class AgGridComponent implements OnInit {
                         this.itemColumns.push({
                             headerName: field.label,
                             field: field.techName,
-                            editable: true,
+                            editable: !field.readonly,
                             resizable: true,
                             colId: field.techName,
                             groupId: 'select',
@@ -156,7 +152,7 @@ export class AgGridComponent implements OnInit {
                     this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
-                        editable: true,
+                        editable: !field.readonly,
                         resizable: true,
                         colId: field.techName,
                         groupId: 'number',
@@ -186,7 +182,7 @@ export class AgGridComponent implements OnInit {
                     this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
-                        editable: true,
+                        editable: !field.readonly,
                         colId: field.techName,
                         resizable: true,
                         groupId: 'text',
@@ -442,6 +438,22 @@ export class AgGridComponent implements OnInit {
     oncellValueChanged(event) {
         this.cellEditComponent.oncellValueChanged(event);
         this.celldbclicked = this.cellEditComponent.celldbclicked;
+    }
+
+    onCellKeyDown(event) {
+        for (const field of this.fields) {
+            if (field.techName === event.colDef.field) {
+                if (field.isRequired && event.event.target.value === '') {
+                    if (event.event.target.parentElement.parentElement !== null) {
+                        event.event.target.parentElement.parentElement.style.border = '1px solid red';
+                    }
+                } else {
+                    if (event.event.target.parentElement.parentElement !== null) {
+                        event.event.target.parentElement.parentElement.style.border = 'none';
+                    }
+                }
+            }
+        }
     }
 
 }

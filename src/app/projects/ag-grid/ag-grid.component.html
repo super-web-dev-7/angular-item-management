@@ -88,6 +88,7 @@
                  (rowDragEnd)="onrowDragEnd($event)"
                  (rowDragEnter)="onrowDragEnter($event)"
                  [suppressRowClickSelection]="true"
+                 (cellKeyDown)="onCellKeyDown($event)"
                  (cellValueChanged)="oncellValueChanged($event)"
                  (columnMoved)="oncolumnMoved($event)"
                  (columnValueChanged)="oncolumnValueChanged($event)"

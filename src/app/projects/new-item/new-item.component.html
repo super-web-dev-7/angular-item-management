@@ -1,63 +1,63 @@
 <div
-  bsModal
-  #newItemPopup="bs-modal"
-  class="modal fade slide-right"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
+        bsModal
+        #newItemPopup="bs-modal"
+        class="modal fade slide-right"
+        tabindex="-1"
+        role="dialog"
+        aria-hidden="true"
 >
-  <div class="modal-dialog">
-    <div class="modal-content-wrapper">
-      <div class="modal-content">
-        <button
-          type="button"
-          class="close"
-          (click)="slideRight.hide()"
-          aria-hidden="true"
-        >
-          <i class="pg pg-close fs-14"></i>
-        </button>
-        <div class="container-xs-height full-height">
-          <div class="row-xs-height">
-            <div class="modal-body col-xs-height col-middle text-center">
-              <div
-                class="form-group row"
-                *ngFor="let itemType of fieldType; index as itemId" 
-              >
-                <label class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
-                <div class="col-sm-8" >
-                  <div *ngIf="itemType == 'select' &&  fields[itemId]">
-                  <select id="select"   (change)="onChangeSelectValue($event)"  class="form-control newItemFields"
-                  [name]="fieldName[itemId]" >
-                    <option *ngFor="let field of fields[itemId].options.optionsForSelect">
-                      {{field.value}}
-                    </option>
-                    
-                  </select>
+    <div class="modal-dialog">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <button
+                        type="button"
+                        class="close"
+                        (click)="hide()"
+                        aria-hidden="true"
+                >
+                    <i class="pg pg-close fs-14"></i>
+                </button>
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-body col-xs-height col-middle text-center">
+                            <div
+                                    class="form-group row"
+                                    *ngFor="let itemType of fieldType; index as itemId"
+                            >
+                                <label class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
+                                <div class="col-sm-8">
+                                    <div *ngIf="itemType == 'select' &&  fields[itemId]">
+                                        <select id="select" (change)="onChangeSelectValue($event)"
+                                                class="form-control newItemFields"
+                                                [name]="fieldName[itemId]">
+                                            <option *ngFor="let field of fields[itemId].options.optionsForSelect">
+                                                {{field.value}}
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                    <div *ngIf="itemType !== 'select'">
+                                        <input
+                                                [type]="itemType"
+                                                class="form-control newItemFields"
+                                                [name]="fieldName[itemId]"
+                                                (input)="onChangeSelectValue($event)"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                    type="submit"
+                                    [disabled]="isDisable_Submit"
+                                    class="btn btn-primary"
+                                    (click)="onAddItem()"
+                            >
+                                Add Item
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div *ngIf="itemType !== 'select'">
-                  <input  
-                                              
-                    [type]="itemType"
-                    class="form-control newItemFields"
-                    [name]="fieldName[itemId]"
-                    (input)="onFieldValue($event)"
-                  />
-                </div>
-                </div>
-              </div>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                (click)="onAddItem()"
-                
-              >
-                Add Item
-              </button>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
