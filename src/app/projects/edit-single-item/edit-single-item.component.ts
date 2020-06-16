@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {ItemsService} from '../items-list/items.service';
-import {EventEmitterService} from '../../event-emitter.service';
+import {EventEmitterService} from '@app/event-emitter.service';
 import * as moment from 'moment';
 
 @Component({
@@ -104,6 +104,17 @@ export class EditSingleItemComponent implements OnInit {
                     this.reverse = true;
                 }
             }
+
+            const inputDatePickers = document.querySelectorAll('#TabEdit input[type="date"]');
+            inputDatePickers.forEach(inputDatePicker => {
+                let date = event.data[(<HTMLInputElement>inputDatePicker).name];
+                const itemId = this.fieldName.indexOf((<HTMLInputElement>inputDatePicker).name)
+                date = moment(new Date(date), 'YYYY-MM-DD').format(this.fields[itemId].options.dateFormat)
+                if (date === 'Invalid date') {
+                    date = '';
+                }
+                inputDatePicker.setAttribute('data-date', date);
+            });
 
             this.fieldName.forEach(item => {
                 this.data[item] = '';

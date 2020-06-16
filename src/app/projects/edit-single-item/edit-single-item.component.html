@@ -60,7 +60,7 @@
                                                                (input)="onChangeSelectValue($event)"
                                                         />
                                                         <input *ngIf="itemType === 'date'"
-                                                               [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? null : SelectedSingleRowData[fieldName[itemId]]  | date: 'yyyy-MM-dd'"
+                                                               [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? null : SelectedSingleRowData[fieldName[itemId]]"
                                                                [id]="fieldName[itemId]"
                                                                [type]="itemType"
                                                                class="form-control"

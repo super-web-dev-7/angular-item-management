@@ -103,7 +103,6 @@ export class AgGridComponent implements OnInit {
 
     setItemColumns(fields) {
         this.fields = fields;
-        console.log(this.fields);
         fields.forEach(field => {
             if (!localStorage.getItem('gridHeader')) {
                 if (field.type === 3) {
@@ -119,7 +118,6 @@ export class AgGridComponent implements OnInit {
                         filter: 'FilterInputComponent',
                         menuTabs: ['filterMenuTab'],
                         valueGetter: function (params) {
-                            console.log(params)
                             if (params.data[field.techName] !== undefined && params.data[field.techName] !== 'No Data Found !!') {
                                 // var dateobj = new Date(params.data[field.techName]);
                                 // dateobj.getDate();
