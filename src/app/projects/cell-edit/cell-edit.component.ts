@@ -1,7 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {ItemsService} from '../items-list/items.service';
-import {FieldService} from '../../fields/field.service';
-import {EventEmitterService} from '../../event-emitter.service';
+import {FieldService} from '@app/fields/field.service';
+import {EventEmitterService} from '@app/event-emitter.service';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-cell-edit',
@@ -23,32 +24,16 @@ export class CellEditComponent implements OnInit {
     }
 
     oncellValueChanged(event) {
+        console.log('event>>>>>>>>', event)
         if (event.newValue) {
             this.celldbclicked = false;
             localStorage.setItem('pdata', 'true');
-            var data;
-            Object.keys(event.data).forEach((key, index) => {
-                var date;
-                var NewDate;
-                var Eventdate;
-                if (event.column.colDef['groupId'] === 'date') {
-                    date = new Date(event.data[key]);
-                    NewDate = event.newValue.getTime();
-                    Eventdate = date.getTime();
-                }
-                if (event.data[key] === event.newValue) {
-                    data = {_id: event.data._id, projectId: event.data.projectId};
-                    data[key] = event.newValue;
-                }
-                if (NewDate === Eventdate && event.column.colDef['groupId'] === 'date') {
-                    if (event.column.colDef['groupId'] === 'date') {
-                        data = {_id: event.data._id, projectId: event.data.projectId};
-                        data[key] = event.newValue.getTime();
-                    }
-                }
-            });
-            if (event.newValue === '') {
-                event.newValue = event.oldValue;
+            let data;
+            data = {_id: event.data._id, projectId: event.data.projectId};
+            if (event.column.colDef['groupId'] === 'date') {
+                data[event.column.colId] = (new Date(event.newValue)).getTime();
+            } else {
+                data[event.column.colId] = event.newValue;
             }
             if (event.oldValue !== event.newValue) {
                 if (data._id) {

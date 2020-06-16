@@ -438,6 +438,7 @@ export class AgGridComponent implements OnInit {
     }
 
     oncellValueChanged(event) {
+        console.log(event)
         this.cellEditComponent.oncellValueChanged(event);
         this.celldbclicked = this.cellEditComponent.celldbclicked;
     }
