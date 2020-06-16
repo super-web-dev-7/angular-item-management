@@ -72,6 +72,7 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     show(event) {
+        jQuery('input[type="file"]').val('');
         this.SelectedSingleRowData = [];
         this.newItemPopup.config.ignoreBackdropClick = true;
         this.newItemPopup.config.backdrop = false;

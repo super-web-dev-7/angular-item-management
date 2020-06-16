@@ -32,8 +32,8 @@ export class DateFormComponent implements OnInit, OnChanges {
         formatOptions.push({value: 'YYYY-MM-DD', label: `Standard (${moment(date).format('YYYY-MM-DD')})`});
         formatOptions.push({value: 'MMM D, YYYY', label: `Long (${moment(date).format('MMM D, YYYY')})`});
         formatOptions.push({value: 'MMM D, YYYY h:mm:ss a', label: `Long with time (${moment(date).format('MMM D, YYYY h:mm:ss a')})`});
-        formatOptions.push({value: 'MM/DD/YYY', label: `Short (${moment(date).format('MM/DD/YYYY')})`});
-        formatOptions.push({value: 'MM/DD/YYY', label: `Short day before month (${moment(date).format('DD/MM/YYYY')})`});
+        formatOptions.push({value: 'MM/DD/YYYY', label: `Short (${moment(date).format('MM/DD/YYYY')})`});
+        formatOptions.push({value: 'MM/DD/YYYY', label: `Short day before month (${moment(date).format('DD/MM/YYYY')})`});
         return formatOptions;
     }
 

@@ -24,10 +24,10 @@ export class CellEditComponent implements OnInit {
     }
 
     oncellValueChanged(event) {
-        console.log('event>>>>>>>>', event)
         if (event.newValue) {
             this.celldbclicked = false;
             localStorage.setItem('pdata', 'true');
+
             let data;
             data = {_id: event.data._id, projectId: event.data.projectId};
             if (event.column.colDef['groupId'] === 'date') {
@@ -35,6 +35,11 @@ export class CellEditComponent implements OnInit {
             } else {
                 data[event.column.colId] = event.newValue;
             }
+
+            // if (event.newValue === '') {
+            //     event.newValue = event.oldValue;
+            // }
+
             if (event.oldValue !== event.newValue) {
                 if (data._id) {
                     this.itemsService.editItemByProject(data).subscribe(result => {

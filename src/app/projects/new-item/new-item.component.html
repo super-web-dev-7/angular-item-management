@@ -20,52 +20,73 @@
                 <div class="container-xs-height full-height">
                     <div class="row-xs-height">
                         <div class="modal-body col-xs-height col-middle text-center">
-                            <div class="form-group row"
-                                    *ngFor="let itemType of fieldType; index as itemId">
-                                <label class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
+                            <form role="form" data-toggle="validator" novalidate>
+                                <div class="form-group row"
+                                     *ngFor="let itemType of fieldType; index as itemId">
+                                    <label class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
 
-                                <div class="col-sm-8">
-                                    <div *ngIf="itemType == 'select' &&  fields[itemId]">
-                                        <select id="select" (change)="onChangeSelectValue($event)"
-                                                class="form-control newItemFields"
-                                                [disabled]="fields[itemId].readonly"
-                                                [name]="fieldName[itemId]">
-                                            <option *ngFor="let field of fields[itemId].options.optionsForSelect">
-                                                {{field.value}}
-                                            </option>
-                                        </select>
+                                    <div class="col-sm-8">
+                                        <div *ngIf="itemType == 'select' &&  fields[itemId]">
+                                            <select id="select" (change)="onChangeSelectValue($event)"
+                                                    class="form-control newItemFields selectpicker"
+                                                    [disabled]="fields[itemId].readonly"
+                                                    [multiple]="fields[itemId].options.multipleSelect"
+                                                    [name]="fieldName[itemId]">
+                                                <option *ngFor="let field of fields[itemId].options.optionsForSelect">
+                                                    {{field.value}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div *ngIf="itemType === 'date'">
+                                            <input
+                                                    [type]="itemType"
+                                                    class="form-control newItemFields"
+                                                    [name]="fieldName[itemId]"
+                                                    [readOnly]="fields[itemId].readonly"
+                                                    (input)="onChangeSelectValue($event, fields[itemId].options.dateFormat)"
+                                                    data-date=""
+                                            />
+                                        </div>
+
+                                        <div *ngIf="itemType === 'number'">
+                                            <input
+                                                    [type]="itemType"
+                                                    class="form-control newItemFields"
+                                                    [name]="fieldName[itemId]"
+                                                    [step]="fields[itemId].options.allowDecimal ? '0.1' : '1'"
+                                                    [min]="fields[itemId].options.minValue"
+                                                    [max]="fields[itemId].options.maxValue"
+                                                    [readOnly]="fields[itemId].readonly"
+                                                    (input)="onChangeSelectValue($event)"
+                                            />
+                                            <!--                                        <span class="text-danger" *ngIf="">Value should be between {{fields[itemId].options.minValue}} and {{fields[itemId].options.maxValue}}</span>-->
+                                        </div>
+
+                                        <div *ngIf="itemType !== 'select' && itemType !== 'date' && itemType !== 'number'">
+                                            <input
+                                                    [type]="itemType"
+                                                    class="form-control newItemFields"
+                                                    [name]="fieldName[itemId]"
+                                                    [readOnly]="fields[itemId].readonly"
+                                                    (input)="onChangeSelectValue($event)"
+                                                    [minLength]="fields[itemId].options.minLength"
+                                                    [maxLength]="fields[itemId].options.maxLength ? fields[itemId].options.maxLength : '524288'"
+                                            />
+                                        </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
 
-                                    <div *ngIf="itemType === 'date'">
-                                        <input
-                                                [type]="itemType"
-                                                class="form-control newItemFields"
-                                                [name]="fieldName[itemId]"
-                                                [readOnly]="fields[itemId].readonly"
-                                                (input)="onChangeSelectValue($event, fields[itemId].options.dateFormat)"
-                                                data-date=""
-                                        />
-                                    </div>
-
-                                    <div *ngIf="itemType !== 'select' && itemType !== 'date'">
-                                        <input
-                                                [type]="itemType"
-                                                class="form-control newItemFields"
-                                                [name]="fieldName[itemId]"
-                                                [readOnly]="fields[itemId].readonly"
-                                                (input)="onChangeSelectValue($event)"
-                                        />
-                                    </div>
                                 </div>
-                            </div>
-                            <button
-                                    type="submit"
-                                    [disabled]="isDisable_Submit"
-                                    class="btn btn-primary"
-                                    (click)="onAddItem()"
-                            >
-                                Add Item
-                            </button>
+                                <button
+                                        type="submit"
+                                        [disabled]="isDisable_Submit"
+                                        class="submit btn btn-primary"
+                                        (click)="onAddItem()"
+                                >
+                                    Add Item
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

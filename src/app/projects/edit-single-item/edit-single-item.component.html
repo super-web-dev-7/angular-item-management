@@ -26,7 +26,7 @@
                             <div class="container-xs-height full-height">
                                 <div class="row-xs-height">
                                     <div class="modal-body col-xs-height col-middle text-center p-up">
-                                        <form id="edit-form" name="editForm" role="form">
+                                        <form id="edit-form" name="editForm" role="form" data-toggle="validator" novalidate>
                                             <div class="form-group row"
                                                  *ngFor="let itemType of fieldType; index as itemId">
 
@@ -49,7 +49,7 @@
 
                                                     </div>
                                                     <div *ngIf="itemType !== 'select'">
-                                                        <input *ngIf="(itemType !== 'file') && (itemType !== 'date')"
+                                                        <input *ngIf="(itemType !== 'file') && (itemType !== 'date') && (itemType !== 'number')"
                                                                [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? null : SelectedSingleRowData[fieldName[itemId]]"
                                                                [id]="fieldName[itemId]"
                                                                [type]="itemType"
@@ -58,7 +58,22 @@
                                                                class="form-control"
                                                                [name]="fieldName[itemId]"
                                                                (input)="onChangeSelectValue($event)"
+                                                               [minLength]="fields[itemId].options.minLength"
+                                                               [maxLength]="fields[itemId].options.maxLength ? fields[itemId].options.maxLength : '524288'"
                                                         />
+                                                        <input *ngIf="itemType==='number'"
+                                                               [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? null : SelectedSingleRowData[fieldName[itemId]]"
+                                                               [id]="fieldName[itemId]"
+                                                               [type]="itemType"
+                                                               [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
+                                                               [readOnly]="fields[itemId].readonly"
+                                                               class="form-control"
+                                                               [name]="fieldName[itemId]"
+                                                               (input)="onChangeSelectValue($event)"
+                                                               [step]="fields[itemId].options.allowDecimal ? '0.1' : '1'"
+                                                               [min]="fields[itemId].options.minValue"
+                                                               [max]="fields[itemId].options.maxValue"
+                                                        >
                                                         <input *ngIf="itemType === 'date'"
                                                                [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? null : SelectedSingleRowData[fieldName[itemId]]"
                                                                [id]="fieldName[itemId]"

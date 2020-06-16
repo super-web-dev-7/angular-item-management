@@ -102,6 +102,7 @@ export class AgGridComponent implements OnInit {
     }
 
     setItemColumns(fields) {
+        console.log(fields)
         this.fields = fields;
         fields.forEach(field => {
             if (!localStorage.getItem('gridHeader')) {
@@ -438,7 +439,6 @@ export class AgGridComponent implements OnInit {
     }
 
     oncellValueChanged(event) {
-        console.log(event)
         this.cellEditComponent.oncellValueChanged(event);
         this.celldbclicked = this.cellEditComponent.celldbclicked;
     }

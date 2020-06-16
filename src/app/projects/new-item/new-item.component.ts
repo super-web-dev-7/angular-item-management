@@ -1,16 +1,17 @@
-import {Component, OnInit, ViewChild, Input, Output} from '@angular/core';
+import {Component, OnInit, ViewChild, Input, Output, AfterViewInit} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {ItemsService} from '../items-list/items.service';
 import {EventEmitter} from '@angular/core';
 import {EventEmitterService} from '@app/event-emitter.service';
 import * as moment from 'moment';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'app-new-item',
     templateUrl: './new-item.component.html',
     styleUrls: ['./new-item.component.scss']
 })
-export class NewItemComponent implements OnInit {
+export class NewItemComponent implements OnInit, AfterViewInit {
     @ViewChild('newItemPopup', {static: true}) newItemPopup: ModalDirective;
     @Input() projectId;
     @Input() pageNo;
@@ -32,7 +33,13 @@ export class NewItemComponent implements OnInit {
     ngOnInit() {
     }
 
+    ngAfterViewInit(): void {
+        // $('.selectpicker').selectpicker();
+    }
+
     show() {
+        console.log(this.fields);
+        console.log(this.fieldType);
         this.resetPopValues();
         this.newItemPopup.show();
     }
