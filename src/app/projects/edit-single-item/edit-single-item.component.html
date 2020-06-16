@@ -64,10 +64,11 @@
                                                                [id]="fieldName[itemId]"
                                                                [type]="itemType"
                                                                class="form-control"
+                                                               data-date=""
                                                                [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                                [readOnly]="fields[itemId].readonly"
                                                                [name]="fieldName[itemId]"
-                                                               (input)="onChangeSelectValue($event)"
+                                                               (input)="onChangeSelectValue($event, fields[itemId].options.dateFormat)"
                                                         />
                                                         <input *ngIf="itemType === 'file'"
                                                                [id]="fieldName[itemId]"

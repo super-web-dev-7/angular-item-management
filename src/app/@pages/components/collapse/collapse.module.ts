@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule,ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { pgCollapseComponent } from './collapse.component';
 import { pgCollapsesetComponent } from './collapseset.component';
 

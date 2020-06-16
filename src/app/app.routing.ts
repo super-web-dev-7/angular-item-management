@@ -24,15 +24,15 @@ export const AppRoutes: Routes = [
     },
     {
         path: '',
-    component: CorporateLayout,
-    children: [{
-      path: 'project-types',
-      loadChildren: './project-types/project-types.module#ProjectTypesModule',
-      canActivate: [AuthGuard]
-    }]
-  },
-  {
-    path: '',
+        component: CorporateLayout,
+        children: [{
+            path: 'project-types',
+            loadChildren: './project-types/project-types.module#ProjectTypesModule',
+            canActivate: [AuthGuard]
+        }]
+    },
+    {
+        path: '',
         component: BlankCorporateComponent,
         children: [
             {

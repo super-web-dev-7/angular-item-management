@@ -1,4 +1,3 @@
-
 // -------------------- ag grid styles -----------------------------
 $ag-primary-color: #2196F3; // blue-500
 $ag-accent-color: #FFD740; // amber-A200
@@ -6,16 +5,18 @@ $ag-accent-color: #FFD740; // amber-A200
 @import '../node_modules/ag-grid-community/src/styles/ag-grid.scss';
 @import '../node_modules/ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material.scss';
 .modal .modal-dialog.modal-sm.selection-popup {
-    margin: 0!important;
-    position: absolute!important;
+    margin: 0 !important;
+    position: absolute !important;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%)!important;
+    transform: translateX(-50%) !important;
 }
+
 bs-modal-backdrop.modal-backdrop.fade.in.show.selection-popup {
     opacity: 0;
 }
-.modal-dialog.modal-sm.selection-popup { 
+
+.modal-dialog.modal-sm.selection-popup {
     position: fixed;
     max-width: 400px;
     background: #fff;
@@ -26,6 +27,7 @@ bs-modal-backdrop.modal-backdrop.fade.in.show.selection-popup {
     transform: translateX(-50%);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
 }
+
 .selection-popup button.close {
     position: absolute;
     right: 4px;
@@ -33,6 +35,7 @@ bs-modal-backdrop.modal-backdrop.fade.in.show.selection-popup {
     line-height: 14px;
     z-index: 1;
 }
+
 .selection-popup .modal-content {
     border: 1px solid rgba(0, 0, 0, 0.09);
 }
@@ -76,22 +79,24 @@ bs-modal-backdrop.modal-backdrop.fade.in.show.selection-popup {
 /* Hide scrollbar for IE and Edge */
 
 
-.ag-selection-checkbox{
+.ag-selection-checkbox {
     display: none;
 }
 
 
 .ag-cell.ag-cell-with-height.ag-cell-value.ag-cell-focus.ag-cell-inline-editing {
-    width: 172px!important;
+    width: 172px !important;
     height: 50px;
 }
 
 .ag-cell-inline-editing .ag-cell-edit-input, .ag-cell-inline-editing .ag-input-wrapper {
     background: #fff;
 }
+
 span.cz_grid_next_privious_span {
     float: right;
 }
+
 div#edit-single-model {
     width: 100%;
     max-width: 500px;
@@ -107,15 +112,46 @@ mark.add {
     display: inline-block;
     background-color: blue;
 }
+
 mark.mult {
     display: inline-block;
     background-color: yellow;
 }
+
 mark.division {
     display: inline-block;
     background-color: pink;
 }
+
 mark.subtract {
     display: inline-block;
     background-color: brown;
+}
+
+input[type='date'] {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    color: transparent;
+}
+
+input[type='date']:before {
+    position: absolute;
+    top: 0;
+    left: 3px;
+    content: attr(data-date);
+    display: inline-block;
+    color: black;
+}
+
+input[type='date']::-webkit-datetime-edit, input[type='date']::-webkit-inner-spin-button, input[type='date']::-webkit-clear-button {
+    display: none;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    color: black;
+    opacity: 1;
 }

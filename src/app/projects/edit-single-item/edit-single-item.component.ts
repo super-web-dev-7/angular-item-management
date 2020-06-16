@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {ModalDirective} from 'ngx-bootstrap';
 import {ItemsService} from '../items-list/items.service';
 import {EventEmitterService} from '../../event-emitter.service';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-edit-single-item',
@@ -55,6 +56,9 @@ export class EditSingleItemComponent implements OnInit {
 
     submitValidation() {
         for (const field of this.fields) {
+            if (field.readonly) {
+                continue;
+            }
             if (field.isRequired) {
                 if (this.SelectedSingleRowData[field.techName] === null
                     || this.SelectedSingleRowData[field.techName] === undefined
@@ -107,7 +111,10 @@ export class EditSingleItemComponent implements OnInit {
         }
     }
 
-    onChangeSelectValue(event: any) {
+    onChangeSelectValue(event: any, date_format = 'YYYY-MM-DD') {
+        if (event.target.type === 'date') {
+            event.target.setAttribute('data-date', moment((<HTMLInputElement>event.target).value, 'YYYY-MM-DD').format(date_format));
+        }
         this[event.target.name] = (<HTMLInputElement>event.target).value;
         this.SelectedSingleRowData[event.target.name] = (<HTMLInputElement>event.target).value;
         this.isDisable_Submit = this.submitValidation();

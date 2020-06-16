@@ -1,12 +1,12 @@
 .tab {
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    }
-    
-    button.tablinks.active {
-        border-bottom: 2px solid #f35958;
-    }
-    
-    button.tablinks {
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+
+button.tablinks.active {
+    border-bottom: 2px solid #f35958;
+}
+
+button.tablinks {
     background: transparent;
     border-radius: 0;
     padding: 13px 20px;
@@ -21,101 +21,102 @@
     border-color: transparent;
     position: relative;
     line-height: 1.7em;
-    }
-    
-    
-    
-    .recent-comment {
-        width: 100%;
-        float: left;
-    }
-    
-    .recent-comment ul {
-        list-style: none;
-        margin: 15px 0;
-        padding: 0;
-        height: 310px;
-        overflow-y: scroll;
-    }
-    
-    .recent-comment li {
-        width: 100%;
-        float: left;
-        text-align: left;
-        margin-bottom: 15px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #ebebeb;
-    }
-    
-    .recent-comment p {
-        margin: 0 0 5px 0;
-    }
-    
-    .recent-comment span {
-        font-weight: 600;
-    }
-    
-    
-    .recent-comment button.btn.btn-primary {
-        float: left;
-    }
-    
-    
-    .recent-comment textarea {
-        float: left;
-        margin: 15px 0;
-        padding: 10px;
-    }
-    
-    .coment-action span {
-        margin-right: 10px;
-        width: 120px;
-    }
-    
-    .coment-action {
-        width: 100%;
-        float: left;
-        margin-top: 5px;
-    }
-    
-    .coment-action span button {
-        width: 60px;
-    }
-    
-    span.comment-delete-btn button {
-        background: #f35958;
-        border: none;
-        padding: 3px;
-        color: #fff;
-        border-radius: 2px;
-        cursor: pointer;
-    }
-    
-    span.comment-edit-btn button {
-        background: #6d5eac;
-        border: none;
-        padding: 3px;
-        color: #fff;
-        border-radius: 2px;
-        cursor: pointer;
-    
-    }
-    
-    
-    
-    span.comment-date {
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1px;
-    }
-    
-    
-    .recent-comment ul::-webkit-scrollbar {
-        display: none;
-    }
-    .recent-comment ul {
-        -ms-overflow-style: none;
-    }
-    .cz-p-text-style {
-        white-space: pre-wrap;
-    }
+}
+
+
+.recent-comment {
+    width: 100%;
+    float: left;
+}
+
+.recent-comment ul {
+    list-style: none;
+    margin: 15px 0;
+    padding: 0;
+    height: 310px;
+    overflow-y: scroll;
+}
+
+.recent-comment li {
+    width: 100%;
+    float: left;
+    text-align: left;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.recent-comment p {
+    margin: 0 0 5px 0;
+}
+
+.recent-comment span {
+    font-weight: 600;
+}
+
+
+.recent-comment button.btn.btn-primary {
+    float: left;
+}
+
+
+.recent-comment textarea {
+    float: left;
+    margin: 15px 0;
+    padding: 10px;
+}
+
+.coment-action span {
+    margin-right: 10px;
+    width: 120px;
+}
+
+.coment-action {
+    width: 100%;
+    float: left;
+    margin-top: 5px;
+}
+
+.coment-action span button {
+    width: 60px;
+}
+
+span.comment-delete-btn button {
+    background: #f35958;
+    border: none;
+    padding: 3px;
+    color: #fff;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+span.comment-edit-btn button {
+    background: #6d5eac;
+    border: none;
+    padding: 3px;
+    color: #fff;
+    border-radius: 2px;
+    cursor: pointer;
+
+}
+
+
+span.comment-date {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+.recent-comment ul::-webkit-scrollbar {
+    display: none;
+}
+
+.recent-comment ul {
+    -ms-overflow-style: none;
+}
+
+.cz-p-text-style {
+    white-space: pre-wrap;
+}
+

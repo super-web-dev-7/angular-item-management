@@ -99,7 +99,7 @@ export class AppHammerConfig extends HammerGestureConfig {
     ],
     imports: [
         BrowserModule,
-    FontAwesomeModule,
+        FontAwesomeModule,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
@@ -123,19 +123,19 @@ export class AppHammerConfig extends HammerGestureConfig {
         TypeaheadModule.forRoot(),
         pgTabsModule,
         PerfectScrollbarModule,
-        pgSwitchModule,   
+        pgSwitchModule,
         QuillModule.forRoot(),
-    FroalaEditorModule.forRoot(), 
-    FroalaViewModule.forRoot(),
-    StoreModule.forRoot({
-      projects: ProjectsReducer,
-      projectType: ProjectTypeReducer,
-      projectTypes: ProjectTypesReducer,
-    }),
-    EffectsModule.forRoot([ProjectsEffects, ProjectTypeEffects, ProjectTypesEffects ]),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-    })
+        FroalaEditorModule.forRoot(),
+        FroalaViewModule.forRoot(),
+        StoreModule.forRoot({
+            projects: ProjectsReducer,
+            projectType: ProjectTypeReducer,
+            projectTypes: ProjectTypesReducer,
+        }),
+        EffectsModule.forRoot([ProjectsEffects, ProjectTypeEffects, ProjectTypesEffects]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25,
+        })
     ],
     providers: [QuickviewService, pagesToggleService, {
         provide: PERFECT_SCROLLBAR_CONFIG,
@@ -152,6 +152,8 @@ export class AppHammerConfig extends HammerGestureConfig {
             multi: true
         }],
     bootstrap: [AppComponent],
+    exports: [
+    ]
 })
 export class AppModule {
 }

@@ -3,6 +3,7 @@ import {ModalDirective} from 'ngx-bootstrap';
 import {ItemsService} from '../items-list/items.service';
 import {EventEmitter} from '@angular/core';
 import {EventEmitterService} from '@app/event-emitter.service';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-new-item',
@@ -43,6 +44,9 @@ export class NewItemComponent implements OnInit {
 
     submitValidation() {
         for (const field of this.fields) {
+            if (field.readonly) {
+                continue;
+            }
             if (field.isRequired) {
                 if (this[field.techName] === null
                     || this[field.techName] === undefined
@@ -55,7 +59,10 @@ export class NewItemComponent implements OnInit {
         return false;
     }
 
-    onChangeSelectValue(event: any) {
+    onChangeSelectValue(event: any, date_format = 'YYYY-MM-DD') {
+        if (event.target.type === 'date') {
+            event.target.setAttribute('data-date', moment((<HTMLInputElement>event.target).value, 'YYYY-MM-DD').format(date_format));
+        }
         this[event.target.name] = (<HTMLInputElement>event.target).value;
         this.isDisable_Submit = this.submitValidation();
     }

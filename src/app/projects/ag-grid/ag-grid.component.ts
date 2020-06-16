@@ -1,9 +1,10 @@
 import {Component, OnInit, Input, ViewChild, Output, EventEmitter} from '@angular/core';
+import * as moment from 'moment';
 import {ShowHideCheckboxComponent} from '../show-hide-checkbox/show-hide-checkbox.component';
 import {GridEventsComponent} from '../grid-events/grid-events.component';
 import {ItemsService} from '../items-list/items.service';
-import {FieldService} from '../../fields/field.service';
-import {EventEmitterService} from '../../event-emitter.service';
+import {FieldService} from '@app/fields/field.service';
+import {EventEmitterService} from '@app/event-emitter.service';
 import {FilterInputComponent} from '../filter-input/filter-input.component';
 import {DateEditorComponent} from '../date-editor/date-editor.component';
 import {RowColumnDragComponent} from '../row-column-drag/row-column-drag.component';
@@ -102,6 +103,7 @@ export class AgGridComponent implements OnInit {
 
     setItemColumns(fields) {
         this.fields = fields;
+        console.log(this.fields);
         fields.forEach(field => {
             if (!localStorage.getItem('gridHeader')) {
                 if (field.type === 3) {
@@ -117,14 +119,16 @@ export class AgGridComponent implements OnInit {
                         filter: 'FilterInputComponent',
                         menuTabs: ['filterMenuTab'],
                         valueGetter: function (params) {
+                            console.log(params)
                             if (params.data[field.techName] !== undefined && params.data[field.techName] !== 'No Data Found !!') {
-                                var dateobj = new Date(params.data[field.techName]);
-                                dateobj.getDate();
-                                // var date = dateobj.getFullYear()+'-'+dateobj.getMonth()+'-'+ dateobj.getDate();
-                                dateobj.toString();
-                                return dateobj;
+                                // var dateobj = new Date(params.data[field.techName]);
+                                // dateobj.getDate();
+                                // // var date = dateobj.getFullYear()+'-'+dateobj.getMonth()+'-'+ dateobj.getDate();
+                                // dateobj.toString();
+                                // return dateobj;
+                                return moment(new Date(params.data[field.techName]), 'YYYY-MM-DD').format(field.options.dateFormat);
                             }
-                            return dateobj;
+                            return '';
                         },
 
                     });
