@@ -5,6 +5,7 @@ pg-tab, pg-tabs-nav, pg-tabset {
 }
 .tab-wrapper{
     overflow: hidden;
+    height: inherit;
     &.linetriangle{
         .tab-content-wrapper{
             border-top: 1px solid rgba(0, 0, 0, 0.1);

@@ -4,6 +4,7 @@
         class="modal fade slide-right cz-edit"
         tabindex="-1"
         role="dialog"
+        aria-hidden="true"
         id="edit-single-model"
 >
     <div class="modal-dialog">
@@ -35,14 +36,24 @@
                                                 <div class="col-sm-8">
                                                     <div *ngIf="itemType === 'select' &&  fields[itemId]">
                                                         <select (change)="onChangeSelectValue($event)"
-                                                                class="form-control"
+                                                                data-live-search="true"
+                                                                data-width="99%"
+                                                                class="form-control selectpicker"
+                                                                *ngIf="fields[itemId].options?.filterable === true && fields[itemId].options?.optionsForSelect?.length > 5"
+                                                                [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
+                                                                [disabled]="fields[itemId].readonly"
+                                                                [multiple]="fields[itemId].options.multipleSelect"
+                                                                [name]="fieldName[itemId]">
+                                                            <option *ngFor="let field of fields[itemId].options.optionsForSelect">{{field.value}}</option>
+                                                        </select>
+                                                        <select (change)="onChangeSelectValue($event)"
+                                                                class="form-control selectpicker"
+                                                                *ngIf="fields[itemId].options?.filterable !== true || fields[itemId].options?.optionsForSelect?.length <= 5"
                                                                 [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                                 [disabled]="fields[itemId].readonly"
                                                                 [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? null : SelectedSingleRowData[fieldName[itemId]]"
                                                                 [name]="fieldName[itemId]">
-                                                            <option *ngFor="let field of fields[itemId].options.optionsForSelect">
-                                                                {{field.value}}
-                                                            </option>
+                                                            <option *ngFor="let field of fields[itemId].options.optionsForSelect">{{field.value}}</option>
                                                         </select>
                                                         <div class="help-block with-errors"></div>
 

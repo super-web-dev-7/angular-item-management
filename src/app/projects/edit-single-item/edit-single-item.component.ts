@@ -4,6 +4,7 @@ import {ItemsService} from '../items-list/items.service';
 import {EventEmitterService} from '@app/event-emitter.service';
 import * as moment from 'moment';
 import * as jQuery from 'jquery';
+declare var $: any;
 
 @Component({
     selector: 'app-edit-single-item',
@@ -73,13 +74,17 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     show(event) {
-        jQuery('input[type="file"]').val('');
+        console.log('clicked')
+        $('input[type="file"]').val('');
+        $('select').selectpicker();
+        $('select').selectpicker('val', null);
         this.SelectedSingleRowData = [];
         this.newItemPopup.config.ignoreBackdropClick = true;
         this.newItemPopup.config.backdrop = false;
         this.newItemPopup.config.keyboard = true;
 
         if (this.celldbclicked === true) {
+            console.log('dbclicked')
             // this.newItemPopup.hide();
         } else {
             const popup = this.newItemPopup;
@@ -105,6 +110,11 @@ export class EditSingleItemComponent implements OnInit {
                     this.selectedRowComments.reverse();
                     this.reverse = true;
                 }
+                this.fields.forEach(field => {
+                    if (field.type === 5) {
+                        $('select[name="' + field.techName + '"]').selectpicker('val', this.SelectedSingleRowData[field.techName]);
+                    }
+                });
             }
 
             const inputDatePickers = document.querySelectorAll('#TabEdit input[type="date"]');
@@ -128,8 +138,18 @@ export class EditSingleItemComponent implements OnInit {
         if (event.target.type === 'date') {
             event.target.setAttribute('data-date', moment((<HTMLInputElement>event.target).value, 'YYYY-MM-DD').format(date_format));
         }
-        this[event.target.name] = (<HTMLInputElement>event.target).value;
-        this.SelectedSingleRowData[event.target.name] = (<HTMLInputElement>event.target).value;
+
+        if (event.target.type === 'select-multiple') {
+            this[event.target.name] = [];
+            this.SelectedSingleRowData[event.target.name] = [];
+            for (const selectedOption of event.target.selectedOptions) {
+                this[event.target.name].push(selectedOption.value);
+                this.SelectedSingleRowData[event.target.name].push(selectedOption.value);
+            }
+        } else {
+            this[event.target.name] = (<HTMLInputElement>event.target).value;
+            this.SelectedSingleRowData[event.target.name] = (<HTMLInputElement>event.target).value;
+        }
         this.isDisable_Submit = this.submitValidation();
     }
 

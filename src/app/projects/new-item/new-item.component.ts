@@ -168,6 +168,7 @@ export class NewItemComponent implements OnInit, AfterViewInit {
             this[item] = '';
         });
         $('select').selectpicker();
+        $('select').selectpicker('val', null);
         document.querySelectorAll('input').forEach(inputItem => {
             inputItem.value = '';
         });
