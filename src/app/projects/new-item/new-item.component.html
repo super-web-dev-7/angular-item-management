@@ -27,12 +27,27 @@
 
                                     <div class="col-sm-8">
                                         <div *ngIf="itemType == 'select' &&  fields[itemId]">
-                                            <select id="select" (change)="onChangeSelectValue($event)"
-                                                    class="form-control newItemFields selectpicker"
+                                            <select
+                                                    data-live-search="true"
+                                                    data-width="99%"
+                                                    class="form-control selectpicker"
+                                                    (change)="onChangeSelectValue($event)"
+                                                    *ngIf="fields[itemId].options?.filterable === true && fields[itemId].options?.optionsForSelect?.length > 5"
                                                     [disabled]="fields[itemId].readonly"
+                                                    [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                     [multiple]="fields[itemId].options.multipleSelect"
                                                     [name]="fieldName[itemId]">
-                                                <option *ngFor="let field of fields[itemId].options.optionsForSelect">
+                                                <option *ngFor="let field of fields[itemId].options.optionsForSelect">{{field.value}}</option>
+                                            </select>
+                                            <select
+                                                    class="form-control newItemFields selectpicker"
+                                                    (change)="onChangeSelectValue($event)"
+                                                    *ngIf="fields[itemId].options?.filterable !== true || fields[itemId].options?.optionsForSelect?.length <= 5"
+                                                    [disabled]="fields[itemId].readonly"
+                                                    [multiple]="fields[itemId].options.multipleSelect"
+                                                    [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
+                                                    [name]="fieldName[itemId]">
+                                                <option *ngFor="let field of fields[itemId].options?.optionsForSelect">
                                                     {{field.value}}
                                                 </option>
                                             </select>
@@ -44,6 +59,7 @@
                                                     class="form-control newItemFields"
                                                     [name]="fieldName[itemId]"
                                                     [readOnly]="fields[itemId].readonly"
+                                                    [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                     (input)="onChangeSelectValue($event, fields[itemId].options.dateFormat)"
                                                     data-date=""
                                             />
@@ -58,9 +74,9 @@
                                                     [min]="fields[itemId].options.minValue"
                                                     [max]="fields[itemId].options.maxValue"
                                                     [readOnly]="fields[itemId].readonly"
+                                                    [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                     (input)="onChangeSelectValue($event)"
                                             />
-                                            <!--                                        <span class="text-danger" *ngIf="">Value should be between {{fields[itemId].options.minValue}} and {{fields[itemId].options.maxValue}}</span>-->
                                         </div>
 
                                         <div *ngIf="itemType !== 'select' && itemType !== 'date' && itemType !== 'number'">
@@ -70,6 +86,7 @@
                                                     [name]="fieldName[itemId]"
                                                     [readOnly]="fields[itemId].readonly"
                                                     (input)="onChangeSelectValue($event)"
+                                                    [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                     [minLength]="fields[itemId].options.minLength"
                                                     [maxLength]="fields[itemId].options.maxLength ? fields[itemId].options.maxLength : '524288'"
                                             />

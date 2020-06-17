@@ -34,11 +34,10 @@
                                                         class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
                                                 <div class="col-sm-8">
                                                     <div *ngIf="itemType === 'select' &&  fields[itemId]">
-                                                        <select id="select" (change)="onChangeSelectValue($event)"
+                                                        <select (change)="onChangeSelectValue($event)"
                                                                 class="form-control"
                                                                 [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                                 [disabled]="fields[itemId].readonly"
-                                                                data-error="This field is required"
                                                                 [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? null : SelectedSingleRowData[fieldName[itemId]]"
                                                                 [name]="fieldName[itemId]">
                                                             <option *ngFor="let field of fields[itemId].options.optionsForSelect">
