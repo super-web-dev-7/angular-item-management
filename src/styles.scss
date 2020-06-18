@@ -155,3 +155,20 @@ input[type='date']::-webkit-calendar-picker-indicator {
     color: black;
     opacity: 1;
 }
+
+.tooltip-error .tooltip-inner {
+    background-color: brown;
+}
+
+.tooltip-error .arrow::before {
+    border-top-color: brown;
+    border-bottom-color: brown;
+}
+
+.ag-theme-material .ag-cell.ag-cell-inline-editing {
+    padding: 0;
+}
+
+.has-cell-error {
+    border: 2px solid brown;
+}

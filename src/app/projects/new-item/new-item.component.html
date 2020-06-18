@@ -20,7 +20,7 @@
                 <div class="container-xs-height full-height">
                     <div class="row-xs-height">
                         <div class="modal-body col-xs-height col-middle text-center">
-                            <form role="form" data-toggle="validator" novalidate>
+                            <form role="form" data-toggle="validator" novalidate id="new-item">
                                 <div class="form-group row"
                                      *ngFor="let itemType of fieldType; index as itemId">
                                     <label class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
@@ -83,6 +83,7 @@
                                             <input
                                                     [type]="itemType"
                                                     class="form-control newItemFields"
+                                                    autocomplete="off"
                                                     [name]="fieldName[itemId]"
                                                     [readOnly]="fields[itemId].readonly"
                                                     (input)="onChangeSelectValue($event)"

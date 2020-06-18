@@ -41,26 +41,45 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         const component = this;
         $(document).ready(function() {
-            $('select').selectpicker();
+            $('#new-item select').selectpicker();
             $(document).on('keyup', '.bs-searchbox input', function(e) {
-                const searchText = $(this).val();
-                if (searchText) {
-                    if ($(this).parent().parent().find('ul li').text() === searchText) {
-                        $(this).parent().find('Button').remove('#add-option');
-                    } else {
-                        if ($(this).parent().find('Button').length === 0) {
-                            $(this).parent().append('<Button class="btn btn-primary mt-3" id="add-option">Add Option</Button>');
+                const selectElement = $(this).parent().parent().parent().find('select');
+                const selectName = selectElement.attr('name') === undefined ?
+                    selectElement.attr('ng-reflect-name')
+                    : selectElement.attr('name');
+                component.fields.forEach(field => {
+                    if (field.techName === selectName) {
+                        if (field.options.insertUnknown === true) {
+                            const searchText = $(this).val();
+                            if (searchText) {
+                                let count = 0;
+                                $(this).parent().parent().find('ul li').each(function (index, element) {
+                                    if ($(element).text() === searchText) {
+                                        count++;
+                                    }
+                                });
+                                if (count !== 0) {
+                                    $(this).parent().find('Button').remove('#add-option');
+                                } else {
+                                    if ($(this).parent().find('Button').length === 0) {
+                                        $(this).parent().append('<Button class="btn btn-primary mt-3" id="add-option">Add Option</Button>');
+                                    }
+                                    $(this).parent().find('Button').text('Add { ' + searchText + ' } Option');
+                                }
+                            } else {
+                                $(this).parent().find('Button').remove('#add-option');
+                            }
                         }
-                        $(this).parent().find('Button').text('Add { ' + searchText + ' } Option');
                     }
-                } else {
-                    $(this).parent().find('Button').remove('#add-option');
-                }
+                });
             });
             $(document).on('click', '#add-option', function (e) {
                 const searchText = $(this).parent().find('input').val();
                 const selectElement = $(this).parent().parent().parent().find('select');
-                component.updateField(selectElement.attr('name'), searchText);
+                const selectElementName = selectElement.attr('name') === undefined ?
+                    selectElement.attr('ng-reflect-name')
+                    : selectElement.attr('name');
+                component.updateField(selectElementName, searchText);
                 // selectElement.prepend('<option>' + searchText + '</option>');
                 selectElement.selectpicker();
                 let selectElementValue = selectElement.selectpicker('val');
@@ -83,6 +102,7 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     }
 
     updateField(techName, searchText) {
+        console.log('>>>>>>>>>>>>', techName, searchText)
         const newField = {};
         this.fields.forEach(field => {
             if (field.techName === techName) {
@@ -143,6 +163,9 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     }
 
     onAddItem() {
+        if ($('#new-item button[type="submit"]').hasClass('disabled')) {
+            return;
+        }
         this.fields.forEach(item => {
             if (this[item.techName]) {
                 if (item.type === 3) {
@@ -167,13 +190,9 @@ export class NewItemComponent implements OnInit, AfterViewInit {
         this.fieldName.forEach(item => {
             this[item] = '';
         });
-        $('select').selectpicker();
-        $('select').selectpicker('val', null);
-        document.querySelectorAll('input').forEach(inputItem => {
-            inputItem.value = '';
-        });
-        document.querySelectorAll('select').forEach(selectItem => {
-            selectItem.value = '';
-        });
+
+        $('#new-item').trigger('reset');
+        $('#new-item select').selectpicker();
+        $('#new-item select').selectpicker('val', null);
     }
 }

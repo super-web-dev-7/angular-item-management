@@ -4,6 +4,7 @@ import {ItemsService} from '../items-list/items.service';
 import {EventEmitterService} from '@app/event-emitter.service';
 import * as moment from 'moment';
 import * as jQuery from 'jquery';
+
 declare var $: any;
 
 @Component({
@@ -24,6 +25,7 @@ export class EditSingleItemComponent implements OnInit {
     @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
 
     [key: string]: any;
+
     data = {};
     items;
     comment;
@@ -35,7 +37,8 @@ export class EditSingleItemComponent implements OnInit {
     isDisable_Submit = false;
 
     constructor(private itemsService: ItemsService, private eventEmitterService: EventEmitterService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         let tabcontent;
@@ -74,26 +77,26 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     show(event) {
-        console.log('clicked')
         $('input[type="file"]').val('');
-        $('select').selectpicker();
-        $('select').selectpicker('val', null);
+        $('#edit-form select').selectpicker();
+        $('#edit-form select').selectpicker('val', null);
         this.SelectedSingleRowData = [];
         this.newItemPopup.config.ignoreBackdropClick = true;
         this.newItemPopup.config.backdrop = false;
         this.newItemPopup.config.keyboard = true;
+        this.celldbclicked = false;
+        localStorage.setItem('pdata', 'true');
 
         if (this.celldbclicked === true) {
-            console.log('dbclicked')
             // this.newItemPopup.hide();
         } else {
             const popup = this.newItemPopup;
             this.SelectedSingleRowData = {...event.data};
             this.isDisable_Submit = this.submitValidation();
+            console.log(event.type)
 
             if (event.type === 'rowClicked') {
                 if (this.celldbclicked === false || this.celldbclicked === undefined) {
-                    const db = this.celldbclicked;
                     setTimeout(function () {
                         if (localStorage.getItem('pdata') === 'true') {
                             popup.show();
@@ -112,7 +115,8 @@ export class EditSingleItemComponent implements OnInit {
                 }
                 this.fields.forEach(field => {
                     if (field.type === 5) {
-                        $('select[name="' + field.techName + '"]').selectpicker('val', this.SelectedSingleRowData[field.techName]);
+                        $('#edit-form select[name="' + field.techName + '"]')
+                            .selectpicker('val', this.SelectedSingleRowData[field.techName]);
                     }
                 });
             }
@@ -156,6 +160,7 @@ export class EditSingleItemComponent implements OnInit {
     onEditItem(event) {
         event.preventDefault();
         if (event.target.className.includes('disabled') === true) {
+            console.log('disabled');
             return;
         }
         this.fields.forEach(fields => {

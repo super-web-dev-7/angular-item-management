@@ -9,6 +9,9 @@ import {FilterInputComponent} from '../filter-input/filter-input.component';
 import {DateEditorComponent} from '../date-editor/date-editor.component';
 import {RowColumnDragComponent} from '../row-column-drag/row-column-drag.component';
 import {CellEditComponent} from '../cell-edit/cell-edit.component';
+import {TextEditorComponent} from '@app/projects/text-editor/text-editor.component';
+import {NumberEditorComponent} from '@app/projects/number-editor/number-editor.component';
+import {SelectEditorComponent} from '@app/projects/select-editor/select-editor.component';
 
 @Component({
     selector: 'app-ag-grid',
@@ -76,7 +79,13 @@ export class AgGridComponent implements OnInit {
         private fieldService: FieldService,
         private eventEmitterService: EventEmitterService
     ) {
-        this.frameworkComponents = {FilterInputComponent: FilterInputComponent, DateEditorComponent: DateEditorComponent};
+        this.frameworkComponents = {
+            FilterInputComponent: FilterInputComponent,
+            DateEditorComponent: DateEditorComponent,
+            TextEditorComponent: TextEditorComponent,
+            NumberEditorComponent: NumberEditorComponent,
+            SelectEditorComponent: SelectEditorComponent
+        };
     }
 
     ngOnInit() {
@@ -119,11 +128,6 @@ export class AgGridComponent implements OnInit {
                         menuTabs: ['filterMenuTab'],
                         valueGetter: function (params) {
                             if (params.data[field.techName] !== undefined && params.data[field.techName] !== 'No Data Found !!') {
-                                // var dateobj = new Date(params.data[field.techName]);
-                                // dateobj.getDate();
-                                // // var date = dateobj.getFullYear()+'-'+dateobj.getMonth()+'-'+ dateobj.getDate();
-                                // dateobj.toString();
-                                // return dateobj;
                                 return moment(new Date(params.data[field.techName]), 'YYYY-MM-DD').format(field.options.dateFormat);
                             }
                             return '';
@@ -141,12 +145,12 @@ export class AgGridComponent implements OnInit {
                             colId: field.techName,
                             groupId: 'select',
                             sortingOrder: ['asc', 'desc', null],
-                            cellEditor: 'agSelectCellEditor',
+                            cellEditor: 'SelectEditorComponent',
+                            cellEditorParams: {
+                                option: field
+                            },
                             filter: 'FilterInputComponent',
                             menuTabs: ['filterMenuTab'],
-                            cellEditorParams: {
-                                values: field.options.optionsForSelect.map((option) => option.value)
-                            },
                         });
                     }
                 }
@@ -158,6 +162,10 @@ export class AgGridComponent implements OnInit {
                         resizable: true,
                         colId: field.techName,
                         groupId: 'number',
+                        cellEditor: 'NumberEditorComponent',
+                        cellEditorParams: {
+                            option: field
+                        },
                         filter: 'FilterInputComponent',
                         menuTabs: ['filterMenuTab'],
                         sortingOrder: ['asc', 'desc', null],
@@ -188,6 +196,10 @@ export class AgGridComponent implements OnInit {
                         colId: field.techName,
                         resizable: true,
                         groupId: 'text',
+                        cellEditor: 'TextEditorComponent',
+                        cellEditorParams: {
+                            option: field
+                        },
                         filter: 'FilterInputComponent',
                         menuTabs: ['filterMenuTab'],
                         sortingOrder: ['asc', 'desc', null],
@@ -331,6 +343,9 @@ export class AgGridComponent implements OnInit {
     }
 
     onCellClicked(event) {
+
+        // console.log(this.celldbclicked)
+        // this.celldbclicked = false;
 
         // tslint:disable-next-line:max-line-length
         const selectedElement = document.querySelector('.ag-body-viewport div[role="rowgroup"] div[role="row"][row-index="' + this.selectedRow + '"]');

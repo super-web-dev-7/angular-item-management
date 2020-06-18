@@ -24,6 +24,8 @@ export class CellEditComponent implements OnInit {
     }
 
     oncellValueChanged(event) {
+
+        console.log(event);
         if (event.newValue) {
             this.celldbclicked = false;
             localStorage.setItem('pdata', 'true');
@@ -31,7 +33,7 @@ export class CellEditComponent implements OnInit {
             let data;
             data = {_id: event.data._id, projectId: event.data.projectId};
             if (event.column.colDef['groupId'] === 'date') {
-                data[event.column.colId] = (new Date(event.newValue)).getTime();
+                data[event.column.colId] = (new Date(event.data[event.colDef.colId])).getTime();
             } else {
                 data[event.column.colId] = event.newValue;
             }

@@ -63,6 +63,7 @@
                                                                [value]="SelectedSingleRowData[fieldName[itemId]] === undefined ? null : SelectedSingleRowData[fieldName[itemId]]"
                                                                [id]="fieldName[itemId]"
                                                                [type]="itemType"
+                                                               autocomplete="off"
                                                                [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                                [readOnly]="fields[itemId].readonly"
                                                                class="form-control"

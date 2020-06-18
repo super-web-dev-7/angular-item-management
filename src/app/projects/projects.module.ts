@@ -37,6 +37,10 @@ import {PaginationComponent} from './pagination/pagination.component';
 import {GridEventsComponent} from './grid-events/grid-events.component';
 import {CellEditComponent} from './cell-edit/cell-edit.component';
 import {SetColumnItemsComponent} from './set-column-items/set-column-items.component';
+import {TextEditorComponent} from '@app/projects/text-editor/text-editor.component';
+import {NumberEditorComponent} from '@app/projects/number-editor/number-editor.component';
+import {SelectEditorComponent} from '@app/projects/select-editor/select-editor.component';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
@@ -49,10 +53,17 @@ import {SetColumnItemsComponent} from './set-column-items/set-column-items.compo
         ModalModule.forRoot(),
         TabsModule.forRoot(),
         pgTabsModule,
-        AgGridModule.withComponents([FilterInputComponent, DateEditorComponent]),
+        AgGridModule.withComponents([
+            FilterInputComponent,
+            DateEditorComponent,
+            TextEditorComponent,
+            NumberEditorComponent,
+            SelectEditorComponent
+        ]),
         FormsModule,
         ModalsModule,
         CommonFormsModule,
+        NgbTooltipModule,
     ],
     providers: [],
     declarations: [
@@ -71,6 +82,9 @@ import {SetColumnItemsComponent} from './set-column-items/set-column-items.compo
         ProjectBoxActionsComponent,
         FilterInputComponent,
         DateEditorComponent,
+        TextEditorComponent,
+        NumberEditorComponent,
+        SelectEditorComponent,
         ShowHideCheckboxComponent,
         RowColumnDragComponent,
         PaginationComponent,
