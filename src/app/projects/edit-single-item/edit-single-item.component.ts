@@ -84,8 +84,6 @@ export class EditSingleItemComponent implements OnInit {
         this.newItemPopup.config.ignoreBackdropClick = true;
         this.newItemPopup.config.backdrop = false;
         this.newItemPopup.config.keyboard = true;
-        this.celldbclicked = false;
-        localStorage.setItem('pdata', 'true');
 
         if (this.celldbclicked === true) {
             // this.newItemPopup.hide();
@@ -93,7 +91,6 @@ export class EditSingleItemComponent implements OnInit {
             const popup = this.newItemPopup;
             this.SelectedSingleRowData = {...event.data};
             this.isDisable_Submit = this.submitValidation();
-            console.log(event.type)
 
             if (event.type === 'rowClicked') {
                 if (this.celldbclicked === false || this.celldbclicked === undefined) {

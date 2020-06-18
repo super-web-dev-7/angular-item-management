@@ -344,9 +344,6 @@ export class AgGridComponent implements OnInit {
 
     onCellClicked(event) {
 
-        // console.log(this.celldbclicked)
-        // this.celldbclicked = false;
-
         // tslint:disable-next-line:max-line-length
         const selectedElement = document.querySelector('.ag-body-viewport div[role="rowgroup"] div[role="row"][row-index="' + this.selectedRow + '"]');
 
@@ -471,6 +468,11 @@ export class AgGridComponent implements OnInit {
                 }
             }
         }
+    }
+
+    onCellEditingStopped() {
+        this.celldbclicked = false;
+        localStorage.setItem('pdata', 'true');
     }
 
 }
