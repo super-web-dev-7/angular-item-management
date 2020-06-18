@@ -1,0 +1,20 @@
+<div
+        [ngbTooltip]="tipContent" triggers="manual" #tooltip="ngbTooltip" container="body" tooltipClass="tooltip-error"
+        class="h-100"
+        [ngClass]="{'has-cell-error' : isCancel}"
+>
+    <input
+        #input
+        class="ag-cell-edit-input border-0"
+        [(ngModel)]="value"
+        (ngModelChange)="onChange(tooltip)"
+        [name]="params.option.techName"
+        [readOnly]="params.option.readonly"
+        [required]="params.option.readonly ? false : params.option.isRequired"
+        [minLength]="params.option.options.minLength"
+        [maxLength]="params.option.options.maxLength ? params.option.options.maxLength : '524288'"
+        style="width: 100%"
+
+    />
+</div>
+<ng-template #tipContent let-error="error">{{error}}</ng-template>

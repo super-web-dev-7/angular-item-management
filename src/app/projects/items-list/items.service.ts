@@ -34,13 +34,13 @@ export class ItemsService {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         };
-        if (localStorage.getItem('pastetype') == 'copy') {
+        if (localStorage.getItem('pastetype') === 'copy') {
 
             return this.httpClient.post<any>(`${environment.apiUrl}/item/duplicate`, data, {
                 headers
             });
         }
-        if (localStorage.getItem('pastetype') == 'cut') {
+        if (localStorage.getItem('pastetype') === 'cut') {
             return this.httpClient.put<any>(`${environment.apiUrl}/item/paste`, data, {
                 headers
             });
@@ -79,7 +79,7 @@ export class ItemsService {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         };
-        return this.httpClient.post<any>(`${environment.apiUrl}/item/mass-delete`, data,);
+        return this.httpClient.post<any>(`${environment.apiUrl}/item/mass-delete`, data);
     }
 
     public deleteSingleItemByid(id) {
@@ -145,7 +145,7 @@ export class ItemsService {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         };
-        return this.httpClient.get<any>(`${environment.apiUrl}/item/total/project/` + id,);
+        return this.httpClient.get<any>(`${environment.apiUrl}/item/total/project/` + id);
     }
 
 }

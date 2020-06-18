@@ -1,0 +1,33 @@
+<div
+        [ngbTooltip]="tipContent" triggers="manual" #tooltip="ngbTooltip" container="body" tooltipClass="tooltip-error"
+        class="h-100 cell-edit-select"
+        [ngClass]="{'has-cell-error' : isCancel}"
+        id="cell-edit"
+>
+
+    <select
+            #select
+            data-live-search="true"
+            data-width="99%"
+            class="form-control selectpicker"
+            (change)="onChange($event, tooltip)"
+            *ngIf="params.option.options?.filterable === true && params.option.options?.optionsForSelect?.length > 5"
+            [disabled]="params.option.readonly"
+            [required]="params.option.readonly ? false : params.option.isRequired"
+            [multiple]="params.option.options.multipleSelect"
+            [name]="params.option.techName">
+        <option *ngFor="let field of params.option.options.optionsForSelect">{{field.value}}</option>
+    </select>
+    <select
+            #select
+            class="form-control newItemFields selectpicker"
+            *ngIf="params.option.options?.filterable !== true || params.option.options?.optionsForSelect?.length <= 5"
+            (change)="onChange($event, tooltip)"
+            [disabled]="params.option.readonly"
+            [multiple]="params.option.options.multipleSelect"
+            [required]="params.option.readonly ? false : params.option.isRequired"
+            [name]="params.option.techName">
+        <option *ngFor="let field of params.option.options?.optionsForSelect">{{field.value}}</option>
+    </select>
+</div>
+<ng-template #tipContent let-error="error">{{error}}</ng-template>

@@ -1,17 +1,11 @@
-<button class="btn btn-brimary" (click)="itemDetails.show()">
-    Open item details example
-</button>
-
-<button class="btn btn-brimary" (click)="itemsSelection.show()">
-    Open items selection example
-</button>
-
-<button class="btn btn-brimary" (click)="newItem.show()">
-    Add New Item
-</button>
-<button class="btn btn-brimary" (click)="addNewfield.show()">
-    Add new field
-</button>
+<div class="position-sticky">
+    <button class="btn btn-brimary" (click)="newItem.show()">
+        Add New Item
+    </button>
+    <button class="btn btn-brimary" (click)="addNewfield.show()">
+        Add new field
+    </button>
+</div>
 <app-cell-edit #cellEditComponent [celldbclicked]="celldbclicked" [pageNo]="pageNo"></app-cell-edit>
 
 <app-grid-events
@@ -69,9 +63,9 @@
 <ag-grid-angular #agGrid
                  id="agGrid"
                  style="width: 100%;"
+                 [ngStyle]="gridStyle"
                  *ngIf="items && items.length > 0 && columnLoaded"
                  class="ag-theme-material"
-                 [domLayout]="'autoHeight'"
                  [rowData]="items"
                  [rowStyle]="rowStyle"
                  [rowClass]="rowClassRules"

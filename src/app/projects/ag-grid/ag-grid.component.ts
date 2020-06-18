@@ -73,6 +73,7 @@ export class AgGridComponent implements OnInit {
     gridOption: any = {
         rowClass: ''
     };
+    gridStyle: any;
 
     constructor(
         private itemsService: ItemsService,
@@ -100,6 +101,7 @@ export class AgGridComponent implements OnInit {
         this.rowStyle = {
             cursor: 'pointer'
         };
+        this.gridStyle = {'height': (document.body.scrollHeight - 300) + 'px'};
     }
 
     onGridReady(event) {
