@@ -157,6 +157,10 @@ export class EditSingleItemComponent implements OnInit {
     onEditItem(event) {
         const _this = this;
         $('#edit-form').validator().on('submit', function (e) {
+            $('#edit-form select').selectpicker('val', function () {
+                console.log('value>>>>>', _this[$(this).attr('name')])
+                return _this[$(this).attr('name')]
+            });
             if (e.isDefaultPrevented()) {
                 return;
             } else {

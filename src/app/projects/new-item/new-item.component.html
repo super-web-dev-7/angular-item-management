@@ -38,6 +38,7 @@
                                                         [multiple]="fields[itemId].options.multipleSelect"
                                                         [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                         data-live-search="true"
+                                                        title="Please select"
                                                         [name]="fieldName[itemId]"
                                                 >
                                                     <option value=" " disabled>Please select item</option>
@@ -46,6 +47,7 @@
                                                 <select
                                                         class="form-control selectpicker newItemFields"
                                                         data-width="99%"
+                                                        title="Please select"
                                                         (change)="onChangeSelectValue($event)"
                                                         *ngIf="fields[itemId].options?.filterable !== true || fields[itemId].options?.optionsForSelect?.length <= 5"
                                                         [disabled]="fields[itemId].readonly"

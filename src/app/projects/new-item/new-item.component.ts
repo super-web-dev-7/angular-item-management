@@ -168,6 +168,10 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     onAddItem() {
         const _this = this;
         $('#new-item').validator().on('submit', function (event) {
+            $('#new-item select').selectpicker('val', function () {
+                console.log('value>>>>>', _this[$(this).attr('name')])
+                return _this[$(this).attr('name')]
+            });
             if (event.isDefaultPrevented()) {
                 return;
             } else {
@@ -198,9 +202,8 @@ export class NewItemComponent implements OnInit, AfterViewInit {
         this.fieldName.forEach(item => {
             this[item] = '';
         });
-
-        $('#new-item').trigger('reset');
         $('#new-item select').selectpicker();
         $('#new-item select').selectpicker('val', null);
+        $('#new-item').trigger('reset');
     }
 }
