@@ -27,7 +27,7 @@
                             <div class="container-xs-height full-height">
                                 <div class="row-xs-height">
                                     <div class="modal-body col-xs-height col-middle text-center p-up">
-                                        <form id="edit-form" name="editForm" role="form" data-toggle="validator" novalidate>
+                                        <form id="edit-form" name="editForm" role="form">
                                             <div class="form-body">
                                                 <div class="form-group row"
                                                      *ngFor="let itemType of fieldType; index as itemId">
@@ -114,7 +114,6 @@
                                             <br>
                                             <button
                                                     type="submit"
-                                                    [disabled]="isDisable_Submit"
                                                     class="btn btn-primary"
                                                     (click)="onEditItem($event)"
                                             >

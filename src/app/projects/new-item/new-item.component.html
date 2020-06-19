@@ -5,7 +5,7 @@
         tabindex="-1"
         role="dialog"
         aria-hidden="true"
-        id="new-item"
+        id="new-item-dialog"
 >
     <div class="modal-dialog">
         <div class="modal-content-wrapper">
@@ -21,34 +21,38 @@
                 <div class="container-xs-height full-height">
                     <div class="row-xs-height">
                         <div class="modal-body col-xs-height col-middle text-center">
-                            <form role="form" data-toggle="validator" novalidate id="new-item">
+                            <form role="form" id="new-item">
                                 <div class="form-body">
                                     <div class="form-group row"
                                          *ngFor="let itemType of fieldType; index as itemId">
                                         <label class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
 
                                         <div class="col-sm-8">
-                                            <div *ngIf="itemType == 'select' &&  fields[itemId]">
+                                            <div *ngIf="itemType == 'select' &&  fields[itemId]" class="form-input">
                                                 <select
-                                                        data-live-search="true"
                                                         data-width="99%"
-                                                        class="form-control selectpicker"
+                                                        class="form-control selectpicker newItemFields"
                                                         (change)="onChangeSelectValue($event)"
                                                         *ngIf="fields[itemId].options?.filterable === true && fields[itemId].options?.optionsForSelect?.length > 5"
                                                         [disabled]="fields[itemId].readonly"
-                                                        [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                         [multiple]="fields[itemId].options.multipleSelect"
-                                                        [name]="fieldName[itemId]">
+                                                        [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
+                                                        data-live-search="true"
+                                                        [name]="fieldName[itemId]"
+                                                >
+                                                    <option value=" " disabled>Please select item</option>
                                                     <option *ngFor="let field of fields[itemId].options.optionsForSelect">{{field.value}}</option>
                                                 </select>
                                                 <select
-                                                        class="form-control newItemFields selectpicker"
+                                                        class="form-control selectpicker newItemFields"
+                                                        data-width="99%"
                                                         (change)="onChangeSelectValue($event)"
                                                         *ngIf="fields[itemId].options?.filterable !== true || fields[itemId].options?.optionsForSelect?.length <= 5"
                                                         [disabled]="fields[itemId].readonly"
                                                         [multiple]="fields[itemId].options.multipleSelect"
                                                         [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                         [name]="fieldName[itemId]">
+                                                    <option value=" " disabled>Please select item</option>
                                                     <option *ngFor="let field of fields[itemId].options?.optionsForSelect">
                                                         {{field.value}}
                                                     </option>
@@ -100,9 +104,8 @@
                                     </div>
                                 </div>
                                 <br>
-                                <button
+                                <button [autofocus]="true"
                                         type="submit"
-                                        [disabled]="isDisable_Submit"
                                         class="btn btn-primary"
                                         (click)="onAddItem()"
                                 >

@@ -5,6 +5,7 @@ import {EventEmitter} from '@angular/core';
 import {EventEmitterService} from '@app/event-emitter.service';
 import * as moment from 'moment';
 import {FieldService} from '@app/fields/field.service';
+
 declare var $: any;
 
 @Component({
@@ -40,9 +41,9 @@ export class NewItemComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         const component = this;
-        $(document).ready(function() {
-            $('#new-item select').selectpicker();
-            $(document).on('keyup', '.bs-searchbox input', function(e) {
+        $(document).ready(function () {
+            // $('#new-item select').selectpicker();
+            $(document).on('keyup', '.bs-searchbox input', function (e) {
                 const selectElement = $(this).parent().parent().parent().find('select');
                 const selectName = selectElement.attr('name') === undefined ?
                     selectElement.attr('ng-reflect-name')
@@ -102,7 +103,7 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     }
 
     updateField(techName, searchText) {
-        console.log('>>>>>>>>>>>>', techName, searchText)
+        console.log('>>>>>>>>>>>>', techName, searchText);
         const newField = {};
         this.fields.forEach(field => {
             if (field.techName === techName) {
@@ -161,35 +162,39 @@ export class NewItemComponent implements OnInit, AfterViewInit {
             }
         } else {
             this[event.target.name] = (<HTMLInputElement>event.target).value;
-            this.isDisable_Submit = this.submitValidation();
         }
     }
 
     onAddItem() {
-        if ($('#new-item button[type="submit"]').hasClass('disabled')) {
-            return;
-        }
-        this.fields.forEach(item => {
-            if (this[item.techName]) {
-                if (item.type === 3) {
-                    const date = new Date(this[item.techName]);
-                    this.data[item.techName] = date.getTime().toString();
-                } else {
-                    this.data[item.techName] = this[item.techName];
-                }
+        const _this = this;
+        $('#new-item').validator().on('submit', function (event) {
+            if (event.isDefaultPrevented()) {
+                return;
+            } else {
+                _this.fields.forEach(item => {
+                    if (_this[item.techName]) {
+                        if (item.type === 3) {
+                            const date = new Date(_this[item.techName]);
+                            _this.data[item.techName] = date.getTime().toString();
+                        } else {
+                            _this.data[item.techName] = _this[item.techName];
+                        }
+                    }
+                });
+                _this.data['projectId'] = localStorage.getItem('ProjectId');
+                _this.itemsService
+                    .newItemByProject(localStorage.getItem('ProjectId'), _this.data)
+                    .subscribe(result => {
+                        _this.eventEmitterService.onPageChange(_this.pageNo);
+                    });
+                _this.resetPopValues();
+                _this.newItemPopup.hide();
             }
         });
-        this.data['projectId'] = localStorage.getItem('ProjectId');
-        this.itemsService
-            .newItemByProject(localStorage.getItem('ProjectId'), this.data)
-            .subscribe(result => {
-                this.eventEmitterService.onPageChange(this.pageNo);
-            });
-        this.resetPopValues();
-        this.newItemPopup.hide();
     }
 
     resetPopValues() {
+        console.log(this.fields)
         this.fieldName.forEach(item => {
             this[item] = '';
         });

@@ -30,6 +30,11 @@ export class NumberEditorComponent implements OnInit, ICellEditorAngularComp, Af
         this.value = params.value;
     }
 
+    afterGuiAttached(params?: any): void {
+        document.getElementById('number-editor').focus();
+    }
+
+
     getMinMaxValueErrorMessage() {
         return 'Value must be between ' +
             this.params.option.options.minValue + ' and ' + this.params.option.options.maxValue + '.';

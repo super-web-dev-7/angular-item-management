@@ -155,30 +155,32 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     onEditItem(event) {
-        event.preventDefault();
-        if (event.target.className.includes('disabled') === true) {
-            console.log('disabled');
-            return;
-        }
-        this.fields.forEach(fields => {
-            if (fields.type === 3) {
-                const date = new Date(this[fields.techName]);
-                this[fields.techName] = date.getTime();
-            }
-            if (this[fields.techName]) {
-                this.data[fields.techName] = this[fields.techName];
+        const _this = this;
+        $('#edit-form').validator().on('submit', function (e) {
+            if (e.isDefaultPrevented()) {
+                return;
+            } else {
+                _this.fields.forEach(fields => {
+                    if (fields.type === 3) {
+                        const date = new Date(_this[fields.techName]);
+                        _this[fields.techName] = date.getTime();
+                    }
+                    if (_this[fields.techName]) {
+                        _this.data[fields.techName] = _this[fields.techName];
+                    }
+                });
+                _this.data['_id'] = _this.SelectedSingleRowData['_id'];
+                _this.data['projectId'] = _this.SelectedSingleRowData['projectId'];
+                _this.itemsService
+                    .editItemByProject(_this.data)
+                    .subscribe(result => {
+                        _this.eventEmitterService.onPageChange(_this.pageNo);
+                    });
+
+                _this.SelectedSingleRowData = [];
+                _this.newItemPopup.hide();
             }
         });
-        this.data['_id'] = this.SelectedSingleRowData['_id'];
-        this.data['projectId'] = this.SelectedSingleRowData['projectId'];
-        this.itemsService
-            .editItemByProject(this.data)
-            .subscribe(result => {
-                this.eventEmitterService.onPageChange(this.pageNo);
-            });
-
-        this.SelectedSingleRowData = [];
-        this.newItemPopup.hide();
     }
 
     addComment() {

@@ -11,7 +11,7 @@ export class TextEditorComponent implements OnInit, ICellEditorAngularComp, Afte
 
     private params: any;
     public value: any;
-    @ViewChild('input', {read: ElementRef, static: false}) input: ElementRef;
+    @ViewChild('input', {static: false}) input: ElementRef;
     // error: any;
     ERROR_REQUIRED = 'This field is required';
     isCancel = false;
@@ -29,6 +29,10 @@ export class TextEditorComponent implements OnInit, ICellEditorAngularComp, Afte
     agInit(params: any): void {
         this.params = params;
         this.value = params.value;
+    }
+
+    afterGuiAttached(params?: any): void {
+        document.getElementById('text-editor').focus();
     }
 
     getMinLengthErrorMessage() {
