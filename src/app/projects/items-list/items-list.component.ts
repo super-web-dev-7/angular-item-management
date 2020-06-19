@@ -137,6 +137,7 @@ export class ItemsListComponent implements OnInit {
     countItemsByProject() {
         this.itemsService.countItemsByProject(localStorage.getItem('ProjectId')).subscribe((count: any) => {
             this.TotalItems = count;
+            console.log('total items>>>>>>>', this.TotalItems);
             this.totalPage = Math.ceil(this.TotalItems / 100);
             if (this.totalPage === 1) {
                 this.pageNo = 1;

@@ -26,6 +26,7 @@ export class AgGridComponent implements OnInit {
     @ViewChild('RowColumnDragComponent', {static: true}) RowColumnDragComponent: RowColumnDragComponent;
     @ViewChild('cellEditComponent', {static: true}) cellEditComponent: CellEditComponent;
     @Input() pageNo;
+    @Input() totalPage;
     @Input() oldArrow;
     @Input() sortOrder;
     @Input() headerField;
@@ -74,6 +75,7 @@ export class AgGridComponent implements OnInit {
         rowClass: ''
     };
     gridStyle: any;
+    paginationPageSize = 10;
 
     constructor(
         private itemsService: ItemsService,
@@ -90,6 +92,7 @@ export class AgGridComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.totalPage)
         this.defaultColDef = {
             width: 150,
             resizeable: true,
@@ -105,9 +108,12 @@ export class AgGridComponent implements OnInit {
     }
 
     onGridReady(event) {
+        console.log(event)
         localStorage.removeItem('gridHeader');
         this.ongridEventData = event;
+        event.api.paginationSetPageSize(10)
         this.gridApi = event.api;
+        this.gridApi.paginationSetPageSize(10)
         this.gridRows = event.api.rowModel.rowsToDisplay;
         this.gridApi.setSuppressClipboardPaste(false);
     }

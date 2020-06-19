@@ -1,3 +1,8 @@
 ::ng-deep .ag-body-viewport div[role="rowgroup"] div[role="row"][selected='true']  {
     background-color: #e0efe1!important;
 }
+
+::ng-deep .ag-root-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+}
