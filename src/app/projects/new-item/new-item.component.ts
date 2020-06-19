@@ -13,7 +13,7 @@ declare var $: any;
     styleUrls: ['./new-item.component.scss']
 })
 export class NewItemComponent implements OnInit, AfterViewInit {
-    @ViewChild('newItemPopup', {static: true}) newItemPopup: ModalDirective;
+    @ViewChild('newItemPopup', {static: false}) newItemPopup: ModalDirective;
     @Input() projectId;
     @Input() pageNo;
     @Input() fieldType;
@@ -122,6 +122,9 @@ export class NewItemComponent implements OnInit, AfterViewInit {
 
     show() {
         this.resetPopValues();
+        this.newItemPopup.config.ignoreBackdropClick = true;
+        this.newItemPopup.config.backdrop = false;
+        this.newItemPopup.config.keyboard = true;
         this.newItemPopup.show();
     }
 

@@ -1,3 +1,9 @@
+#new-item {
+    width: 100%;
+    max-width: 500px;
+    left: auto;
+}
+
 input[type='date'] {
     position: relative;
     width: 100%;
@@ -24,4 +30,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
     right: 0;
     color: black;
     opacity: 1;
+}
+
+.form-body {
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
 }

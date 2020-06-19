@@ -123,3 +123,9 @@ span.comment-date {
     white-space: pre-wrap;
 }
 
+.form-body {
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+}
