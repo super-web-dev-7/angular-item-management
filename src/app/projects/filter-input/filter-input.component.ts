@@ -30,10 +30,7 @@ export class FilterInputComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.setFilterEvent.emit("This is the child component");
     }
-
-    // @ViewChild('input', { read: ViewContainerRef,static: false }) public input;
 
     agInit(params: IFilterParams): void {
         this.params = params;
@@ -61,7 +58,6 @@ export class FilterInputComponent implements OnInit {
     isFilterActive(): boolean {
         return this.text !== null && this.text !== undefined && this.text !== '';
     }
-
 
     onChange(newValue): void {
         if (this.text !== newValue) {

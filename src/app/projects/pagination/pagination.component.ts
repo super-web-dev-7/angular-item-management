@@ -13,6 +13,5 @@ export class PaginationComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.gridApi.paginationSetPageSize(10);
     }
 }
