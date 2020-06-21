@@ -4,6 +4,7 @@ $ag-accent-color: #FFD740; // amber-A200
 
 @import '../node_modules/ag-grid-community/src/styles/ag-grid.scss';
 @import '../node_modules/ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material.scss';
+@import "~@ng-select/ng-select/themes/default.theme.css";
 .modal .modal-dialog.modal-sm.selection-popup {
     margin: 0 !important;
     position: absolute !important;

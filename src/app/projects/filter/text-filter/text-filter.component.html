@@ -1,0 +1,20 @@
+<div class="container p-3">
+    <ng-select [items]="types"
+               bindLabel="name"
+               appendTo="div.ag-filter"
+               placeholder="Select type"
+               [ngModel]="type"
+               (change)="onSelectChange($event)"
+               >
+    </ng-select>
+    <br>
+
+    <input
+            type="{{FilterInputType}}"
+            #input
+            (ngModelChange)="onChange($event)"
+            [ngModel]="text"
+            placeholder="Filter..."
+            class="form-control"
+    />
+</div>

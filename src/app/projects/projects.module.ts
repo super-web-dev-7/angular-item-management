@@ -40,7 +40,9 @@ import {SetColumnItemsComponent} from './set-column-items/set-column-items.compo
 import {TextEditorComponent} from '@app/projects/text-editor/text-editor.component';
 import {NumberEditorComponent} from '@app/projects/number-editor/number-editor.component';
 import {SelectEditorComponent} from '@app/projects/select-editor/select-editor.component';
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TextFilterComponent} from '@app/projects/filter/text-filter/text-filter.component';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
@@ -55,15 +57,18 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
         pgTabsModule,
         AgGridModule.withComponents([
             FilterInputComponent,
+            TextFilterComponent,
             DateEditorComponent,
             TextEditorComponent,
             NumberEditorComponent,
             SelectEditorComponent
         ]),
+        NgSelectModule,
         FormsModule,
         ModalsModule,
         CommonFormsModule,
         NgbTooltipModule,
+        NgbDropdownModule,
     ],
     providers: [],
     declarations: [
@@ -81,6 +86,7 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
         AgGridComponent,
         ProjectBoxActionsComponent,
         FilterInputComponent,
+        TextFilterComponent,
         DateEditorComponent,
         TextEditorComponent,
         NumberEditorComponent,

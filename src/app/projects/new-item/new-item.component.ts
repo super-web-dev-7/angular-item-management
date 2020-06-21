@@ -103,7 +103,6 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     }
 
     updateField(techName, searchText) {
-        console.log('>>>>>>>>>>>>', techName, searchText);
         const newField = {};
         this.fields.forEach(field => {
             if (field.techName === techName) {
@@ -167,38 +166,37 @@ export class NewItemComponent implements OnInit, AfterViewInit {
 
     onAddItem() {
         const _this = this;
-        $('#new-item').validator().on('submit', function (event) {
-            $('#new-item select').selectpicker('val', function () {
-                console.log('value>>>>>', _this[$(this).attr('name')])
-                return _this[$(this).attr('name')]
-            });
-            if (event.isDefaultPrevented()) {
-                return;
-            } else {
-                _this.fields.forEach(item => {
-                    if (_this[item.techName]) {
-                        if (item.type === 3) {
-                            const date = new Date(_this[item.techName]);
-                            _this.data[item.techName] = date.getTime().toString();
-                        } else {
-                            _this.data[item.techName] = _this[item.techName];
-                        }
-                    }
-                });
-                _this.data['projectId'] = localStorage.getItem('ProjectId');
-                _this.itemsService
-                    .newItemByProject(localStorage.getItem('ProjectId'), _this.data)
-                    .subscribe(result => {
-                        _this.eventEmitterService.onPageChange(_this.pageNo);
-                    });
-                _this.resetPopValues();
-                _this.newItemPopup.hide();
-            }
+        $('#new-item').validator();
+        $('#new-item select').selectpicker('val', function () {
+            return _this[$(this).attr('name')];
         });
+        const validator = $('#new-item').data('bs.validator');
+        validator.validate();
+        if (!validator.hasErrors()) {
+            _this.fields.forEach(item => {
+                if (_this[item.techName]) {
+                    if (item.type === 3) {
+                        const date = new Date(_this[item.techName]);
+                        _this.data[item.techName] = date.getTime().toString();
+                    } else {
+                        _this.data[item.techName] = _this[item.techName];
+                    }
+                }
+            });
+            _this.data['projectId'] = localStorage.getItem('ProjectId');
+            _this.itemsService
+                .newItemByProject(localStorage.getItem('ProjectId'), _this.data)
+                .subscribe(result => {
+                    _this.eventEmitterService.onPageChange(_this.pageNo);
+                });
+            _this.resetPopValues();
+            _this.newItemPopup.hide();
+        } else {
+            return;
+        }
     }
 
     resetPopValues() {
-        console.log(this.fields)
         this.fieldName.forEach(item => {
             this[item] = '';
         });

@@ -34,7 +34,6 @@ export class EditSingleItemComponent implements OnInit {
     reverse = false;
     commentEditingMode = false;
     EditableCommentId;
-    isDisable_Submit = false;
 
     constructor(private itemsService: ItemsService, private eventEmitterService: EventEmitterService
     ) {
@@ -77,9 +76,10 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     show(event) {
-        $('input[type="file"]').val('');
+        // $('input[type="file"]').val('');
         $('#edit-form select').selectpicker();
         $('#edit-form select').selectpicker('val', null);
+        $('#edit-form').trigger('reset');
         this.SelectedSingleRowData = [];
         this.newItemPopup.config.ignoreBackdropClick = true;
         this.newItemPopup.config.backdrop = false;
@@ -90,7 +90,6 @@ export class EditSingleItemComponent implements OnInit {
         } else {
             const popup = this.newItemPopup;
             this.SelectedSingleRowData = {...event.data};
-            this.isDisable_Submit = this.submitValidation();
 
             if (event.type === 'rowClicked') {
                 if (this.celldbclicked === false || this.celldbclicked === undefined) {
@@ -132,6 +131,7 @@ export class EditSingleItemComponent implements OnInit {
             this.fieldName.forEach(item => {
                 this.data[item] = '';
             });
+            $('#edit-form button[type="submit"]').removeClass('disabled');
         }
     }
 
@@ -151,40 +151,39 @@ export class EditSingleItemComponent implements OnInit {
             this[event.target.name] = (<HTMLInputElement>event.target).value;
             this.SelectedSingleRowData[event.target.name] = (<HTMLInputElement>event.target).value;
         }
-        this.isDisable_Submit = this.submitValidation();
     }
 
     onEditItem(event) {
         const _this = this;
-        $('#edit-form').validator().on('submit', function (e) {
-            $('#edit-form select').selectpicker('val', function () {
-                console.log('value>>>>>', _this[$(this).attr('name')])
-                return _this[$(this).attr('name')]
-            });
-            if (e.isDefaultPrevented()) {
-                return;
-            } else {
-                _this.fields.forEach(fields => {
-                    if (fields.type === 3) {
-                        const date = new Date(_this[fields.techName]);
-                        _this[fields.techName] = date.getTime();
-                    }
-                    if (_this[fields.techName]) {
-                        _this.data[fields.techName] = _this[fields.techName];
-                    }
-                });
-                _this.data['_id'] = _this.SelectedSingleRowData['_id'];
-                _this.data['projectId'] = _this.SelectedSingleRowData['projectId'];
-                _this.itemsService
-                    .editItemByProject(_this.data)
-                    .subscribe(result => {
-                        _this.eventEmitterService.onPageChange(_this.pageNo);
-                    });
-
-                _this.SelectedSingleRowData = [];
-                _this.newItemPopup.hide();
-            }
+        $('#edit-form').validator();
+        $('#edit-form select').selectpicker('val', function () {
+            return _this[$(this).attr('name')];
         });
+        const validator = $('#edit-form').data('bs.validator');
+        validator.validate();
+        if (!validator.hasErrors()) {
+            _this.fields.forEach(fields => {
+                if (fields.type === 3) {
+                    const date = new Date(_this[fields.techName]);
+                    _this[fields.techName] = date.getTime();
+                }
+                if (_this[fields.techName]) {
+                    _this.data[fields.techName] = _this[fields.techName];
+                }
+            });
+            _this.data['_id'] = _this.SelectedSingleRowData['_id'];
+            _this.data['projectId'] = _this.SelectedSingleRowData['projectId'];
+            _this.itemsService
+                .editItemByProject(_this.data)
+                .subscribe(result => {
+                    _this.eventEmitterService.onPageChange(_this.pageNo);
+                });
+
+            _this.SelectedSingleRowData = [];
+            _this.newItemPopup.hide();
+        } else {
+            return;
+        }
     }
 
     addComment() {
