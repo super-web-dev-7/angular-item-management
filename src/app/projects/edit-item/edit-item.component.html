@@ -42,7 +42,7 @@
                                         <input
                                                 id='{{itemId}}'
                                                 [type]="itemType"
-                                                [readOnly]="fields[itemId].readonly"
+                                                [readOnly]="fields[itemId]?.readonly"
                                                 class="form-control input"
                                                 [name]="fieldName[itemId]"
                                                 (input)="onChangeSelectValue($event)"

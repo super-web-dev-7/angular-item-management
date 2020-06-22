@@ -67,7 +67,6 @@ export class GridEventsComponent implements OnInit {
     }
 
     onSelectionChanged(event) {
-        console.log(this.showAllCheckBox);
         const idx = this.RowIndex.findIndex(x => x.page === this.pageNo);
         if (idx > -1) {
             if (this.RowIndex[idx].rowIndex.includes(event.rowIndex)) {
