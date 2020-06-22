@@ -78,7 +78,6 @@ export class EditItemComponent implements OnInit {
         this.itemsService
             .editMassItemByProject(data)
             .subscribe(result => {
-
                 this.callgetLatestitem.emit(result);
             });
         this.clearPopUpValues();

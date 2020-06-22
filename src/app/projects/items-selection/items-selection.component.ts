@@ -51,7 +51,6 @@ export class ItemsSelectionComponent implements OnInit {
         private fieldService: FieldService,
         private eventEmitterService: EventEmitterService
     ) {
-
     }
 
     ngOnInit() {
@@ -65,7 +64,7 @@ export class ItemsSelectionComponent implements OnInit {
     show() {
         this.itemSelectionView = true;
         this.selectedPopup.show();
-        this.SelectedRowData;
+        // this.SelectedRowData;
     }
 
     hide() {
@@ -95,7 +94,7 @@ export class ItemsSelectionComponent implements OnInit {
         this.afterPastPageNotReffress = true;
         if (this.pastType = 'copy') {
             this.copyData = (JSON.parse(localStorage.getItem('copydata')));
-            var data = {
+            const data = {
                 itemIds: [],
                 projectId: {}
             };
@@ -126,9 +125,9 @@ export class ItemsSelectionComponent implements OnInit {
                     });
             }
         }
-        if (this.pastType == 'cut') {
+        if (this.pastType === 'cut') {
             this.copyData = (JSON.parse(localStorage.getItem('copydata')));
-            var data = {
+            const data = {
                 itemIds: [],
                 projectId: {}
             };
@@ -164,8 +163,7 @@ export class ItemsSelectionComponent implements OnInit {
     }
 
     deleteItems() {
-        var data1 =
-            {
+        const data1 = {
                 itemIds: []
             };
         for (let i = 0; i < this.SelectedRowData.length; i++) {
@@ -186,7 +184,7 @@ export class ItemsSelectionComponent implements OnInit {
 
 
     duplicateItems() {
-        var data = {
+        const data = {
             itemIds: [],
             projectId: {}
         };
@@ -212,7 +210,7 @@ export class ItemsSelectionComponent implements OnInit {
     }
 
     remove_array_element(array, n) {
-        var index = array.indexOf(n);
+        const index = array.indexOf(n);
         if (index > -1) {
             array.splice(index, 1);
         }

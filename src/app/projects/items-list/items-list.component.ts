@@ -69,6 +69,7 @@ export class ItemsListComponent implements OnInit {
         this.eventEmitterService.invokeOngetItemsByProjectWithPagination.subscribe((page: any) => {
             this.pageNo = page;
             this.ongetItemsByProjectWithPagination(page);
+            this.countItemsByProject();
         });
 
     }
