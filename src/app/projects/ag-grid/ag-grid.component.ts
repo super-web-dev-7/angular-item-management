@@ -277,7 +277,7 @@ export class AgGridComponent implements OnInit {
 
         this.itemColumns[0]['headerCheckboxSelection'] = true;
         this.itemColumns[0]['checkboxSelection'] = true;
-        this.itemColumns[0]['rowDrag'] = false;
+        this.itemColumns[0]['rowDrag'] = true;
 
         for (let j = 1; j < this.itemColumns.length; j++) {
             this.itemColumns[j]['headerCheckboxSelection'] = false;

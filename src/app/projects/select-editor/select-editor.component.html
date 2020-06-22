@@ -8,8 +8,10 @@
     <select
             #select
             data-live-search="true"
+            data-container="body"
             data-width="99%"
             class="form-control selectpicker"
+            appendToBody="true"
             (change)="onChange($event, tooltip)"
             *ngIf="params.option.options?.filterable === true && params.option.options?.optionsForSelect?.length > 5"
             [disabled]="params.option.readonly"
@@ -20,7 +22,8 @@
     </select>
     <select
             #select
-            class="form-control newItemFields selectpicker"
+            class="form-control selectpicker"
+            data-container="body"
             *ngIf="params.option.options?.filterable !== true || params.option.options?.optionsForSelect?.length <= 5"
             (change)="onChange($event, tooltip)"
             [disabled]="params.option.readonly"

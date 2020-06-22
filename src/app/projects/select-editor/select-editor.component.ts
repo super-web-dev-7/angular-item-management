@@ -17,6 +17,7 @@ export class SelectEditorComponent implements OnInit, ICellEditorAngularComp, Af
     // error: any;
     ERROR_REQUIRED = 'This field is required';
     isCancel = false;
+    tooltip: any;
 
     constructor(config: NgbTooltipConfig) {
         config.placement = 'bottom';
@@ -26,11 +27,12 @@ export class SelectEditorComponent implements OnInit, ICellEditorAngularComp, Af
     }
 
     ngAfterViewInit(): void {
-        console.log('params value >>>>>>', this.params.value);
         const _this = this;
         $(document).ready(function () {
             $('#cell-edit select').selectpicker();
-            $('#cell-edit select').selectpicker('val', _this.params.value !== undefined ? _this.params.value : null);
+            $('#cell-edit select').selectpicker('val', _this.params.value !== undefined ? _this.params.value : null)
+            _this.hideTooltip(_this.tooltip);
+            _this.isCancel = false;
         });
     }
 
@@ -40,6 +42,7 @@ export class SelectEditorComponent implements OnInit, ICellEditorAngularComp, Af
     }
 
     onChange(event, tooltip) {
+        this.tooltip = tooltip;
         if (event.target.type === 'select-one') {
             this.value = event.target.value;
         } else {
@@ -83,11 +86,12 @@ export class SelectEditorComponent implements OnInit, ICellEditorAngularComp, Af
     }
 
     getValue(): any {
+        $('.bootstrap-select.open').removeClass('open');
         return this.value;
     }
 
-    isPopup(): boolean {
-        return true;
-    }
+    // isPopup(): boolean {
+    //     return true;
+    // }
 
 }

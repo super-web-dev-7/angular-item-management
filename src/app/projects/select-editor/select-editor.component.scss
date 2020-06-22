@@ -1,3 +1,17 @@
 ::ng-deep .ag-popup .cell-edit-select {
     width: 200px;
 }
+
+::ng-deep div.bootstrap-select {
+    height: 100%;
+}
+
+::ng-deep button.dropdown-toggle {
+    height: 100%;
+}
+
+::ng-deep div.filter-option {
+    position: relative!important;
+    vertical-align: middle;
+    display: inline-block;
+}
