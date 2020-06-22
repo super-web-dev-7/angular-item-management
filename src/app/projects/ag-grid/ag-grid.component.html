@@ -6,99 +6,98 @@
         Add new field
     </button>
 </div>
+<app-pagination #pagination [totalItems]="TotalItems" [totalPage]="totalPage" [pageNo]="pageNo"></app-pagination>
 <br>
+<app-cell-edit #cellEditComponent [celldbclicked]="celldbclicked" [pageNo]="pageNo"></app-cell-edit>
 
+<app-grid-events
+    #gridEventsComponent
+    [showAllCheckBox]="showAllCheckBox"
+    [noOfSelectedRows]="noOfSelectedRows"
+    [SelectedRowData]="SelectedRowData"
+    [TotalItems]="TotalItems"
+    [agheader]="agheader"
+    [agHeaderCheckbox]="agHeaderCheckbox"
+    [columnMoved]="columnMoved"
+    [gridRows]="gridRows"
+    [RowIndex]="RowIndex"
+    [datainarry]="datainarry"
+    [pageNo]="pageNo"
+    [dragEnterRowOrder]="dragEnterRowOrder"
+    [shorted]="shorted"
+    [itemSelectionViewI]="itemSelectionViewI"
+    [itemSelectionView]="itemSelectionView"
+    [agGridComponent]="agGridComponent"
+    [celldbclicked]="celldbclicked">
+</app-grid-events>
 
-    <app-cell-edit #cellEditComponent [celldbclicked]="celldbclicked" [pageNo]="pageNo"></app-cell-edit>
+<app-row-column-drag
+    #RowColumnDragComponent
+    [itemColumns]="itemColumns"
+    [columnMoved]="columnMoved">
+</app-row-column-drag>
 
-    <app-grid-events
-        #gridEventsComponent
-        [showAllCheckBox]="showAllCheckBox"
-        [noOfSelectedRows]="noOfSelectedRows"
-        [SelectedRowData]="SelectedRowData"
-        [TotalItems]="TotalItems"
-        [agheader]="agheader"
-        [agHeaderCheckbox]="agHeaderCheckbox"
-        [columnMoved]="columnMoved"
-        [gridRows]="gridRows"
-        [RowIndex]="RowIndex"
-        [datainarry]="datainarry"
-        [pageNo]="pageNo"
-        [dragEnterRowOrder]="dragEnterRowOrder"
-        [shorted]="shorted"
-        [itemSelectionViewI]="itemSelectionViewI"
-        [itemSelectionView]="itemSelectionView"
-        [agGridComponent]="agGridComponent"
-        [celldbclicked]="celldbclicked">
-    </app-grid-events>
+<app-show-hide-checkbox
+    #showHideCheckboxComponent
+    [pageNo]="pageNo">
+</app-show-hide-checkbox>
 
-    <app-row-column-drag
-        #RowColumnDragComponent
-        [itemColumns]="itemColumns"
-        [columnMoved]="columnMoved">
-    </app-row-column-drag>
+<app-item-details #itemDetails></app-item-details>
 
-    <app-show-hide-checkbox
-        #showHideCheckboxComponent
-        [pageNo]="pageNo">
-    </app-show-hide-checkbox>
+<app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
+                     [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
+                     [itemSelectionView]="itemSelectionView" [pageNo]="pageNo"
+                     [itemSelectionViewI]="itemSelectionViewI"
+                     (getLatestitem)="getLatestitem($event)"></app-items-selection>
 
-    <app-item-details #itemDetails></app-item-details>
+<app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [pageNo]="pageNo" [fieldName]="fieldName"
+              [projectId]="projectId" [fields]="fields"></app-new-item>
 
-    <app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
-                         [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
-                         [itemSelectionView]="itemSelectionView" [pageNo]="pageNo"
-                         [itemSelectionViewI]="itemSelectionViewI"
-                         (getLatestitem)="getLatestitem($event)"></app-items-selection>
+<app-edit-single-item #editSingleItem [fieldslable]="fieldslable" [fields]="fields" [pageNo]="pageNo"
+                      [fieldType]="fieldType"
+                      [fieldName]="fieldName" [projectId]="projectId" [celldbclicked]="celldbclicked"
+>
+</app-edit-single-item>
 
-    <app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [pageNo]="pageNo" [fieldName]="fieldName"
-                  [projectId]="projectId" [fields]="fields"></app-new-item>
-
-    <app-edit-single-item #editSingleItem [fieldslable]="fieldslable" [fields]="fields" [pageNo]="pageNo"
-                          [fieldType]="fieldType"
-                          [fieldName]="fieldName" [projectId]="projectId" [celldbclicked]="celldbclicked"
-    >
-    </app-edit-single-item>
-
-    <app-add-new-field #addNewfield [fieldType]="fieldType" [fieldName]="fieldName" [projectId]="projectId"
-                       [fields]="fields" (getfilelds)="getfilelds($event)"
-                       [fieldTypeWithNo]="fieldTypeWithNo"></app-add-new-field>
-    <ag-grid-angular #agGrid
-                     id="agGrid"
-                     style="width: 100%;"
-                     [ngStyle]="gridStyle"
-                     *ngIf="items && items.length > 0 && columnLoaded"
-                     class="ag-theme-material"
-                     [rowData]="items"
-                     [rowStyle]="rowStyle"
-                     [rowClass]="rowClassRules"
-                     [columnDefs]="itemColumns"
-                     [rowSelection]="rowSelection"
-                     [defaultColDef]="defaultColDef"
-                     [rowDragManaged]="true"
-                     (columnClick)="onColumnClick($event)"
-                     (cellDoubleClicked)="oncellDoubleClicked($event, celldbclicked)"
-                     (cellMouseOver)="onCellMouseOver($event)"
-                     (rowSelected)="onSelectionChanged($event)"
-                     (gridReady)="onGridReady($event)"
-                     (rowClicked)="onCellClicked($event); editSingleItem.show($event);"
-                     (rowDragEnd)="onrowDragEnd($event)"
-                     (rowDragEnter)="onrowDragEnter($event)"
-                     [suppressRowClickSelection]="true"
-                     (cellKeyDown)="onCellKeyDown($event)"
-                     (cellValueChanged)="oncellValueChanged($event)"
-                     (columnMoved)="oncolumnMoved($event)"
-                     (columnValueChanged)="oncolumnValueChanged($event)"
-                     [components]="components"
-                     [sortingOrder]="sortingOrder"
-                     (rowDataChanged)="onrowDataChanged($event)"
-                     (cellMouseOut)="onCellMouseOut($event)"
-                     [frameworkComponents]="frameworkComponents"
-                     (sortChanged)="onsortChanged($event)"
-                     (cellEditingStopped)="onCellEditingStopped()"
-                     [paginationPageSize]="paginationPageSize"
-                     (GetFields)="GetFields()"
-                     [gridOptions]="gridOption"
-                     (getItems)="getItems()">
-    </ag-grid-angular>
+<app-add-new-field #addNewfield [fieldType]="fieldType" [fieldName]="fieldName" [projectId]="projectId"
+                   [fields]="fields" (getfilelds)="getfilelds($event)"
+                   [fieldTypeWithNo]="fieldTypeWithNo"></app-add-new-field>
+<ag-grid-angular #agGrid
+                 id="agGrid"
+                 style="width: 100%;"
+                 [ngStyle]="gridStyle"
+                 *ngIf="items && items.length > 0 && columnLoaded"
+                 class="ag-theme-material"
+                 [rowData]="items"
+                 [rowStyle]="rowStyle"
+                 [rowClass]="rowClassRules"
+                 [columnDefs]="itemColumns"
+                 [rowSelection]="rowSelection"
+                 [defaultColDef]="defaultColDef"
+                 [rowDragManaged]="true"
+                 (columnClick)="onColumnClick($event)"
+                 (cellDoubleClicked)="oncellDoubleClicked($event, celldbclicked)"
+                 (cellMouseOver)="onCellMouseOver($event)"
+                 (rowSelected)="onSelectionChanged($event)"
+                 (gridReady)="onGridReady($event)"
+                 (rowClicked)="onCellClicked($event); editSingleItem.show($event);"
+                 (rowDragEnd)="onrowDragEnd($event)"
+                 (rowDragEnter)="onrowDragEnter($event)"
+                 [suppressRowClickSelection]="true"
+                 (cellKeyDown)="onCellKeyDown($event)"
+                 (cellValueChanged)="oncellValueChanged($event)"
+                 (columnMoved)="oncolumnMoved($event)"
+                 (columnValueChanged)="oncolumnValueChanged($event)"
+                 [components]="components"
+                 [sortingOrder]="sortingOrder"
+                 (rowDataChanged)="onrowDataChanged($event)"
+                 (cellMouseOut)="onCellMouseOut($event)"
+                 [frameworkComponents]="frameworkComponents"
+                 (sortChanged)="onsortChanged($event)"
+                 (cellEditingStopped)="onCellEditingStopped()"
+                 [paginationPageSize]="paginationPageSize"
+                 (GetFields)="GetFields()"
+                 [gridOptions]="gridOption"
+                 (getItems)="getItems()">
+</ag-grid-angular>
 

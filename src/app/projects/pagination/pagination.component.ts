@@ -12,18 +12,11 @@ export class PaginationComponent implements OnInit {
     @Input() pageNo;
     @Input() datainarry;
     @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
-    itemFrom: any;
-    itemTo: any;
 
     constructor(private eventEmitterService: EventEmitterService) {
     }
 
     ngOnInit() {
-        this.itemFrom = (this.pageNo - 1) * 100 + 1;
-        this.itemTo = (this.pageNo * 100);
-        if (this.itemTo > this.totalItems) {
-            this.itemTo = this.totalItems;
-        }
     }
 
     moveToFirstPage() {

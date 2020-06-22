@@ -58,6 +58,7 @@ export class AgGridComponent implements OnInit {
     @Input() fieldTypeWithNo;
     @Input() columnLoaded;
     @Input() projectId;
+    @Input() totalPage;
     ongridEventData;
     gridApi;
     @Input() items;
