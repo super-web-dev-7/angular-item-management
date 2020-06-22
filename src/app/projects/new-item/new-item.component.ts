@@ -44,7 +44,10 @@ export class NewItemComponent implements OnInit, AfterViewInit {
         $(document).ready(function () {
             // $('#new-item select').selectpicker();
             $(document).on('keyup', '.bs-searchbox input', function (e) {
-                const selectElement = $(this).parent().parent().parent().find('select');
+                let selectElement = $(this).parent().parent().parent().find('select');
+                if (selectElement.length === 0) {
+                    selectElement = $('.show-tick.open').find('select');
+                }
                 const selectName = selectElement.attr('name') === undefined ?
                     selectElement.attr('ng-reflect-name')
                     : selectElement.attr('name');
@@ -76,7 +79,11 @@ export class NewItemComponent implements OnInit, AfterViewInit {
             });
             $(document).on('click', '#add-option', function (e) {
                 const searchText = $(this).parent().find('input').val();
-                const selectElement = $(this).parent().parent().parent().find('select');
+                let selectElement = $(this).parent().parent().parent().find('select');
+
+                if (selectElement.length === 0) {
+                    selectElement = $('.show-tick.open').find('select');
+                }
                 const selectElementName = selectElement.attr('name') === undefined ?
                     selectElement.attr('ng-reflect-name')
                     : selectElement.attr('name');
