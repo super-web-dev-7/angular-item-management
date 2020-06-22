@@ -3,83 +3,94 @@
     <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
 </div>
 <ng-template #basicLayoutBlock>
-  <ng-container *ngTemplateOutlet="contentTpl"></ng-container> 
+    <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
 </ng-template>
-  
+
 <ng-template #contentTpl>
-  <pg-sidebar>
-      <ng-template #sideBarOverlay>
-        <div class="row">
-          <div class="col-xs-6 no-padding">
-            <a href="javascript:void(0)" class="p-l-40"><img src="assets/img/demo/social_app.svg" alt="socail">
-            </a>
-          </div>
-          <div class="col-xs-6 no-padding">
-            <a href="javascript:void(0)" class="p-l-10"><img src="assets/img/demo/email_app.svg" alt="socail">
-            </a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-6 m-t-20 no-padding">
-            <a href="javascript:void(0)" class="p-l-40"><img src="assets/img/demo/calendar_app.svg" alt="socail">
-            </a>
-          </div>
-          <div class="col-xs-6 m-t-20 no-padding">
-            <a href="javascript:void(0)" class="p-l-10"><img src="assets/img/demo/add_more.svg" alt="socail">
-            </a>
-          </div>
-        </div>      
-      </ng-template>
-      <ng-template #sideBarHeader>
-          <img src="assets/img/logo_white.png" alt="logo" class="brand" pgRetina src1x="assets/img/logo_white.png" src2x="assets/img/logo_white_2x.png" width="78" height="22">
-          <div class="sidebar-header-controls">
-            <button type="button" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20 hidden-md-down" data-pages-toggle="#appMenu"><i class="fa fa-angle-down fs-16"></i>
-            </button>
-            <button type="button" class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none" data-toggle-pin="sidebar" (click)="toggleMenuPin()"><i class="fa fs-12"></i>
-            </button>
-          </div>
-      </ng-template>
-      <ng-template #menuItems>
-          <pg-menu-items [Items]="menuLinks" [Projects]="projectItems" [SetupItems]="setupLinks"></pg-menu-items>
-      </ng-template>
-  </pg-sidebar>
-
-  <page-container>
-      <pg-header [boxed]="_boxed">
-          <!-- START MOBILE SIDEBAR TOGGLE -->
-          <a href="javascript:void(0);" class="btn-link toggle-sidebar d-lg-none pg pg-menu" (click)="toggleMobileSidebar()"></a>
-          <!-- END MOBILE SIDEBAR TOGGLE -->
-          <div class="">
-            <!-- START EMAIL MOBILE TOGGLE -->
-            <a href="javascript:void(0);" class="toggle-secondary-sidebar" (click)="toggleSecondarySideBar()" *ngIf="_layoutOption === 'email'">Inbox <span class="text-info">(12)</span> <span class="caret"></span></a>
-            <!-- END EMAIL MOBILE TOGGLE -->
-    
-            <div class="brand inline m-l-10" [class.d-none]="_layoutOption === 'email'">
-              <img src="assets/img/logo.png" alt="logo" pgRetina src1x="assets/img/logo.png" src2x="assets/img/logo.png" width="1208" height="60">
+    <pg-sidebar>
+        <ng-template #sideBarOverlay>
+            <div class="row">
+                <div class="col-xs-6 no-padding">
+                    <a href="javascript:void(0)" class="p-l-40"><img src="assets/img/demo/social_app.svg" alt="socail">
+                    </a>
+                </div>
+                <div class="col-xs-6 no-padding">
+                    <a href="javascript:void(0)" class="p-l-10"><img src="assets/img/demo/email_app.svg" alt="socail">
+                    </a>
+                </div>
             </div>
-
-            <a href="javascript:void(0)" class="search-link d-lg-inline-block d-none" (click)="openSearch($event)"><i class="pg pg-search"></i>Search <span class="bold">anything</span></a>
-          </div>   
-      </pg-header>
-		<div class="page-content-wrapper {{_pageContainerClass}}">
-			<!-- START PAGE CONTENT -->
-			<div class="content {{_contentClass}}">
-        <router-outlet></router-outlet>			
-      </div>
-      <!-- END PAGE CONTENT -->
-      <ng-template [ngIf]="_footer">
-        <!-- START COPYRIGHT -->
-        <div class=" container-fluid container-fixed-lg footer">
-          <div class="copyright sm-text-center">
-
-            <div class="clearfix">
+            <div class="row">
+                <div class="col-xs-6 m-t-20 no-padding">
+                    <a href="javascript:void(0)" class="p-l-40"><img src="assets/img/demo/calendar_app.svg"
+                                                                     alt="socail">
+                    </a>
+                </div>
+                <div class="col-xs-6 m-t-20 no-padding">
+                    <a href="javascript:void(0)" class="p-l-10"><img src="assets/img/demo/add_more.svg" alt="socail">
+                    </a>
+                </div>
             </div>
-          </div>
+        </ng-template>
+        <ng-template #sideBarHeader>
+            <img src="assets/img/logo_white.png" alt="logo" class="brand" pgRetina src1x="assets/img/logo_white.png"
+                 src2x="assets/img/logo_white_2x.png" width="78" height="22">
+            <div class="sidebar-header-controls">
+                <button type="button" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20 hidden-md-down"
+                        data-pages-toggle="#appMenu"><i class="fa fa-angle-down fs-16"></i>
+                </button>
+                <button type="button"
+                        class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none"
+                        data-toggle-pin="sidebar" (click)="toggleMenuPin()"><i class="fa fs-12"></i>
+                </button>
+            </div>
+        </ng-template>
+        <ng-template #menuItems>
+            <pg-menu-items [Items]="menuLinks" [Projects]="projectItems" [SetupItems]="setupLinks"></pg-menu-items>
+        </ng-template>
+    </pg-sidebar>
+
+    <page-container>
+        <pg-header [boxed]="_boxed">
+            <!-- START MOBILE SIDEBAR TOGGLE -->
+            <a href="javascript:void(0);" class="btn-link toggle-sidebar d-lg-none pg pg-menu"
+               (click)="toggleMobileSidebar()"></a>
+            <!-- END MOBILE SIDEBAR TOGGLE -->
+            <div class="">
+                <!-- START EMAIL MOBILE TOGGLE -->
+                <a href="javascript:void(0);" class="toggle-secondary-sidebar" (click)="toggleSecondarySideBar()"
+                   *ngIf="_layoutOption === 'email'">Inbox <span class="text-info">(12)</span> <span
+                        class="caret"></span></a>
+                <!-- END EMAIL MOBILE TOGGLE -->
+
+                <div class="brand inline m-l-10" [class.d-none]="_layoutOption === 'email'">
+                    <img src="assets/img/logo.png" alt="logo" pgRetina src1x="assets/img/logo.png"
+                         src2x="assets/img/logo.png" width="1208" height="60">
+                </div>
+
+                <a href="javascript:void(0)" class="search-link d-lg-inline-block d-none"
+                   (click)="openSearch($event)"><i class="pg pg-search"></i>Search <span
+                        class="bold">anything</span></a>
+            </div>
+        </pg-header>
+        <div class="page-content-wrapper {{_pageContainerClass}}">
+            <!-- START PAGE CONTENT -->
+            <div class="content h-100v {{_contentClass}}">
+                <router-outlet></router-outlet>
+            </div>
+            <!-- END PAGE CONTENT -->
+            <ng-template [ngIf]="_footer">
+                <!-- START COPYRIGHT -->
+                <div class=" container-fluid container-fixed-lg footer">
+                    <div class="copyright sm-text-center">
+
+                        <div class="clearfix">
+                        </div>
+                    </div>
+                </div>
+                <!-- END COPYRIGHT -->
+            </ng-template>
         </div>
-        <!-- END COPYRIGHT -->
-      </ng-template>
-    </div>
-  </page-container>
-  <app-search-overlay></app-search-overlay>
-  <app-quickview></app-quickview>
+    </page-container>
+    <app-search-overlay></app-search-overlay>
+    <app-quickview></app-quickview>
 </ng-template>

@@ -106,7 +106,7 @@ export class AgGridComponent implements OnInit {
         this.rowStyle = {
             cursor: 'pointer'
         };
-        this.gridStyle = {'height': (document.body.scrollHeight - 294   ) + 'px'};
+        this.gridStyle = {'height': (document.body.scrollHeight - 269   ) + 'px'};
     }
 
     onGridReady(event) {
