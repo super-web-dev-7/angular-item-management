@@ -6,3 +6,7 @@
     display: flex;
     flex-direction: column-reverse;
 }
+
+::ng-deep .ag-row-selected .ag-selection-checkbox {
+    display: block!important;
+}
