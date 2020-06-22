@@ -129,16 +129,22 @@ export class AgGridComponent implements OnInit {
                         groupId: 'date',
                         sortingOrder: ['asc', 'desc', null],
                         cellEditor: 'DateEditorComponent',
+                        cellEditorParams: {
+                            option: field
+                        },
                         colId: field.techName,
                         filter: 'FilterInputComponent',
                         menuTabs: ['filterMenuTab'],
                         valueGetter: function (params) {
                             if (params.data[field.techName] !== undefined && params.data[field.techName] !== 'No Data Found !!') {
-                                return moment(new Date(params.data[field.techName]), 'YYYY-MM-DD').format(field.options.dateFormat);
+                                let date = moment(new Date(params.data[field.techName]), 'YYYY-MM-DD').format(field.options.dateFormat);
+                                if (date === 'Invalid date') {
+                                    date = '';
+                                }
+                                return date;
                             }
                             return '';
                         },
-
                     });
                 }
                 if (field.type === 5) {

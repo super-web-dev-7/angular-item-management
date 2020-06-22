@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import flatpickr from 'flatpickr';
 import * as moment from 'moment';
+import {ICellEditorAngularComp} from '@ag-grid-community/angular';
 
 @Component({
     selector: 'app-loading-overlay',
@@ -24,7 +25,7 @@ import * as moment from 'moment';
 
             .custom-date-filter:after {
                 position: absolute;
-                content: ' 073 ';
+                content: '';
                 display: block;
                 font-weight: 400;
                 font-family: 'Font Awesome 5 Free';
@@ -36,7 +37,7 @@ import * as moment from 'moment';
     ],
 })
 
-export class DateEditorComponent implements AfterViewInit, OnDestroy {
+export class DateEditorComponent implements AfterViewInit, OnDestroy, ICellEditorAngularComp {
     @ViewChild('flatpickrEl', {read: ElementRef, static: false}) flatpickrEl: ElementRef;
     @ViewChild('eInput', {read: ElementRef, static: false}) eInput: ElementRef;
     private date: Date;
@@ -51,7 +52,6 @@ export class DateEditorComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        console.log(this.eInput)
         this.picker = flatpickr(this.flatpickrEl.nativeElement, {
             onChange: this.onDateChanged.bind(this),
             wrap: true
@@ -66,11 +66,12 @@ export class DateEditorComponent implements AfterViewInit, OnDestroy {
 
     onDateChanged(selectedDates) {
         const date = selectedDates[0] || null;
+
         if (typeof date === 'undefined') {
             this.date = this.params.value;
             this.datevalue = this.params.value;
         } else {
-            this.datevalue = moment(date, 'YYYY-MM-DD').format('YYYY-MM-DD');
+            this.datevalue = moment(date, 'YYYY-MM-DD').format(this.params.option.options.dateFormat);
             this.date = date;
         }
     }
@@ -88,6 +89,7 @@ export class DateEditorComponent implements AfterViewInit, OnDestroy {
     }
 
     setDate(date: Date): void {
+        console.log(this.date)
         this.date = date || null;
         this.picker.setDate(date);
     }
