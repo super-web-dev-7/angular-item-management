@@ -55,13 +55,15 @@ export class NumberEditorComponent implements OnInit, ICellEditorAngularComp, Af
             this.isCancel = false;
         }
 
-        if (this.value < this.params.option.options.minValue || this.value > this.params.option.options.maxValue) {
-            this.showTooltip(tooltip, this.getMinMaxValueErrorMessage());
-            this.isCancel = true;
-            return;
-        } else {
-            this.hideTooltip(tooltip);
-            this.isCancel = false;
+        if (this.params.option.options.minValue !== null && this.params.option.options.maxValue !== null) {
+            if (this.value < this.params.option.options.minValue || this.value > this.params.option.options.maxValue) {
+                this.showTooltip(tooltip, this.getMinMaxValueErrorMessage());
+                this.isCancel = true;
+                return;
+            } else {
+                this.hideTooltip(tooltip);
+                this.isCancel = false;
+            }
         }
 
         if (!this.params.option.options.allowDecimal) {

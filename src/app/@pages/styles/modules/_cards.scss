@@ -89,6 +89,7 @@
         border:1px solid fade-out($color-master-light, .3);
     }
     &.card-borderless{
+        margin-bottom: 0;
         border:none;
     }
     &.card-condensed{
