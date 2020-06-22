@@ -45,6 +45,7 @@ export class EditSingleItemComponent implements OnInit {
         if (tabcontent) {
             tabcontent.style.display = 'none';
         }
+
     }
 
     getItems(itemId) {
@@ -76,11 +77,9 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     show(event) {
-        // $('input[type="file"]').val('');
-        $('#edit-form select').selectpicker();
-        $('#edit-form select').selectpicker('val', null);
-        $('#edit-form').trigger('reset');
-        this.SelectedSingleRowData = [];
+        $('#edit-form input[type="file"]').val('');
+        $('#edit-form').validator('destroy');
+        // this.SelectedSingleRowData = [];
         this.newItemPopup.config.ignoreBackdropClick = true;
         this.newItemPopup.config.backdrop = false;
         this.newItemPopup.config.keyboard = true;
@@ -88,6 +87,8 @@ export class EditSingleItemComponent implements OnInit {
         if (this.celldbclicked === true) {
             // this.newItemPopup.hide();
         } else {
+            $('#edit-form select').selectpicker();
+            $('#edit-form select').selectpicker('val', null);
             const popup = this.newItemPopup;
             this.SelectedSingleRowData = {...event.data};
 
@@ -117,7 +118,7 @@ export class EditSingleItemComponent implements OnInit {
                 });
             }
 
-            const inputDatePickers = document.querySelectorAll('#TabEdit input[type="date"]');
+            const inputDatePickers = document.querySelectorAll('#edit-form input[type="date"]');
             inputDatePickers.forEach(inputDatePicker => {
                 let date = event.data[(<HTMLInputElement>inputDatePicker).name];
                 const itemId = this.fieldName.indexOf((<HTMLInputElement>inputDatePicker).name);
@@ -126,6 +127,8 @@ export class EditSingleItemComponent implements OnInit {
                     date = '';
                 }
                 inputDatePicker.setAttribute('data-date', date);
+                this.SelectedSingleRowData[(<HTMLInputElement>inputDatePicker).name] = date;
+                (<HTMLInputElement>inputDatePicker).value = date;
             });
 
             this.fieldName.forEach(item => {
@@ -162,13 +165,13 @@ export class EditSingleItemComponent implements OnInit {
         const validator = $('#edit-form').data('bs.validator');
         validator.validate();
         if (!validator.hasErrors()) {
-            _this.fields.forEach(fields => {
-                if (fields.type === 3) {
-                    const date = new Date(_this[fields.techName]);
-                    _this[fields.techName] = date.getTime();
+            _this.fields.forEach(field => {
+                if (field.type === 3) {
+                    const date = new Date(_this[field.techName]);
+                    _this[field.techName] = date.getTime();
                 }
-                if (_this[fields.techName]) {
-                    _this.data[fields.techName] = _this[fields.techName];
+                if (_this[field.techName]) {
+                    _this.data[field.techName] = _this[field.techName];
                 }
             });
             _this.data['_id'] = _this.SelectedSingleRowData['_id'];
