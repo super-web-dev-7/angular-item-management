@@ -12,6 +12,7 @@ import {CellEditComponent} from '../cell-edit/cell-edit.component';
 import {TextEditorComponent} from '@app/projects/text-editor/text-editor.component';
 import {NumberEditorComponent} from '@app/projects/number-editor/number-editor.component';
 import {SelectEditorComponent} from '@app/projects/select-editor/select-editor.component';
+import {TextFilterComponent} from '@app/projects/filter/text-filter/text-filter.component';
 
 @Component({
     selector: 'app-ag-grid',
@@ -23,6 +24,7 @@ export class AgGridComponent implements OnInit {
     @ViewChild('showHideCheckboxComponent', {static: true}) showHideCheckboxComponent: ShowHideCheckboxComponent;
     @ViewChild('gridEventsComponent', {static: true}) gridEventsComponent: GridEventsComponent;
     @ViewChild('FilterInputComponent', {static: true}) FilterInputComponent: FilterInputComponent;
+    @ViewChild('TextFilterComponent', {static: true}) TextFilterComponent: TextFilterComponent;
     @ViewChild('RowColumnDragComponent', {static: true}) RowColumnDragComponent: RowColumnDragComponent;
     @ViewChild('cellEditComponent', {static: true}) cellEditComponent: CellEditComponent;
     @Input() pageNo;
@@ -83,6 +85,7 @@ export class AgGridComponent implements OnInit {
     ) {
         this.frameworkComponents = {
             FilterInputComponent: FilterInputComponent,
+            TextFilterComponent: TextFilterComponent,
             DateEditorComponent: DateEditorComponent,
             TextEditorComponent: TextEditorComponent,
             NumberEditorComponent: NumberEditorComponent,
@@ -203,7 +206,7 @@ export class AgGridComponent implements OnInit {
                         cellEditorParams: {
                             option: field
                         },
-                        filter: 'FilterInputComponent',
+                        filter: 'TextFilterComponent',
                         menuTabs: ['filterMenuTab'],
                         sortingOrder: ['asc', 'desc', null],
                     });

@@ -41,7 +41,6 @@
                                                         title="Please select"
                                                         [name]="fieldName[itemId]"
                                                 >
-                                                    <option value=" " disabled>Please select item</option>
                                                     <option *ngFor="let field of fields[itemId].options.optionsForSelect">{{field.value}}</option>
                                                 </select>
                                                 <select
@@ -54,7 +53,6 @@
                                                         [multiple]="fields[itemId].options.multipleSelect"
                                                         [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                         [name]="fieldName[itemId]">
-                                                    <option value=" " disabled>Please select item</option>
                                                     <option *ngFor="let field of fields[itemId].options?.optionsForSelect">
                                                         {{field.value}}
                                                     </option>
