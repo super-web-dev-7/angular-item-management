@@ -431,6 +431,7 @@ export class AgGridComponent implements OnInit {
         this.columnMoved = this.gridEventsComponent.columnMoved;
         this.TotalItems = this.gridEventsComponent.TotalItems;
         this.selectedRows = this.gridEventsComponent.selectedRows;
+        this.paginationPageSize = this.TotalItems;
     }
 
     onsortChanged(e) {

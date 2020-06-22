@@ -42,7 +42,7 @@ export class GridEventsComponent implements OnInit {
         } else if (this.SelectedRowData.length < this.TotalItems) {
             this.showHideCheckboxComponent.hideSelectbox(event);
         } else {
-            this.showHideCheckboxComponent.showCheckboxWithouEvent();
+            this.showHideCheckboxComponent.showCheckboxWithoutEvent();
         }
         this.gridRows = event.api.rowModel.rowsToDisplay;
         if (this.RowIndex) {
@@ -88,7 +88,7 @@ export class GridEventsComponent implements OnInit {
             this.showAllCheckBox = true;
             const d = this.gridRows.filter(x => x.selected === true);
             this.selectedRows = d ? d.length : 0;
-            this.showHideCheckboxComponent.showCheckboxWithouEvent();
+            this.showHideCheckboxComponent.showCheckboxWithoutEvent();
         } else {
             if (this.notreffress === true) {
                 if (this.gridRows.findIndex(x => x.selected === false) > -1) {
@@ -106,7 +106,7 @@ export class GridEventsComponent implements OnInit {
                         }
                     }
                 } else {
-                    this.showHideCheckboxComponent.showCheckboxWithouEvent();
+                    this.showHideCheckboxComponent.showCheckboxWithoutEvent();
                 }
             }
         }
@@ -136,7 +136,7 @@ export class GridEventsComponent implements OnInit {
             event.data['page'] = this.pageNo;
             this.SelectedRowData.push(event.data);
             this.noOfSelectedRows = this.SelectedRowData.length;
-            this.showHideCheckboxComponent.showCheckboxWithouEvent();
+            this.showHideCheckboxComponent.showCheckboxWithoutEvent();
         }
     }
 
@@ -157,6 +157,7 @@ export class GridEventsComponent implements OnInit {
     }
 
     oncellMouseOver(event) {
+        // console.log(this.showAllCheckBox, this.noOfSelectedRows, this.SelectedRowData, this.TotalItems)
         if (!this.showAllCheckBox && this.noOfSelectedRows === 0) {
             if (this.SelectedRowData.length === 0) {
                 this.showHideCheckboxComponent.hideSelectbox(event);

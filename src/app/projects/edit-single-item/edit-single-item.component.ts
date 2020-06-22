@@ -77,6 +77,10 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     show(event) {
+        this.fieldName.forEach(item => {
+            this.data[item] = '';
+            this[item] = '';
+        });
         $('#edit-form input[type="file"]').val('');
         $('#edit-form').validator('destroy');
         // this.SelectedSingleRowData = [];
@@ -131,9 +135,6 @@ export class EditSingleItemComponent implements OnInit {
                 (<HTMLInputElement>inputDatePicker).value = date;
             });
 
-            this.fieldName.forEach(item => {
-                this.data[item] = '';
-            });
             $('#edit-form button[type="submit"]').removeClass('disabled');
         }
     }
@@ -183,6 +184,7 @@ export class EditSingleItemComponent implements OnInit {
                 });
 
             _this.SelectedSingleRowData = [];
+            _this.data = {};
             _this.newItemPopup.hide();
         } else {
             return;

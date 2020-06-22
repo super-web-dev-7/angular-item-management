@@ -22,27 +22,25 @@ export class ShowHideCheckboxComponent implements OnInit {
     }
 
     showSelectbox(event) {
-        if (event.node.id != event.rowIndex.toString()) {
-            // document.querySelectorAll('.ag-selection-checkbox')[event.rowIndex.toString()];
-            let data = document.querySelectorAll('.ag-selection-checkbox')[event.rowIndex.toString()];
+        if (event.node.id !== event.rowIndex.toString()) {
+            const data = document.querySelector('.ag-center-cols-clipper div[row-id="'
+                + event.rowIndex.toString() + '"] .ag-selection-checkbox')[0];
             if (data) {
                 data.setAttribute('style', 'display: block');
             }
         } else {
-            document.querySelectorAll('.ag-selection-checkbox')[event.node.id];
-            var data = document.querySelectorAll('.ag-selection-checkbox')[event.node.id];
+            const data = document.querySelectorAll('.ag-center-cols-clipper div[row-id="' + event.node.id + '"] .ag-selection-checkbox')[0];
             if (data) {
                 data.setAttribute('style', 'display: block');
             }
         }
     }
 
-    showCheckboxWithouEvent() {
+    showCheckboxWithoutEvent() {
         document.querySelectorAll('.ag-selection-checkbox').forEach((element) => {
             element.setAttribute('style', 'display: block');
         });
     }
-
 
     onCustomHtmlLoad() {
         document.querySelectorAll('.ag-selection-checkbox').forEach((element) => {

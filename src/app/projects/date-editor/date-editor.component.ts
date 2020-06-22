@@ -61,7 +61,6 @@ export class DateEditorComponent implements AfterViewInit, OnDestroy, ICellEdito
     }
 
     ngOnDestroy() {
-
     }
 
     onDateChanged(selectedDates) {
