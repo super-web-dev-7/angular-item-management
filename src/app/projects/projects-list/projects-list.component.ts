@@ -25,7 +25,6 @@ export class ProjectsListComponent implements OnInit {
     .subscribe(
       projects => {
         this.projects = projects;
-
       }
     );
 

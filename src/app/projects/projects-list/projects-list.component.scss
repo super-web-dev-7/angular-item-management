@@ -1,0 +1,30 @@
+.inner-contain {
+    width: 900px;
+}
+.projects-container {
+    display: flex;
+    max-width: 900px;
+    flex-flow: row wrap;
+}
+.new-project-button {
+    text-align: center;
+    display: inline-block;
+    margin: 15px;
+    border-radius: 40px;
+    width: 250px;
+    height: 190px;
+    border: 2px dashed #dcdcdc;
+    cursor: pointer;
+    background: #e6e6e6;
+    font-size: 20px;
+    transition: all 300ms;
+    &:hover {
+        opacity: 0.9;
+        background: #f5f3f3;
+    }
+}
+
+.headline {
+    border-bottom: 3px solid #e0e0e0;
+    padding-bottom: 8px;
+}

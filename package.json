@@ -31,6 +31,7 @@
     "@fortawesome/pro-duotone-svg-icons": "^5.13.0",
     "@fortawesome/pro-light-svg-icons": "^5.13.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.1",
+    "@ng-select/ng-select": "3.0.0",
     "@ngrx/core": "^1.2.0",
     "@ngrx/effects": "^9.1.0",
     "@ngrx/store": "^9.0.0",
@@ -68,6 +69,7 @@
     "masonry-layout": "^4.2.2",
     "moment": "^2.24.0",
     "ng-scrollreveal": "^2.2.0",
+    "ngp-sort-pipe": "0.0.4",
     "ngrx-store-logger": "^0.2.4",
     "ngx-bootstrap": "^2.0.5",
     "ngx-echarts": "^3.2.0",
@@ -87,8 +89,7 @@
     "text-mask-addons": "^3.8.0",
     "tslib": "^1.10.0",
     "web-animations-js": "^2.3.2",
-    "zone.js": "~0.9.1",
-    "@ng-select/ng-select": "3.0.0"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.21",
