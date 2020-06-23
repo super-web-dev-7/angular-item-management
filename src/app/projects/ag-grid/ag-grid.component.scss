@@ -10,3 +10,7 @@
 ::ng-deep .ag-row-selected .ag-selection-checkbox {
     display: block!important;
 }
+
+.ag-grid {
+    height: calc(100% - 85px);
+}

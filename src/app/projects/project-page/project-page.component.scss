@@ -1,0 +1,11 @@
+::ng-deep app-project-page pg-tabset div.tab-wrapper .tab-content-wrapper {
+    height: calc(100% - 49px);
+
+    ::ng-deep .tab-content {
+        height: 100% !important;
+
+        ::ng-deep pg-tab-body>div.row {
+            height: 100%;
+        }
+    }
+}

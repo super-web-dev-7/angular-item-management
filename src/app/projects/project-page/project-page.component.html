@@ -1,6 +1,6 @@
-<div class="container-fluid padding-25 sm-padding-10 sm-gutter h-100">
-    <div class="card card-borderless h-100">
-        <pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true" (click)="ShowItemSelection($event)">
+<div class="container-fluid padding-25 sm-padding-10 sm-gutter h-100" style="padding-bottom: 0!important;">
+    <div class="card card-borderless h-100" id="main-card">
+        <pg-tabset tabAnimation="slide-left" class="h-100" Type="simple" ShowPagination="true" (click)="ShowItemSelection($event)">
             <pg-tab>
                 <ng-template #TabHeading>
                     Items

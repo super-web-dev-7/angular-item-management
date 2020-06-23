@@ -113,7 +113,7 @@ export class AgGridComponent implements OnInit {
         this.rowStyle = {
             cursor: 'pointer'
         };
-        this.gridStyle = {'height': (document.body.scrollHeight - 269) + 'px'};
+        this.gridStyle = {'height': '100%'};
     }
 
     onGridReady(event) {
@@ -433,7 +433,9 @@ export class AgGridComponent implements OnInit {
     }
 
     onCellClicked(event) {
-
+        if (event.event.target.nodeName === 'BUTTON' && event.event.target.innerText === 'Upload') {
+            return;
+        }
         // tslint:disable-next-line:max-line-length
         const selectedElement = document.querySelector('.ag-body-viewport div[role="rowgroup"] div[role="row"][row-index="' + this.selectedRow + '"]');
 

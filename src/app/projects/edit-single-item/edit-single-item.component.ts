@@ -77,6 +77,9 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     show(event) {
+        if (event.event.target.nodeName === 'BUTTON' && event.event.target.innerText === 'Upload') {
+            return;
+        }
         this.fieldName.forEach(item => {
             this.data[item] = '';
             this[item] = '';

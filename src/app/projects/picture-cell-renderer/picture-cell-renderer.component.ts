@@ -22,10 +22,10 @@ export class PictureCellRendererComponent implements OnInit {
         const tempDiv = document.createElement('div');
         if (this.params.value) {
             tempDiv.innerHTML =
-                '<div class="d-flex flex-column align-items-center"><a style="line-height: 20px">' + this.params.value + '</a>\<n></n>' +
-                '<button class="btn btn-light p-0" (click)="onChange($event)">Upload</button>' +
-                '</div>' +
-                '<input type="file" (change)="onChange($event)">';
+                '<div class="d-flex flex-column align-items-center"><a style="line-height: 20px">' + this.params.value + '</a>' +
+                '<button class="btn btn-light p-0" (click)="imageupload.click()">Upload</button>' +
+                '<input type="file" #imageupload (change)="onChange($event)" class="hidden">' +
+                '</div>';
         } else {
             tempDiv.innerHTML =
                 '<div class="d-flex flex-column align-items-center justify-content-center h-100">' +
