@@ -147,8 +147,8 @@ export class GridEventsComponent implements OnInit {
         if (index > -1 && result['page'] === this.pageNo) {
             this.SelectedRowData.splice(index, 1);
         } else {
-            const indx = this.SelectedRowData.indexOf(n);
-            if (result['page'] === this.pageNo) {
+            const i = this.SelectedRowData.indexOf(n);
+            if (result['page'] !== undefined && result['page'] === this.pageNo) {
                 this.SelectedRowData.splice(0, 1);
             }
         }

@@ -36,6 +36,8 @@ export class TextFilterComponent implements OnInit {
 
     agInit(params: IFilterParams): void {
         this.params = params;
+        // this.params.api.setPopupParent(document.body)
+
         console.log(this.params)
         this.valueGetter = params.valueGetter;
         this.FilterInputType = params.colDef['groupId'];

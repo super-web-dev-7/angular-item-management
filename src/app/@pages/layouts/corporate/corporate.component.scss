@@ -108,5 +108,5 @@ $assets-url: "../../assets";
 @import "vendor/ngx-google-map.scss";
 
 .h-100v {
-    height: 100vh;
+    height: 100vh!important;
 }

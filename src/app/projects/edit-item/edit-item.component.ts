@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild, Input, ɵConsole, Output} from '@angular/c
 import {ModalDirective} from 'ngx-bootstrap';
 import {ItemsService} from '../items-list/items.service';
 import {EventEmitter} from '@angular/core';
-import {FieldService} from '../../fields/field.service';
 import {ProjectsService} from '../projects.service';
 
 @Component({
@@ -27,7 +26,6 @@ export class EditItemComponent implements OnInit {
 
     data = {};
     items;
-    blankfill = '';
 
     constructor(private itemsService: ItemsService, private projectsService: ProjectsService
     ) {

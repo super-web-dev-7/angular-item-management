@@ -22,17 +22,10 @@ export class ShowHideCheckboxComponent implements OnInit {
     }
 
     showSelectbox(event) {
-        if (event.node.id !== event.rowIndex.toString()) {
-            const data = document.querySelector('.ag-center-cols-clipper div[row-id="'
-                + event.rowIndex.toString() + '"] .ag-selection-checkbox')[0];
-            if (data) {
-                data.setAttribute('style', 'display: block');
-            }
-        } else {
-            const data = document.querySelectorAll('.ag-center-cols-clipper div[row-id="' + event.node.id + '"] .ag-selection-checkbox')[0];
-            if (data) {
-                data.setAttribute('style', 'display: block');
-            }
+        const data = document.querySelector('.ag-center-cols-clipper div[row-index="'
+            + event.rowIndex.toString() + '"] .ag-selection-checkbox');
+        if (data) {
+            data.setAttribute('style', 'display: block');
         }
     }
 

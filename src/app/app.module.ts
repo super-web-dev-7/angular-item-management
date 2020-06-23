@@ -78,6 +78,7 @@ import { PictureFilterComponent } from './projects/filter/picture-filter/picture
 import { ExpressionFilterComponent } from './projects/filter/expression-filter/expression-filter.component';
 import { DropdownFilterComponent } from './projects/filter/dropdown-filter/dropdown-filter.component';
 import {NgSelectModule} from '@ng-select/ng-select';
+import { PictureCellRendererComponent } from './projects/picture-cell-renderer/picture-cell-renderer.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -105,6 +106,7 @@ export class AppHammerConfig extends HammerGestureConfig {
         PictureFilterComponent,
         ExpressionFilterComponent,
         DropdownFilterComponent,
+        PictureCellRendererComponent,
     ],
     imports: [
         BrowserModule,

@@ -6,13 +6,16 @@ import {ItemsService} from '../items-list/items.service';
 import {FieldService} from '@app/fields/field.service';
 import {EventEmitterService} from '@app/event-emitter.service';
 import {FilterInputComponent} from '../filter-input/filter-input.component';
-import {DateEditorComponent} from '../date-editor/date-editor.component';
+import {DateEditorComponent} from '../editor/date-editor/date-editor.component';
 import {RowColumnDragComponent} from '../row-column-drag/row-column-drag.component';
 import {CellEditComponent} from '../cell-edit/cell-edit.component';
-import {TextEditorComponent} from '@app/projects/text-editor/text-editor.component';
-import {NumberEditorComponent} from '@app/projects/number-editor/number-editor.component';
-import {SelectEditorComponent} from '@app/projects/select-editor/select-editor.component';
+import {TextEditorComponent} from '@app/projects/editor/text-editor/text-editor.component';
+import {NumberEditorComponent} from '@app/projects/editor/number-editor/number-editor.component';
+import {SelectEditorComponent} from '@app/projects/editor/select-editor/select-editor.component';
 import {TextFilterComponent} from '@app/projects/filter/text-filter/text-filter.component';
+import {PictureCellRendererComponent} from '@app/projects/picture-cell-renderer/picture-cell-renderer.component';
+
+declare var $: any;
 
 @Component({
     selector: 'app-ag-grid',
@@ -78,6 +81,7 @@ export class AgGridComponent implements OnInit {
     };
     gridStyle: any;
     paginationPageSize = 100;
+    components: any;
 
     constructor(
         private itemsService: ItemsService,
@@ -92,6 +96,9 @@ export class AgGridComponent implements OnInit {
             NumberEditorComponent: NumberEditorComponent,
             SelectEditorComponent: SelectEditorComponent
         };
+        this.components = {
+            'pictureCellRenderer': PictureCellRendererComponent
+        };
     }
 
     ngOnInit() {
@@ -100,13 +107,13 @@ export class AgGridComponent implements OnInit {
             resizeable: true,
             editable: true,
             sortable: true,
-            filter: true
+            filter: true,
         };
         this.rowSelection = 'multiple';
         this.rowStyle = {
             cursor: 'pointer'
         };
-        this.gridStyle = {'height': (document.body.scrollHeight - 269   ) + 'px'};
+        this.gridStyle = {'height': (document.body.scrollHeight - 269) + 'px'};
     }
 
     onGridReady(event) {
@@ -115,6 +122,9 @@ export class AgGridComponent implements OnInit {
         this.gridApi = event.api;
         this.gridRows = event.api.rowModel.rowsToDisplay;
         this.gridApi.setSuppressClipboardPaste(false);
+        $('body').on('click', '.ag-icon-menu', function () {
+            // $('ag-grid-angular .ag-filter select').addClass('selectpicker').selectpicker();
+        });
     }
 
     setItemColumns(fields) {
@@ -162,12 +172,16 @@ export class AgGridComponent implements OnInit {
                             cellEditorParams: {
                                 option: field
                             },
-                            filter: 'FilterInputComponent',
+                            filter: 'agTextColumnFilter',
+                            filterParams: {
+                                filterOptions: ['contains', 'equals', 'notEqual'],
+                                suppressAndOrCondition: true,
+                            },
                             menuTabs: ['filterMenuTab'],
                         });
                     }
                 }
-                if (field.type === 1) {
+                if (field.type === 1 || field.type === 4) {
                     this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
@@ -179,7 +193,11 @@ export class AgGridComponent implements OnInit {
                         cellEditorParams: {
                             option: field
                         },
-                        filter: 'FilterInputComponent',
+                        filter: 'agNumberColumnFilter',
+                        filterParams: {
+                            filterOptions: ['equals', 'notEqual', 'greaterThan', 'lessThan', 'inRange'],
+                            suppressAndOrCondition: true
+                        },
                         menuTabs: ['filterMenuTab'],
                         sortingOrder: ['asc', 'desc', null],
                         valueGetter: function (params) {
@@ -201,7 +219,50 @@ export class AgGridComponent implements OnInit {
                         }
                     });
                 }
-                if (field.type !== 5 && field.type !== 3 && field.type !== 1) {
+
+                if (field.type === 2) {
+                    this.itemColumns.push({
+                        headerName: field.label,
+                        field: field.techName,
+                        editable: false,
+                        colId: field.techName,
+                        resizable: true,
+                        groupId: 'text',
+                        cellEditor: 'TextEditorComponent',
+                        cellEditorParams: {
+                            option: field
+                        },
+                        filter: 'agTextColumnFilter',
+                        filterParams: {
+                            filterOptions: ['contains', 'equals', 'notEqual'],
+                            suppressAndOrCondition: true,
+                        },
+                        // !field.readonly
+                        menuTabs: ['filterMenuTab'],
+                        cellRenderer: 'pictureCellRenderer',
+                        sortingOrder: ['asc', 'desc', null],
+                        valueGetter: function (params) {
+                            let count;
+                            if (params.data[field.techName] !== undefined) {
+                                if (typeof params.data[field.techName] === 'string') {
+                                    count = '1 file';
+                                } else {
+                                    count = params.data[field.techName] ? params.data[field.techName].length + 'file(s)' : '';
+                                }
+                            } else {
+                                count = '';
+                            }
+
+                            return count;
+                        },
+                        // valueSetter: function (params) {
+                        // params.data[field.techName] = [];
+                        // params.data[field.techName].push(params.oldData);
+                        // return true;
+                        // }
+                    });
+                }
+                if (field.type === 0 || field.type === 6) {
                     this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
@@ -213,7 +274,11 @@ export class AgGridComponent implements OnInit {
                         cellEditorParams: {
                             option: field
                         },
-                        filter: 'TextFilterComponent',
+                        filter: 'agTextColumnFilter',
+                        filterParams: {
+                            filterOptions: ['contains', 'equals', 'notEqual'],
+                            suppressAndOrCondition: true,
+                        },
                         menuTabs: ['filterMenuTab'],
                         sortingOrder: ['asc', 'desc', null],
                     });
@@ -224,20 +289,26 @@ export class AgGridComponent implements OnInit {
                 if (field.type === 0) {
                     this.fieldTypeWithNo.push({type: 'text', no: 0});
                     this.fieldType.push('text');
+
                 } else if (field.type === 1) {
                     this.fieldTypeWithNo.push({type: 'number', no: 1});
                     this.fieldType.push('number');
+
                 } else if (field.type === 2) {
                     this.fieldTypeWithNo.push({type: 'file', no: 2});
                     this.fieldType.push('file');
+
                 } else if (field.type === 3) {
                     this.fieldTypeWithNo.push({type: 'date', no: 3});
                     this.fieldType.push('date');
+
                 } else if (field.type === 4) {
-                    this.fieldType.push('text');
+                    this.fieldType.push('number');
+
                 } else if (field.type === 5) {
                     this.fieldTypeWithNo.push({type: 'select', no: 5});
                     this.fieldType.push('select');
+
                 } else {
                     this.fieldType.push('text');
                 }
@@ -249,20 +320,26 @@ export class AgGridComponent implements OnInit {
                 if (field.type === 0) {
                     this.fieldTypeWithNo.push({type: 'text', no: 0});
                     this.fieldType.push('text');
+
                 } else if (field.type === 1) {
                     this.fieldTypeWithNo.push({type: 'number', no: 1});
                     this.fieldType.push('number');
+
                 } else if (field.type === 2) {
                     this.fieldTypeWithNo.push({type: 'file', no: 2});
                     this.fieldType.push('file');
+
                 } else if (field.type === 3) {
                     this.fieldTypeWithNo.push({type: 'date', no: 3});
                     this.fieldType.push('date');
+
                 } else if (field.type === 4) {
                     this.fieldType.push('text');
+
                 } else if (field.type === 5) {
                     this.fieldTypeWithNo.push({type: 'select', no: 5});
                     this.fieldType.push('select');
+
                 } else {
                     this.fieldType.push('text');
                 }
@@ -393,7 +470,7 @@ export class AgGridComponent implements OnInit {
         if (event.overIndex === 0) {
             data = {itemIds: [event.node.data._id], orderToPlace: this.dragEnterRowOrder};
         } else {
-            data = {itemIds: [event.node.data._id], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order + 1};
+            data = {itemIds: [event.node.data._iid], orderToPlace: event.api.rowModel.rowsToDisplay[event.overIndex - 1].data.order + 1};
         }
         this.itemsService.changeOrder(data).subscribe((result: any) => {
             if (result) {

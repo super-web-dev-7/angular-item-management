@@ -220,7 +220,7 @@ export class ItemsSelectionComponent implements OnInit {
     callgetLatestitem(e) {
         // this.closePopup()
         this.getLatestitem.emit(e);
-        this.eventEmitterService.onPageChange(e);
+        this.eventEmitterService.onPageChange(this.pageNo);
 
     }
 

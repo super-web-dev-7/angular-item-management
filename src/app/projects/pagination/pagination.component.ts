@@ -27,7 +27,6 @@ export class PaginationComponent implements OnInit {
     }
 
     moveToLastPage() {
-        console.log(this.totalItems);
         this.datainarry = false;
         this.pageNo = this.totalPage;
         this.getLatestitem.emit();
@@ -35,7 +34,6 @@ export class PaginationComponent implements OnInit {
     }
 
     moveToNext() {
-        console.log('next');
         this.datainarry = false;
         if (this.pageNo < this.totalPage) {
             this.pageNo = this.pageNo + 1;
