@@ -23,11 +23,9 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     @Input() fieldslable;
     @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
 
-
     [key: string]: any;
 
     data = {};
-    isDisable_Submit = true;
 
     constructor(
         private itemsService: ItemsService,
@@ -42,7 +40,6 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         const component = this;
         $(document).ready(function () {
-            // $('#new-item select').selectpicker();
             $(document).on('keyup', '.bs-searchbox input', function (e) {
                 let selectElement = $(this).parent().parent().parent().find('select');
                 if (selectElement.length === 0) {

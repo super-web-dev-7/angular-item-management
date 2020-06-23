@@ -371,11 +371,12 @@ export class AgGridComponent implements OnInit {
     }
 
     getLatestitem(e) {
+        console.log(e)
         this.getItems.emit();
         this.notreffress = true;
         this.SelectedRowData = [];
         if (this.notreffress === true) {
-            if (e === 'delete' || e === 'duplicate' || e.ok === 1) {
+            if (e === 'delete' || e === 'duplicate' || (e !== undefined && e.ok === 1)) {
                 if (e === 'duplicate') {
                     this.notreffress = false;
                 }

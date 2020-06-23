@@ -38,7 +38,6 @@ export class ItemsSelectionComponent implements OnInit {
     gridApi;
     Updateditems;
     SelectedRowDatalength = [];
-    pastType = '';
     SelectedSingleRowData;
     copyDataLengthcount = 0;
     afterPastPageNotReffress = false;
@@ -92,7 +91,7 @@ export class ItemsSelectionComponent implements OnInit {
 
     paste() {
         this.afterPastPageNotReffress = true;
-        if (this.pastType = 'copy') {
+        if (this.pastetype === 'copy') {
             this.copyData = (JSON.parse(localStorage.getItem('copydata')));
             const data = {
                 itemIds: [],
@@ -104,7 +103,7 @@ export class ItemsSelectionComponent implements OnInit {
             }
             if (this.copyData.length > 0) {
                 this.itemsService
-                    .Paste(data, this.pastType)
+                    .Paste(data, this.pastetype)
                     .subscribe((result: any) => {
                         if (result) {
                             this.Updateditems = result;
@@ -113,7 +112,7 @@ export class ItemsSelectionComponent implements OnInit {
                                 .subscribe((items: any) => {
                                     localStorage.removeItem('copydata');
                                     this.getLatestitem.emit();
-                                    this.eventEmitterService.onPageChange('');
+                                    this.eventEmitterService.onPageChange(this.pageNo);
                                     // document.getElementById('popupid').hidden = true
                                     this.copyData = [];
                                     this.copyDataLengthcount = 0;
@@ -125,7 +124,7 @@ export class ItemsSelectionComponent implements OnInit {
                     });
             }
         }
-        if (this.pastType === 'cut') {
+        if (this.pastetype === 'cut') {
             this.copyData = (JSON.parse(localStorage.getItem('copydata')));
             const data = {
                 itemIds: [],
@@ -137,7 +136,7 @@ export class ItemsSelectionComponent implements OnInit {
             }
             if (this.copyData.length > 0) {
                 this.itemsService
-                    .Paste(data, this.pastType)
+                    .Paste(data, this.pastetype)
                     .subscribe((result: any) => {
                         if (result) {
                             this.Updateditems = result;
@@ -146,7 +145,7 @@ export class ItemsSelectionComponent implements OnInit {
                                 .subscribe((items: any) => {
                                     this.items = items;
                                     this.getLatestitem.emit();
-                                    this.eventEmitterService.onPageChange('');
+                                    this.eventEmitterService.onPageChange(this.pageNo);
 
                                     // document.getElementById('popupid').hidden = true
                                     this.copyData = [];
