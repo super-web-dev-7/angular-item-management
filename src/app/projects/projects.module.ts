@@ -43,6 +43,7 @@ import {SelectEditorComponent} from '@app/projects/editor/select-editor/select-e
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {TextFilterComponent} from '@app/projects/filter/text-filter/text-filter.component';
 import {NgSelectModule} from '@ng-select/ng-select';
+import { NgpSortModule } from "ngp-sort-pipe";
 
 @NgModule({
     imports: [
@@ -69,6 +70,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
         CommonFormsModule,
         NgbTooltipModule,
         NgbDropdownModule,
+        NgpSortModule,
     ],
     providers: [],
     declarations: [

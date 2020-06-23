@@ -1,13 +1,10 @@
-<div (mouseenter)="showActions=true" (mouseleave)="showActions=false" class="card social-card share" data-social="item">
+<div (mouseenter)="showActions=true" (mouseleave)="showActions=false" class="card project-card" data-social="item">
   <div class="card-header" (click)="openProject()">
-    <h5 class="{{_titleClass}} pull-left fs-12">{{name}}
-      <i class="fa fa-circle text-complete fs-11"></i>
-    </h5>
     <app-project-box-actions [projectId]="id" @showHideAnimation *ngIf="showActions">
     </app-project-box-actions>
-    <div class="clearfix"></div>
+    <h5><fa-icon class="pinned-icon" *ngIf="pinned" [icon]="pinnedIcon"></fa-icon> {{name}}</h5>
   </div>
-  <div class="card-description">
-    <h4>{{description}}</h4>
+  <div class="card-content">
+    <fa-icon class="type-icon" [icon]="icon"></fa-icon> <span class="type-text"> {{typeName}}</span>
   </div>
 </div>

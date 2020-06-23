@@ -1,9 +1,11 @@
-<div class="container-fluid padding-25 sm-padding-10 sm-gutter">
-    <div class="p-t-20 p-b-20">
-        <button class="btn btn-primary" (click)="openCreateProject()">+ New Project</button>
+<div class="container-fluid padding-25 sm-padding-10 sm-gutter inner-contain">
+    <h2 class="headline">Projects</h2>
+    <div class="projects-container">
+        <button class="new-project-button" (click)="openCreateProject()">New Project</button>
+        <app-project-box *ngFor="let project of projects | sortBy : 'asc' : 'pinned'" [type]="project.projectType"
+            [name]="project.name" [description]="project.description" [id]="project._id" [pinned]="project.pinned">
+        </app-project-box>
     </div>
-    <app-project-box *ngFor="let project of projects" [type]="project.projectType" [name]="project.name" [description]="project.description"
-        [id]="project._id"></app-project-box>
 </div>
 
 <app-create-project #createProjectModal></app-create-project>
