@@ -11,6 +11,17 @@
     display: block!important;
 }
 
+.grid-toolbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
 .ag-grid {
-    height: calc(100% - 85px);
+    flex: 1 1 auto;
+}
+
+app-items-selection {
+    display: flex;
 }

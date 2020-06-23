@@ -1,36 +1,21 @@
-<!-- <div bsModal #selectedPopup="bs-modal" class="modal fade stick-up" tabindex="" role="dialog"  > -->
-<div class="modal-dialog modal-sm selection-popup" *ngIf=" itemSelectionView == true || itemSelectionViewI">
-    <div class="modal-content-wrapper">
-        <div class="modal-content">
-            <button type="button" class="close" (click)="hide()" aria-hidden="true"><i class="pg pg-close fs-14"></i>
-            </button>
-            <div class="container-xs-height full-height">
-                <div class="row-xs-height">
-                    <div class="modal-body col-xs-height col-middle text-center">
-                        <h5 class="text-primary ">Number of rows selected : {{SelectedRowData.length}}</h5>
-                        <div class="custom-popup-button">
-                            <p (click)="copyItems()">Copy</p>
-                            <p (click)="cut()">Cut</p>
-                            <p (click)="editItem.show()">Mass Edit</p>
-                            <p (click)="duplicateItems()">Duplicate</p>
-                            <p (click)="deleteItems()">Delete</p>
-                        </div>
-                        <div *ngIf="copyDataLengthcount > 0 " class="custom-popup-button line">
-                            <h5 class="text-primary" *ngIf="pastetype == 'copy'">Number of rows Copied
-                                : {{copyDataLengthcount}}</h5>
-                            <h5 class="text-primary" *ngIf="pastetype == 'cut'">Number of rows Cut
-                                : {{copyDataLengthcount}}</h5>
+<div class="selection-popup d-inline float-right" *ngIf=" itemSelectionView == true || itemSelectionViewI">
+    <h6 class="text-primary d-inline">Number of rows selected : {{SelectedRowData.length}} </h6>
+    <div class="custom-popup-button d-inline ml-1">
+        <button class="btn" (click)="copyItems()">Copy</button>
+        <button class="btn" (click)="cut()">Cut</button>
+        <button class="btn" (click)="editItem.show()">Mass Edit</button>
+        <button class="btn" (click)="duplicateItems()">Duplicate</button>
+        <button class="btn" (click)="deleteItems()">Delete</button>
+    </div>
+    <div *ngIf="copyDataLengthcount > 0 " class="custom-popup-button line">
+        <h5 class="text-primary" *ngIf="pastetype == 'copy'">Number of rows Copied
+            : {{copyDataLengthcount}}</h5>
+        <h5 class="text-primary" *ngIf="pastetype == 'cut'">Number of rows Cut
+            : {{copyDataLengthcount}}</h5>
 
-                            <p (click)="paste()">Paste</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <button class="btn" (click)="paste()">Paste</button>
     </div>
 </div>
-<!-- </div>  -->
 
 <app-edit-item
     #editItem

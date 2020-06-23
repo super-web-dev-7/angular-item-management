@@ -1,10 +1,21 @@
-<div>
-    <button class="btn btn-brimary" (click)="newItem.show()">
-        Add New Item
-    </button>
-    <button class="btn btn-brimary" (click)="addNewfield.show()">
-        Add new field
-    </button>
+<div class="grid-toolbox" id="grid-toolbox">
+    <div>
+        <button class="btn btn-brimary" (click)="newItem.show()">
+            Add New Item
+        </button>
+        <button class="btn btn-brimary" (click)="addNewfield.show()">
+            Add new field
+        </button>
+    </div>
+
+    <div class="d-inline">
+        <app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
+                             [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
+                             [itemSelectionView]="itemSelectionView" [pageNo]="pageNo"
+                             [itemSelectionViewI]="itemSelectionViewI"
+                             (getLatestitem)="getLatestitem($event)"></app-items-selection>
+    </div>
+
 </div>
 <app-pagination #pagination [totalItems]="TotalItems" [totalPage]="totalPage" [pageNo]="pageNo"></app-pagination>
 <br>
@@ -44,12 +55,6 @@
 
 <app-item-details #itemDetails></app-item-details>
 
-<app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
-                     [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
-                     [itemSelectionView]="itemSelectionView" [pageNo]="pageNo"
-                     [itemSelectionViewI]="itemSelectionViewI"
-                     (getLatestitem)="getLatestitem($event)"></app-items-selection>
-
 <app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [pageNo]="pageNo" [fieldName]="fieldName"
               [projectId]="projectId" [fields]="fields"></app-new-item>
 
@@ -62,7 +67,7 @@
 <app-add-new-field #addNewfield [fieldType]="fieldType" [fieldName]="fieldName" [projectId]="projectId"
                    [fields]="fields" (getfilelds)="getfilelds($event)"
                    [fieldTypeWithNo]="fieldTypeWithNo"></app-add-new-field>
-<div class="ag-grid">
+<div class="ag-grid" id="ag-grid">
     <ag-grid-angular #agGrid
                      id="agGrid"
                      style="width: 100%;"
