@@ -44,6 +44,7 @@ import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {TextFilterComponent} from '@app/projects/filter/text-filter/text-filter.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import { NgpSortModule } from 'ngp-sort-pipe';
+import { GridLoadPlaceholderComponent } from './grid-load-placeholder/grid-load-placeholder.component';
 
 @NgModule({
     imports: [
@@ -99,6 +100,7 @@ import { NgpSortModule } from 'ngp-sort-pipe';
         GridEventsComponent,
         CellEditComponent,
         SetColumnItemsComponent,
+        GridLoadPlaceholderComponent,
         // NumericEditorComponent
     ],
     exports: [
