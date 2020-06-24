@@ -14,3 +14,21 @@ app-items-list {
     height: 100%;
     display: flex;
 }
+
+.title {
+    display: flex;
+    justify-content: space-between;
+
+    .project-title {
+        padding: 0px 30px;
+    }
+
+    .title-toolbar {
+        margin-right: 200px;
+        margin-top:15px;
+
+        button {
+            margin: 5px;
+        }
+    }
+}

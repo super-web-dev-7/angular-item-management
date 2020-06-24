@@ -4,10 +4,10 @@
         <i class="fa fa-angle-double-left" aria-hidden="true" (click)="moveToFirstPage()"></i>
         <i class="fa fa-angle-left" aria-hidden="true" (click)="moveToPrevious()"></i>
       </span>
-      <span *ngIf="totalPage > 1">Page {{this.pageNo}} of {{this.totalPage}}</span>
-      <span *ngIf="totalPage == 1">Page {{this.pageNo}} of {{this.totalPage}}</span>
+      <span class="pages-count" *ngIf="totalPage > 1">Page {{this.pageNo}} of {{this.totalPage}}</span>
+      <span class="pages-count" *ngIf="totalPage == 1">Page {{this.pageNo}} of {{this.totalPage}}</span>
       <span class="forward-list">
-        <i class="fa fa-angle-right" aria-hidden="true" (click)="moveToNext()"></i>
+        <i class="fa fa-angle-right pagination-arrow" aria-hidden="true" (click)="moveToNext()"></i>
         <i class="fa fa-angle-double-right" aria-hidden="true" (click)="moveToLastPage()"></i>
       </span>
     </span>
