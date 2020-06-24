@@ -237,7 +237,6 @@ export class AgGridComponent implements OnInit {
                             filterOptions: ['contains', 'equals', 'notEqual'],
                             suppressAndOrCondition: true,
                         },
-                        // !field.readonly
                         menuTabs: ['filterMenuTab'],
                         cellRenderer: 'pictureCellRenderer',
                         sortingOrder: ['asc', 'desc', null],
@@ -371,7 +370,6 @@ export class AgGridComponent implements OnInit {
     }
 
     getLatestitem(e) {
-        console.log(e)
         this.getItems.emit();
         this.notreffress = true;
         this.SelectedRowData = [];
@@ -435,6 +433,7 @@ export class AgGridComponent implements OnInit {
 
     onCellClicked(event) {
         if (event.event.target.nodeName === 'BUTTON' && event.event.target.innerText === 'Upload') {
+            console.log(event)
             return;
         }
         // tslint:disable-next-line:max-line-length

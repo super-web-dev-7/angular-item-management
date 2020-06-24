@@ -66,6 +66,15 @@ export class ItemsService {
         });
     }
 
+    public uploadImage(data) {
+        const headers = {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        };
+        return this.httpClient.put<any>(`${environment.apiUrl}/item`, data, {
+            headers
+        });
+    }
+
     public editSingleItemByProject(data) {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem('token')}`
