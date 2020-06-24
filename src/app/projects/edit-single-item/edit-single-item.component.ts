@@ -34,7 +34,7 @@ export class EditSingleItemComponent implements OnInit {
     reverse = false;
     commentEditingMode = false;
     EditableCommentId;
-    fileLists = [];
+    fileLists = {};
 
     constructor(private itemsService: ItemsService, private eventEmitterService: EventEmitterService
     ) {
@@ -81,7 +81,7 @@ export class EditSingleItemComponent implements OnInit {
         if (event.event.target.nodeName === 'BUTTON' && event.event.target.innerText === 'Upload') {
             return;
         }
-        this.fileLists = [];
+        this.fileLists = {};
         this.fieldName.forEach(item => {
             this.data[item] = '';
             this[item] = '';
@@ -170,6 +170,11 @@ export class EditSingleItemComponent implements OnInit {
                 picture: fileLists,
                 fieldTechName: event.target.name
             };
+            console.log(this.fileLists);
+            // tslint:disable-next-line:forin
+            for (const key in this.fileLists) {
+                console.log(this.fileLists[key]);
+            }
         } else {
             this[event.target.name] = (<HTMLInputElement>event.target).value;
             this.SelectedSingleRowData[event.target.name] = (<HTMLInputElement>event.target).value;
@@ -202,9 +207,13 @@ export class EditSingleItemComponent implements OnInit {
                     _this.eventEmitterService.onPageChange(_this.pageNo);
                 });
 
-            _this.itemsService.uploadImage(_this.fileLists).subscribe(res => {
-                console.log(res);
-            });
+            for (const key in this.fileLists) {
+                if (this.fileLists.hasOwnProperty(key)) {
+                    _this.itemsService.uploadImage(_this.fileLists[key]).subscribe(res => {
+                        console.log(res);
+                    });
+                }
+            }
 
             _this.SelectedSingleRowData = [];
             _this.data = {};

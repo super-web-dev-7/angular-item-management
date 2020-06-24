@@ -82,6 +82,7 @@ export class AgGridComponent implements OnInit {
     gridStyle: any;
     paginationPageSize = 100;
     components: any;
+    showGridLoadPlaceholder = true;
 
     constructor(
         private itemsService: ItemsService,
@@ -347,6 +348,7 @@ export class AgGridComponent implements OnInit {
             }
         });
         this.columnLoaded = true;
+        this.showGridLoadPlaceholder = false;
         this.itemColumns.unshift({
             editable: false,
             resizable: false,

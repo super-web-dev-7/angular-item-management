@@ -68,11 +68,12 @@
                    [fields]="fields" (getfilelds)="getfilelds($event)"
                    [fieldTypeWithNo]="fieldTypeWithNo"></app-add-new-field>
 <div class="ag-grid" id="ag-grid">
+    <app-grid-load-placeholder *ngIf="showGridLoadPlaceholder"></app-grid-load-placeholder>
     <ag-grid-angular #agGrid
                      id="agGrid"
                      style="width: 100%;"
                      [ngStyle]="gridStyle"
-                     *ngIf="items && items.length > 0 && columnLoaded"
+                     *ngIf="items && items.length > 0 && columnLoaded && !showGridLoadPlaceholder"
                      class="ag-theme-material"
                      [rowData]="items"
                      [rowStyle]="rowStyle"

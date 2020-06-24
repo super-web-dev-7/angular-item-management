@@ -70,7 +70,13 @@ export class ItemsService {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         };
-        return this.httpClient.put<any>(`${environment.apiUrl}/item`, data, {
+        const formData = new FormData();
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                formData.append(key, data[key]);
+            }
+        }
+        return this.httpClient.put<any>(`${environment.apiUrl}/item/upload-image`, formData, {
             headers
         });
     }
