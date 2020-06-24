@@ -1,5 +1,5 @@
-<div (mouseenter)="showActions=true" (mouseleave)="showActions=false" class="card project-card" data-social="item">
-  <div class="card-header" (click)="openProject()">
+<div (mouseenter)="showActions=true" (mouseleave)="showActions=false" class="card project-card" data-social="item" (click)="openProject()">
+  <div class="card-header">
     <app-project-box-actions [projectId]="id" @showHideAnimation *ngIf="showActions">
     </app-project-box-actions>
     <h5><fa-icon class="pinned-icon" *ngIf="pinned" [icon]="pinnedIcon"></fa-icon> {{name}}</h5>

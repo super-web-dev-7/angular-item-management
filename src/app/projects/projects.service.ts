@@ -25,4 +25,8 @@ export class ProjectsService {
         return this.httpClient.get(`${environment.apiUrl}/project/fields/${projectId}`);
     }
 
+    public getProject(projectId) {
+        return this.httpClient.get(`${environment.apiUrl}/project/${projectId}`);
+    }
+
 }
