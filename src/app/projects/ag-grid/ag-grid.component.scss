@@ -25,3 +25,7 @@
 app-items-selection {
     display: flex;
 }
+
+::ng-deep .ag-selected-rows .ag-selection-checkbox {
+    display: block!important;
+}

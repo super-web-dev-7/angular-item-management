@@ -235,7 +235,7 @@ export class AgGridComponent implements OnInit {
                         cellEditorParams: {
                             option: field
                         },
-                        filter: 'agTextColumnFilter',
+                        filter: 'TextFilterComponent',
                         filterParams: {
                             filterOptions: ['contains', 'equals', 'notEqual'],
                             suppressAndOrCondition: true,
@@ -426,7 +426,6 @@ export class AgGridComponent implements OnInit {
         }
         if (!found) {
             this.showHideCheckboxComponent.hideSelectbox(event);
-
         }
     }
 
@@ -529,7 +528,7 @@ export class AgGridComponent implements OnInit {
         this.paginationPageSize = this.TotalItems;
     }
 
-    onsortChanged(e) {
+    onSortChanged(e) {
         let data;
         const data1 = e.api.sortController.getSortModel();
         if (data1[0]) {

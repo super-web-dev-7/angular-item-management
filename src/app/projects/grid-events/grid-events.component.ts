@@ -88,7 +88,6 @@ export class GridEventsComponent implements OnInit {
             this.showAllCheckBox = true;
             const d = this.gridRows.filter(x => x.selected === true);
             this.selectedRows = d ? d.length : 0;
-            this.showHideCheckboxComponent.showCheckboxWithoutEvent();
         } else {
             if (this.notreffress === true) {
                 if (this.gridRows.findIndex(x => x.selected === false) > -1) {
@@ -97,7 +96,7 @@ export class GridEventsComponent implements OnInit {
                     this.selectedRows = d ? d.length : 0;
                 }
             } else {
-                this.selectedRows = this.SelectedRowData.length;
+                this.selectedRows = 0;
                 if (this.SelectedRowData.length < this.TotalItems) {
                     if (this.RowIndex.length) {
                         if (this.RowIndex.filter(value => (value.page === this.pageNo && value.rowIndex.length > 0)).length > 0) {
@@ -106,9 +105,11 @@ export class GridEventsComponent implements OnInit {
                         }
                     }
                 } else {
-                    this.showHideCheckboxComponent.showCheckboxWithoutEvent();
                 }
             }
+        }
+        if (this.selectedRows > 0) {
+            this.showHideCheckboxComponent.showCheckboxWithoutEvent();
         }
         if (event.node.selected === true) {
             this.add_array_element(event);
@@ -119,13 +120,11 @@ export class GridEventsComponent implements OnInit {
         if (this.SelectedRowData.length > 0) {
             this.itemSelectionView = true;
             this.itemSelectionViewI = true;
-
         }
         if (this.SelectedRowData.length === 0) {
             this.itemSelectionView = false;
             this.itemSelectionViewI = false;
             this.showAllCheckBox = false;
-
         }
     }
 
