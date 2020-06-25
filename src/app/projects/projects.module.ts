@@ -40,11 +40,13 @@ import {SetColumnItemsComponent} from './set-column-items/set-column-items.compo
 import {TextEditorComponent} from '@app/projects/editor/text-editor/text-editor.component';
 import {NumberEditorComponent} from '@app/projects/editor/number-editor/number-editor.component';
 import {SelectEditorComponent} from '@app/projects/editor/select-editor/select-editor.component';
-import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownModule, NgbModalModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {TextFilterComponent} from '@app/projects/filter/text-filter/text-filter.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import { NgpSortModule } from 'ngp-sort-pipe';
 import { GridLoadPlaceholderComponent } from './grid-load-placeholder/grid-load-placeholder.component';
+import {PictureCellRendererComponent} from '@app/projects/picture-cell-renderer/picture-cell-renderer.component';
+import {ImageSliderComponent} from '@app/projects/picture-cell-renderer/image-slider/image-slider.component';
 
 @NgModule({
     imports: [
@@ -63,7 +65,8 @@ import { GridLoadPlaceholderComponent } from './grid-load-placeholder/grid-load-
             DateEditorComponent,
             TextEditorComponent,
             NumberEditorComponent,
-            SelectEditorComponent
+            SelectEditorComponent,
+            PictureCellRendererComponent
         ]),
         NgSelectModule,
         FormsModule,
@@ -72,6 +75,7 @@ import { GridLoadPlaceholderComponent } from './grid-load-placeholder/grid-load-
         NgbTooltipModule,
         NgbDropdownModule,
         NgpSortModule,
+        NgbModalModule
     ],
     providers: [],
     declarations: [
@@ -94,6 +98,7 @@ import { GridLoadPlaceholderComponent } from './grid-load-placeholder/grid-load-
         TextEditorComponent,
         NumberEditorComponent,
         SelectEditorComponent,
+        PictureCellRendererComponent,
         ShowHideCheckboxComponent,
         RowColumnDragComponent,
         PaginationComponent,
@@ -101,7 +106,12 @@ import { GridLoadPlaceholderComponent } from './grid-load-placeholder/grid-load-
         CellEditComponent,
         SetColumnItemsComponent,
         GridLoadPlaceholderComponent,
+        ImageSliderComponent,
+
         // NumericEditorComponent
+    ],
+    entryComponents: [
+        ImageSliderComponent
     ],
     exports: [
     ]

@@ -157,7 +157,6 @@ export class GridEventsComponent implements OnInit {
     }
 
     oncellMouseOver(event) {
-        // console.log(this.showAllCheckBox, this.noOfSelectedRows, this.SelectedRowData, this.TotalItems)
         if (!this.showAllCheckBox && this.noOfSelectedRows === 0) {
             if (this.SelectedRowData.length === 0) {
                 this.showHideCheckboxComponent.hideSelectbox(event);

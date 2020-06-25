@@ -15,6 +15,7 @@ import {retry} from 'rxjs/operators';
 export class ItemsSelectionComponent implements OnInit {
     @ViewChild('selectedPopup', {static: true}) selectedPopup: ModalDirective;
     @Input() pageNo;
+    @Input() totalPage;
     @Input() projectId;
     @Input() fieldType;
     @Input() fieldName;

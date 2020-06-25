@@ -88,7 +88,6 @@ export class DateEditorComponent implements AfterViewInit, OnDestroy, ICellEdito
     }
 
     setDate(date: Date): void {
-        console.log(this.date)
         this.date = date || null;
         this.picker.setDate(date);
     }

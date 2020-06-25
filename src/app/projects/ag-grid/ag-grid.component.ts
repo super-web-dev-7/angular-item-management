@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChild, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import * as moment from 'moment';
 import {ShowHideCheckboxComponent} from '../show-hide-checkbox/show-hide-checkbox.component';
 import {GridEventsComponent} from '../grid-events/grid-events.component';
@@ -95,11 +95,12 @@ export class AgGridComponent implements OnInit {
             DateEditorComponent: DateEditorComponent,
             TextEditorComponent: TextEditorComponent,
             NumberEditorComponent: NumberEditorComponent,
-            SelectEditorComponent: SelectEditorComponent
+            SelectEditorComponent: SelectEditorComponent,
+            pictureCellRenderer: PictureCellRendererComponent
         };
-        this.components = {
-            'pictureCellRenderer': PictureCellRendererComponent
-        };
+        // this.components = {
+        //     'pictureCellRenderer': PictureCellRendererComponent
+        // };
     }
 
     ngOnInit() {
@@ -222,6 +223,7 @@ export class AgGridComponent implements OnInit {
                 }
 
                 if (field.type === 2) {
+                    const _this = this;
                     this.itemColumns.push({
                         headerName: field.label,
                         field: field.techName,
@@ -245,15 +247,27 @@ export class AgGridComponent implements OnInit {
                             let count;
                             if (params.data[field.techName] !== undefined) {
                                 if (typeof params.data[field.techName] === 'string') {
-                                    count = '1 file';
+                                    count = '';
                                 } else {
-                                    count = params.data[field.techName] ? params.data[field.techName].length + 'file(s)' : '';
+                                    if (params.data[field.techName]) {
+                                        if (params.data[field.techName].length === 0) {
+                                            count = '';
+                                        } else if (params.data[field.techName].length === 1) {
+                                            count = '1 file';
+                                        } else {
+                                            count = params.data[field.techName].length + ' file(s)';
+                                        }
+                                    } else {
+                                        count = '';
+                                    }
                                 }
                             } else {
                                 count = '';
                             }
-
-                            return count;
+                            return {
+                                count: count,
+                                pageNo: _this.pageNo
+                            };
                         },
                         // valueSetter: function (params) {
                         // params.data[field.techName] = [];
@@ -434,8 +448,7 @@ export class AgGridComponent implements OnInit {
     }
 
     onCellClicked(event) {
-        if (event.event.target.nodeName === 'BUTTON' && event.event.target.innerText === 'Upload') {
-            console.log(event)
+        if (event.event.target.id === 'imageUpload' || event.event.target.ariaLabel === 'cell-upload') {
             return;
         }
         // tslint:disable-next-line:max-line-length

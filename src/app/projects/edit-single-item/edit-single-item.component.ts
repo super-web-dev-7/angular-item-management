@@ -36,7 +36,9 @@ export class EditSingleItemComponent implements OnInit {
     EditableCommentId;
     fileLists = {};
 
-    constructor(private itemsService: ItemsService, private eventEmitterService: EventEmitterService
+    constructor(
+        private itemsService: ItemsService,
+        private eventEmitterService: EventEmitterService
     ) {
     }
 
@@ -78,7 +80,7 @@ export class EditSingleItemComponent implements OnInit {
     }
 
     show(event) {
-        if (event.event.target.nodeName === 'BUTTON' && event.event.target.innerText === 'Upload') {
+        if (event.event.target.id === 'imageUpload' || event.event.target.ariaLabel === 'cell-upload') {
             return;
         }
         this.fileLists = {};
@@ -157,24 +159,15 @@ export class EditSingleItemComponent implements OnInit {
                 this.SelectedSingleRowData[event.target.name].push(selectedOption.value);
             }
         } else if (event.target.type === 'file') {
-            this[event.target.name] = [];
             const fileLists = [];
-            const fileNames = [];
             for (const file of event.target.files) {
                 fileLists.push(file);
-                fileNames.push(file.name);
             }
-            this[event.target.name] = fileNames;
             this.fileLists[event.target.name] = {
                 itemId: this.SelectedSingleRowData['_id'],
                 picture: fileLists,
                 fieldTechName: event.target.name
             };
-            console.log(this.fileLists);
-            // tslint:disable-next-line:forin
-            for (const key in this.fileLists) {
-                console.log(this.fileLists[key]);
-            }
         } else {
             this[event.target.name] = (<HTMLInputElement>event.target).value;
             this.SelectedSingleRowData[event.target.name] = (<HTMLInputElement>event.target).value;
@@ -205,15 +198,14 @@ export class EditSingleItemComponent implements OnInit {
                 .editItemByProject(_this.data)
                 .subscribe(result => {
                     _this.eventEmitterService.onPageChange(_this.pageNo);
+                    for (const key in this.fileLists) {
+                        if (this.fileLists.hasOwnProperty(key)) {
+                            _this.itemsService.uploadImage(_this.fileLists[key]).subscribe(res => {
+                                _this.eventEmitterService.onPageChange(_this.pageNo);
+                            });
+                        }
+                    }
                 });
-
-            for (const key in this.fileLists) {
-                if (this.fileLists.hasOwnProperty(key)) {
-                    _this.itemsService.uploadImage(_this.fileLists[key]).subscribe(res => {
-                        console.log(res);
-                    });
-                }
-            }
 
             _this.SelectedSingleRowData = [];
             _this.data = {};

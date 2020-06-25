@@ -73,6 +73,11 @@ export class ItemsService {
         const formData = new FormData();
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
+                if (key === 'picture') {
+                    for (const item of data[key]) {
+                        formData.append(key, item);
+                    }
+                }
                 formData.append(key, data[key]);
             }
         }

@@ -139,8 +139,9 @@ export class ItemsListComponent implements OnInit {
         this.itemsService.countItemsByProject(localStorage.getItem('ProjectId')).subscribe((count: any) => {
             this.TotalItems = count;
             this.totalPage = Math.ceil(this.TotalItems / 100);
-            if (this.totalPage === 1) {
-                this.pageNo = 1;
+            if (this.pageNo > this.totalPage) {
+                this.pageNo = this.totalPage;
+                this.ongetItemsByProjectWithPagination(this.pageNo);
             }
         });
     }

@@ -1,5 +1,5 @@
 <div class="selection-popup d-inline float-right">
-    <div class="mb-2" *ngIf=" itemSelectionView == true || itemSelectionViewI">
+    <div class="mb-2" *ngIf=" (itemSelectionView == true || itemSelectionViewI) && SelectedRowData.length > 0">
         <h6 class="text-primary d-inline">{{SelectedRowData.length}} selected </h6>
         <div class="custom-popup-button d-inline ml-1">
             <button class="btn" (click)="copyItems()">Copy</button>

@@ -26,6 +26,7 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     [key: string]: any;
 
     data = {};
+    fileLists = {};
 
     constructor(
         private itemsService: ItemsService,
@@ -129,6 +130,7 @@ export class NewItemComponent implements OnInit, AfterViewInit {
         this.newItemPopup.config.ignoreBackdropClick = true;
         this.newItemPopup.config.backdrop = false;
         this.newItemPopup.config.keyboard = true;
+        this.fileLists = {};
         this.newItemPopup.show();
     }
 
@@ -163,6 +165,16 @@ export class NewItemComponent implements OnInit, AfterViewInit {
             for (const selectedOption of event.target.selectedOptions) {
                 this[event.target.name].push(selectedOption.value);
             }
+        } else if (event.target.type === 'file') {
+            const fileLists = [];
+            for (const file of event.target.files) {
+                fileLists.push(file);
+            }
+            this.fileLists[event.target.name] = {
+                // itemId: this.SelectedSingleRowData['_id'],
+                picture: fileLists,
+                fieldTechName: event.target.name
+            };
         } else {
             this[event.target.name] = (<HTMLInputElement>event.target).value;
         }
@@ -192,6 +204,14 @@ export class NewItemComponent implements OnInit, AfterViewInit {
                 .newItemByProject(localStorage.getItem('ProjectId'), _this.data)
                 .subscribe(result => {
                     _this.eventEmitterService.onPageChange(_this.pageNo);
+                    for (const key in this.fileLists) {
+                        if (this.fileLists.hasOwnProperty(key)) {
+                            this.fileLists[key].itemId = result._id;
+                            _this.itemsService.uploadImage(_this.fileLists[key]).subscribe(res => {
+                                _this.eventEmitterService.onPageChange(_this.pageNo);
+                            });
+                        }
+                    }
                 });
             _this.resetPopValues();
             _this.newItemPopup.hide();

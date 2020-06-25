@@ -6,6 +6,7 @@
 export const environment = {
     production: false,
 //   apiUrl: "http://survey-name-server-827494005.eu-central-1.elb.amazonaws.com:3000/api"
-    apiUrl: 'http://awseb-e-q-AWSEBLoa-7J90VUGZ6I1N-1143716978.eu-central-1.elb.amazonaws.com:3000/api'
+    apiUrl: 'http://awseb-e-q-AWSEBLoa-7J90VUGZ6I1N-1143716978.eu-central-1.elb.amazonaws.com:3000/api',
     //  apiUrl: "http://localhost:3000/api"
+    imageUrl: 'https://s3.eu-central-1.amazonaws.com/app.items.uploads/'
 };

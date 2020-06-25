@@ -1,47 +1,52 @@
 import {Component, OnInit} from '@angular/core';
 import {IFilterParams} from '@ag-grid-community/all-modules';
+import {ItemsService} from '@app/projects/items-list/items.service';
+import {EventEmitterService} from '@app/event-emitter.service';
+import {ICellRendererAngularComp} from '@ag-grid-community/angular';
+import {ImageSliderComponent} from '@app/projects/picture-cell-renderer/image-slider/image-slider.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-picture-cell-renderer',
     templateUrl: './picture-cell-renderer.component.html',
     styleUrls: ['./picture-cell-renderer.component.scss']
 })
-export class PictureCellRendererComponent implements OnInit {
+export class PictureCellRendererComponent implements OnInit, ICellRendererAngularComp {
     params: any;
-    eGui: any;
 
-    constructor() {
+    constructor(
+        private itemsService: ItemsService,
+        private eventEmitterService: EventEmitterService,
+        private modalService: NgbModal
+    ) {
     }
 
     ngOnInit() {
     }
 
-    init(params: IFilterParams): void {
-        // console.log(params);
+    agInit(params: any): void {
         this.params = params;
-        const tempDiv = document.createElement('div');
-        if (this.params.value) {
-            tempDiv.innerHTML =
-                '<div class="d-flex flex-column align-items-center"><a style="line-height: 20px">' + this.params.value + '</a>' +
-                '<button class="btn btn-light p-0" (click)="imageupload.click()">Upload</button>' +
-                '<input type="file" #imageupload (change)="onChange($event)" class="hidden">' +
-                '</div>';
-        } else {
-            tempDiv.innerHTML =
-                '<div class="d-flex flex-column align-items-center justify-content-center h-100">' +
-                '<button class="btn btn-light p-0" onClick="onChange($event)">Upload</button>' +
-                '</div>' +
-                '<input type="file" (change)="onChange($event)">';
-        }
-        this.eGui = tempDiv.firstChild;
     }
 
-    getGui() {
-        return this.eGui;
+
+    refresh(params: any): boolean {
+        return false;
     }
 
-    onChange(event) {
-        // console.log(event);
+    onChangeInput(event) {
+        const data = {
+            itemId: this.params.data._id,
+            picture: event.target.files,
+            fieldTechName: this.params.colDef.colId
+        };
+        this.itemsService.uploadImage(data).subscribe(res => {
+            this.eventEmitterService.onPageChange(this.params.value.pageNo);
+        });
+    }
+
+    showImageSliderPopUp() {
+        const modalRef = this.modalService.open(ImageSliderComponent, { size: 'xl', centered: true });
+        modalRef.componentInstance.fileLists = this.params.data[this.params.colDef.colId];
     }
 
 }

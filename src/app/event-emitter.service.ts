@@ -21,7 +21,6 @@ export class EventEmitterService {
     }
 
     onPageChange(data) {
-        console.log(data)
         this.invokeOngetItemsByProjectWithPagination.emit(data);
     }
 
