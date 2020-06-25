@@ -182,7 +182,7 @@ export class ItemsListComponent implements OnInit {
 
     filterGridbyApi(values) {
         let data = {
-            filter: [{techName: values.tachname, value: values.searchText}],
+            filter: [{techName: values.techName, value: values.searchText}],
             sort: {techName: '', direction: ''}
         };
         if (values.searchText === '') {
@@ -196,7 +196,7 @@ export class ItemsListComponent implements OnInit {
             const NewtimeStamp = timeStamp.getTime();
             const NewtimeStamp1 = NewtimeStamp.toString();
             data = {
-                filter: [{techName: values.tachname, value: NewtimeStamp1}],
+                filter: [{techName: values.techName, value: NewtimeStamp1}],
                 sort: {techName: '', direction: ''}
             };
         }
@@ -206,7 +206,7 @@ export class ItemsListComponent implements OnInit {
             if (items.length > 0) {
                 this.items = items;
             } else {
-                this.items = [{_id: localStorage.getItem('ProjectId'), [values.tachname]: 'No Data Found !!'}];
+                this.items = [{_id: localStorage.getItem('ProjectId'), [values.techName]: 'No Data Found !!'}];
             }
         });
     }

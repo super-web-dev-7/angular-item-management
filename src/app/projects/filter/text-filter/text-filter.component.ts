@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IDoesFilterPassParams, IFilterParams, RowNode} from '@ag-grid-community/all-modules';
 import {EventEmitterService} from '@app/event-emitter.service';
-import {NgSelectConfig} from '@ng-select/ng-select';
 import {IFilterAngularComp} from '@ag-grid-community/angular';
 
 @Component({
@@ -9,15 +8,13 @@ import {IFilterAngularComp} from '@ag-grid-community/angular';
     templateUrl: './text-filter.component.html',
     styleUrls: ['./text-filter.component.scss']
 })
-export class TextFilterComponent implements OnInit {
+export class TextFilterComponent implements OnInit, IFilterAngularComp {
 
-    @Output() setFilterEvent: EventEmitter<any> = new EventEmitter();
-    @Input() searchedText;
-    @Input() items;
     private params: IFilterParams;
     private valueGetter: (rowNode: RowNode) => any;
     public text = '';
     FilterInputType: any;
+    invalid = false;
 
     types = [
         {id: 1, name: 'Equals'},
@@ -25,6 +22,7 @@ export class TextFilterComponent implements OnInit {
         {id: 3, name: 'Contains'},
     ];
     type: any;
+    filterOption: any;
 
     constructor(
         private eventEmitterService: EventEmitterService,
@@ -36,12 +34,8 @@ export class TextFilterComponent implements OnInit {
 
     agInit(params: IFilterParams): void {
         this.params = params;
-        // this.params.api.setPopupParent(document.body)
-
-        console.log(this.params)
         this.valueGetter = params.valueGetter;
         this.FilterInputType = params.colDef['groupId'];
-        localStorage.setItem('filterInputType', this.FilterInputType);
     }
 
     doesFilterPass(params: IDoesFilterPassParams): boolean {
@@ -52,9 +46,6 @@ export class TextFilterComponent implements OnInit {
                 .every(filterWord => {
                     return (
                         this.valueGetter(params.node)
-                        // .toString()
-                        // .toLowerCase()
-                        // .indexOf(filterWord) >= 0
                     );
                 });
         }
@@ -67,27 +58,34 @@ export class TextFilterComponent implements OnInit {
     onChange(newValue): void {
         if (this.text !== newValue) {
             this.text = newValue;
-            // if(this.FilterInputType == 'number'){
-            //   this.text  parseInt(this.text)
-            // }
             const data = {
                 searchText: this.text,
-                tachname: this.params.colDef.field
+                techName: this.params.colDef.field
             };
-            this.eventEmitterService.onfilterRow(data);
-            // this.params.filterChangedCallback();
-
+            this.invalid = this.filterOption === undefined || this.filterOption === null;
+            console.log(this.invalid);
+            if (!this.invalid) {
+                this.eventEmitterService.onfilterRow(data);
+            }
         }
-        // this.setFilterEvent.emit();
     }
 
     onSelectChange(event) {
-        // this.params.hidePopup()
-        console.log(event);
+        this.filterOption = event ? event.name : null;
+        this.invalid = this.filterOption === undefined || this.filterOption === null;
+        if (!this.invalid) {
+            const data = {
+                searchText: this.text,
+                techName: this.params.colDef.field
+            };
+            this.eventEmitterService.onfilterRow(data);
+        }
     }
 
-
     getModel(): any {
+    }
+
+    setModel(model: any): void {
     }
 
 }

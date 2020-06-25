@@ -144,7 +144,8 @@ export class AppHammerConfig extends HammerGestureConfig {
         EffectsModule.forRoot([ProjectsEffects, ProjectTypeEffects, ProjectTypesEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 25,
-        })
+        }),
+        NgSelectModule
     ],
     providers: [QuickviewService, pagesToggleService, {
         provide: PERFECT_SCROLLBAR_CONFIG,

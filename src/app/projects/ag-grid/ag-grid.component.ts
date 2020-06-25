@@ -14,6 +14,7 @@ import {NumberEditorComponent} from '@app/projects/editor/number-editor/number-e
 import {SelectEditorComponent} from '@app/projects/editor/select-editor/select-editor.component';
 import {TextFilterComponent} from '@app/projects/filter/text-filter/text-filter.component';
 import {PictureCellRendererComponent} from '@app/projects/picture-cell-renderer/picture-cell-renderer.component';
+import {NumberFilterComponent} from '@app/projects/filter/number-filter/number-filter.component';
 
 declare var $: any;
 
@@ -27,9 +28,10 @@ export class AgGridComponent implements OnInit {
     @ViewChild('showHideCheckboxComponent', {static: true}) showHideCheckboxComponent: ShowHideCheckboxComponent;
     @ViewChild('gridEventsComponent', {static: true}) gridEventsComponent: GridEventsComponent;
     @ViewChild('FilterInputComponent', {static: true}) FilterInputComponent: FilterInputComponent;
-    @ViewChild('TextFilterComponent', {static: true}) TextFilterComponent: TextFilterComponent;
     @ViewChild('RowColumnDragComponent', {static: true}) RowColumnDragComponent: RowColumnDragComponent;
     @ViewChild('cellEditComponent', {static: true}) cellEditComponent: CellEditComponent;
+    @ViewChild('TextFilterComponent', {static: true}) TextFilterComponent: TextFilterComponent;
+    @ViewChild('NumberFilterComponent', {static: true}) NumberFilterComponent: NumberFilterComponent;
     @Input() pageNo;
     @Input() oldArrow;
     @Input() sortOrder;
@@ -91,16 +93,14 @@ export class AgGridComponent implements OnInit {
     ) {
         this.frameworkComponents = {
             FilterInputComponent: FilterInputComponent,
-            TextFilterComponent: TextFilterComponent,
             DateEditorComponent: DateEditorComponent,
             TextEditorComponent: TextEditorComponent,
             NumberEditorComponent: NumberEditorComponent,
             SelectEditorComponent: SelectEditorComponent,
-            pictureCellRenderer: PictureCellRendererComponent
+            pictureCellRenderer: PictureCellRendererComponent,
+            TextFilterComponent: TextFilterComponent,
+            NumberFilterComponent: NumberFilterComponent
         };
-        // this.components = {
-        //     'pictureCellRenderer': PictureCellRendererComponent
-        // };
     }
 
     ngOnInit() {
@@ -195,7 +195,7 @@ export class AgGridComponent implements OnInit {
                         cellEditorParams: {
                             option: field
                         },
-                        filter: 'agNumberColumnFilter',
+                        filter: 'NumberFilterComponent',
                         filterParams: {
                             filterOptions: ['equals', 'notEqual', 'greaterThan', 'lessThan', 'inRange'],
                             suppressAndOrCondition: true
@@ -288,7 +288,7 @@ export class AgGridComponent implements OnInit {
                         cellEditorParams: {
                             option: field
                         },
-                        filter: 'agTextColumnFilter',
+                        filter: 'TextFilterComponent',
                         filterParams: {
                             filterOptions: ['contains', 'equals', 'notEqual'],
                             suppressAndOrCondition: true,

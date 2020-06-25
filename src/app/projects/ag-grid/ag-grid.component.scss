@@ -29,3 +29,7 @@ app-items-selection {
 ::ng-deep .ag-selected-rows .ag-selection-checkbox {
     display: block!important;
 }
+
+::ng-deep .ag-menu {
+    overflow-y: inherit;
+}

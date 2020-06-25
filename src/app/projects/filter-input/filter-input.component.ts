@@ -5,10 +5,7 @@ import {
     IFilterParams,
     RowNode,
 } from '@ag-grid-community/all-modules';
-// import { IFilterAngularComp } from'@ag-grid-community/angular';
-import {ItemsListComponent} from '../items-list/items-list.component';
 import {EventEmitterService} from '../../event-emitter.service';
-import {DateEditorComponent} from '../editor/date-editor/date-editor.component';
 
 @Component({
     selector: 'app-filter-input',
