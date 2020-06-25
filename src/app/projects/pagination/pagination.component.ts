@@ -12,8 +12,10 @@ export class PaginationComponent implements OnInit {
     @Input() pageNo;
     @Input() datainarry;
     @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
+    showPagination: boolean;
 
     constructor(private eventEmitterService: EventEmitterService) {
+        this.showPagination = this.totalPage !== undefined;
     }
 
     ngOnInit() {

@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {IDoesFilterPassParams, IFilterParams, RowNode} from '@ag-grid-community/all-modules';
 import {EventEmitterService} from '@app/event-emitter.service';
+import {IFilterAngularComp} from '@ag-grid-community/angular';
 
 @Component({
     selector: 'app-number-filter',
     templateUrl: './number-filter.component.html',
     styleUrls: ['./number-filter.component.scss']
 })
-export class NumberFilterComponent implements OnInit {
+export class NumberFilterComponent implements OnInit, IFilterAngularComp {
 
     private params: IFilterParams;
     private valueGetter: (rowNode: RowNode) => any;

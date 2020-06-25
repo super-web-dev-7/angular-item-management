@@ -1,4 +1,4 @@
-<div class="cz_pagination">
+<div class="cz_pagination" *ngIf="totalPage">
     <span class="cz_grid_next_privious_span">
       <span class="backward-list">
         <i class="fa fa-angle-double-left" aria-hidden="true" (click)="moveToFirstPage()"></i>
@@ -11,6 +11,7 @@
         <i class="fa fa-angle-double-right" aria-hidden="true" (click)="moveToLastPage()"></i>
       </span>
     </span>
-    <span class="cz_grid_count_span float-right mr-3"> {{(this.pageNo - 1) * 100 + 1}} to
+    <span class="cz_grid_count_span float-right mr-3"> {{(this.pageNo - 1) * 100 + 1}}
+        to
         {{(this.pageNo * 100) > totalItems ? totalItems : (this.pageNo * 100)}} of {{this.totalItems}} </span>
 </div>
