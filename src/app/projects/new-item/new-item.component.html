@@ -84,8 +84,22 @@
                                                         (input)="onChangeSelectValue($event)"
                                                 />
                                             </div>
+                                            <div *ngIf="itemType === 'file'">
+                                                <input
+                                                        [type]="itemType"
+                                                        class="form-control newItemFields"
+                                                        autocomplete="off"
+                                                        multiple
+                                                        [name]="fieldName[itemId]"
+                                                        [readOnly]="fields[itemId].readonly"
+                                                        (input)="onChangeSelectValue($event)"
+                                                        [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
+                                                        [minLength]="fields[itemId].options.minLength"
+                                                        [maxLength]="fields[itemId].options.maxLength ? fields[itemId].options.maxLength : '524288'"
+                                                />
+                                            </div>
 
-                                            <div *ngIf="itemType !== 'select' && itemType !== 'date' && itemType !== 'number'">
+                                            <div *ngIf="itemType !== 'select' && itemType !== 'date' && itemType !== 'number' && itemType !== 'file'">
                                                 <input
                                                         [type]="itemType"
                                                         class="form-control newItemFields"

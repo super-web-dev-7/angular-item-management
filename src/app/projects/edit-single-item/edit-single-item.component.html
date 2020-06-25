@@ -100,6 +100,7 @@
                                                             <input *ngIf="itemType === 'file'"
                                                                    [id]="fieldName[itemId]"
                                                                    [type]="itemType"
+                                                                   multiple
                                                                    class="form-control"
                                                                    [required]="fields[itemId].readonly ? false : fields[itemId].isRequired"
                                                                    [name]="fieldName[itemId]"
