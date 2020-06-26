@@ -203,13 +203,16 @@ export class NewItemComponent implements OnInit, AfterViewInit {
             _this.itemsService
                 .newItemByProject(localStorage.getItem('ProjectId'), _this.data)
                 .subscribe(result => {
-                    _this.eventEmitterService.onPageChange(_this.pageNo);
-                    for (const key in this.fileLists) {
-                        if (this.fileLists.hasOwnProperty(key)) {
-                            this.fileLists[key].itemId = result._id;
-                            _this.itemsService.uploadImage(_this.fileLists[key]).subscribe(res => {
-                                _this.eventEmitterService.onPageChange(_this.pageNo);
-                            });
+                    if (this.fileLists === {}) {
+                        _this.eventEmitterService.onPageChange(_this.pageNo);
+                    } else {
+                        for (const key in this.fileLists) {
+                            if (this.fileLists.hasOwnProperty(key)) {
+                                this.fileLists[key].itemId = result._id;
+                                _this.itemsService.uploadImage(_this.fileLists[key]).subscribe(res => {
+                                    _this.eventEmitterService.onPageChange(_this.pageNo);
+                                });
+                            }
                         }
                     }
                 });

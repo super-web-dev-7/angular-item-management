@@ -362,7 +362,6 @@ export class AgGridComponent implements OnInit {
             }
         });
         this.columnLoaded = true;
-        this.showGridLoadPlaceholder = false;
         this.itemColumns.unshift({
             editable: false,
             resizable: false,
@@ -526,6 +525,7 @@ export class AgGridComponent implements OnInit {
         this.TotalItems = this.gridEventsComponent.TotalItems;
         this.selectedRows = this.gridEventsComponent.selectedRows;
         this.paginationPageSize = this.TotalItems;
+        this.showGridLoadPlaceholder = false;
     }
 
     onSortChanged(e) {

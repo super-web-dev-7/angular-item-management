@@ -74,7 +74,7 @@
                      [ngClass]="{'ag-selected-rows': SelectedRowData.length > 0}"
                      style="width: 100%;"
                      [ngStyle]="gridStyle"
-                     *ngIf="items && items.length > 0 && columnLoaded && !showGridLoadPlaceholder"
+                     *ngIf="items && items.length > 0 && columnLoaded"
                      class="ag-theme-material"
                      [rowData]="items"
                      [rowStyle]="rowStyle"

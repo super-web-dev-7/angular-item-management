@@ -197,12 +197,15 @@ export class EditSingleItemComponent implements OnInit {
             _this.itemsService
                 .editItemByProject(_this.data)
                 .subscribe(result => {
-                    _this.eventEmitterService.onPageChange(_this.pageNo);
-                    for (const key in this.fileLists) {
-                        if (this.fileLists.hasOwnProperty(key)) {
-                            _this.itemsService.uploadImage(_this.fileLists[key]).subscribe(res => {
-                                _this.eventEmitterService.onPageChange(_this.pageNo);
-                            });
+                    if (this.fileLists === {}) {
+                        _this.eventEmitterService.onPageChange(_this.pageNo);
+                    } else {
+                        for (const key in this.fileLists) {
+                            if (this.fileLists.hasOwnProperty(key)) {
+                                _this.itemsService.uploadImage(_this.fileLists[key]).subscribe(res => {
+                                    _this.eventEmitterService.onPageChange(_this.pageNo);
+                                });
+                            }
                         }
                     }
                 });

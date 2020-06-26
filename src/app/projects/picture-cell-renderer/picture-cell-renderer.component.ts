@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {IFilterParams} from '@ag-grid-community/all-modules';
 import {ItemsService} from '@app/projects/items-list/items.service';
 import {EventEmitterService} from '@app/event-emitter.service';
 import {ICellRendererAngularComp} from '@ag-grid-community/angular';
@@ -27,7 +26,6 @@ export class PictureCellRendererComponent implements OnInit, ICellRendererAngula
     agInit(params: any): void {
         this.params = params;
     }
-
 
     refresh(params: any): boolean {
         return false;

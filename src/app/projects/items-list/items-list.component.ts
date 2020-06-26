@@ -1,11 +1,10 @@
-import {Component, OnInit, Input, Output, Directive, ViewChild, EventEmitter, AfterViewInit} from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import {ItemsService} from './items.service';
-import {FieldService} from '../../fields/field.service';
 import {AgGridComponent} from '../ag-grid/ag-grid.component';
 import {ShowHideCheckboxComponent} from '../show-hide-checkbox/show-hide-checkbox.component';
-import {EventEmitterService} from '../../event-emitter.service';
+import {EventEmitterService} from '@app/event-emitter.service';
 import {Router} from '@angular/router';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ProjectsService} from '../projects.service';
 
 @Component({
@@ -68,7 +67,6 @@ export class ItemsListComponent implements OnInit {
         private eventEmitterService: EventEmitterService) {
         this.eventEmitterService.invokeOngetItemsByProjectWithPagination.subscribe((page: any) => {
             this.pageNo = page;
-            this.ongetItemsByProjectWithPagination(page);
             this.countItemsByProject();
         });
 
@@ -141,8 +139,11 @@ export class ItemsListComponent implements OnInit {
             this.totalPage = Math.ceil(this.TotalItems / 100);
             if (this.pageNo > this.totalPage) {
                 this.pageNo = this.totalPage;
-                this.ongetItemsByProjectWithPagination(this.pageNo);
             }
+            if (this.totalPage === 1) {
+                this.pageNo = 1;
+            }
+            this.ongetItemsByProjectWithPagination(this.pageNo);
         });
     }
 
