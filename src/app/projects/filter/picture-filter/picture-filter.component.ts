@@ -49,7 +49,7 @@ export class PictureFilterComponent implements OnInit, IFilterAngularComp {
         this.invalid = this.filterOption === undefined || this.filterOption === null;
         if (!this.invalid) {
             const data = {
-                searchText: this.filterOption ? this.filterOption.toString() : '',
+                searchText: '',
                 techName: this.params.colDef.field,
                 type: this.filterOption
             };

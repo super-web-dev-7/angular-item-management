@@ -175,10 +175,17 @@ export class ItemsListComponent implements OnInit {
             sort: {techName: '', direction: ''}
         };
         if (values.searchText === '') {
-            data = {
-                filter: [{techName: '', value: '', type: ''}],
-                sort: {techName: '', direction: ''}
-            };
+            if (values.type === 'HAS_IMAGE' || values.type === 'NO_IMAGE') {
+                data = {
+                    filter: [{techName: '', value: '', type: values.type}],
+                    sort: {techName: '', direction: ''}
+                };
+            } else {
+                data = {
+                    filter: [{techName: '', value: '', type: ''}],
+                    sort: {techName: '', direction: ''}
+                };
+            }
         }
         if (localStorage.getItem('filterInputType') === 'date' && values.searchText) {
             const timeStamp = new Date(values.searchText);
