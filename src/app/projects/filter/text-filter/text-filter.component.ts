@@ -17,12 +17,13 @@ export class TextFilterComponent implements OnInit, IFilterAngularComp {
     invalid = false;
 
     types = [
-        {id: 1, name: 'Equals'},
-        {id: 2, name: 'Not Equals'},
-        {id: 3, name: 'Contains'},
+        {id: 'EQUALS', name: 'Equals'},
+        {id: 'NOT_EQUALS', name: 'Not Equals'},
+        {id: 'CONTAINS', name: 'Contains'},
     ];
     type: any;
     filterOption: any;
+    // "type": "LESS | ABOVE | CONTAINS | STARTS | ENDS | EQUALS | NOT_EQUALS"
 
     constructor(
         private eventEmitterService: EventEmitterService,
@@ -39,16 +40,17 @@ export class TextFilterComponent implements OnInit, IFilterAngularComp {
     }
 
     doesFilterPass(params: IDoesFilterPassParams): boolean {
-        if (params.node['rowModel'].rowsToDisplay.length > 0) {
-            return this.text
-                .toLowerCase()
-                .split(' ')
-                .every(filterWord => {
-                    return (
-                        this.valueGetter(params.node)
-                    );
-                });
-        }
+        // if (params.node['rowModel'].rowsToDisplay.length > 0) {
+        //     return this.text
+        //         .toLowerCase()
+        //         .split(' ')
+        //         .every(filterWord => {
+        //             return (
+        //                 this.valueGetter(params.node)
+        //             );
+        //         });
+        // }
+        return true;
     }
 
     isFilterActive(): boolean {
@@ -58,25 +60,26 @@ export class TextFilterComponent implements OnInit, IFilterAngularComp {
     onChange(newValue): void {
         if (this.text !== newValue) {
             this.text = newValue;
-            const data = {
-                searchText: this.text,
-                techName: this.params.colDef.field
-            };
             this.invalid = this.filterOption === undefined || this.filterOption === null;
-            console.log(this.invalid);
             if (!this.invalid) {
+                const data = {
+                    searchText: this.text,
+                    techName: this.params.colDef.field,
+                    type: this.filterOption
+                };
                 this.eventEmitterService.onfilterRow(data);
             }
         }
     }
 
     onSelectChange(event) {
-        this.filterOption = event ? event.name : null;
+        this.filterOption = event ? event.id : null;
         this.invalid = this.filterOption === undefined || this.filterOption === null;
         if (!this.invalid) {
             const data = {
                 searchText: this.text,
-                techName: this.params.colDef.field
+                techName: this.params.colDef.field,
+                type: this.filterOption
             };
             this.eventEmitterService.onfilterRow(data);
         }

@@ -47,6 +47,10 @@ import { NgpSortModule } from 'ngp-sort-pipe';
 import { GridLoadPlaceholderComponent } from './grid-load-placeholder/grid-load-placeholder.component';
 import {PictureCellRendererComponent} from '@app/projects/picture-cell-renderer/picture-cell-renderer.component';
 import {ImageSliderComponent} from '@app/projects/picture-cell-renderer/image-slider/image-slider.component';
+import {NumberFilterComponent} from '@app/projects/filter/number-filter/number-filter.component';
+import {ExpressionFilterComponent} from '@app/projects/filter/expression-filter/expression-filter.component';
+import {DropdownFilterComponent} from '@app/projects/filter/dropdown-filter/dropdown-filter.component';
+import {PictureFilterComponent} from '@app/projects/filter/picture-filter/picture-filter.component';
 
 @NgModule({
     imports: [
@@ -61,11 +65,15 @@ import {ImageSliderComponent} from '@app/projects/picture-cell-renderer/image-sl
         pgTabsModule,
         AgGridModule.withComponents([
             FilterInputComponent,
-            TextFilterComponent,
             DateEditorComponent,
             TextEditorComponent,
             NumberEditorComponent,
             SelectEditorComponent,
+            TextFilterComponent,
+            NumberFilterComponent,
+            ExpressionFilterComponent,
+            DropdownFilterComponent,
+            PictureFilterComponent,
             PictureCellRendererComponent
         ]),
         NgSelectModule,
@@ -94,6 +102,10 @@ import {ImageSliderComponent} from '@app/projects/picture-cell-renderer/image-sl
         ProjectBoxActionsComponent,
         FilterInputComponent,
         TextFilterComponent,
+        NumberFilterComponent,
+        ExpressionFilterComponent,
+        DropdownFilterComponent,
+        PictureFilterComponent,
         DateEditorComponent,
         TextEditorComponent,
         NumberEditorComponent,

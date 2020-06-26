@@ -73,10 +73,6 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ProjectsReducer } from './store/reducers/projects-reducer';
 import { ProjectTypesReducer } from './store/reducers/project-types.reducer';
 import { ProjectTypesEffects } from './store/effects/project-types.effect';
-import { NumberFilterComponent } from './projects/filter/number-filter/number-filter.component';
-import { PictureFilterComponent } from './projects/filter/picture-filter/picture-filter.component';
-import { ExpressionFilterComponent } from './projects/filter/expression-filter/expression-filter.component';
-import { DropdownFilterComponent } from './projects/filter/dropdown-filter/dropdown-filter.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -100,11 +96,7 @@ export class AppHammerConfig extends HammerGestureConfig {
         BlankComponent,
         RootLayout,
         BlankCorporateComponent,
-        pgCardSocial,
-        NumberFilterComponent,
-        PictureFilterComponent,
-        ExpressionFilterComponent,
-        DropdownFilterComponent,
+        pgCardSocial
     ],
     imports: [
         BrowserModule,

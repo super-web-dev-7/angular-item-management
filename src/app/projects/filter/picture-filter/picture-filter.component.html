@@ -1,1 +1,13 @@
-<p>picture-filter works!</p>
+<div class="container p-3">
+    <ng-select [items]="types"
+               [ngClass]="{'invalid': invalid}"
+               bindLabel="name"
+               appendTo="div.ag-filter"
+               placeholder="Select type"
+               [ngModel]="type"
+               (change)="onSelectChange($event)"
+               style="width: 150px;"
+    >
+    </ng-select>
+    <br>
+</div>

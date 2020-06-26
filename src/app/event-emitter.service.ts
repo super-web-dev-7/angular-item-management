@@ -24,13 +24,13 @@ export class EventEmitterService {
         this.invokeOngetItemsByProjectWithPagination.emit(data);
     }
 
-    getLatetsItemEvent(data) {
-        this.getLatetsItemEvents.emit(data);
-    }
-
-    onshortRow(data) {
-        this.onshortRowdata.emit(data);
-    }
+    // getLatetsItemEvent(data) {
+    //     this.getLatetsItemEvents.emit(data);
+    // }
+    //
+    // onshortRow(data) {
+    //     this.onshortRowdata.emit(data);
+    // }
 
     // GetItemsOfLists(data){
     //   this.getLatetsItemEvents.emit(data);

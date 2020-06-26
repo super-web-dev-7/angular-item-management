@@ -17,21 +17,21 @@ export class ItemsListComponent implements OnInit {
     @ViewChild('showHideCheckboxComponent', {static: true}) showHideCheckboxComponent: ShowHideCheckboxComponent;
     private rowData;
     itemColumns = [];
-    itemFields;
+    // itemFields;
     items;
     columnLoaded = false;
     fieldName = [];
     fieldType = [];
     showAllCheckBox = false;
-    selectedRows = 0;
+    // selectedRows = 0;
     gridRows;  // gridApi;
     SelectedRowData = [];
     noOfSelectedRows = 0;
-    SelectedSingleRowData;
+    // SelectedSingleRowData;
     notreffress = false;
     fields;
     fieldTypeWithNo = [];
-    autoGroupColumnDef;  // sortingOrder
+    // autoGroupColumnDef;  // sortingOrder
     pageNo = 1;
     TotalItems;
     celldbclicked;
@@ -48,12 +48,12 @@ export class ItemsListComponent implements OnInit {
     agHeaderCheckbox = false;
     agheader: boolean;
     openedSearchedBoxId: any;
-    conditiononselect = false;
-    datainarry = false;  // public detector: any;
+    // conditiononselect = false;
+    // datainarry = false;  // public detector: any;
     CustomeHeaderField: any;
     @Input() itemSelectionView;
-    itemSelectionViewI;
-    dragEnterRowOrder: any;
+    // itemSelectionViewI;
+    // dragEnterRowOrder: any;
 
     private projectId;
 
@@ -72,9 +72,9 @@ export class ItemsListComponent implements OnInit {
 
     }
 
-    onLoadCustonHtml() {
-        this.showHideCheckboxComponent.onCustomHtmlLoad();
-    }
+    // onLoadCustonHtml() {
+    //     this.showHideCheckboxComponent.onCustomHtmlLoad();
+    // }
 
     ngOnInit() {
         this.projectId = this.route.snapshot.params.id;
@@ -122,16 +122,16 @@ export class ItemsListComponent implements OnInit {
         });
     }
 
-    getItems() {
-        this.itemsService.countItemsByProject(localStorage.getItem('ProjectId')).subscribe((count: any) => {
-            this.TotalItems = count;
-            this.totalPage = Math.ceil(this.TotalItems / 100);
-            if (this.totalPage === 1) {
-                this.pageNo = 1;
-            }
-            this.ongetItemsByProjectWithPagination(this.pageNo);
-        });
-    }
+    // getItems() {
+    //     this.itemsService.countItemsByProject(localStorage.getItem('ProjectId')).subscribe((count: any) => {
+    //         this.TotalItems = count;
+    //         this.totalPage = Math.ceil(this.TotalItems / 100);
+    //         if (this.totalPage === 1) {
+    //             this.pageNo = 1;
+    //         }
+    //         this.ongetItemsByProjectWithPagination(this.pageNo);
+    //     });
+    // }
 
     countItemsByProject() {
         this.itemsService.countItemsByProject(localStorage.getItem('ProjectId')).subscribe((count: any) => {
@@ -148,56 +148,54 @@ export class ItemsListComponent implements OnInit {
     }
 
     ongetItemsByProjectWithPagination(pageNo) {
-
-        const data = {filter: [{techName: '', value: ''}], sort: {techName: '', direction: ''}};
+        const data = {filter: [{techName: '', value: '', type: ''}], sort: {techName: '', direction: ''}};
         this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, pageNo).subscribe((items: any) => {
             this.items = items;
             this.countPaginetionValues();
         });
     }
 
-    onSingleItemSelect(event) {
-        this.SelectedSingleRowData = event.data;
-    }
+    // onSingleItemSelect(event) {
+    //     this.SelectedSingleRowData = event.data;
+    // }
 
     countPaginetionValues() {
         this.itemFrom = this.ItemTO + 1;
         this.ItemTO = this.ItemTO + this.items.length;
     }
 
-    sortGridbyApi(values) {
-        let data;
-
-        data = {
-            filter: [{techName: '', value: ''}],
-            sort: {techName: values[0].colId, direction: values[0].sort}
-        };
-        this.itemsService.ongetItemsByProjectWithPagination(
-            localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-            setTimeout(() => {
-                this.items = items;
-            }, 500);
-            this.agHeaderCheckbox = false;
-        });
-    }
+    // sortGridbyApi(values) {
+    //     let data;
+    //
+    //     data = {
+    //         filter: [{techName: '', value: ''}],
+    //         sort: {techName: values[0].colId, direction: values[0].sort}
+    //     };
+    //     this.itemsService.ongetItemsByProjectWithPagination(
+    //         localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+    //         setTimeout(() => {
+    //             this.items = items;
+    //         }, 500);
+    //         this.agHeaderCheckbox = false;
+    //     });
+    // }
 
     filterGridbyApi(values) {
         let data = {
-            filter: [{techName: values.techName, value: values.searchText}],
+            filter: [{techName: values.techName, value: values.searchText, type: values.type}],
             sort: {techName: '', direction: ''}
         };
         if (values.searchText === '') {
             data = {
-                filter: [{techName: '', value: ''}],
+                filter: [{techName: '', value: '', type: ''}],
                 sort: {techName: '', direction: ''}
             };
         }
         if (localStorage.getItem('filterInputType') === 'date' && values.searchText) {
             const timeStamp = new Date(values.searchText);
-            const NewtimeStamp = timeStamp.getTime();
-            const NewtimeStamp1 = NewtimeStamp.toString();
+            const newTimeStamp: number = timeStamp.getTime();
             data = {
-                filter: [{techName: values.techName, value: NewtimeStamp1}],
+                filter: [{techName: values.techName, value: newTimeStamp.toString(), type: values.type}],
                 sort: {techName: '', direction: ''}
             };
         }
@@ -212,9 +210,9 @@ export class ItemsListComponent implements OnInit {
         });
     }
 
-    cleanCheckboxes(e) {
-        this.gridRows.forEach((row, i) => {
-            row.setSelected(false);
-        });
-    }
+    // cleanCheckboxes(e) {
+    //     this.gridRows.forEach((row, i) => {
+    //         row.setSelected(false);
+    //     });
+    // }
 }

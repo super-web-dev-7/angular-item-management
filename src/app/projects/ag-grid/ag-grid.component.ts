@@ -15,6 +15,9 @@ import {SelectEditorComponent} from '@app/projects/editor/select-editor/select-e
 import {TextFilterComponent} from '@app/projects/filter/text-filter/text-filter.component';
 import {PictureCellRendererComponent} from '@app/projects/picture-cell-renderer/picture-cell-renderer.component';
 import {NumberFilterComponent} from '@app/projects/filter/number-filter/number-filter.component';
+import {PictureFilterComponent} from '@app/projects/filter/picture-filter/picture-filter.component';
+import {DropdownFilterComponent} from '@app/projects/filter/dropdown-filter/dropdown-filter.component';
+import {ExpressionFilterComponent} from '@app/projects/filter/expression-filter/expression-filter.component';
 
 declare var $: any;
 
@@ -32,6 +35,9 @@ export class AgGridComponent implements OnInit {
     @ViewChild('cellEditComponent', {static: true}) cellEditComponent: CellEditComponent;
     @ViewChild('TextFilterComponent', {static: true}) TextFilterComponent: TextFilterComponent;
     @ViewChild('NumberFilterComponent', {static: true}) NumberFilterComponent: NumberFilterComponent;
+    @ViewChild('ExpressionFilterComponent', {static: true}) ExpressionFilterComponent: ExpressionFilterComponent;
+    @ViewChild('DropdownFilterComponent', {static: true}) DropdownFilterComponent: DropdownFilterComponent;
+    @ViewChild('PictureFilterComponent', {static: true}) PictureFilterComponent: PictureFilterComponent;
     @Input() pageNo;
     @Input() oldArrow;
     @Input() sortOrder;
@@ -99,7 +105,10 @@ export class AgGridComponent implements OnInit {
             SelectEditorComponent: SelectEditorComponent,
             pictureCellRenderer: PictureCellRendererComponent,
             TextFilterComponent: TextFilterComponent,
-            NumberFilterComponent: NumberFilterComponent
+            NumberFilterComponent: NumberFilterComponent,
+            PictureFilterComponent: PictureFilterComponent,
+            DropdownFilterComponent: DropdownFilterComponent,
+            ExpressionFilterComponent: ExpressionFilterComponent
         };
     }
 
@@ -174,11 +183,7 @@ export class AgGridComponent implements OnInit {
                             cellEditorParams: {
                                 option: field
                             },
-                            filter: 'agTextColumnFilter',
-                            filterParams: {
-                                filterOptions: ['contains', 'equals', 'notEqual'],
-                                suppressAndOrCondition: true,
-                            },
+                            filter: 'TextFilterComponent',
                             menuTabs: ['filterMenuTab'],
                         });
                     }
@@ -196,10 +201,6 @@ export class AgGridComponent implements OnInit {
                             option: field
                         },
                         filter: 'NumberFilterComponent',
-                        filterParams: {
-                            filterOptions: ['equals', 'notEqual', 'greaterThan', 'lessThan', 'inRange'],
-                            suppressAndOrCondition: true
-                        },
                         menuTabs: ['filterMenuTab'],
                         sortingOrder: ['asc', 'desc', null],
                         valueGetter: function (params) {
@@ -235,11 +236,7 @@ export class AgGridComponent implements OnInit {
                         cellEditorParams: {
                             option: field
                         },
-                        filter: 'TextFilterComponent',
-                        filterParams: {
-                            filterOptions: ['contains', 'equals', 'notEqual'],
-                            suppressAndOrCondition: true,
-                        },
+                        filter: 'PictureFilterComponent',
                         menuTabs: ['filterMenuTab'],
                         cellRenderer: 'pictureCellRenderer',
                         sortingOrder: ['asc', 'desc', null],
@@ -269,11 +266,6 @@ export class AgGridComponent implements OnInit {
                                 pageNo: _this.pageNo
                             };
                         },
-                        // valueSetter: function (params) {
-                        // params.data[field.techName] = [];
-                        // params.data[field.techName].push(params.oldData);
-                        // return true;
-                        // }
                     });
                 }
                 if (field.type === 0 || field.type === 6) {
@@ -289,10 +281,6 @@ export class AgGridComponent implements OnInit {
                             option: field
                         },
                         filter: 'TextFilterComponent',
-                        filterParams: {
-                            filterOptions: ['contains', 'equals', 'notEqual'],
-                            suppressAndOrCondition: true,
-                        },
                         menuTabs: ['filterMenuTab'],
                         sortingOrder: ['asc', 'desc', null],
                     });
