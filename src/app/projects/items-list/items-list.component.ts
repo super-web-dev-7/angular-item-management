@@ -15,23 +15,18 @@ import {ProjectsService} from '../projects.service';
 export class ItemsListComponent implements OnInit {
     @ViewChild('agGridComponent', {static: true}) agGridComponent: AgGridComponent;
     @ViewChild('showHideCheckboxComponent', {static: true}) showHideCheckboxComponent: ShowHideCheckboxComponent;
-    private rowData;
     itemColumns = [];
-    // itemFields;
     items;
     columnLoaded = false;
     fieldName = [];
     fieldType = [];
     showAllCheckBox = false;
-    // selectedRows = 0;
     gridRows;  // gridApi;
     SelectedRowData = [];
     noOfSelectedRows = 0;
-    // SelectedSingleRowData;
     notreffress = false;
     fields;
     fieldTypeWithNo = [];
-    // autoGroupColumnDef;  // sortingOrder
     pageNo = 1;
     TotalItems;
     celldbclicked;
@@ -40,20 +35,14 @@ export class ItemsListComponent implements OnInit {
     sortOrder;
     headerField;
     totalPage;
-    itemFrom = 0;
-    ItemTO = 0;
     searchedValue: any;
     oldSearchId: string;
     RowIndex = [];
     agHeaderCheckbox = false;
     agheader: boolean;
     openedSearchedBoxId: any;
-    // conditiononselect = false;
-    // datainarry = false;  // public detector: any;
     CustomeHeaderField: any;
     @Input() itemSelectionView;
-    // itemSelectionViewI;
-    // dragEnterRowOrder: any;
 
     private projectId;
 
@@ -81,7 +70,7 @@ export class ItemsListComponent implements OnInit {
         localStorage.setItem('ProjectId', this.projectId);
         if (this.eventEmitterService.subsVar === undefined) {
             this.eventEmitterService.subsVar = this.eventEmitterService.invokeItemListComponentFunction.subscribe((data: any) => {
-                this.filterGridbyApi(data);
+                this.filterGridByApi(data);
             });
         }
         if (this.eventEmitterService.subsVar === undefined) {
@@ -151,7 +140,7 @@ export class ItemsListComponent implements OnInit {
         const data = {filter: [{techName: '', value: '', type: ''}], sort: {techName: '', direction: ''}};
         this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, pageNo).subscribe((items: any) => {
             this.items = items;
-            this.countPaginetionValues();
+            // this.countPaginationValues();
         });
     }
 
@@ -159,10 +148,10 @@ export class ItemsListComponent implements OnInit {
     //     this.SelectedSingleRowData = event.data;
     // }
 
-    countPaginetionValues() {
-        this.itemFrom = this.ItemTO + 1;
-        this.ItemTO = this.ItemTO + this.items.length;
-    }
+    // countPaginationValues() {
+    //     this.itemFrom = this.ItemTO + 1;
+    //     this.ItemTO = this.ItemTO + this.items.length;
+    // }
 
     // sortGridbyApi(values) {
     //     let data;
@@ -180,7 +169,7 @@ export class ItemsListComponent implements OnInit {
     //     });
     // }
 
-    filterGridbyApi(values) {
+    filterGridByApi(values) {
         let data = {
             filter: [{techName: values.techName, value: values.searchText, type: values.type}],
             sort: {techName: '', direction: ''}

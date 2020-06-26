@@ -16,8 +16,8 @@ export class PictureFilterComponent implements OnInit, IFilterAngularComp {
     invalid = false;
 
     types = [
-        {id: 'EQUALS', name: 'Has Picture'},
-        {id: 'NOT_EQUALS', name: 'Hasn\'t Picture'},
+        {id: 'HAS_IMAGE', name: 'Has Picture'},
+        {id: 'NO_IMAGE', name: 'Hasn\'t Picture'},
     ];
     type: any;
     filterOption: any;
