@@ -64,7 +64,7 @@ export class PictureCellRendererComponent implements OnInit, ICellRendererAngula
                     } else if (this.params.data[fieldTechName].length === 1) {
                         count = '1 file';
                     } else {
-                        count = this.params.data[fieldTechName].length + ' file(s)';
+                        count = this.params.data[fieldTechName].length + ' files';
                     }
                 } else {
                     count = '';
