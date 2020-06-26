@@ -1,5 +1,5 @@
 <div class="d-flex flex-column align-items-center">
-    <a style="line-height: 20px" aria-label="cell-upload" (click)="showImageSliderPopUp()">{{this.params.value.count}}</a>
+    <a style="line-height: 20px" aria-label="cell-upload" (click)="showImageSliderPopUp()">{{this.count}}</a>
     <label [for]="'imageUpload-' + params.data['_id']" aria-label="cell-upload" class="btn btn-light p-0">Upload</label>
     <input [id]="'imageUpload-' + params.data['_id']" aria-label="cell-upload" multiple type="file" class="hidden" (change)="this.onChangeInput($event)">
 </div>

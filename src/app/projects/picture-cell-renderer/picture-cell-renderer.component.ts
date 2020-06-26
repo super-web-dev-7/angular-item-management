@@ -12,6 +12,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class PictureCellRendererComponent implements OnInit, ICellRendererAngularComp {
     params: any;
+    count: any;
 
     constructor(
         private itemsService: ItemsService,
@@ -25,6 +26,7 @@ export class PictureCellRendererComponent implements OnInit, ICellRendererAngula
 
     agInit(params: any): void {
         this.params = params;
+        this.getCount();
     }
 
     refresh(params: any): boolean {
@@ -37,9 +39,10 @@ export class PictureCellRendererComponent implements OnInit, ICellRendererAngula
             picture: event.target.files,
             fieldTechName: this.params.colDef.colId
         };
-        console.log(data)
         this.itemsService.uploadImage(data).subscribe(res => {
-            this.eventEmitterService.onPageChange(this.params.value.pageNo);
+            this.params.data[this.params.colDef.colId] = res.fields[this.params.colDef.cellEditorParams.option._id];
+            this.getCount();
+            // this.eventEmitterService.onPageChange(this.params.value.pageNo);
         });
     }
 
@@ -48,4 +51,28 @@ export class PictureCellRendererComponent implements OnInit, ICellRendererAngula
         modalRef.componentInstance.fileLists = this.params.data[this.params.colDef.colId];
     }
 
+    getCount() {
+        let count;
+        const fieldTechName = this.params.colDef.colId;
+        if (this.params.data[fieldTechName] !== undefined) {
+            if (typeof this.params.data[fieldTechName] === 'string') {
+                count = '';
+            } else {
+                if (this.params.data[fieldTechName]) {
+                    if (this.params.data[fieldTechName].length === 0) {
+                        count = '';
+                    } else if (this.params.data[fieldTechName].length === 1) {
+                        count = '1 file';
+                    } else {
+                        count = this.params.data[fieldTechName].length + ' file(s)';
+                    }
+                } else {
+                    count = '';
+                }
+            }
+        } else {
+            count = '';
+        }
+        this.count = count;
+    }
 }
