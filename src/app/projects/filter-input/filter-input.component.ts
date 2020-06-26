@@ -64,7 +64,8 @@ export class FilterInputComponent implements OnInit {
             // }
             const data = {
                 searchText: this.text,
-                tachname: this.params.colDef.field
+                techName: this.params.colDef.field,
+                type: 'date',
             };
             this.eventEmitterService.onfilterRow(data);
             // this.params.filterChangedCallback();

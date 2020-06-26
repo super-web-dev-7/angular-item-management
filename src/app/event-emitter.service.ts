@@ -10,18 +10,23 @@ export class EventEmitterService {
     invokeOngetItemsByProjectWithPagination = new EventEmitter();
     getLatetsItemEvents = new EventEmitter();
     getItemsOfList = new EventEmitter();
-    onshortRowdata = new EventEmitter();
+    onSortRowData = new EventEmitter();
     subsVar: Subscription;
 
     constructor() {
     }
 
     onfilterRow(data) {
-        this.invokeItemListComponentFunction.emit(data);
+        this.invokeItemListComponentFunction.emit({type: 'filter', data: data});
     }
 
     onPageChange(data) {
         this.invokeOngetItemsByProjectWithPagination.emit(data);
+    }
+
+    onSortChanged(data) {
+        console.log(data)
+        this.invokeItemListComponentFunction.emit(data);
     }
 
     // getLatetsItemEvent(data) {

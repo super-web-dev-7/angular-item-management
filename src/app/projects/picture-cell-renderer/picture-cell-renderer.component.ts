@@ -37,6 +37,7 @@ export class PictureCellRendererComponent implements OnInit, ICellRendererAngula
             picture: event.target.files,
             fieldTechName: this.params.colDef.colId
         };
+        console.log(data)
         this.itemsService.uploadImage(data).subscribe(res => {
             this.eventEmitterService.onPageChange(this.params.value.pageNo);
         });

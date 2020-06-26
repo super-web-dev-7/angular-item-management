@@ -47,6 +47,10 @@ export class ItemsListComponent implements OnInit {
     private projectId;
 
     subscription: any;
+    filterSortData: any = {
+        filter: [{techName: '', value: '', type: ''}],
+        sort: {techName: '', direction: ''}
+    };
 
     constructor(
         private itemsService: ItemsService,
@@ -70,9 +74,14 @@ export class ItemsListComponent implements OnInit {
         localStorage.setItem('ProjectId', this.projectId);
         if (this.eventEmitterService.subsVar === undefined) {
             this.eventEmitterService.subsVar = this.eventEmitterService.invokeItemListComponentFunction.subscribe((data: any) => {
-                this.filterGridByApi(data);
+                this.filterSortGridByApi(data);
             });
         }
+        // if (this.eventEmitterService.subsVar === undefined) {
+        //     this.eventEmitterService.subsVar = this.eventEmitterService.onSortRowData.subscribe((data: any) => {
+        //         this.filterGridByApi(data);
+        //     });
+        // }
         if (this.eventEmitterService.subsVar === undefined) {
             this.eventEmitterService.subsVar = this.eventEmitterService.getLatetsItemEvents.subscribe((data: any) => {
                 this.agGridComponent.getLatestitem(data);
@@ -137,8 +146,9 @@ export class ItemsListComponent implements OnInit {
     }
 
     ongetItemsByProjectWithPagination(pageNo) {
-        const data = {filter: [{techName: '', value: '', type: ''}], sort: {techName: '', direction: ''}};
-        this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), data, pageNo).subscribe((items: any) => {
+        this.filterSortData = {filter: [{techName: '', value: '', type: ''}], sort: {techName: '', direction: ''}};
+        this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), this.filterSortData, pageNo)
+            .subscribe((items: any) => {
             this.items = items;
             // this.countPaginationValues();
         });
@@ -169,41 +179,101 @@ export class ItemsListComponent implements OnInit {
     //     });
     // }
 
-    filterGridByApi(values) {
-        let data = {
-            filter: [{techName: values.techName, value: values.searchText, type: values.type}],
-            sort: {techName: '', direction: ''}
-        };
-        if (values.searchText === '') {
-            if (values.type === 'HAS_IMAGE' || values.type === 'NO_IMAGE') {
-                data = {
-                    filter: [{techName: '', value: '', type: values.type}],
-                    sort: {techName: '', direction: ''}
-                };
+    filterSortGridByApi(data) {
+        console.log(data);
+        if (data.type === 'filter') {
+            const values = data.data;
+            if (values.type === 'date') {
+                if (values.searchText) {
+                    const timeStamp = new Date(values.searchText);
+                    const newTimeStamp: number = timeStamp.getTime();
+                    this.filterSortData.filter[0].techName = values.techName;
+                    this.filterSortData.filter[0].value = newTimeStamp.toString();
+                    this.filterSortData.filter[0].type = values.type;
+                } else {
+                    this.filterSortData.filter[0].techName = '';
+                    this.filterSortData.filter[0].value = '';
+                    this.filterSortData.filter[0].type = '';
+                }
             } else {
-                data = {
-                    filter: [{techName: '', value: '', type: ''}],
-                    sort: {techName: '', direction: ''}
-                };
+                console.log(values);
+                if (values.searchText === '') {
+                    if (values.type === 'HAS_IMAGE' || values.type === 'NO_IMAGE') {
+                        this.filterSortData.filter[0].techName = values.techName;
+                        this.filterSortData.filter[0].value = '';
+                        this.filterSortData.filter[0].type = values.type;
+                    } else {
+                        this.filterSortData.filter[0].techName = '';
+                        this.filterSortData.filter[0].value = '';
+                        this.filterSortData.filter[0].type = '';
+                    }
+                } else {
+                    this.filterSortData.filter[0].techName = values.techName;
+                    this.filterSortData.filter[0].value = values.searchText;
+                    this.filterSortData.filter[0].type = values.type;
+                }
             }
-        }
-        if (localStorage.getItem('filterInputType') === 'date' && values.searchText) {
-            const timeStamp = new Date(values.searchText);
-            const newTimeStamp: number = timeStamp.getTime();
-            data = {
-                filter: [{techName: values.techName, value: newTimeStamp.toString(), type: values.type}],
-                sort: {techName: '', direction: ''}
-            };
+
+            this.itemsService.ongetItemsByProjectWithPagination(
+                localStorage.getItem('ProjectId'), this.filterSortData, this.pageNo).subscribe((items: any) => {
+                if (items.length > 0) {
+                    this.items = items;
+                } else {
+                    this.items = [{_id: localStorage.getItem('ProjectId'), [values.techName]: 'No Data Found !!'}];
+                }
+            });
         }
 
-        this.itemsService.ongetItemsByProjectWithPagination(
-            localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-            if (items.length > 0) {
-                this.items = items;
+        if (data.type === 'sort') {
+            const values = data.data;
+            if (values) {
+                this.filterSortData.sort.techName = values.colId;
+                this.filterSortData.sort.direction = values.sort;
             } else {
-                this.items = [{_id: localStorage.getItem('ProjectId'), [values.techName]: 'No Data Found !!'}];
+                this.filterSortData.sort.techName = '';
+                this.filterSortData.sort.direction = '';
             }
-        });
+            this.itemsService.ongetItemsByProjectWithPagination(
+                localStorage.getItem('ProjectId'), this.filterSortData, this.pageNo).subscribe((items: any) => {
+                this.items = items;
+            });
+        }
+        // let data;
+        // if (values.searchText === '') {
+        //     if (values.type === 'HAS_IMAGE' || values.type === 'NO_IMAGE') {
+        //         data = {
+        //             filter: [{techName: '', value: '', type: values.type}],
+        //             sort: {techName: '', direction: ''}
+        //         };
+        //     } else {
+        //         data = {
+        //             filter: [{techName: '', value: '', type: ''}],
+        //             sort: {techName: '', direction: ''}
+        //         };
+        //     }
+        // } else {
+        //     data = {
+        //         filter: [{techName: values.techName, value: values.searchText, type: values.type}],
+        //         sort: {techName: '', direction: ''}
+        //     };
+        // }
+        // if (localStorage.getItem('filterInputType') === 'date' && values.searchText) {
+        //     const timeStamp = new Date(values.searchText);
+        //     const newTimeStamp: number = timeStamp.getTime();
+        //     data = {
+        //         filter: [{techName: values.techName, value: newTimeStamp.toString(), type: values.type}],
+        //         sort: {techName: '', direction: ''}
+        //     };
+        // }
+        //
+        // this.itemsService.ongetItemsByProjectWithPagination(
+        //     localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+        //     if (items.length > 0) {
+        //         this.items = items;
+        //     } else {
+        //         this.items = [{_id: localStorage.getItem('ProjectId'), [values.techName]: 'No Data Found !!'}];
+        //     }
+        // });
     }
 
     // cleanCheckboxes(e) {

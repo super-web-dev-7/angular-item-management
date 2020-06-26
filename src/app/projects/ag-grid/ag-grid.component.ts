@@ -517,30 +517,31 @@ export class AgGridComponent implements OnInit {
     }
 
     onSortChanged(e) {
-        let data;
         const data1 = e.api.sortController.getSortModel();
         if (data1[0]) {
             this.shorted = true;
             this.gridApi.setSuppressRowDrag(true);
-            data = {
-                filter: [{techName: '', value: ''}],
-                sort: {techName: data1[0].colId, direction: data1[0].sort}
-            };
-            this.itemsService.ongetItemsByProjectWithPagination(
-                localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-                setTimeout(() => {
-                    this.items = items;
-                }, 500);
-                this.agHeaderCheckbox = false;
-            });
+            this.agHeaderCheckbox = false;
+            this.eventEmitterService.onSortChanged({type: 'sort', data: data1[0]});
+            // data = {
+            //     filter: [{techName: '', value: '', type: ''}],
+            //     sort: {techName: data1[0].colId, direction: data1[0].sort}
+            // };
+            // this.itemsService.ongetItemsByProjectWithPagination(
+            //     localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+            //     setTimeout(() => {
+            //         this.items = items;
+            //     }, 500);
+            // });
         } else {
             this.shorted = false;
             this.gridApi.setSuppressRowDrag(false);
-            data = {filter: [{techName: '', value: ''}], sort: {techName: '', direction: ''}};
-            this.itemsService.ongetItemsByProjectWithPagination(
-                localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-                this.items = items;
-            });
+            // data = {filter: [{techName: '', value: '', type: ''}], sort: {techName: '', direction: ''}};
+            // this.itemsService.ongetItemsByProjectWithPagination(
+            //     localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
+            //     this.items = items;
+            // });
+            this.eventEmitterService.onSortChanged({type: 'sort', data: data1[0]});
         }
     }
 
