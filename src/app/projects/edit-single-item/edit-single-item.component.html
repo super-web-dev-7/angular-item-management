@@ -33,7 +33,7 @@
                                                      *ngFor="let itemType of fieldType; index as itemId">
 
                                                     <label
-                                                            class="col-sm-4 col-form-label">{{fieldslable[itemId]}}</label>
+                                                            class="col-sm-4 col-form-label">{{fieldsLabel[itemId]}}</label>
                                                     <div class="col-sm-8">
                                                         <div *ngIf="itemType === 'select' &&  fields[itemId]">
                                                             <select (change)="onChangeSelectValue($event)"

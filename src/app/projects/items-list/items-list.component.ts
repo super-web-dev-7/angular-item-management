@@ -31,7 +31,7 @@ export class ItemsListComponent implements OnInit {
     TotalItems;
     celldbclicked;
     oldArrow;
-    fieldslable = [];
+    fieldsLabel = [];
     sortOrder;
     headerField;
     totalPage;
@@ -43,6 +43,7 @@ export class ItemsListComponent implements OnInit {
     openedSearchedBoxId: any;
     CustomeHeaderField: any;
     @Input() itemSelectionView;
+    showGridPlaceholder = true;
 
     private projectId;
 
@@ -58,16 +59,12 @@ export class ItemsListComponent implements OnInit {
         private route: ActivatedRoute,
         private projectService: ProjectsService,
         private eventEmitterService: EventEmitterService) {
-        this.eventEmitterService.invokeOngetItemsByProjectWithPagination.subscribe((page: any) => {
+        this.eventEmitterService.invokeOnGetItemsByProjectWithPagination.subscribe((page: any) => {
             this.pageNo = page;
             this.countItemsByProject();
         });
 
     }
-
-    // onLoadCustonHtml() {
-    //     this.showHideCheckboxComponent.onCustomHtmlLoad();
-    // }
 
     ngOnInit() {
         this.projectId = this.route.snapshot.params.id;
@@ -77,22 +74,17 @@ export class ItemsListComponent implements OnInit {
                 this.filterSortGridByApi(data);
             });
         }
-        // if (this.eventEmitterService.subsVar === undefined) {
-        //     this.eventEmitterService.subsVar = this.eventEmitterService.onSortRowData.subscribe((data: any) => {
-        //         this.filterGridByApi(data);
-        //     });
-        // }
         if (this.eventEmitterService.subsVar === undefined) {
-            this.eventEmitterService.subsVar = this.eventEmitterService.getLatetsItemEvents.subscribe((data: any) => {
-                this.agGridComponent.getLatestitem(data);
+            this.eventEmitterService.subsVar = this.eventEmitterService.getLatestItemEvents.subscribe((data: any) => {
+                this.agGridComponent.getLatestItem(data);
             });
         }
         if (this.eventEmitterService.subsVar === undefined) {
             this.eventEmitterService.subsVar = this.eventEmitterService.getItemsOfList.subscribe((data: any) => {
-                this.ongetItemsByProjectWithPagination(this.pageNo);
+                this.onGetItemsByProjectWithPagination(this.pageNo);
             });
         }
-        this.ongetItemsByProjectWithPagination(this.pageNo);
+        this.onGetItemsByProjectWithPagination(this.pageNo);
         this.countItemsByProject();
         this.GetFields();
         // this.autoGroupColumnDef = {};
@@ -120,17 +112,6 @@ export class ItemsListComponent implements OnInit {
         });
     }
 
-    // getItems() {
-    //     this.itemsService.countItemsByProject(localStorage.getItem('ProjectId')).subscribe((count: any) => {
-    //         this.TotalItems = count;
-    //         this.totalPage = Math.ceil(this.TotalItems / 100);
-    //         if (this.totalPage === 1) {
-    //             this.pageNo = 1;
-    //         }
-    //         this.ongetItemsByProjectWithPagination(this.pageNo);
-    //     });
-    // }
-
     countItemsByProject() {
         this.itemsService.countItemsByProject(localStorage.getItem('ProjectId')).subscribe((count: any) => {
             this.TotalItems = count;
@@ -141,46 +122,22 @@ export class ItemsListComponent implements OnInit {
             if (this.totalPage === 1) {
                 this.pageNo = 1;
             }
-            this.ongetItemsByProjectWithPagination(this.pageNo);
+            this.onGetItemsByProjectWithPagination(this.pageNo);
         });
     }
 
-    ongetItemsByProjectWithPagination(pageNo) {
+    onGetItemsByProjectWithPagination(pageNo) {
         this.filterSortData = {filter: [{techName: '', value: '', type: ''}], sort: {techName: '', direction: ''}};
-        this.itemsService.ongetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), this.filterSortData, pageNo)
+        this.itemsService.onGetItemsByProjectWithPagination(localStorage.getItem('ProjectId'), this.filterSortData, pageNo)
             .subscribe((items: any) => {
-            this.items = items;
-            // this.countPaginationValues();
+                this.items = items;
+                if (items.length === 0) {
+                    this.showGridPlaceholder = false;
+                }
         });
     }
-
-    // onSingleItemSelect(event) {
-    //     this.SelectedSingleRowData = event.data;
-    // }
-
-    // countPaginationValues() {
-    //     this.itemFrom = this.ItemTO + 1;
-    //     this.ItemTO = this.ItemTO + this.items.length;
-    // }
-
-    // sortGridbyApi(values) {
-    //     let data;
-    //
-    //     data = {
-    //         filter: [{techName: '', value: ''}],
-    //         sort: {techName: values[0].colId, direction: values[0].sort}
-    //     };
-    //     this.itemsService.ongetItemsByProjectWithPagination(
-    //         localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-    //         setTimeout(() => {
-    //             this.items = items;
-    //         }, 500);
-    //         this.agHeaderCheckbox = false;
-    //     });
-    // }
 
     filterSortGridByApi(data) {
-        console.log(data);
         if (data.type === 'filter') {
             const values = data.data;
             if (values.type === 'date') {
@@ -196,7 +153,6 @@ export class ItemsListComponent implements OnInit {
                     this.filterSortData.filter[0].type = '';
                 }
             } else {
-                console.log(values);
                 if (values.searchText === '') {
                     if (values.type === 'HAS_IMAGE' || values.type === 'NO_IMAGE') {
                         this.filterSortData.filter[0].techName = values.techName;
@@ -214,11 +170,10 @@ export class ItemsListComponent implements OnInit {
                 }
             }
 
-            this.itemsService.ongetItemsByProjectWithPagination(
+            this.itemsService.onGetItemsByProjectWithPagination(
                 localStorage.getItem('ProjectId'), this.filterSortData, this.pageNo).subscribe((items: any) => {
-                if (items.length > 0) {
-                    this.items = items;
-                } else {
+                this.items = items;
+                if (items.length === 0) {
                     this.items = [{_id: localStorage.getItem('ProjectId'), [values.techName]: 'No Data Found !!'}];
                 }
             });
@@ -233,52 +188,13 @@ export class ItemsListComponent implements OnInit {
                 this.filterSortData.sort.techName = '';
                 this.filterSortData.sort.direction = '';
             }
-            this.itemsService.ongetItemsByProjectWithPagination(
+            this.itemsService.onGetItemsByProjectWithPagination(
                 localStorage.getItem('ProjectId'), this.filterSortData, this.pageNo).subscribe((items: any) => {
                 this.items = items;
+                if (items.length === 0) {
+                    this.items = [{_id: localStorage.getItem('ProjectId'), [values.techName]: 'No Data Found !!'}];
+                }
             });
         }
-        // let data;
-        // if (values.searchText === '') {
-        //     if (values.type === 'HAS_IMAGE' || values.type === 'NO_IMAGE') {
-        //         data = {
-        //             filter: [{techName: '', value: '', type: values.type}],
-        //             sort: {techName: '', direction: ''}
-        //         };
-        //     } else {
-        //         data = {
-        //             filter: [{techName: '', value: '', type: ''}],
-        //             sort: {techName: '', direction: ''}
-        //         };
-        //     }
-        // } else {
-        //     data = {
-        //         filter: [{techName: values.techName, value: values.searchText, type: values.type}],
-        //         sort: {techName: '', direction: ''}
-        //     };
-        // }
-        // if (localStorage.getItem('filterInputType') === 'date' && values.searchText) {
-        //     const timeStamp = new Date(values.searchText);
-        //     const newTimeStamp: number = timeStamp.getTime();
-        //     data = {
-        //         filter: [{techName: values.techName, value: newTimeStamp.toString(), type: values.type}],
-        //         sort: {techName: '', direction: ''}
-        //     };
-        // }
-        //
-        // this.itemsService.ongetItemsByProjectWithPagination(
-        //     localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
-        //     if (items.length > 0) {
-        //         this.items = items;
-        //     } else {
-        //         this.items = [{_id: localStorage.getItem('ProjectId'), [values.techName]: 'No Data Found !!'}];
-        //     }
-        // });
     }
-
-    // cleanCheckboxes(e) {
-    //     this.gridRows.forEach((row, i) => {
-    //         row.setSelected(false);
-    //     });
-    // }
 }

@@ -23,7 +23,6 @@ export class TextFilterComponent implements OnInit, IFilterAngularComp {
     ];
     type: any;
     filterOption: any;
-    // "type": "LESS | ABOVE | CONTAINS | STARTS | ENDS | EQUALS | NOT_EQUALS"
 
     constructor(
         private eventEmitterService: EventEmitterService,
@@ -40,16 +39,6 @@ export class TextFilterComponent implements OnInit, IFilterAngularComp {
     }
 
     doesFilterPass(params: IDoesFilterPassParams): boolean {
-        // if (params.node['rowModel'].rowsToDisplay.length > 0) {
-        //     return this.text
-        //         .toLowerCase()
-        //         .split(' ')
-        //         .every(filterWord => {
-        //             return (
-        //                 this.valueGetter(params.node)
-        //             );
-        //         });
-        // }
         return true;
     }
 
@@ -67,7 +56,7 @@ export class TextFilterComponent implements OnInit, IFilterAngularComp {
                     techName: this.params.colDef.field,
                     type: this.filterOption
                 };
-                this.eventEmitterService.onfilterRow(data);
+                this.eventEmitterService.onFilterRow(data);
             }
         }
     }
@@ -81,7 +70,7 @@ export class TextFilterComponent implements OnInit, IFilterAngularComp {
                 techName: this.params.colDef.field,
                 type: this.filterOption
             };
-            this.eventEmitterService.onfilterRow(data);
+            this.eventEmitterService.onFilterRow(data);
         }
     }
 

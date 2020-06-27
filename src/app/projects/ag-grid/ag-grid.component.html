@@ -1,19 +1,19 @@
 <div class="grid-toolbox" id="grid-toolbox">
     <div>
-        <button class="btn btn-brimary" (click)="newItem.show()">
+        <button class="btn" (click)="newItem.show()">
             Add New Item
         </button>
-        <button class="btn btn-brimary" (click)="addNewfield.show()">
+        <button class="btn" (click)="addNewfield.show()">
             Add new field
         </button>
     </div>
 
     <div class="d-inline">
         <app-items-selection #itemsSelection [fields]="fields" [fieldType]="fieldType" [fieldName]="fieldName"
-                             [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldslable]="fieldslable"
+                             [projectId]="projectId" [SelectedRowData]="SelectedRowData" [fieldsLabel]="fieldsLabel"
                              [itemSelectionView]="itemSelectionView" [pageNo]="pageNo" [totalPage]="totalPage"
                              [itemSelectionViewI]="itemSelectionViewI"
-                             (getLatestitem)="getLatestitem($event)"></app-items-selection>
+                             (getLatestItem)="getLatestItem($event)"></app-items-selection>
     </div>
 
 </div>
@@ -55,20 +55,20 @@
 
 <app-item-details #itemDetails></app-item-details>
 
-<app-new-item #newItem [fieldslable]="fieldslable" [fieldType]="fieldType" [pageNo]="pageNo" [fieldName]="fieldName"
+<app-new-item #newItem [fieldsLabel]="fieldsLabel" [fieldType]="fieldType" [pageNo]="pageNo" [fieldName]="fieldName"
               [projectId]="projectId" [fields]="fields"></app-new-item>
 
-<app-edit-single-item #editSingleItem [fieldslable]="fieldslable" [fields]="fields" [pageNo]="pageNo"
+<app-edit-single-item #editSingleItem [fieldsLabel]="fieldsLabel" [fields]="fields" [pageNo]="pageNo"
                       [fieldType]="fieldType"
                       [fieldName]="fieldName" [projectId]="projectId" [celldbclicked]="celldbclicked"
 >
 </app-edit-single-item>
 
 <app-add-new-field #addNewfield [fieldType]="fieldType" [fieldName]="fieldName" [projectId]="projectId"
-                   [fields]="fields" (getfilelds)="getfilelds($event)"
+                   [fields]="fields" (getFilelds)="getFilelds($event)"
                    [fieldTypeWithNo]="fieldTypeWithNo"></app-add-new-field>
 <div class="ag-grid" id="ag-grid">
-    <app-grid-load-placeholder *ngIf="showGridLoadPlaceholder"></app-grid-load-placeholder>
+    <app-grid-load-placeholder *ngIf="showGridPlaceholder"></app-grid-load-placeholder>
     <ag-grid-angular #agGrid
                      id="agGrid"
                      [ngClass]="{'ag-selected-rows': SelectedRowData.length > 0}"
@@ -83,30 +83,25 @@
                      [rowSelection]="rowSelection"
                      [defaultColDef]="defaultColDef"
                      [rowDragManaged]="true"
-                     (columnClick)="onColumnClick($event)"
-                     (cellDoubleClicked)="oncellDoubleClicked($event, celldbclicked)"
+                     (cellDoubleClicked)="onCellDoubleClicked($event)"
                      (cellMouseOver)="onCellMouseOver($event)"
                      (rowSelected)="onSelectionChanged($event)"
                      (gridReady)="onGridReady($event)"
                      (rowClicked)="onCellClicked($event); editSingleItem.show($event);"
-                     (rowDragEnd)="onrowDragEnd($event)"
-                     (rowDragEnter)="onrowDragEnter($event)"
+                     (rowDragEnd)="onRowDragEnd($event)"
+                     (rowDragEnter)="onRowDragEnter($event)"
                      [suppressRowClickSelection]="true"
                      (cellKeyDown)="onCellKeyDown($event)"
-                     (cellValueChanged)="oncellValueChanged($event)"
-                     (columnMoved)="oncolumnMoved($event)"
-                     (columnValueChanged)="oncolumnValueChanged($event)"
+                     (cellValueChanged)="onCellValueChanged($event)"
+                     (columnMoved)="onColumnMoved($event)"
                      [components]="components"
-                     [sortingOrder]="sortingOrder"
-                     (rowDataChanged)="onrowDataChanged($event)"
+                     (rowDataChanged)="onRowDataChanged($event)"
                      (cellMouseOut)="onCellMouseOut($event)"
                      [frameworkComponents]="frameworkComponents"
                      (sortChanged)="onSortChanged($event)"
                      (cellEditingStopped)="onCellEditingStopped()"
                      [paginationPageSize]="paginationPageSize"
-                     (GetFields)="GetFields()"
-                     [gridOptions]="gridOption"
-                     (getItems)="getItems()">
+                     [gridOptions]="gridOption">
     </ag-grid-angular>
 </div>
 

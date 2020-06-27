@@ -154,7 +154,7 @@ export class ItemsService {
         return this.httpClient.post<any>(`${environment.apiUrl}/item/delete-comment`, data);
     }
 
-    public ongetItemsByProjectWithPagination(projectId, data, pageNO) {
+    public onGetItemsByProjectWithPagination(projectId, data, pageNO) {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         };

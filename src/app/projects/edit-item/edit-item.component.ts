@@ -16,10 +16,10 @@ export class EditItemComponent implements OnInit {
     @Input() projectId;
     @Input() fieldType;
     @Input() fieldName;
-    @Input() fieldslable;
+    @Input() fieldsLabel;
     @Input() SelectedRowData;
     @Input() fields;
-    @Output() callgetLatestitem: EventEmitter<any> = new EventEmitter();
+    @Output() callgetLatestItem: EventEmitter<any> = new EventEmitter();
 
 
     [key: string]: any;
@@ -76,7 +76,7 @@ export class EditItemComponent implements OnInit {
         this.itemsService
             .editMassItemByProject(data)
             .subscribe(result => {
-                this.callgetLatestitem.emit(result);
+                this.callgetLatestItem.emit(result);
             });
         this.clearPopUpValues();
     }

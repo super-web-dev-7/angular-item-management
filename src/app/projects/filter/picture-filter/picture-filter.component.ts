@@ -53,14 +53,14 @@ export class PictureFilterComponent implements OnInit, IFilterAngularComp {
                 techName: this.params.colDef.field,
                 type: this.filterOption
             };
-            this.eventEmitterService.onfilterRow(data);
+            this.eventEmitterService.onFilterRow(data);
         } else {
             const data = {
                 searchText: '',
                 techName: this.params.colDef.field,
                 type: ''
             };
-            this.eventEmitterService.onfilterRow(data);
+            this.eventEmitterService.onFilterRow(data);
         }
     }
 

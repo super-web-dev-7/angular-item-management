@@ -57,7 +57,7 @@ export class NumberFilterComponent implements OnInit, IFilterAngularComp {
                     techName: this.params.colDef.field,
                     type: this.filterOption
                 };
-                this.eventEmitterService.onfilterRow(data);
+                this.eventEmitterService.onFilterRow(data);
             }
         }
     }
@@ -71,7 +71,7 @@ export class NumberFilterComponent implements OnInit, IFilterAngularComp {
                 techName: this.params.colDef.field,
                 type: this.filterOption
             };
-            this.eventEmitterService.onfilterRow(data);
+            this.eventEmitterService.onFilterRow(data);
         }
     }
 

@@ -1,64 +1,63 @@
-import { Component, OnInit, ViewChild, Input, Output,EventEmitter } from '@angular/core';
-import { ModalDirective } from "ngx-bootstrap";
-import { FieldService } from "../../fields/field.service";
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {ModalDirective} from 'ngx-bootstrap';
+import {FieldService} from '@app/fields/field.service';
 
 @Component({
-  selector: 'app-add-new-field',
-  templateUrl: './add-new-field.component.html',
-  styleUrls: ['./add-new-field.component.scss']
+    selector: 'app-add-new-field',
+    templateUrl: './add-new-field.component.html',
+    styleUrls: ['./add-new-field.component.scss']
 })
 export class AddNewFieldComponent implements OnInit {
-  @ViewChild("newItemPopup", { static: true }) newItemPopup: ModalDirective;
-  @Input() projectId;
-  @Input() fieldType;
-  @Input() fieldName;
-  @Input() fields;
-  @Input() fieldTypeWithNo
-  @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
-  @Output() getfilelds: EventEmitter<any> = new EventEmitter();
-  filteredType = [];
-  level;
-  SelectedfieldType;
-  constructor(
-    private fieldService: FieldService
+    @ViewChild('newItemPopup', {static: true}) newItemPopup: ModalDirective;
+    @Input() projectId;
+    @Input() fieldType;
+    @Input() fieldName;
+    @Input() fields;
+    @Input() fieldTypeWithNo;
+    @Output() getLatestItem: EventEmitter<any> = new EventEmitter();
+    @Output() getFilelds: EventEmitter<any> = new EventEmitter();
+    level;
+    SelectedFieldType;
 
-  ) {
+    constructor(
+        private fieldService: FieldService
+    ) {
 
-  }
-
-  ngOnInit() {
-  }
-  show() {
-    this.newItemPopup.show();
-    let x = this.fieldType.filter((v, i) => this.fieldType.indexOf(v) === i)
-    this.fieldType = x
-  }
-  getFieldType(event) {
-    this.SelectedfieldType = event.target.value;
-  }
-
-  addField() {
-    var typeNO
-    for (let i = 0; i < this.fieldTypeWithNo.length; i++) {
-      if (this.fieldTypeWithNo[i].type == this.SelectedfieldType) {
-        typeNO = this.fieldTypeWithNo[i].no
-      }
     }
-    var data = {
-      accountId: localStorage.getItem('currentUser'),
-      type: typeNO,
-      label: this.level
+
+    ngOnInit() {
     }
-    this.fieldService
-      .addField(data)
-      .subscribe((result: any) => {
-        if (result) {
-          this.getfilelds.emit();
+
+    show() {
+        this.newItemPopup.show();
+        this.fieldType = this.fieldType.filter((v, i) => this.fieldType.indexOf(v) === i);
+    }
+
+    getFieldType(event) {
+        this.SelectedFieldType = event.target.value;
+    }
+
+    addField() {
+        let typeNO;
+        for (let i = 0; i < this.fieldTypeWithNo.length; i++) {
+            if (this.fieldTypeWithNo[i].type === this.SelectedFieldType) {
+                typeNO = this.fieldTypeWithNo[i].no;
+            }
         }
-      });
-      this.newItemPopup.hide()
-  }
+        const data = {
+            accountId: localStorage.getItem('currentUser'),
+            type: typeNO,
+            label: this.level
+        };
+        this.fieldService
+            .addField(data)
+            .subscribe((result: any) => {
+                if (result) {
+                    this.getFilelds.emit();
+                }
+            });
+        this.newItemPopup.hide();
+    }
 
-  
 
 }

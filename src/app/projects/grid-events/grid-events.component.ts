@@ -35,7 +35,7 @@ export class GridEventsComponent implements OnInit {
     ngOnInit() {
     }
 
-    onrowDataChanged(event) {
+    onRowDataChanged(event) {
         this.columnMoved = false;
         if (this.SelectedRowData.length === 0) {
             this.showHideCheckboxComponent.hideSelectbox(event);

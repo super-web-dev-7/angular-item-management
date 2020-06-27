@@ -65,11 +65,12 @@ export class AgGridComponent implements OnInit {
     @Input() itemColumns;
     @Input() fieldName;
     @Input() fieldType;
-    @Input() fieldslable;
+    @Input() fieldsLabel;
     @Input() fieldTypeWithNo;
     @Input() columnLoaded;
     @Input() projectId;
     @Input() totalPage;
+    @Input() showGridPlaceholder;
     ongridEventData;
     gridApi;
     @Input() items;
@@ -99,11 +100,14 @@ export class AgGridComponent implements OnInit {
     ) {
         this.frameworkComponents = {
             FilterInputComponent: FilterInputComponent,
+            // editor component
             DateEditorComponent: DateEditorComponent,
             TextEditorComponent: TextEditorComponent,
             NumberEditorComponent: NumberEditorComponent,
             SelectEditorComponent: SelectEditorComponent,
+            // cell renderer component
             pictureCellRenderer: PictureCellRendererComponent,
+            // filter component
             TextFilterComponent: TextFilterComponent,
             NumberFilterComponent: NumberFilterComponent,
             PictureFilterComponent: PictureFilterComponent,
@@ -133,9 +137,10 @@ export class AgGridComponent implements OnInit {
         this.gridApi = event.api;
         this.gridRows = event.api.rowModel.rowsToDisplay;
         this.gridApi.setSuppressClipboardPaste(false);
-        $('body').on('click', '.ag-icon-menu', function () {
-            // $('ag-grid-angular .ag-filter select').addClass('selectpicker').selectpicker();
-        });
+        console.log('row data change event');
+        // $('body').on('click', '.ag-icon-menu', function () {
+        //     // $('ag-grid-angular .ag-filter select').addClass('selectpicker').selectpicker();
+        // });
     }
 
     setItemColumns(fields) {
@@ -286,7 +291,7 @@ export class AgGridComponent implements OnInit {
                     });
                 }
 
-                this.fieldslable.push(field.label);
+                this.fieldsLabel.push(field.label);
                 this.fieldName.push(field.techName);
                 if (field.type === 0) {
                     this.fieldTypeWithNo.push({type: 'text', no: 0});
@@ -317,7 +322,7 @@ export class AgGridComponent implements OnInit {
 
             }
             if (localStorage.getItem('gridHeader')) {
-                this.fieldslable.push(field.label);
+                this.fieldsLabel.push(field.label);
                 this.fieldName.push(field.techName);
                 if (field.type === 0) {
                     this.fieldTypeWithNo.push({type: 'text', no: 0});
@@ -372,7 +377,7 @@ export class AgGridComponent implements OnInit {
         }
     }
 
-    getLatestitem(e) {
+    getLatestItem(e) {
         this.getItems.emit();
         this.notreffress = true;
         this.SelectedRowData = [];
@@ -416,7 +421,7 @@ export class AgGridComponent implements OnInit {
         }
     }
 
-    onrowDragEnter(event) {
+    onRowDragEnter(event) {
         this.dragEnterRowOrder = event.api.rowModel.rowsToDisplay[0].data.order;
     }
 
@@ -448,7 +453,7 @@ export class AgGridComponent implements OnInit {
         this.selectedRow = event.rowIndex;
     }
 
-    getfilelds(e) {
+    getFilelds(e) {
         this.GetFields.emit();
         this.defaultColDef = {
             width: 150, sortable: true, filter: true, rowDragManaged: true,
@@ -458,13 +463,13 @@ export class AgGridComponent implements OnInit {
         this.ngOnInit();
     }
 
-    oncellDoubleClicked(event) {
+    onCellDoubleClicked(event) {
         this.celldbclicked = true;
         this.getShow.emit();
         localStorage.setItem('pdata', 'false');
     }
 
-    onrowDragEnd(event) {
+    onRowDragEnd(event) {
         let data;
 
         // if(event.overIndex < event.node.childIndex && event.api.rowModel.rowsToDisplay[event.overIndex ]){
@@ -479,7 +484,7 @@ export class AgGridComponent implements OnInit {
             if (result) {
                 this.dragEnterRowOrder = null;
                 data = {filter: [{techName: '', value: ''}], sort: {techName: '', direction: ''}};
-                this.itemsService.ongetItemsByProjectWithPagination(
+                this.itemsService.onGetItemsByProjectWithPagination(
                     localStorage.getItem('ProjectId'), data, this.pageNo).subscribe((items: any) => {
                     setTimeout(() => {
                         this.items = items;
@@ -494,7 +499,7 @@ export class AgGridComponent implements OnInit {
         // this.setItemColumns(this.fields)
     }
 
-    oncolumnMoved(event) {
+    onColumnMoved(event) {
         if (event.toIndex === 0) {
             return;
         }
@@ -503,8 +508,8 @@ export class AgGridComponent implements OnInit {
         this.columnMoved = this.RowColumnDragComponent.columnMoved;
     }
 
-    onrowDataChanged(event) {
-        this.gridEventsComponent.onrowDataChanged(event);
+    onRowDataChanged(event) {
+        this.gridEventsComponent.onRowDataChanged(event);
         this.SelectedRowData = this.gridEventsComponent.SelectedRowData;
         this.gridRows = this.gridEventsComponent.gridRows;
         this.RowIndex = this.gridEventsComponent.RowIndex;
@@ -513,7 +518,7 @@ export class AgGridComponent implements OnInit {
         this.TotalItems = this.gridEventsComponent.TotalItems;
         this.selectedRows = this.gridEventsComponent.selectedRows;
         this.paginationPageSize = this.TotalItems;
-        this.showGridLoadPlaceholder = false;
+        this.showGridPlaceholder = false;
     }
 
     onSortChanged(e) {
@@ -545,8 +550,8 @@ export class AgGridComponent implements OnInit {
         }
     }
 
-    oncellValueChanged(event) {
-        this.cellEditComponent.oncellValueChanged(event);
+    onCellValueChanged(event) {
+        this.cellEditComponent.onCellValueChanged(event);
         this.celldbclicked = this.cellEditComponent.celldbclicked;
     }
 

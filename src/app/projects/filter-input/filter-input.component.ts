@@ -67,7 +67,7 @@ export class FilterInputComponent implements OnInit {
                 techName: this.params.colDef.field,
                 type: 'date',
             };
-            this.eventEmitterService.onfilterRow(data);
+            this.eventEmitterService.onFilterRow(data);
             // this.params.filterChangedCallback();
 
         }

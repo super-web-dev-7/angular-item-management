@@ -23,7 +23,7 @@ export class CellEditComponent implements OnInit {
     ngOnInit() {
     }
 
-    oncellValueChanged(event) {
+    onCellValueChanged(event) {
         if (event.newValue) {
             let data;
             data = {_id: event.data._id, projectId: event.data.projectId};
@@ -33,15 +33,10 @@ export class CellEditComponent implements OnInit {
                 data[event.column.colId] = event.newValue;
             }
 
-            // if (event.newValue === '') {
-            //     event.newValue = event.oldValue;
-            // }
-
             if (event.oldValue !== event.newValue) {
                 if (data._id) {
                     this.itemsService.editItemByProject(data).subscribe(result => {
                         if (result) {
-                            // this.eventEmitterService.onPageChange(this.pageNo);
                             this.celldbclicked = false;
                             localStorage.setItem('pdata', 'true');
                         }

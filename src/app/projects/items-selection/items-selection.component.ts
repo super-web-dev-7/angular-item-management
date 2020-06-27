@@ -19,10 +19,10 @@ export class ItemsSelectionComponent implements OnInit {
     @Input() projectId;
     @Input() fieldType;
     @Input() fieldName;
-    @Input() fieldslable;
+    @Input() fieldsLabel;
     @Input() SelectedRowData;
     @Input() fields;
-    @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
+    @Output() getLatestItem: EventEmitter<any> = new EventEmitter();
     @Output() cleanCheckboxes: EventEmitter<any> = new EventEmitter();
     copyData = [];
     itemColumns = [];
@@ -112,7 +112,7 @@ export class ItemsSelectionComponent implements OnInit {
                                 .getItemsByProject(this.projectId)
                                 .subscribe((items: any) => {
                                     localStorage.removeItem('copydata');
-                                    this.getLatestitem.emit();
+                                    this.getLatestItem.emit();
                                     this.eventEmitterService.onPageChange(this.pageNo);
                                     // document.getElementById('popupid').hidden = true
                                     this.copyData = [];
@@ -145,7 +145,7 @@ export class ItemsSelectionComponent implements OnInit {
                                 .getItemsByProject(this.projectId)
                                 .subscribe((items: any) => {
                                     this.items = items;
-                                    this.getLatestitem.emit();
+                                    this.getLatestItem.emit();
                                     this.eventEmitterService.onPageChange(this.pageNo);
 
                                     // document.getElementById('popupid').hidden = true
@@ -174,7 +174,7 @@ export class ItemsSelectionComponent implements OnInit {
             .deleteItemsByid(data1)
             .subscribe((result) => {
                 if (result) {
-                    this.getLatestitem.emit('delete');
+                    this.getLatestItem.emit('delete');
                     this.eventEmitterService.onPageChange(this.pageNo);
                     this.SelectedRowData = [];
                     // document.getElementById('popupid').hidden = true
@@ -200,7 +200,7 @@ export class ItemsSelectionComponent implements OnInit {
                         this.itemsService
                             .getItemsByProject(localStorage.getItem('ProjectId'))
                             .subscribe((items: any) => {
-                                this.getLatestitem.emit('duplicate');
+                                this.getLatestItem.emit('duplicate');
                                 this.eventEmitterService.onPageChange(this.pageNo);
                             });
                     }
@@ -217,9 +217,9 @@ export class ItemsSelectionComponent implements OnInit {
         return array;
     }
 
-    callgetLatestitem(e) {
+    callgetLatestItem(e) {
         // this.closePopup()
-        this.getLatestitem.emit(e);
+        this.getLatestItem.emit(e);
         this.eventEmitterService.onPageChange(this.pageNo);
 
     }

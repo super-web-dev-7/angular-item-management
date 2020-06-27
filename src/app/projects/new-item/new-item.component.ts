@@ -20,8 +20,8 @@ export class NewItemComponent implements OnInit, AfterViewInit {
     @Input() fieldType;
     @Input() fieldName;
     @Input() fields;
-    @Input() fieldslable;
-    @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
+    @Input() fieldsLabel;
+    @Output() getLatestItem: EventEmitter<any> = new EventEmitter();
 
     [key: string]: any;
 

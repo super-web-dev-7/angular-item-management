@@ -21,8 +21,8 @@ export class EditSingleItemComponent implements OnInit {
     @Input() fieldName;
     @Input() celldbclicked;
     @Input() fields;
-    @Input() fieldslable;
-    @Output() getLatestitem: EventEmitter<any> = new EventEmitter();
+    @Input() fieldsLabel;
+    @Output() getLatestItem: EventEmitter<any> = new EventEmitter();
 
     [key: string]: any;
 
@@ -230,7 +230,7 @@ export class EditSingleItemComponent implements OnInit {
                     if (result) {
                         this.getItems(data.itemId);
                         this.comment = '';
-                        this.getLatestitem.emit();
+                        this.getLatestItem.emit();
 
                     }
                 });

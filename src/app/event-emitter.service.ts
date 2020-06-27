@@ -7,37 +7,23 @@ import {Subscription} from 'rxjs/internal/Subscription';
 export class EventEmitterService {
 
     invokeItemListComponentFunction = new EventEmitter();
-    invokeOngetItemsByProjectWithPagination = new EventEmitter();
-    getLatetsItemEvents = new EventEmitter();
+    invokeOnGetItemsByProjectWithPagination = new EventEmitter();
+    getLatestItemEvents = new EventEmitter();
     getItemsOfList = new EventEmitter();
-    onSortRowData = new EventEmitter();
     subsVar: Subscription;
 
     constructor() {
     }
 
-    onfilterRow(data) {
+    onFilterRow(data) {
         this.invokeItemListComponentFunction.emit({type: 'filter', data: data});
     }
 
     onPageChange(data) {
-        this.invokeOngetItemsByProjectWithPagination.emit(data);
+        this.invokeOnGetItemsByProjectWithPagination.emit(data);
     }
 
     onSortChanged(data) {
-        console.log(data)
         this.invokeItemListComponentFunction.emit(data);
     }
-
-    // getLatetsItemEvent(data) {
-    //     this.getLatetsItemEvents.emit(data);
-    // }
-    //
-    // onshortRow(data) {
-    //     this.onshortRowdata.emit(data);
-    // }
-
-    // GetItemsOfLists(data){
-    //   this.getLatetsItemEvents.emit(data);
-    // }
 }

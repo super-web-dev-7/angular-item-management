@@ -42,7 +42,6 @@ export class PictureCellRendererComponent implements OnInit, ICellRendererAngula
         this.itemsService.uploadImage(data).subscribe(res => {
             this.params.data[this.params.colDef.colId] = res.fields[this.params.colDef.cellEditorParams.option._id];
             this.getCount();
-            // this.eventEmitterService.onPageChange(this.params.value.pageNo);
         });
     }
 
